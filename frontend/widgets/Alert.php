@@ -38,29 +38,32 @@ class Alert extends \yii\bootstrap\Widget
 	 * @var array the options for rendering the close button tag.
 	 */
 	public $closeButton = [];
-	
-	public function init()
-	{
-		parent::init();
 
-		$session = \Yii::$app->getSession();
-		$flashes = $session->getAllFlashes();
-		$appendCss = isset($this->options['class']) ? ' ' . $this->options['class'] : '';
-		
-		foreach ($flashes as $type => $message) {
-			/* initialize css class for each alert box */
-			$this->options['class'] = $this->alertTypes[$type] . $appendCss;
+    public function init()
+    {
+        parent::init();
 
-			/* assign unique id to each alert box */
-			$this->options['id'] = $this->getId() . '-' . $type;
+        $session = \Yii::$app->getSession();
+        $flashes = $session->getAllFlashes();
+        $appendCss = isset($this->options['class']) ? ' ' . $this->options['class'] : '';
 
-			echo \yii\bootstrap\Alert::widget([
-				'body' => $message,
-				'closeButton' => $this->closeButton,
-				'options' => $this->options,
-			]);
+        foreach ($flashes as $type => $message) {
 
-			$session->removeFlash($type);
-		}
-	}
+            if (isset($this->alertTypes[$type])) {
+                /* initialize css class for each alert box */
+                $this->options['class'] = $this->alertTypes[$type] . $appendCss;
+
+                /* assign unique id to each alert box */
+                $this->options['id'] = $this->getId() . '-' . $type;
+
+                echo \yii\bootstrap\Alert::widget([
+                    'body' => $message,
+                    'closeButton' => $this->closeButton,
+                    'options' => $this->options,
+                ]);
+            }
+
+            $session->removeFlash($type);
+        }
+    }
 }
