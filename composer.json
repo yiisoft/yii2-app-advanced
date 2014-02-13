@@ -1,16 +1,16 @@
 {
-	"name": "sangkilsoft/SangkilBiz3",
+	"name": "sangkilsoft/sangkilbiz-3",
 	"description": "Yii 2 for SangkilBiz project",
 	"keywords": ["yii", "framework", "advanced", "application template"],
 	"homepage": "http://www.yiiframework.com/",
 	"type": "project",
 	"license": "BSD-3-Clause",
 	"support": {
-		"issues": "https://github.com/sangkilsoft/SangkilBiz3/issues?state=open",
+		"issues": "https://github.com/sangkilsoft/sangkilbiz-3/issues?state=open",
 		"forum": "http://www.yiiframework.com/forum/",
 		"wiki": "http://www.yiiframework.com/wiki/",
 		"irc": "irc://irc.freenode.net/yii",
-		"source": "https://github.com/sangkilsoft/SangkilBiz3"
+		"source": "https://github.com/sangkilsoft/sangkilbiz-3"
 	},
 	"minimum-stability": "dev",
 	"require": {
