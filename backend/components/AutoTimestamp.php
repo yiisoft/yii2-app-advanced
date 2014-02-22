@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
  *
  * @author MDMunir
  */
-class AutoTimestamp extends \yii\behaviors\AutoTimestamp
+class AutoTimestamp extends \yii\behaviors\TimestampBehavior
 {
 	public $attributes = [
 		ActiveRecord::EVENT_BEFORE_INSERT => ['create_date','update_date'],
