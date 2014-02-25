@@ -1,10 +1,10 @@
 <?php
 
-namespace backend\modules\purchase\controllers;
+namespace backend\modules\accounting\controllers;
 
 use Yii;
-use backend\modules\purchase\models\AccPeriode;
-use backend\modules\purchase\models\AccPeriodeSearch;
+use backend\modules\accounting\models\AccPeriode;
+use backend\modules\accounting\models\AccPeriodeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
