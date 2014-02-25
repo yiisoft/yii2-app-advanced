@@ -17,7 +17,11 @@
 		"php": ">=5.4.0",
 		"yiisoft/yii2": "*",
 		"yiisoft/yii2-bootstrap": "*",
-		"yiisoft/yii2-swiftmailer": "*"
+		"yiisoft/yii2-swiftmailer": "*",
+		"mdmsoft/yii2-admin": "dev-master",
+		"kartik-v/yii2-widgets": "*",
+		"yiisoft/yii2-jui":"*",
+		"yiisoft/yii2-mongodb":"*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",
