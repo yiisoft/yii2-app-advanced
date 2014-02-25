@@ -14,6 +14,8 @@ use yii\widgets\ActiveForm;
 
 	<?php $form = ActiveForm::begin(); ?>
 
+		<?= $form->field($model, 'id_branch')->textInput() ?>
+	
 		<?= $form->field($model, 'cd_whse')->textInput(['maxlength' => 4]) ?>
 
 		<?= $form->field($model, 'nm_whse')->textInput(['maxlength' => 32]) ?>

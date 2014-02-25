@@ -14,6 +14,7 @@ use yii\web\VerbFilter;
  */
 class ProductSupplierController extends Controller
 {
+
 	public function behaviors()
 	{
 		return [
@@ -36,8 +37,8 @@ class ProductSupplierController extends Controller
 		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
 		return $this->render('index', [
-			'dataProvider' => $dataProvider,
-			'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
+					'searchModel' => $searchModel,
 		]);
 	}
 
@@ -50,7 +51,7 @@ class ProductSupplierController extends Controller
 	public function actionView($id_product, $id_supplier)
 	{
 		return $this->render('view', [
-			'model' => $this->findModel($id_product, $id_supplier),
+					'model' => $this->findModel($id_product, $id_supplier),
 		]);
 	}
 
@@ -67,7 +68,7 @@ class ProductSupplierController extends Controller
 			return $this->redirect(['view', 'id_product' => $model->id_product, 'id_supplier' => $model->id_supplier]);
 		} else {
 			return $this->render('create', [
-				'model' => $model,
+						'model' => $model,
 			]);
 		}
 	}
@@ -87,7 +88,7 @@ class ProductSupplierController extends Controller
 			return $this->redirect(['view', 'id_product' => $model->id_product, 'id_supplier' => $model->id_supplier]);
 		} else {
 			return $this->render('update', [
-				'model' => $model,
+						'model' => $model,
 			]);
 		}
 	}
@@ -121,4 +122,36 @@ class ProductSupplierController extends Controller
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
 	}
+
+	public function actionListOfProduct($supp = null, $term = '')
+	{
+		if ($supp === null) {
+			return \yii\helpers\Json::encode([]);
+		}
+		$query = ProductSupplier::find()
+				->select(['product_supplier.id_supplier', 'product.*'])
+				->innerJoin('product', 'product.id_product=product_supplier.id_product')
+				->where(['product_supplier.id_supplier' => $supp]);
+
+		if (!empty($term)) {
+			$query->andWhere(['or',
+				['like', 'product.cd_product', $term],
+				['like', 'product.nm_product', $term]]);
+		}
+
+		$query->limit(20);
+		$result = [];
+		foreach ($query->all() as $row) {
+			$result[] = [
+				'id' => $row['id_product'],
+				'value' => $row['id_product'],
+				'label' => "{$row['cd_product']} - {$row['nm_product']}",
+				'text' => "{$row['cd_product']} - {$row['nm_product']}",
+				'extra' => $row,
+			];
+		}
+
+		return \yii\helpers\Json::encode($result);
+	}
+
 }

@@ -35,8 +35,8 @@ class Product extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id_product', 'cd_product', 'nm_product', 'id_category'], 'required'],
-			[['id_product', 'id_category'], 'integer'],
+			[['cd_product', 'nm_product', 'id_category'], 'required'],
+			[['id_category'], 'integer'],
 			[['cd_product'], 'string', 'max' => 13],
 			[['nm_product'], 'string', 'max' => 64],
 			[['cd_product'], 'unique']
@@ -74,6 +74,27 @@ class Product extends \yii\db\ActiveRecord
 	public function getProductUoms()
 	{
 		return $this->hasMany(ProductUom::className(), ['id_product' => 'id_product']);
+	}
+	
+	/**
+	 * @return integer
+	 */
+	public function getProductSmallestUoms()
+	{
+		return $this->hasOne(ProductUom::className(), ['id_product' => 'id_product']);
+	}
+		
+	public static function ListUoms($id)
+	{
+		$sql = 'select u.id_uom,u.nm_uom
+			from uom u
+			join product_uom pu on(pu.id_uom=u.id_uom)
+			where pu.id_product=:id_product';
+		$result = [];
+		foreach(\Yii::$app->db->createCommand($sql,[':id_product'=>$id])->queryAll() as $row){
+			$result[$row['id_uom']] = $row['nm_uom'];
+		}
+		return $result;
 	}
 
 	/**

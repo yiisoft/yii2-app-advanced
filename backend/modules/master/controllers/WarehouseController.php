@@ -117,4 +117,33 @@ class WarehouseController extends Controller
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
 	}
+	
+	public function actionList($term=null,$id=null)
+	{
+		if ($term !== null) {
+			$query = Warehouse::find();
+			if (!empty($term)) {
+				$query->orWhere(['like', 'cd_whse', $term]);
+				$query->orWhere(['like', 'nm_whse', $term]);
+			}
+
+			$query->limit(20);
+			$result = [];
+			foreach ($query->asArray()->all() as $row) {
+				$result[] = [
+					'id' => $row['id_warehouse'],
+					'value' => $row['id_warehouse'],
+					'text' => "{$row['cd_whse']} - {$row['nm_whse']}",
+					'label' => "{$row['cd_whse']} - {$row['nm_whse']}",
+					'extra' => $row,
+				];
+			}
+		} elseif ($id) {
+			$supp = Warehouse::find($id);
+			$result = ['id' => $id, 'text' => $supp ? "{$supp['cd_whse']} - {$supp['nm_whse']}" : 'No warehouse found'];
+		} else {
+			$result = ['id' => $id, 'text' => 'No warehouse found'];
+		}
+		return \yii\helpers\Json::encode($result);
+	}
 }

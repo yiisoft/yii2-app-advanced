@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ListView;
+use yii\grid\GridView;
 
 /**
  * @var yii\web\View $this
@@ -22,13 +22,13 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= Html::a('Create Branch', ['create'], ['class' => 'btn btn-success']) ?>
 	</p>
 
-	<?php echo ListView::widget([
+	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
-		'itemOptions' => ['class' => 'item'],
-		'itemView' => function ($model, $key, $index, $widget){
-			return Html::a(Html::encode($model->id_branch), ['view', 'id' => $model->id_branch]);
-			//return $this->render('view',['model'=>$model]);
-		},
+		'columns'=>[
+			'id_branch',
+			'nm_branch',
+			['class'=>'yii\grid\ActionColumn']
+		]
 	]); ?>
 
 </div>

@@ -14,6 +14,7 @@ use yii\web\VerbFilter;
  */
 class SupplierController extends Controller
 {
+
 	public function behaviors()
 	{
 		return [
@@ -36,8 +37,8 @@ class SupplierController extends Controller
 		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
 		return $this->render('index', [
-			'dataProvider' => $dataProvider,
-			'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
+					'searchModel' => $searchModel,
 		]);
 	}
 
@@ -49,7 +50,7 @@ class SupplierController extends Controller
 	public function actionView($id)
 	{
 		return $this->render('view', [
-			'model' => $this->findModel($id),
+					'model' => $this->findModel($id),
 		]);
 	}
 
@@ -66,7 +67,7 @@ class SupplierController extends Controller
 			return $this->redirect(['view', 'id' => $model->id_supplier]);
 		} else {
 			return $this->render('create', [
-				'model' => $model,
+						'model' => $model,
 			]);
 		}
 	}
@@ -85,7 +86,7 @@ class SupplierController extends Controller
 			return $this->redirect(['view', 'id' => $model->id_supplier]);
 		} else {
 			return $this->render('update', [
-				'model' => $model,
+						'model' => $model,
 			]);
 		}
 	}
@@ -117,4 +118,34 @@ class SupplierController extends Controller
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
 	}
+
+	public function actionList($term = null, $id = null)
+	{
+		if ($term !== null) {
+			$query = Supplier::find();
+			if (!empty($term)) {
+				$query->orWhere(['like', 'nm_supplier', $term]);
+				$query->orWhere(['like', 'cd_supplier', $term]);
+			}
+
+			$query->limit(20);
+			$result = [];
+			foreach ($query->asArray()->all() as $row) {
+				$result[] = [
+					'id' => $row['id_supplier'],
+					'value' => $row['id_supplier'],
+					'text' => "{$row['cd_supplier']} - {$row['nm_supplier']}",
+					'label' => "{$row['cd_supplier']} - {$row['nm_supplier']}",
+					'extra' => $row,
+				];
+			}
+		} elseif ($id) {
+			$supp = Supplier::find($id);
+			$result = ['id' => $id, 'text' => $supp ? "{$supp['cd_supplier']} - {$supp['nm_supplier']}" : 'No supplier found'];
+		} else {
+			$result = ['id' => $id, 'text' => 'No supplier found'];
+		}
+		return \yii\helpers\Json::encode($result);
+	}
+
 }

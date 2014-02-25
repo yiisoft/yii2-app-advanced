@@ -6,6 +6,7 @@ namespace backend\modules\master\models;
  * This is the model class for table "warehouse".
  *
  * @property integer $id_warehouse
+ * @property integer $id_branch Description
  * @property string $cd_whse
  * @property string $nm_whse
  * @property string $create_date
@@ -29,7 +30,7 @@ class Warehouse extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['cd_whse', 'nm_whse'], 'required'],
+			[['id_branch', 'cd_whse', 'nm_whse'], 'required'],
 			[['cd_whse'], 'string', 'max' => 4],
 			[['nm_whse'], 'string', 'max' => 32]
 		];
