@@ -95,4 +95,16 @@ class ProductStock extends \yii\db\ActiveRecord
 	{
 		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse']);
 	}
+
+	public function behaviors()
+	{
+		return [
+			'timestamp' => [
+				'class' => 'backend\components\AutoTimestamp',
+			],
+			'changeUser' => [
+				'class' => 'backend\components\AutoUser',
+			]
+		];
+	}
 }

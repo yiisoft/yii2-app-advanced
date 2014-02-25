@@ -2,10 +2,12 @@
 
 namespace backend\modules\purchase\models;
 
+use backend\modules\master\models\Supplier;
 /**
  * This is the model class for table "purchase_hdr".
  *
  * @property integer $id_purchase_hdr
+ * @property integer $id_branch
  * @property string $purchase_num
  * @property integer $id_supplier
  * @property integer $id_warehouse
@@ -22,6 +24,9 @@ namespace backend\modules\purchase\models;
  */
 class PurchaseHdr extends \yii\db\ActiveRecord
 {
+	const STATUS_DRAFT = 1;
+	const STATUS_RELEASE = 2;
+
 	/**
 	 * @inheritdoc
 	 */
@@ -84,5 +89,17 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 	public function getIdWarehouse()
 	{
 		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse']);
+	}
+
+	public function behaviors()
+	{
+		return [
+			'timestamp' => [
+				'class' => 'backend\components\AutoTimestamp',
+			],
+			'changeUser' => [
+				'class' => 'backend\components\AutoUser',
+			]
+		];
 	}
 }

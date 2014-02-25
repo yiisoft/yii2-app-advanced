@@ -16,8 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
-	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
 	<p>
 		<?= Html::a('Create Purchase Hdr', ['create'], ['class' => 'btn btn-success']) ?>
 	</p>
@@ -33,11 +31,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			'id_supplier',
 			'id_warehouse',
 			'purchase_date',
-			// 'id_status',
-			// 'update_date',
-			// 'update_by',
-			// 'create_by',
-			// 'create_date',
 
 			['class' => 'yii\grid\ActionColumn'],
 		],

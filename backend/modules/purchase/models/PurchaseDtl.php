@@ -8,7 +8,6 @@ namespace backend\modules\purchase\models;
  * @property string $id_purchase_dtl
  * @property integer $id_purchase_hdr
  * @property integer $id_product
- * @property integer $id_supplier
  * @property string $purch_price
  * @property string $purch_qty
  * @property integer $id_uom
@@ -17,9 +16,9 @@ namespace backend\modules\purchase\models;
  * @property integer $create_by
  * @property string $create_date
  *
- * @property Uom $idUom
- * @property Supplier $idSupplier
- * @property Product $idProduct
+ * @property \backend\modules\master\models\Uom $idUom
+ * @property \backend\modules\master\models\Supplier $idSupplier
+ * @property \backend\modules\master\models\Product $idProduct
  * @property PurchaseHdr $idPurchaseHdr
  */
 class PurchaseDtl extends \yii\db\ActiveRecord
@@ -38,8 +37,8 @@ class PurchaseDtl extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id_purchase_hdr', 'id_product', 'id_supplier', 'purch_qty', 'id_uom'], 'required'],
-			[['id_purchase_hdr', 'id_product', 'id_supplier', 'id_uom'], 'integer'],
+			[['id_purchase_hdr', 'id_product', 'purch_qty', 'id_uom'], 'required'],
+			[['id_purchase_hdr', 'id_product', 'id_uom'], 'integer'],
 			[['purch_price', 'purch_qty'], 'string']
 		];
 	}
@@ -53,7 +52,6 @@ class PurchaseDtl extends \yii\db\ActiveRecord
 			'id_purchase_dtl' => 'Id Purchase Dtl',
 			'id_purchase_hdr' => 'Id Purchase Hdr',
 			'id_product' => 'Id Product',
-			'id_supplier' => 'Id Supplier',
 			'purch_price' => 'Purch Price',
 			'purch_qty' => 'Purch Qty',
 			'id_uom' => 'Id Uom',
@@ -75,14 +73,6 @@ class PurchaseDtl extends \yii\db\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveRelation
 	 */
-	public function getIdSupplier()
-	{
-		return $this->hasOne(Supplier::className(), ['id_supplier' => 'id_supplier']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
 	public function getIdProduct()
 	{
 		return $this->hasOne(Product::className(), ['id_product' => 'id_product']);
@@ -94,5 +84,17 @@ class PurchaseDtl extends \yii\db\ActiveRecord
 	public function getIdPurchaseHdr()
 	{
 		return $this->hasOne(PurchaseHdr::className(), ['id_purchase_hdr' => 'id_purchase_hdr']);
+	}
+
+	public function behaviors()
+	{
+		return [
+			'timestamp' => [
+				'class' => 'backend\components\AutoTimestamp',
+			],
+			'changeUser' => [
+				'class' => 'backend\components\AutoUser',
+			]
+		];
 	}
 }

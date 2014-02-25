@@ -8,12 +8,21 @@ use backend\modules\purchase\models\PurchaseHdrSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
+use backend\modules\purchase\models\PurchaseDtl;
+use yii\data\ArrayDataProvider;
+use \Exception;
+use yii\helpers\Json;
+use yii\db\Query;
+use backend\modules\master\models\ProductStock;
+use yii\db\Expression;
+use backend\modules\accounting\models\AccPeriode;
 
 /**
  * PurchaseHdrController implements the CRUD actions for PurchaseHdr model.
  */
 class PurchaseHdrController extends Controller
 {
+
 	public function behaviors()
 	{
 		return [
@@ -36,8 +45,8 @@ class PurchaseHdrController extends Controller
 		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
 		return $this->render('index', [
-			'dataProvider' => $dataProvider,
-			'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
+					'searchModel' => $searchModel,
 		]);
 	}
 
@@ -49,7 +58,7 @@ class PurchaseHdrController extends Controller
 	public function actionView($id)
 	{
 		return $this->render('view', [
-			'model' => $this->findModel($id),
+					'model' => $this->findModel($id),
 		]);
 	}
 
@@ -60,15 +69,54 @@ class PurchaseHdrController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model = new PurchaseHdr;
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id_purchase_hdr]);
-		} else {
-			return $this->render('create', [
-				'model' => $model,
-			]);
+		$model = new PurchaseHdr;
+		$details = [];
+
+		$post = Yii::$app->request->post();
+		if ($model->load($post)) {
+			$transaction = Yii::$app->db->beginTransaction();
+			$success = false;
+
+			try {
+				$model->id_status = PurchaseHdr::STATUS_DRAFT;
+				$model->id_branch = Yii::$app->user->identity->id_branch;
+				$success = $model->save();
+			} catch (Exception $exc) {
+				$model->addError('', $exc->getMessage());
+				$success = false;
+			}
+
+			$formName = (new PurchaseDtl)->formName();
+
+			$id_hdr = $success ? $model->id_purchase_hdr : false;
+			foreach ($post[$formName] as $dataDetail) {
+				$detail = new PurchaseDtl;
+				$detail->attributes = $dataDetail;
+				if ($id_hdr !== false) {
+					$detail->id_purchase_hdr = $model->id_purchase_hdr;
+					try {
+						$success = $detail->save() && $success;
+					} catch (Exception $exc) {
+						$detail->addError('', $exc->getMessage());
+					}
+				}
+				$details[] = $detail;
+			}
+			if ($success) {
+				$transaction->commit();
+				return $this->redirect(['update', 'id' => $model->id_purchase_hdr]);
+			} else {
+				$transaction->rollBack();
+			}
 		}
+		if (count($details) == 0) {
+			$details[] = new PurchaseDtl;
+		}
+		return $this->render('create', [
+					'model' => $model,
+					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
+		]);
 	}
 
 	/**
@@ -80,14 +128,55 @@ class PurchaseHdrController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
-
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id_purchase_hdr]);
-		} else {
-			return $this->render('update', [
-				'model' => $model,
-			]);
+		if ($model->id_status != PurchaseHdr::STATUS_DRAFT) {
+			throw new \yii\base\UserException('tidak bisa diedit');
 		}
+		$details = $model->purchaseDtls;
+
+		$post = Yii::$app->request->post();
+		if ($model->load($post)) {
+			$transaction = Yii::$app->db->beginTransaction();
+			$success = false;
+
+			try {
+				$model->id_status = PurchaseHdr::STATUS_DRAFT;
+				$success = $model->save();
+				$success = $success && PurchaseDtl::deleteAll('id_purchase_hdr=:id', [':id' => $model->id_purchase_hdr]);
+				$details = [];
+			} catch (Exception $exc) {
+				$model->addError('', $exc->getMessage());
+				$success = false;
+			}
+
+			$formName = (new PurchaseDtl)->formName();
+
+			$id_hdr = $success ? $model->id_purchase_hdr : false;
+			foreach ($post[$formName] as $dataDetail) {
+				$detail = new PurchaseDtl;
+				$detail->attributes = $dataDetail;
+				if ($id_hdr !== false) {
+					$detail->id_purchase_hdr = $model->id_purchase_hdr;
+					try {
+						$success = $detail->save() && $success;
+					} catch (Exception $exc) {
+						$detail->addError('', $exc->getMessage());
+					}
+				}
+				$details[] = $detail;
+			}
+			if ($success) {
+				$transaction->commit();
+			} else {
+				$transaction->rollBack();
+			}
+		}
+		if (count($details) == 0) {
+			$details[] = new PurchaseDtl;
+		}
+		return $this->render('update', [
+					'model' => $model,
+					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
+		]);
 	}
 
 	/**
@@ -99,6 +188,80 @@ class PurchaseHdrController extends Controller
 	public function actionDelete($id)
 	{
 		$this->findModel($id)->delete();
+		return $this->redirect(['index']);
+	}
+
+	public function actionRelease($id)
+	{
+		$model = $this->findModel($id);
+		if ($model->id_status === PurchaseHdr::STATUS_DRAFT) {
+			$transaction = Yii::$app->db->beginTransaction();
+			try {
+				$model->id_status = PurchaseHdr::STATUS_RELEASE;
+				$model->save();
+				$id_periode = AccPeriode::getCurrentPeriode()->id_periode;
+				$id_warehouse = $model->id_warehouse;
+
+				$details = \Yii::$app->db->createCommand('select purchase_dtl.*,product_uom.isi
+					from purchase_dtl
+					join product_uom on(product_uom.id_product=purchase_dtl.id_product
+						and product_uom.id_uom=purchase_dtl.id_uom)
+					where purchase_dtl.id_purchase_hdr=:id_purchase_hdr', [
+					':id_purchase_hdr' => $model->id_purchase_hdr
+				]);
+
+				$update_field = new Expression('qty_stock + :qty');
+
+				$queryCheck = \Yii::$app->db->createCommand("select count(*) 
+					from product_stock 
+					where id_periode=:id_periode
+						and id_warehouse=:id_warehouse
+						and id_product=:id_product", [
+					':id_periode' => $id_periode,
+					':id_warehouse' => $id_warehouse,
+				]);
+
+				$smallest_uom = (new Query)
+						->select('id_uom')
+						->from('product_uom')
+						->where('id_product=:id_product')
+						->orderBy(['isi' => SORT_ASC])
+						->createCommand();
+
+
+				foreach ($details->queryAll() as $detail) {
+					$id_product = $detail['id_product'];
+					if ($queryCheck->bindValue(':id_product', $id_product)->queryScalar() > 0) {
+						ProductStock::updateAll([
+							'qty_stock' => $update_field
+								], [
+							'id_periode' => $id_periode,
+							'id_warehouse' => $id_warehouse,
+							'id_product' => $id_product,
+								], [':qty' => $detail['purch_qty'] * $detail['isi']]);
+					} else {
+						$stock = new ProductStock;
+
+						$stock->attributes = [
+							'id_periode' => $id_periode,
+							'id_warehouse' => $id_warehouse,
+							'id_product' => $id_product,
+							'id_uom' => $smallest_uom->bindValue(':id_product', $id_product)->queryScalar(),
+							'qty_stock' => $detail['purch_qty'] * $detail['isi'],
+							'status_closing' => 1,
+						];
+
+						if(!$stock->save()){
+							throw new \yii\base\Exception(print_r($stock->errors,true));
+						}
+					}
+				}
+				$transaction->commit();
+			} catch (Exception $exc) {
+				$transaction->rollBack();
+				throw $exc;
+			}
+		}
 		return $this->redirect(['index']);
 	}
 
@@ -117,4 +280,121 @@ class PurchaseHdrController extends Controller
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
 	}
+
+	public function actionListOfSupplier($term = null, $id = null)
+	{
+		$query = new Query;
+		$query->from('supplier');
+		if ($id === null) {
+			if (!empty($term)) {
+				$query->orWhere(['like', 'nm_supplier', $term]);
+				$query->orWhere(['like', 'cd_supplier', $term]);
+			}
+
+			$query->limit(20);
+			$result = [];
+			foreach ($query->all() as $row) {
+				$result[] = [
+					'id' => $row['id_supplier'],
+					'value' => $row['id_supplier'],
+					'text' => "{$row['cd_supplier']} - {$row['nm_supplier']}",
+					'label' => "{$row['cd_supplier']} - {$row['nm_supplier']}",
+					'extra' => $row,
+				];
+			}
+		} else {
+			$supp = $query->where(['id_supplier' => $id])->one();
+			if ($supp) {
+				$result = ['id' => $id, 'text' => $supp ? "{$supp['cd_supplier']} - {$supp['nm_supplier']}" : 'No supplier found'];
+			} else {
+				$result = ['id' => $id, 'text' => 'No supplier found'];
+			}
+		}
+		return Json::encode($result);
+	}
+
+	public function actionListOfWarehouse($term = null, $id = null)
+	{
+		$query = new Query;
+		$query->from('warehouse');
+		if ($id === null) {
+			if (!empty($term)) {
+				$query->orWhere(['like', 'nm_whse', $term]);
+				$query->orWhere(['like', 'cd_whse', $term]);
+			}
+
+			$query->limit(20);
+			$result = [];
+			foreach ($query->all() as $row) {
+				$result[] = [
+					'id' => $row['id_warehouse'],
+					'value' => $row['id_warehouse'],
+					'text' => "{$row['cd_whse']} - {$row['nm_whse']}",
+					'label' => "{$row['cd_whse']} - {$row['nm_whse']}",
+					'extra' => $row,
+				];
+			}
+		} else {
+			$whse = $query->where(['id_warehouse' => $id])->one();
+			if ($whse) {
+				$result = ['id' => $id, 'text' => $whse ? "{$whse['cd_whse']} - {$whse['nm_whse']}" : 'No warehouse found'];
+			} else {
+				$result = ['id' => $id, 'text' => 'No warehouse found'];
+			}
+		}
+		return Json::encode($result);
+	}
+
+	public function actionProductOfSupplier($supp, $term = '')
+	{
+		if ($supp === null) {
+			return Json::encode([]);
+		}
+		$query = new Query;
+		$query = $query->select(['ps.id_supplier', 'p.*'])
+				->from('product_supplier ps')
+				->innerJoin('product p', 'p.id_product=ps.id_product')
+				->where(['ps.id_supplier' => $supp]);
+
+		if (!empty($term)) {
+			$query->andWhere(['or',
+				['like', 'p.cd_product', $term],
+				['like', 'p.nm_product', $term]]);
+		}
+
+		$query->limit(20);
+		$result = [];
+		foreach ($query->all() as $row) {
+			$result[] = [
+				'id' => $row['id_product'],
+				'value' => $row['id_product'],
+				'label' => "{$row['cd_product']} - {$row['nm_product']}",
+				'text' => "{$row['cd_product']} - {$row['nm_product']}",
+				'extra' => $row,
+			];
+		}
+
+		return Json::encode($result);
+	}
+
+	public function actionUomOfProduct($prod = null)
+	{
+		if ($prod === null) {
+			return '';
+		}
+		$query = new Query;
+		$query = $query->select(['u.*'])
+				->distinct()
+				->from('product_uom pu')
+				->innerJoin('uom u', 'u.id_uom=pu.id_uom')
+				->where(['pu.id_product' => $prod]);
+
+		$result = [];
+		foreach ($query->all() as $row) {
+			$result[$row['id_uom']] = "{$row['cd_uom']} - {$row['nm_uom']}";
+		}
+
+		return \yii\helpers\Html::renderSelectOptions([], $result);
+	}
+
 }
