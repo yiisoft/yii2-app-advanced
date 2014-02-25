@@ -75,14 +75,6 @@ class Product extends \yii\db\ActiveRecord
 	{
 		return $this->hasMany(ProductUom::className(), ['id_product' => 'id_product']);
 	}
-	
-	/**
-	 * @return integer
-	 */
-	public function getProductSmallestUoms()
-	{
-		return $this->hasOne(ProductUom::className(), ['id_product' => 'id_product']);
-	}
 		
 	public static function ListUoms($id)
 	{

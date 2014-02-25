@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\purchase\models;
+namespace backend\modules\master\models;
 
 /**
  * This is the model class for table "cogs".
@@ -21,6 +21,7 @@ namespace backend\modules\purchase\models;
  */
 class Cogs extends \yii\db\ActiveRecord
 {
+
 	/**
 	 * @inheritdoc
 	 */
@@ -82,4 +83,38 @@ class Cogs extends \yii\db\ActiveRecord
 	{
 		return $this->hasOne(Product::className(), ['id_product' => 'id_product']);
 	}
+
+	public static function UpdateCogs($params)
+	{
+		$cogs = self::find([
+					'id_branch' => $params['id_branch'],
+					'id_product' => $params['id_product'],
+		]);
+
+		if (!$cogs) {
+			$cogs = new self();
+			$cogs->setAttributes([
+				'id_branch' => $params['id_branch'],
+				'id_product' => $params['id_product'],
+				'id_uom' => $params['id_uom'],
+					], false);
+		}
+		$cogs->cogs = 1.0*($cogs->cogs * $params['old_stock'] + $params['purch_price'] * $params['new_stock']) / ($params['old_stock'] + $params['new_stock']);
+		if(!$cogs->save()){
+			throw new \yii\base\UserException(implode(",\n", $cogs->firstErrors));
+		}
+	}
+
+	public function behaviors()
+	{
+		return [
+			'timestamp' => [
+				'class' => 'backend\components\AutoTimestamp',
+			],
+			'changeUser' => [
+				'class' => 'backend\components\AutoUser',
+			]
+		];
+	}
+
 }
