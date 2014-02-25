@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
  *
  * @author MDMunir
  */
-class AutoUser extends \yii\base\Behavior
+class AutoUser extends \yii\behaviors\AttributeBehavior
 {
 
 	/**
@@ -22,34 +22,13 @@ class AutoUser extends \yii\base\Behavior
 	 */
 	public $attributes = [
 		ActiveRecord::EVENT_BEFORE_INSERT => ['create_by', 'update_by'],
-		ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_by',
+		ActiveRecord::EVENT_BEFORE_UPDATE => ['update_by'],
 	];
 
-	/**
-	 * Declares event handlers for the [[owner]]'s events.
-	 * @return array events (array keys) and the corresponding event handler methods (array values).
-	 */
-	public function events()
+	public function init()
 	{
-		$events = $this->attributes;
-		foreach ($events as $i => $event) {
-			$events[$i] = 'updateUser';
-		}
-		return $events;
-	}
-
-	/**
-	 * Updates the attributes with the current user.
-	 * @param Event $event
-	 */
-	public function updateUser($event)
-	{
-		$attributes = isset($this->attributes[$event->name]) ? (array) $this->attributes[$event->name] : [];
-		if (!empty($attributes) && ($user = \Yii::$app->user) && ($userId = $user->id)) {
-			foreach ($attributes as $attribute) {
-				$this->owner->$attribute = $userId;
-			}
-		}
+		$this->value = ($user = \Yii::$app->user) ? $user->id : 0;
+		parent::init();
 	}
 
 }

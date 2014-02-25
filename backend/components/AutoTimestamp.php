@@ -14,12 +14,12 @@ class AutoTimestamp extends \yii\behaviors\TimestampBehavior
 {
 	public $attributes = [
 		ActiveRecord::EVENT_BEFORE_INSERT => ['create_date','update_date'],
-		ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_date',
+		ActiveRecord::EVENT_BEFORE_UPDATE => ['update_date'],
 	];
 	
 	public function init()
 	{
+		$this->value = new Expression('NOW()');
 		parent::init();
-		$this->timestamp = new Expression('NOW()');
 	}
 }
