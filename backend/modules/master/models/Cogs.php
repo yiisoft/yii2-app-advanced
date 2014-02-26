@@ -38,7 +38,7 @@ class Cogs extends \yii\db\ActiveRecord
 		return [
 			[['id_branch', 'id_product', 'id_uom', 'cogs'], 'required'],
 			[['id_branch', 'id_product', 'id_uom'], 'integer'],
-			[['cogs'], 'string']
+			[['cogs'], 'number']
 		];
 	}
 
@@ -103,6 +103,7 @@ class Cogs extends \yii\db\ActiveRecord
 		if(!$cogs->save()){
 			throw new \yii\base\UserException(implode(",\n", $cogs->firstErrors));
 		}
+		return true;;
 	}
 
 	public function behaviors()

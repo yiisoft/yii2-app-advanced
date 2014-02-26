@@ -2,6 +2,7 @@
 
 namespace backend\modules\master\models;
 
+use yii\db\Expression;
 /**
  * This is the model class for table "product_stock".
  *
@@ -25,8 +26,9 @@ namespace backend\modules\master\models;
 class ProductStock extends \yii\db\ActiveRecord
 {
 
-	const STATUS_OPEN = 1;
 	const STATUS_CLOSE = 0;
+	const STATUS_OPEN = 1;
+	const STATUS_OPEN_2 = 2;
 
 	/**
 	 * @inheritdoc
@@ -42,8 +44,8 @@ class ProductStock extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id_periode', 'id_warehouse', 'id_product', 'id_uom', 'qty_stock', 'status_closing'], 'required'],
-			[['id_periode', 'id_warehouse', 'id_product', 'id_uom', 'status_closing'], 'integer'],
+			[['opening_date', 'id_warehouse', 'id_product', 'id_uom', 'qty_stock', 'status_closing'], 'required'],
+			[['id_warehouse', 'id_product', 'id_uom', 'status_closing'], 'integer'],
 			[['qty_stock'], 'number']
 		];
 	}
@@ -55,7 +57,7 @@ class ProductStock extends \yii\db\ActiveRecord
 	{
 		return [
 			'id_stock' => 'Id Stock',
-			'id_periode' => 'Id Periode',
+			'opening_date' => 'Opening Date',
 			'id_warehouse' => 'Id Warehouse',
 			'id_product' => 'Id Product',
 			'id_uom' => 'Id Uom',
@@ -103,7 +105,7 @@ class ProductStock extends \yii\db\ActiveRecord
 	public static function UpdateStock($params)
 	{
 		$stock = self::find([
-					'id_periode' => $params['id_periode'],
+					'status_closing' => self::STATUS_OPEN,
 					'id_warehouse' => $params['id_warehouse'],
 					'id_product' => $params['id_product'],
 		]);
@@ -111,7 +113,7 @@ class ProductStock extends \yii\db\ActiveRecord
 			$stock = new self();
 			$id_uom = ProductUom::getSmallestUom($params['id_product']);
 			$stock->setAttributes([
-				'id_periode' => $params['id_periode'],
+				'opening_date' => new Expression('NOW()'),
 				'id_warehouse' => $params['id_warehouse'],
 				'id_product' => $params['id_product'],
 				'id_uom' => $id_uom,
@@ -121,7 +123,6 @@ class ProductStock extends \yii\db\ActiveRecord
 		$qty_per_uom = ProductUom::getQtyProductUom($params['id_product'], $params['id_uom']);
 
 		$paramsCogs = [
-			'id_periode' => $params['id_periode'],
 			'id_branch' => $params['id_branch'],
 			'id_product' => $params['id_product'],
 			'id_uom' => $stock->id_uom,
@@ -129,34 +130,38 @@ class ProductStock extends \yii\db\ActiveRecord
 			'new_stock' => $params['purch_qty'] * $qty_per_uom,
 			'purch_price' => 1.0 * $params['purch_price'] / $qty_per_uom,
 		];
-
+		
 		if (Cogs::UpdateCogs($paramsCogs)) {
-			return $stock->save();
+			$stock->qty_stock = $stock->qty_stock + $params['purch_qty']*$qty_per_uom;
+			if(!$stock->save()){
+				throw new \yii\base\UserException(implode(",\n", $stock->firstErrors));
+			}
+			return true;
 		}
 		return false;
 	}
 
-	public static function closeStock($old_periode, $new_periode)
+	public static function closeStock()
 	{
 		$transaction = \Yii::$app->db->beginTransaction();
 		try {
-			self::updateAll(['status_closing' => self::STATUS_CLOSE], ['id_periode' => $old_periode]);
 			$sql = 'insert into product_stock
-				(id_periode,id_warehouse,id_product,id_uom,qty_stock,status_closing,
+				(id_warehouse,opening_date,id_product,id_uom,qty_stock,status_closing,
 				create_by,create_date,update_by,update_date)
-				select :id_periode,id_warehouse,id_product,id_uom,qty_stock,:status_closing,
+				select id_warehouse,NOW(),id_product,id_uom,qty_stock,:new_status,
 				:create_by,NOW(),:update_by,NOW()
 				from product_stock
-				where id_periode=:old_id';
+				where status_closing=:old_status';
 
 			$user_id = ($user = \Yii::$app->user) ? $user->id : 0;
 			\Yii::$app->db->createCommand($sql, [
-				':id_periode' => $new_periode,
-				':status_closing' => self::STATUS_OPEN,
+				':new_status' => self::STATUS_OPEN_2,
 				':create_by' => $user_id,
 				':update_by' => $user_id,
-				':old_id' => $old_periode,
+				':old_status' => self::STATUS_OPEN,
 			])->execute();
+			self::updateAll(['status_closing' => self::STATUS_CLOSE],['status_closing' => self::STATUS_OPEN]);
+			self::updateAll(['status_closing' => self::STATUS_OPEN],['status_closing' => self::STATUS_OPEN_2]);
 			
 			$transaction->commit();
 		} catch (Exception $exc) {
