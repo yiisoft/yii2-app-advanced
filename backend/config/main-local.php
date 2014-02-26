@@ -9,8 +9,8 @@ return [
 		'master' => [
             'class' => 'backend\modules\master\Module',
         ],
-		'purchase' => [
-            'class' => 'backend\modules\purchase\Module',
+		'inventory' => [
+            'class' => 'backend\modules\inventory\Module',
         ],
 		'accounting' => [
             'class' => 'backend\modules\accounting\Module',
