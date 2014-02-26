@@ -39,7 +39,7 @@ class PurchaseDtl extends \yii\db\ActiveRecord
 		return [
 			[['id_purchase_hdr', 'id_product', 'purch_qty', 'id_uom'], 'required'],
 			[['id_purchase_hdr', 'id_product', 'id_uom'], 'integer'],
-			[['purch_price', 'purch_qty'], 'string']
+			[['purch_price', 'purch_qty'], 'number']
 		];
 	}
 

@@ -3,6 +3,7 @@
 namespace backend\modules\purchase\models;
 
 use backend\modules\master\models\Supplier;
+use backend\modules\master\models\Warehouse;
 /**
  * This is the model class for table "purchase_hdr".
  *
