@@ -69,49 +69,13 @@ class PurchaseHdrController extends Controller
 	 */
 	public function actionCreate()
 	{
-
 		$model = new PurchaseHdr;
-		$details = [];
+		$model->id_status = PurchaseHdr::STATUS_DRAFT;
+		$model->id_branch = Yii::$app->user->identity->id_branch;
 
-		$post = Yii::$app->request->post();
-		if ($model->load($post)) {
-			$transaction = Yii::$app->db->beginTransaction();
-			$success = false;
-
-			try {
-				$model->id_status = PurchaseHdr::STATUS_DRAFT;
-				$model->id_branch = Yii::$app->user->identity->id_branch;
-				$success = $model->save();
-			} catch (Exception $exc) {
-				$model->addError('', $exc->getMessage());
-				$success = false;
-			}
-
-			$formName = (new PurchaseDtl)->formName();
-
-			$id_hdr = $success ? $model->id_purchase_hdr : false;
-			foreach ($post[$formName] as $dataDetail) {
-				$detail = new PurchaseDtl;
-				$detail->attributes = $dataDetail;
-				if ($id_hdr !== false) {
-					$detail->id_purchase_hdr = $model->id_purchase_hdr;
-					try {
-						$success = $detail->save() && $success;
-					} catch (Exception $exc) {
-						$detail->addError('', $exc->getMessage());
-					}
-				}
-				$details[] = $detail;
-			}
-			if ($success) {
-				$transaction->commit();
-				return $this->redirect(['update', 'id' => $model->id_purchase_hdr]);
-			} else {
-				$transaction->rollBack();
-			}
-		}
-		if (count($details) == 0) {
-			$details[] = new PurchaseDtl;
+		list($details, $success) = $this->savePurchase($model);
+		if ($success) {
+			return $this->redirect(['view', 'id' => $model->id_purchase_hdr]);
 		}
 		return $this->render('create', [
 					'model' => $model,
@@ -131,18 +95,28 @@ class PurchaseHdrController extends Controller
 		if ($model->id_status != PurchaseHdr::STATUS_DRAFT) {
 			throw new \yii\base\UserException('tidak bisa diedit');
 		}
-		$details = $model->purchaseDtls;
+		list($details, $success) = $this->savePurchase($model);
+		if ($success) {
+			return $this->redirect(['view', 'id' => $model->id_purchase_hdr]);
+		}
+		return $this->render('update', [
+					'model' => $model,
+					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
+		]);
+	}
 
+	protected function savePurchase($model)
+	{
 		$post = Yii::$app->request->post();
+		$details = $model->purchaseDtls;
+		$success = false;
 		if ($model->load($post)) {
 			$transaction = Yii::$app->db->beginTransaction();
-			$success = false;
-
 			try {
-				$model->id_status = PurchaseHdr::STATUS_DRAFT;
+				if (!$model->isNewRecord) {
+					PurchaseDtl::deleteAll('id_purchase_hdr=:id', [':id' => $model->id_purchase_hdr]);
+				}
 				$success = $model->save();
-				$success = $success && PurchaseDtl::deleteAll('id_purchase_hdr=:id', [':id' => $model->id_purchase_hdr]);
-				$details = [];
 			} catch (Exception $exc) {
 				$model->addError('', $exc->getMessage());
 				$success = false;
@@ -166,6 +140,7 @@ class PurchaseHdrController extends Controller
 			}
 			if ($success) {
 				$transaction->commit();
+				//Yii::info(['method'=>__METHOD__,'info'=>'success'],'application_purchace');
 			} else {
 				$transaction->rollBack();
 			}
@@ -173,10 +148,7 @@ class PurchaseHdrController extends Controller
 		if (count($details) == 0) {
 			$details[] = new PurchaseDtl;
 		}
-		return $this->render('update', [
-					'model' => $model,
-					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
-		]);
+		return [$details, $success];
 	}
 
 	/**
@@ -198,7 +170,7 @@ class PurchaseHdrController extends Controller
 			$transaction = Yii::$app->db->beginTransaction();
 			try {
 				$model->id_status = PurchaseHdr::STATUS_RELEASE;
-				if(!$model->save()){
+				if (!$model->save()) {
 					throw new \yii\base\UserException(implode(",\n", $model->firstErrors));
 				}
 				$id_warehouse = $model->id_warehouse;
