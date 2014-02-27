@@ -2,6 +2,8 @@
 
 namespace backend\modules\inventory\models;
 
+use backend\modules\master\models\Warehouse;
+
 /**
  * This is the model class for table "transfer_hdr".
  *

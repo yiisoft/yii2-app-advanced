@@ -26,6 +26,7 @@ class TransferController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
+					'release' => ['post'],
 				],
 			],
 		];
@@ -117,11 +118,17 @@ class TransferController extends Controller
 		$post = Yii::$app->request->post();
 		$details = $model->transferDtls;
 		$success = false;
+		$objs = $deleted = [];
+		
 		if ($model->load($post)) {
 			$transaction = Yii::$app->db->beginTransaction();
 			try {
 				if (!$model->isNewRecord) {
-					TransferDtl::deleteAll('id_purchase_hdr=:id', [':id' => $model->id_purchase_hdr]);
+					foreach ($details as $detail) {
+						$id = $detail->id_transfer_dtl;
+						$objs[$id] = $detail;
+						$deleted[$id] = $id;
+					}
 				}
 				$success = $model->save();
 			} catch (Exception $exc) {
@@ -133,7 +140,12 @@ class TransferController extends Controller
 
 			$id_hdr = $success ? $model->id_transfer_hdr : false;
 			foreach ($post[$formName] as $dataDetail) {
-				$detail = new TransferDtl;
+				if (!empty($dataDetail['id_transfer_dtl']) && isset($objs[$dataDetail['id_transfer_dtl']])) {
+					$detail = $objs[$dataDetail['id_transfer_dtl']];
+					unset($deleted[$detail->id_transfer_dtl]);
+				} else {
+					$detail = new TransferDtl;
+				}
 				$detail->attributes = $dataDetail;
 				if ($id_hdr !== false) {
 					$detail->id_transfer_hdr = $model->id_transfer_hdr;
@@ -146,6 +158,15 @@ class TransferController extends Controller
 				$details[] = $detail;
 			}
 			if ($success) {
+				try {
+					$deleted = array_values($deleted);
+					if (count($deleted) > 0) {
+						$success = TransferDtl::deleteAll(['id_transfer_dtl'=>$deleted]);
+					}
+				} catch (Exception $exc) {
+					$success = false;
+					$model->addError('',$exc->getMessage());
+				}
 				$transaction->commit();
 				//Yii::info(['method'=>__METHOD__,'info'=>'success'],'application_purchace');
 			} else {
@@ -202,6 +223,22 @@ class TransferController extends Controller
 			}
 		}
 		return $this->redirect(['index']);
+	}
+	
+	public function actionReceive($id)
+	{
+		$model = $this->findModel($id);
+		if ($model->id_status != TransferHdr::STATUS_SEND) {
+			//throw new \yii\base\UserException('tidak bisa diedit');
+		}
+		list($details, $success) = $this->saveTransfer($model);
+		if ($success) {
+			return $this->redirect(['view', 'id' => $model->id_transfer_hdr]);
+		}
+		return $this->render('receive', [
+					'model' => $model,
+					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
+		]);
 	}
 	/**
 	 * Finds the TransferHdr model based on its primary key value.

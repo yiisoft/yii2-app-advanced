@@ -14,6 +14,7 @@ use \Exception;
 use yii\helpers\Json;
 use yii\db\Query;
 use backend\modules\master\models\ProductStock;
+
 /**
  * PurchaseHdrController implements the CRUD actions for PurchaseHdr model.
  */
@@ -27,6 +28,7 @@ class PurchaseController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
+					'release' => ['post'],
 				],
 			],
 		];
@@ -107,11 +109,18 @@ class PurchaseController extends Controller
 		$post = Yii::$app->request->post();
 		$details = $model->purchaseDtls;
 		$success = false;
+		$objs = $deleted = [];
+
 		if ($model->load($post)) {
 			$transaction = Yii::$app->db->beginTransaction();
 			try {
 				if (!$model->isNewRecord) {
-					PurchaseDtl::deleteAll('id_purchase_hdr=:id', [':id' => $model->id_purchase_hdr]);
+					//PurchaseDtl::deleteAll('id_purchase_hdr=:id', [':id' => $model->id_purchase_hdr]);
+					foreach ($details as $detail) {
+						$id = $detail->id_purchase_dtl;
+						$objs[$id] = $detail;
+						$deleted[$id] = $id;
+					}
 				}
 				$success = $model->save();
 			} catch (Exception $exc) {
@@ -123,12 +132,17 @@ class PurchaseController extends Controller
 
 			$id_hdr = $success ? $model->id_purchase_hdr : false;
 			foreach ($post[$formName] as $dataDetail) {
-				$detail = new PurchaseDtl;
+				if (!empty($dataDetail['id_purchase_dtl']) && isset($objs[$dataDetail['id_purchase_dtl']])) {
+					$detail = $objs[$dataDetail['id_purchase_dtl']];
+					unset($deleted[$detail->id_purchase_dtl]);
+				} else {
+					$detail = new PurchaseDtl;
+				}
 				$detail->attributes = $dataDetail;
 				if ($id_hdr !== false) {
 					$detail->id_purchase_hdr = $model->id_purchase_hdr;
 					try {
-						$success = $detail->save() && $success;
+						$success = $success && $detail->save();
 					} catch (Exception $exc) {
 						$detail->addError('', $exc->getMessage());
 					}
@@ -136,6 +150,16 @@ class PurchaseController extends Controller
 				$details[] = $detail;
 			}
 			if ($success) {
+				try {
+					$deleted = array_values($deleted);
+					if (count($deleted) > 0) {
+						$success = PurchaseDtl::deleteAll(['id_purchase_dtl'=>$deleted]);
+					}
+				} catch (Exception $exc) {
+					$success = false;
+					$model->addError('',$exc->getMessage());
+				}
+
 				$transaction->commit();
 				//Yii::info(['method'=>__METHOD__,'info'=>'success'],'application_purchace');
 			} else {
