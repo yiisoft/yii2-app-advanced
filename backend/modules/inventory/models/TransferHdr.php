@@ -9,7 +9,7 @@ namespace backend\modules\inventory\models;
  * @property integer $id_branch
  * @property string $transfer_num
  * @property integer $id_warehouse_source
- * @property integer $id_warehouse_desc
+ * @property integer $id_warehouse_dest
  * @property string $transfer_date
  * @property integer $id_status
  * @property string $update_date
@@ -19,7 +19,7 @@ namespace backend\modules\inventory\models;
  *
  * @property TransferDtl[] $transferDtls
  * @property Warehouse $idWarehouseSource
- * @property Warehouse $idWarehouseDesc
+ * @property Warehouse $idWarehouseDest
  * @property Branch $idBranch
  */
 class TransferHdr extends \yii\db\ActiveRecord
@@ -63,7 +63,7 @@ class TransferHdr extends \yii\db\ActiveRecord
 			'id_branch' => 'Id Branch',
 			'transfer_num' => 'Transfer Num',
 			'id_warehouse_source' => 'Id Warehouse Source',
-			'id_warehouse_desc' => 'Id Warehouse Desc',
+			'id_warehouse_dest' => 'Id Warehouse Dest',
 			'transfer_date' => 'Transfer Date',
 			'id_status' => 'Id Status',
 			'update_date' => 'Update Date',
@@ -92,9 +92,9 @@ class TransferHdr extends \yii\db\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getIdWarehouseDesc()
+	public function getIdWarehouseDest()
 	{
-		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse_desc']);
+		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse_dest']);
 	}
 
 	/**

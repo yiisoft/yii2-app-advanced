@@ -94,10 +94,10 @@ class TransferController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
-		if ($model->id_status != PurchaseHdr::STATUS_DRAFT) {
+		if ($model->id_status != TransferHdr::STATUS_DRAFT) {
 			throw new \yii\base\UserException('tidak bisa diedit');
 		}
-		list($details, $success) = $this->savePurchase($model);
+		list($details, $success) = $this->saveTransfer($model);
 		if ($success) {
 			return $this->redirect(['view', 'id' => $model->id_transfer_hdr]);
 		}
@@ -170,6 +170,39 @@ class TransferController extends Controller
 		return $this->redirect(['index']);
 	}
 
+	public function actionRelease($id)
+	{
+		$model = $this->findModel($id);
+		if ($model->id_status === TransferHdr::STATUS_DRAFT) {
+			$transaction = Yii::$app->db->beginTransaction();
+			try {
+				$model->id_status = TransferHdr::STATUS_SEND;
+				if (!$model->save()) {
+					throw new \yii\base\UserException(implode(",\n", $model->firstErrors));
+				}
+				$id_warehouse = $model->id_warehouse;
+				$id_branch = $model->idWarehouse->id_branch;
+				$sukses = true;
+				foreach ($model->transferDtls as $detail) {
+					$sukses = $sukses && ProductStock::UpdateStock([
+								'id_warehouse' => $id_warehouse,
+								'id_product' => $detail->id_product,
+								'id_branch' => $id_branch,
+								'qty' => -$detail->transfer_qty,
+								'id_uom' => $detail->id_uom,
+					],false);
+				}
+
+				if ($sukses) {
+					$transaction->commit();
+				}
+			} catch (Exception $exc) {
+				$transaction->rollBack();
+				throw $exc;
+			}
+		}
+		return $this->redirect(['index']);
+	}
 	/**
 	 * Finds the TransferHdr model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
