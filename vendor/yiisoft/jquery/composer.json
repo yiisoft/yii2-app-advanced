@@ -1,0 +1,13 @@
+{
+	"name": "yiisoft/jquery",
+	"description": "jQuery JavaScript Library",
+	"homepage": "http://jquery.com",
+	"license": "MIT",
+	"support": {
+		"irc": "irc://irc.freenode.org/jquery",
+		"issues": "http://bugs.jquery.com",
+		"forum": "http://forum.jquery.com",
+		"wiki": "http://docs.jquery.com/",
+		"source": "https://github.com/jquery/jquery"
+	}
+}
