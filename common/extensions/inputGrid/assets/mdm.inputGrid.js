@@ -11,7 +11,7 @@
 
 	var defaults = {
 		afterAddRow: undefined,
-		templateRow:'<tr></tr>',
+		templateRow: '<tr></tr>',
 	};
 
 	var methods = {
@@ -51,11 +51,11 @@
 			return this.each(function() {
 				var $grid = $(this);
 				var data = $grid.mdmInputGrid('data');
-				
+
 				var $row = $(data.settings.templateRow.replace(/_index_/g, data.settings.counter)); //$grid.find('tbody tr').first().clone(true);
 				$row.attr('data-key', '');
 				$row.attr('data-index', data.settings.counter);
-				
+
 				data.settings.counter++;
 				$grid.find('tbody').append($row);
 				$grid.find('tbody a[data-action="delete"]').show();
@@ -81,14 +81,11 @@
 		rearrange: function() {
 			return this.each(function() {
 				var $grid = $(this);
-				var col = $grid.find('thead > tr').children('th.serial').index();
+				var row = 1;
+				$grid.find('tbody > tr[data-key]').each(function() {
+					$(this).find('td > span.serial-column').text(row++);
+				});
 
-				if (col != undefined) {
-					var row = 1;
-					$grid.find('tbody > tr[data-key]').each(function() {
-						$(this).children('td').eq(col).text(row++);
-					});
-				}
 			});
 		},
 		data: function() {
