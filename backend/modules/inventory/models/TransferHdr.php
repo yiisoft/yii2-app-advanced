@@ -27,11 +27,12 @@ use backend\modules\master\models\Warehouse;
 class TransferHdr extends \yii\db\ActiveRecord
 {
 	const STATUS_DRAFT = 1;
-	const STATUS_SEND = 2;
-	const STATUS_CONFIRM = 3;
-	const STATUS_RECEIVE = 4;
-	const STATUS_CONFIRM_REJECT = 11;
-	const STATUS_CONFIRM_APPROVE = 12;
+	const STATUS_ISSUE = 2;
+	const STATUS_DRAFT_RECEIVE = 3;
+	const STATUS_CONFIRM = 4;
+	const STATUS_CONFIRM_REJECT = 5;
+	const STATUS_CONFIRM_APPROVE = 6;
+	const STATUS_RECEIVE = 7;
 
 
 		/**

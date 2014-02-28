@@ -26,7 +26,7 @@ use backend\modules\master\models\Warehouse;
 class PurchaseHdr extends \yii\db\ActiveRecord
 {
 	const STATUS_DRAFT = 1;
-	const STATUS_RELEASE = 2;
+	const STATUS_RECEIVE = 2;
 
 	/**
 	 * @inheritdoc

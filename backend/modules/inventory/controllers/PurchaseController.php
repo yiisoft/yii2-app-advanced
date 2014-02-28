@@ -28,7 +28,7 @@ class PurchaseController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
-					'release' => ['post'],
+					'receive' => ['post'],
 				],
 			],
 		];
@@ -184,13 +184,13 @@ class PurchaseController extends Controller
 		return $this->redirect(['index']);
 	}
 
-	public function actionRelease($id)
+	public function actionReceive($id)
 	{
 		$model = $this->findModel($id);
 		if ($model->id_status === PurchaseHdr::STATUS_DRAFT) {
 			$transaction = Yii::$app->db->beginTransaction();
 			try {
-				$model->id_status = PurchaseHdr::STATUS_RELEASE;
+				$model->id_status = PurchaseHdr::STATUS_RECEIVE;
 				if (!$model->save()) {
 					throw new \yii\base\UserException(implode(",\n", $model->firstErrors));
 				}
