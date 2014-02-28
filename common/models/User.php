@@ -26,6 +26,8 @@ class User extends ActiveRecord implements IdentityInterface
 	const STATUS_ACTIVE = 10;
 
 	const ROLE_USER = 10;
+	
+	public $id_branch = 1;
 
 	public static function create($attributes)
 	{
@@ -51,7 +53,7 @@ class User extends ActiveRecord implements IdentityInterface
 				'class' => 'yii\behaviors\TimestampBehavior',
 				'attributes' => [
 					ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-					ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+					ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
 				],
 			],
 		];
