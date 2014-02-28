@@ -48,6 +48,12 @@ class InputColumn extends \yii\grid\DataColumn
 		return strtr($this->template, ['{content}' => $value]);
 	}
 
+	/**
+	 * 
+	 * @param \yii\base\Model $model
+	 * @param integer $index
+	 * @return type
+	 */
 	protected function renderInput($model, $index)
 	{
 		if ($this->inputOptions instanceof \Closure) {
@@ -62,9 +68,21 @@ class InputColumn extends \yii\grid\DataColumn
 			} else {
 				$items = $this->inputItems;
 			}
-			return call_user_func(['yii\helpers\Html', 'active' . $this->inputType], $model, "[$index]{$this->attribute}", $items, $options);
+			if ($model->hasProperty($this->attribute)) {
+				return call_user_func(['yii\helpers\Html', 'active' . $this->inputType], $model, "[$index]{$this->attribute}", $items, $options);
+			} else {
+				$name = Html::getInputName($model, "[$index]{$this->attribute}");
+				$value = ArrayHelper::remove($options, 'value');
+				return call_user_func(['yii\helpers\Html', $this->inputType], $name, $value, $items, $options);
+			}
 		} else {
-			return call_user_func(['yii\helpers\Html', 'active' . $this->inputType], $model, "[$index]{$this->attribute}", $options);
+			if ($model->hasProperty($this->attribute)) {
+				return call_user_func(['yii\helpers\Html', 'active' . $this->inputType], $model, "[$index]{$this->attribute}", $options);
+			} else {
+				$name = Html::getInputName($model, "[$index]{$this->attribute}");
+				$value = ArrayHelper::remove($options, 'value');
+				return call_user_func(['yii\helpers\Html', $this->inputType], $name, $value, $options);
+			}
 		}
 	}
 
