@@ -14,6 +14,12 @@ return [
         ],
 		'accounting' => [
             'class' => 'backend\modules\accounting\Module',
+        ], 
+		'purchase' => [
+            'class' => 'backend\modules\purchase\Module',
+        ],
+		 'sales' => [
+            'class' => 'backend\modules\sales\Module',
         ],
 	],
 ];
