@@ -3,6 +3,7 @@
 namespace backend\modules\master\models;
 
 use yii\db\Expression;
+
 /**
  * This is the model class for table "product_stock".
  *
@@ -102,7 +103,7 @@ class ProductStock extends \yii\db\ActiveRecord
 		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse']);
 	}
 
-	public static function UpdateStock($params)
+	public static function UpdateStock($params, $change_cogs = true)
 	{
 		$stock = self::find([
 					'status_closing' => self::STATUS_OPEN,
@@ -120,20 +121,22 @@ class ProductStock extends \yii\db\ActiveRecord
 				'status_closing' => self::STATUS_OPEN,
 					], true);
 		}
-		$qty_per_uom = ProductUom::getQtyProductUom($params['id_product'], $params['id_uom']);
+		if ($change_cogs) {
+			$qty_per_uom = ProductUom::getQtyProductUom($params['id_product'], $params['id_uom']);
 
-		$paramsCogs = [
-			'id_branch' => $params['id_branch'],
-			'id_product' => $params['id_product'],
-			'id_uom' => $stock->id_uom,
-			'old_stock' => $stock->qty_stock,
-			'new_stock' => $params['purch_qty'] * $qty_per_uom,
-			'purch_price' => 1.0 * $params['purch_price'] / $qty_per_uom,
-		];
-		
-		if (Cogs::UpdateCogs($paramsCogs)) {
-			$stock->qty_stock = $stock->qty_stock + $params['purch_qty']*$qty_per_uom;
-			if(!$stock->save()){
+			$paramsCogs = [
+				'id_branch' => $params['id_branch'],
+				'id_product' => $params['id_product'],
+				'id_uom' => $stock->id_uom,
+				'old_stock' => $stock->qty_stock,
+				'new_stock' => $params['qty'] * $qty_per_uom,
+				'price' => 1.0 * $params['price'] / $qty_per_uom,
+			];
+		}
+
+		if (!$change_cogs or Cogs::UpdateCogs($paramsCogs)) {
+			$stock->qty_stock = $stock->qty_stock + $params['qty'] * $qty_per_uom;
+			if (!$stock->save()) {
 				throw new \yii\base\UserException(implode(",\n", $stock->firstErrors));
 			}
 			return true;
@@ -160,9 +163,9 @@ class ProductStock extends \yii\db\ActiveRecord
 				':update_by' => $user_id,
 				':old_status' => self::STATUS_OPEN,
 			])->execute();
-			self::updateAll(['status_closing' => self::STATUS_CLOSE],['status_closing' => self::STATUS_OPEN]);
-			self::updateAll(['status_closing' => self::STATUS_OPEN],['status_closing' => self::STATUS_OPEN_2]);
-			
+			self::updateAll(['status_closing' => self::STATUS_CLOSE], ['status_closing' => self::STATUS_OPEN]);
+			self::updateAll(['status_closing' => self::STATUS_OPEN], ['status_closing' => self::STATUS_OPEN_2]);
+
 			$transaction->commit();
 		} catch (Exception $exc) {
 			$transaction->rollback();

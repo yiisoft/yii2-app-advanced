@@ -99,7 +99,7 @@ class Cogs extends \yii\db\ActiveRecord
 				'id_uom' => $params['id_uom'],
 					], false);
 		}
-		$cogs->cogs = 1.0*($cogs->cogs * $params['old_stock'] + $params['purch_price'] * $params['new_stock']) / ($params['old_stock'] + $params['new_stock']);
+		$cogs->cogs = 1.0*($cogs->cogs * $params['old_stock'] + $params['price'] * $params['new_stock']) / ($params['old_stock'] + $params['new_stock']);
 		if(!$cogs->save()){
 			throw new \yii\base\UserException(implode(",\n", $cogs->firstErrors));
 		}
