@@ -50,7 +50,7 @@ class InputColumn extends \yii\grid\DataColumn
 
 	/**
 	 * 
-	 * @param \yii\base\Model $model
+	 * @param \yii\db\ActiveRecord $model
 	 * @param integer $index
 	 * @return type
 	 */
@@ -68,7 +68,7 @@ class InputColumn extends \yii\grid\DataColumn
 			} else {
 				$items = $this->inputItems;
 			}
-			if ($model->hasProperty($this->attribute)) {
+			if ($model->hasAttribute($this->attribute)) {
 				return call_user_func(['yii\helpers\Html', 'active' . $this->inputType], $model, "[$index]{$this->attribute}", $items, $options);
 			} else {
 				$name = Html::getInputName($model, "[$index]{$this->attribute}");
@@ -76,7 +76,7 @@ class InputColumn extends \yii\grid\DataColumn
 				return call_user_func(['yii\helpers\Html', $this->inputType], $name, $value, $items, $options);
 			}
 		} else {
-			if ($model->hasProperty($this->attribute)) {
+			if ($model->hasAttribute($this->attribute)) {
 				return call_user_func(['yii\helpers\Html', 'active' . $this->inputType], $model, "[$index]{$this->attribute}", $options);
 			} else {
 				$name = Html::getInputName($model, "[$index]{$this->attribute}");
