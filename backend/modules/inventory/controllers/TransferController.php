@@ -40,7 +40,9 @@ class TransferController extends Controller
 	public function actionIndex()
 	{
 		$searchModel = new TransferHdrSearch;
-		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+		$params = Yii::$app->request->getQueryParams();
+		$params['TransferHdr']['id_branch'] = \Yii::$app->user->identity->id_branch;
+		$dataProvider = $searchModel->search($params);
 
 		return $this->render('index', [
 					'dataProvider' => $dataProvider,
@@ -243,13 +245,6 @@ class TransferController extends Controller
 									'id_uom' => $detail->id_uom,
 										], false);
 					}
-//					$sukses = $sukses && ProductStock::UpdateStock([ // stock gudang asal
-//								'id_warehouse' => $id_warehouse_dest,
-//								'id_product' => $detail->id_product,
-//								'id_branch' => $id_branch_dest,
-//								'qty' => $detail->transfer_qty_receive,
-//								'id_uom' => $detail->id_uom,
-//									], false);
 				}
 			}
 			if ($sukses) {

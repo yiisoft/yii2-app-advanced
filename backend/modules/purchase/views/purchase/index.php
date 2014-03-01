@@ -20,20 +20,20 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= Html::a('Create Purchase Hdr', ['create'], ['class' => 'btn btn-success']) ?>
 	</p>
 
+	<?php yii\widgets\Pjax::begin(['formSelector'=>'form','enablePushState'=>false]); ?>
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
-
 			'id_purchase_hdr',
 			'purchase_num',
-			'id_supplier',
-			'id_warehouse',
+			'idSupplier.nm_supplier',
+			'idWarehouse.nm_whse',
 			'purchase_date',
 
 			['class' => 'yii\grid\ActionColumn'],
 		],
 	]); ?>
-
+	<?php yii\widgets\Pjax::end(); ?>
 </div>
