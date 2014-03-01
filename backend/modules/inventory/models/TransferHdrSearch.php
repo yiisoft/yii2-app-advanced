@@ -41,7 +41,7 @@ class TransferHdrSearch extends Model
 			'id_branch' => 'Id Branch',
 			'transfer_num' => 'Transfer Num',
 			'id_warehouse_source' => 'Id Warehouse Source',
-			'id_warehouse_desc' => 'Id Warehouse Desc',
+			'id_warehouse_dest' => 'Id Warehouse Dest',
 			'transfer_date' => 'Transfer Date',
 			'id_status' => 'Id Status',
 			'update_date' => 'Update Date',
@@ -66,7 +66,7 @@ class TransferHdrSearch extends Model
 		$this->addCondition($query, 'id_branch');
 		$this->addCondition($query, 'transfer_num', true);
 		$this->addCondition($query, 'id_warehouse_source');
-		$this->addCondition($query, 'id_warehouse_desc');
+		$this->addCondition($query, 'id_warehouse_dest');
 		$this->addCondition($query, 'transfer_date');
 		$this->addCondition($query, 'id_status');
 		$this->addCondition($query, 'update_date', true);

@@ -30,18 +30,21 @@ $this->params['breadcrumbs'][] = $this->title;
 			?>
 		<?php endif; ?>
 		<?php
-			$action_map = [
-				TransferHdr::STATUS_DRAFT => ['Issue','issue'],
-				TransferHdr::STATUS_DRAFT_RECEIVE => ['Receive','receive'],
-			];
-			echo Html::a('Delete', ['delete', 'id' => $model->id_transfer_hdr], [
-				'class' => 'btn btn-danger',
-				'data' => [
-					'confirm' => Yii::t('app', 'Are you sure to delete this item?'),
-					'method' => 'post',
-				],
-			]);
-			?>
+		switch ($model->id_status) {
+			case TransferHdr::STATUS_DRAFT:
+				echo Html::a('Release', ['issue', 'id' => $model->id_transfer_hdr], [
+					'class' => 'btn btn-primary',
+					'data' => [
+						'confirm' => Yii::t('app', 'Are you sure to release this item?'),
+						'method' => 'post',
+					],
+				]);
+				break;
+
+			default:
+				break;
+		}
+		?>
 	</p>
 
 	<?php

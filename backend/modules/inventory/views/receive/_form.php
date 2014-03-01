@@ -48,37 +48,29 @@ $pluginOptions = [
 	?>
 	<div style="display: block">
 		<div class="col-lg-4">
-			<?= $form->field($model, 'transfer_num')->textInput(['maxlength' => 16,'readonly'=>true]) ?>
+			<?= $form->field($model, 'transfer_num')->textInput(['readonly'=>true]) ?>
 		</div>
 		<div class="col-lg-4">
 			<?php
-			echo $form->field($model, 'id_warehouse_source')->dropDownList(Warehouse::WarehouseList(true));
+			echo $form->field($model, 'idWarehouseSource[nm_whse]')->textInput(['readonly'=>true]);
 			?>
 		</div>
 		<div class="col-lg-4" >
 			<?php
-			echo $form->field($model,'id_warehouse_dest')->dropDownList(Warehouse::WarehouseList());
+			echo $form->field($model, 'idWarehouseDest[nm_whse]')->textInput(['readonly'=>true]);
 			?>
 		</div>
 	</div>
 	<div style="display: block">
 		<div class="col-lg-4">
 			<?php
-			echo $form->field($model, 'transfer_date', [
-						'template' => "{label}<br>{input}\n<span class='info'></span>\n{hint}\n{error}"
-					])
-					->widget('yii\jui\DatePicker', [
-						'options' => ['class' => 'form-control', 'style' => 'width:35%'],
-						'clientOptions' => [
-							'dateFormat' => 'yy-mm-dd'
-						],
-			]);
+			echo $form->field($model, 'transfer_date')->textInput(['readonly'=>true]);
 			?>
 		</div>
 		<div class="col-lg-4">
 			<?php
 			echo $form->field($model, 'id_status', [
-				'template' => "{label}{input}<br><span class='btn btn-primary'>Draft</span>\n{hint}\n{error}"
+				'template' => "{label}{input}<br><span class='btn btn-primary'>Release</span>\n{hint}\n{error}"
 			])->input('hidden', ['value' => 1]);
 			?>
 		</div>
@@ -86,7 +78,7 @@ $pluginOptions = [
 	<?= $this->render('_detail', ['model' => $model, 'detailProvider' => $detailProvider]) ?>
 	<div class="col-lg-12">
 		<div class="form-group">
-			<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+			<?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
 		</div>
 	</div>
 	<?php ActiveForm::end(); ?>

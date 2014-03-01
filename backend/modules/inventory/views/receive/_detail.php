@@ -8,6 +8,11 @@ use backend\modules\master\models\Product;
 
 kartik\widgets\Select2Asset::register($this);
 ?>
+<script>
+	var afterAddRow = function() {
+		
+	}
+</script>
 <div class="col-lg-12">
 	<?php
 	$inpDropDownUom = function($model,$index,$column){
@@ -22,13 +27,13 @@ kartik\widgets\Select2Asset::register($this);
 		'dataProvider' => $detailProvider,
 		'columns' => [
 			['class' => 'common\extensions\inputGrid\SerialColumn'],
-			['attribute' => 'idProduct.nm_product'],
-			['attribute' => 'transfer_qty_send'],
+			['attribute' => 'idProduct.nm_product',],
+			['attribute' => 'transfer_qty_send',],
 			['class' => 'common\extensions\inputGrid\InputColumn',
-				'attribute' => 'transfer_qty_receive',
-				'inputOptions' => ['data-attribute' => 'transfer_qty_receive']],
+				'attribute' => 'transfer_qty_receive',],
 			['attribute' => 'idUom.nm_uom'],
-		],
+			],
+		//'afterAddRow' => new JsExpression('afterAddRow'),
 	]);
 	?>
 </div>

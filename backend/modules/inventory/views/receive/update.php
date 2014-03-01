@@ -10,13 +10,13 @@ use yii\helpers\Html;
 $this->title = 'Update Transfer Hdr: ' . $model->id_transfer_hdr;
 $this->params['breadcrumbs'][] = ['label' => 'Transfer Hdrs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_transfer_hdr, 'url' => ['view', 'id' => $model->id_transfer_hdr]];
-$this->params['breadcrumbs'][] = 'Receive';
+$this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="transfer-hdr-update">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
-	<?php echo $this->render('_receive', [
+	<?php echo $this->render('_form', [
 		'model' => $model,
 		'detailProvider'=>$detailProvider,
 	]); ?>

@@ -111,7 +111,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 					self::EVENT_BEFORE_INSERT => ['purchase_num']
 				],
 				'value' => function($event) {
-					return date('ymd.?');
+					return date('1.ymd.?');
 				}
 			]
 		];

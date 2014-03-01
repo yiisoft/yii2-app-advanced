@@ -5,7 +5,6 @@ use common\extensions\inputGrid\Grid;
 use yii\web\JsExpression;
 use backend\modules\master\models\Product;
 
-
 kartik\widgets\Select2Asset::register($this);
 ?>
 <script>
@@ -42,25 +41,31 @@ kartik\widgets\Select2Asset::register($this);
 				row.find('td select[data-attribute="id_uom"]').html(result);
 			});
 		});
-		
-		row.find('input[data-attribute="purch_price"]').on('change',function(){
+
+		row.find('input[data-attribute="purch_price"]').on('change', function() {
 			var $sell = row.find('input[data-attribute="selling_price"]');
-			if($sell.val()==''){
-				$sell.val(1.2*$(this).val());
-			}
+			var $mark = row.find('input[data-attribute="markup_percen"]');
+			$sell.val((1 + $mark.val() / 100.0) * $(this).val());
 		});
 	}
 </script>
 <div class="col-lg-12">
 	<?php
-	$inpDropDownUom = function($model,$index,$column){
-		$items = [];
-		if($model->id_product){
-			$items = Product::ListUoms($model->id_product);
-		}
-		return Html::activeDropDownList($model, "[$index]id_uom", $items,['data-attribute'=>'id_uom']);
-	};
-	
+	$inpDropDownUom = function($model, $index, $column) {
+				$items = [];
+				if ($model->id_product) {
+					$items = Product::ListUoms($model->id_product);
+				}
+				return Html::activeDropDownList($model, "[$index]id_uom", $items, ['data-attribute' => 'id_uom']);
+			};
+
+	$inpMarkupPercen = function($model, $index, $column) {
+				if ($model->id_product) {
+					$items = Product::ListUoms($model->id_product);
+				}
+				return Html::activeDropDownList($model, "[$index]id_uom", $items, ['data-attribute' => 'id_uom']);
+			};
+
 	echo Grid::widget([
 		'dataProvider' => $detailProvider,
 		'columns' => [
@@ -74,6 +79,10 @@ kartik\widgets\Select2Asset::register($this);
 			['class' => 'common\extensions\inputGrid\InputColumn',
 				'attribute' => 'purch_price',
 				'inputOptions' => ['data-attribute' => 'purch_price']],
+			['class' => 'common\extensions\inputGrid\InputColumn',
+				'label' => 'markup price',
+				'attribute' => 'markup_percen',
+				'inputOptions' => ['value' => 30]],
 			['class' => 'common\extensions\inputGrid\InputColumn',
 				'attribute' => 'selling_price',
 				'inputOptions' => ['data-attribute' => 'selling_price']],

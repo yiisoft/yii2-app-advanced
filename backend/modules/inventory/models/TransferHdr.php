@@ -3,6 +3,7 @@
 namespace backend\modules\inventory\models;
 
 use backend\modules\master\models\Warehouse;
+use backend\modules\master\models\Branch;
 
 /**
  * This is the model class for table "transfer_hdr".
@@ -49,10 +50,9 @@ class TransferHdr extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id_branch', 'transfer_num', 'id_warehouse_source', 'id_warehouse_dest', 'transfer_date', 'id_status'], 'required'],
+			[['id_branch', 'id_warehouse_source', 'id_warehouse_dest', 'transfer_date', 'id_status'], 'required'],
 			[['id_branch', 'id_warehouse_source', 'id_warehouse_dest', 'id_status'], 'integer'],
-			[['transfer_date'], 'safe'],
-			[['transfer_num'], 'string', 'max' => 16]
+			[['transfer_date'], 'safe']
 		];
 	}
 
@@ -116,6 +116,16 @@ class TransferHdr extends \yii\db\ActiveRecord
 			],
 			'changeUser' => [
 				'class' => 'backend\components\AutoUser',
+			],
+			'autoNumber' => [
+				'class' => 'backend\components\AutoNumber',
+				'digit' => 4,
+				'attributes' => [
+					self::EVENT_BEFORE_INSERT => ['transfer_num']
+				],
+				'value' => function($event) {
+					return date('2.ymd.?');
+				}
 			]
 		];
 	}

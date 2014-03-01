@@ -12,7 +12,6 @@ use backend\modules\master\models\Uom;
  * @property integer $id_product
  * @property string $transfer_qty_send
  * @property string $transfer_qty_receive
- * @property string $transfer_qty_confirm
  * @property integer $id_uom
  * @property string $create_date
  * @property integer $create_by
@@ -40,9 +39,9 @@ class TransferDtl extends \yii\db\ActiveRecord
 	{
 		return [
 			[['id_transfer_hdr', 'id_product', 'transfer_qty_send', 'id_uom'], 'required'],
-			[['transfer_qty_receive', 'transfer_qty_confirm'],'safe'],
+			[['transfer_qty_receive'],'safe'],
 			[['id_transfer_hdr', 'id_product', 'id_uom'], 'integer'],
-			[['transfer_qty_send', 'transfer_qty_receive', 'transfer_qty_confirm'], 'number']
+			[['transfer_qty_send', 'transfer_qty_receive'], 'number']
 		];
 	}
 
@@ -57,7 +56,6 @@ class TransferDtl extends \yii\db\ActiveRecord
 			'id_product' => 'Id Product',
 			'transfer_qty_send' => 'Transfer Qty Send',
 			'transfer_qty_receive' => 'Transfer Qty Receive',
-			'transfer_qty_confirm' => 'Transfer Qty Confirm',
 			'id_uom' => 'Id Uom',
 			'create_date' => 'Create Date',
 			'create_by' => 'Create By',

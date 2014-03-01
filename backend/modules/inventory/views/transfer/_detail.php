@@ -59,11 +59,9 @@ kartik\widgets\Select2Asset::register($this);
 		'columns' => [
 			['class' => 'common\extensions\inputGrid\SerialColumn'],
 			['class' => 'common\extensions\inputGrid\InputColumn',
-				'attribute' => 'id_product',
-				'inputOptions' => ['data-attribute' => 'id_product']],
+				'attribute' => 'id_product',],
 			['class' => 'common\extensions\inputGrid\InputColumn',
-				'attribute' => 'transfer_qty_send',
-				'inputOptions' => ['data-attribute' => 'transfer_qty_send']],
+				'attribute' => 'transfer_qty_send',],
 			['class' => 'common\extensions\inputGrid\InputColumn',
 				'attribute' => 'id_uom',
 				'value' => $inpDropDownUom],
