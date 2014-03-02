@@ -19,6 +19,7 @@
 		"yiisoft/yii2-bootstrap": "*",
 		"yiisoft/yii2-swiftmailer": "*",
 		"mdmsoft/yii2-admin": "dev-master",
+		"mdmsoft/yii2-autonumber": "dev-master",
 		"kartik-v/yii2-widgets": "*",
 		"yiisoft/yii2-jui":"*",
 		"yiisoft/yii2-mongodb":"*"
