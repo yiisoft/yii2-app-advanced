@@ -105,7 +105,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 				'class' => 'backend\components\AutoUser',
 			],
 			'autoNumber' => [
-				'class' => 'backend\components\AutoNumber',
+				'class' => 'mdm\autonumber\Behavior',
 				'digit' => 4,
 				'attributes' => [
 					self::EVENT_BEFORE_INSERT => ['purchase_num']

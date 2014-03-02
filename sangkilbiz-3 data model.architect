@@ -4,8 +4,8 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
+   <property key="Logical" value="postgre" />
    <property key="Connection Type" value="PostgreSQL" />
-   <property key="Logical" value="PlayPen Database" />
    <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/sangkilbiz" />
    <property key="UID" value="mdmunir" />
    <property key="PWD" value="123456789" />
@@ -797,7 +797,7 @@
     <column id="COL236" populated="true" UUID="52a2d324-efe3-4ef7-867c-01fc6bd53c09" autoIncrement="false" autoIncrementSequenceName="auto_number_optimistic_lock_seq" defaultValue="" name="optimistic_lock" nullable="0" physicalName="optimistic_lock" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL237" populated="true" UUID="1b3579ae-7aa5-4d11-840b-5760744765c4" autoIncrement="false" autoIncrementSequenceName="auto_number_update_date_seq" defaultValue="" name="update_date" nullable="1" physicalName="update_date" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+    <column id="COL237" populated="true" UUID="1b3579ae-7aa5-4d11-840b-5760744765c4" autoIncrement="false" autoIncrementSequenceName="auto_number_update_time_seq" defaultValue="" name="update_time" nullable="1" physicalName="update_time" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
@@ -892,7 +892,7 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="0.8408964152537146" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
