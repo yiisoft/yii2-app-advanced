@@ -137,7 +137,8 @@ class PurchaseController extends Controller
 				} else {
 					$detail = new PurchaseDtl;
 				}
-				$detail->attributes = $dataDetail;
+				
+				$detail->load($dataDetail,'');
 				if ($id_hdr !== false) {
 					$detail->id_purchase_hdr = $model->id_purchase_hdr;
 					try {

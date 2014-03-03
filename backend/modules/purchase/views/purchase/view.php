@@ -44,19 +44,28 @@ $this->params['breadcrumbs'][] = $this->title;
 	echo DetailView::widget([
 		'model' => $model,
 		'attributes' => [
-			'id_purchase_hdr',
 			'purchase_num',
-			'id_supplier',
-			'id_warehouse',
+			'idSupplier.nm_supplier',
+			'idWarehouse.nm_whse',
 			'purchase_date',
-			'id_status',
+			'nmStatus',
 		],
 	]);
 
 	echo yii\grid\GridView::widget([
 		'dataProvider' => new \yii\data\ActiveDataProvider([
-			'query' => $model->getPurchaseDtls()
+			'query' => $model->getPurchaseDtls(),
+			'sort'=>false,
+			'pagination'=>false,
 				]),
+		'columns'=>[
+			['class'=>'yii\grid\SerialColumn'],
+			'idProduct.nm_product',
+			'purch_qty',
+			'purch_price',
+			'selling_price',
+			'idUom.nm_uom',
+		]
 	]);
 	?>
 

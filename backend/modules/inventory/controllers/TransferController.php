@@ -143,7 +143,7 @@ class TransferController extends Controller
 				} else {
 					$detail = new TransferDtl;
 				}
-				$detail->attributes = $dataDetail;
+				$detail->load($dataDetail,'');
 				if ($id_hdr !== false) {
 					$detail->id_transfer_hdr = $model->id_transfer_hdr;
 					try {

@@ -95,6 +95,16 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse']);
 	}
 
+	public function getNmStatus()
+	{
+		$maps = [
+			self::STATUS_DRAFT => 'Draft',
+			self::STATUS_RELEASE => 'Release',
+			self::STATUS_RECEIVE => 'Receive',
+		];
+		return $maps[$this->id_status];
+	}
+
 	public function behaviors()
 	{
 		return [

@@ -2,6 +2,8 @@
 
 namespace backend\modules\purchase\models;
 
+use backend\modules\master\models\Uom;
+use backend\modules\master\models\Product;
 /**
  * This is the model class for table "purchase_dtl".
  *
@@ -18,7 +20,6 @@ namespace backend\modules\purchase\models;
  * @property string $create_date
  *
  * @property \backend\modules\master\models\Uom $idUom
- * @property \backend\modules\master\models\Supplier $idSupplier
  * @property \backend\modules\master\models\Product $idProduct
  * @property PurchaseHdr $idPurchaseHdr
  */
