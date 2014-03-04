@@ -27,6 +27,7 @@ class ReceiveController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
+					'receive' => ['post']
 				],
 			],
 		];
@@ -40,6 +41,9 @@ class ReceiveController extends Controller
 	{
 		$searchModel = new TransferHdrSearch;
 		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+		$query = $dataProvider->query;
+
+		$query->andWhere('id_status > 1');
 
 		return $this->render('index', [
 					'dataProvider' => $dataProvider,
@@ -68,7 +72,7 @@ class ReceiveController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
-		if ($model->id_status != TransferHdr::STATUS_DRAFT && $model->id_status != TransferHdr::STATUS_DRAFT_RECEIVE) {
+		if ($model->id_status != TransferHdr::STATUS_ISSUE && $model->id_status != TransferHdr::STATUS_DRAFT_RECEIVE) {
 			throw new \yii\base\UserException('tidak bisa diedit');
 		}
 		$model->id_status = TransferHdr::STATUS_DRAFT_RECEIVE;

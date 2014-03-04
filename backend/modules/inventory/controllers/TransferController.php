@@ -28,6 +28,7 @@ class TransferController extends Controller
 				'actions' => [
 					'delete' => ['post'],
 					'issue' => ['post'],
+					'confirm' => ['post'],
 				],
 			],
 		];
@@ -233,11 +234,11 @@ class TransferController extends Controller
 				$id_branch_source = $model->idWarehouseSource->id_branch;
 				$id_warehouse_dest = $model->id_warehouse_dest;
 				$id_branch_dest = $model->idWarehouseDest->id_branch;
-				$sukses = true;
+				$success = true;
 				foreach ($model->transferDtls as $detail) {
 					$qty = $detail->transfer_qty_send - $detail->transfer_qty_receive;
 					if ($qty != 0) {
-						$sukses = $sukses && ProductStock::UpdateStock([ // stock gudang asal
+						$success = $success && ProductStock::UpdateStock([ // stock gudang asal
 									'id_warehouse' => $id_warehouse_source,
 									'id_product' => $detail->id_product,
 									'id_branch' => $id_branch_source,
@@ -247,7 +248,7 @@ class TransferController extends Controller
 					}
 				}
 			}
-			if ($sukses) {
+			if ($success) {
 				$transaction->commit();
 			}
 		} catch (Exception $exc) {

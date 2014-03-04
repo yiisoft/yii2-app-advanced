@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use backend\modules\inventory\models\TransferHdr;
+use yii\grid\GridView;
+use yii\data\ActiveDataProvider;
 
 /**
  * @var yii\web\View $this
@@ -41,6 +43,23 @@ $this->params['breadcrumbs'][] = $this->title;
 				]);
 				break;
 
+			case TransferHdr::STATUS_CONFIRM:
+				echo Html::a('Approve', ['confirm', 'id' => $model->id_transfer_hdr, 'confirm' => TransferHdr::STATUS_CONFIRM_APPROVE], [
+					'class' => 'btn btn-primary',
+					'data' => [
+						'confirm' => Yii::t('app', 'Are you sure to approve this item?'),
+						'method' => 'post',
+					],
+				]).' ';
+				echo Html::a('Reject', ['confirm', 'id' => $model->id_transfer_hdr, 'confirm' => TransferHdr::STATUS_CONFIRM_REJECT], [
+					'class' => 'btn btn-primary',
+					'data' => [
+						'confirm' => Yii::t('app', 'Are you sure to reject this item?'),
+						'method' => 'post',
+					],
+				]);
+				break;
+
 			default:
 				break;
 		}
@@ -51,24 +70,26 @@ $this->params['breadcrumbs'][] = $this->title;
 	echo DetailView::widget([
 		'model' => $model,
 		'attributes' => [
-			'id_transfer_hdr',
-			'id_branch',
+			'idBranch.nm_branch',
 			'transfer_num',
-			'id_warehouse_source',
-			'id_warehouse_dest',
+			'idWarehouseSource.nm_whse',
+			'idWarehouseDest.nm_whse',
 			'transfer_date',
-			'id_status',
+			'nmStatus',
 		],
 	]);
 
-	echo \yii\grid\GridView::widget([
-		'dataProvider' => new \yii\data\ActiveDataProvider([
+	echo GridView::widget([
+		'dataProvider' => new ActiveDataProvider([
 			'query' => $model->getTransferDtls(),
+			'sort' => false,
+			'pagination' => false,
 				]),
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
-			'id_product',
+			'idProduct.nm_product',
 			'transfer_qty_send',
+			'idUom.nm_uom'
 		]
 	]);
 	?>

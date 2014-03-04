@@ -80,7 +80,7 @@ kartik\widgets\Select2Asset::register($this);
 				'attribute' => 'purch_price',
 				'inputOptions' => ['data-attribute' => 'purch_price']],
 			['class' => 'common\extensions\inputGrid\InputColumn',
-				'label' => 'markup price',
+				'label' => 'markup price(%)',
 				'attribute' => 'markup_percen',
 				'inputOptions' => ['value' => 30]],
 			['class' => 'common\extensions\inputGrid\InputColumn',

@@ -121,9 +121,8 @@ class ProductStock extends \yii\db\ActiveRecord
 				'status_closing' => self::STATUS_OPEN,
 					], true);
 		}
+		$qty_per_uom = ProductUom::getQtyProductUom($params['id_product'], $params['id_uom']);
 		if ($change_cogs) {
-			$qty_per_uom = ProductUom::getQtyProductUom($params['id_product'], $params['id_uom']);
-
 			$paramsCogs = [
 				'id_branch' => $params['id_branch'],
 				'id_product' => $params['id_product'],

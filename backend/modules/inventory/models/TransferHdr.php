@@ -27,6 +27,7 @@ use backend\modules\master\models\Branch;
  */
 class TransferHdr extends \yii\db\ActiveRecord
 {
+
 	const STATUS_DRAFT = 1;
 	const STATUS_ISSUE = 2;
 	const STATUS_DRAFT_RECEIVE = 3;
@@ -35,8 +36,7 @@ class TransferHdr extends \yii\db\ActiveRecord
 	const STATUS_CONFIRM_APPROVE = 6;
 	const STATUS_RECEIVE = 7;
 
-
-		/**
+	/**
 	 * @inheritdoc
 	 */
 	public static function tableName()
@@ -107,7 +107,21 @@ class TransferHdr extends \yii\db\ActiveRecord
 	{
 		return $this->hasOne(Branch::className(), ['id_branch' => 'id_branch']);
 	}
-	
+
+	public function getNmStatus()
+	{
+		$maps = [
+			self::STATUS_DRAFT => 'Draft',
+			self::STATUS_ISSUE => 'Release',
+			self::STATUS_DRAFT_RECEIVE => 'Draft Receive',
+			self::STATUS_CONFIRM => 'Confirm',
+			self::STATUS_CONFIRM_APPROVE => 'Approve',
+			self::STATUS_CONFIRM_REJECT => 'Reject',
+			self::STATUS_RECEIVE => 'Receive',
+		];
+		return $maps[$this->id_status];
+	}
+
 	public function behaviors()
 	{
 		return [
@@ -118,7 +132,7 @@ class TransferHdr extends \yii\db\ActiveRecord
 				'class' => 'backend\components\AutoUser',
 			],
 			'autoNumber' => [
-				'class' => 'backend\components\AutoNumber',
+				'class' => \mdm\autonumber\Behavior::className(),
 				'digit' => 4,
 				'attributes' => [
 					self::EVENT_BEFORE_INSERT => ['transfer_num']
