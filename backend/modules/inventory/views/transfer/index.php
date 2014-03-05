@@ -9,7 +9,7 @@ use backend\modules\inventory\models\TransferHdr;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var backend\modules\inventory\models\TransferHdrSearch $searchModel
  */
-$this->title = 'Transfer Hdrs';
+$this->title = 'Inventory Transfer';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transfer-hdr-index">
@@ -32,25 +32,27 @@ $this->params['breadcrumbs'][] = $this->title;
 			'transfer_num',
 			'idWarehouseSource.nm_whse:text:Gudang Asal',
 			'idWarehouseDest.nm_whse:text:Gudang Tujuan',
-			['label'=>'Status',
-				'value'=>function($model){
-					switch ($model->id_status) {
-						case TransferHdr::STATUS_DRAFT:
-							return 'Draft';
-						case TransferHdr::STATUS_ISSUE:
-							return 'Release';
-						case TransferHdr::STATUS_DRAFT_RECEIVE:
-							return 'Draft Receive';
-						case TransferHdr::STATUS_CONFIRM:
-							return 'Confirm';
-						case TransferHdr::STATUS_CONFIRM_APPROVE:
-							return 'Confirm Approve';
-
-						default:
-							break;
-					}
-				}],
-			['class' => 'yii\grid\ActionColumn'],
+			'nmStatus',
+			[
+				'class' => 'yii\grid\ActionColumn',
+				'buttons' => [
+					'update' => function($url, $model) {
+						if ($model->id_status <= 2) {
+							return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+										'title' => Yii::t('yii', 'Update'),
+							]);
+						}
+					},
+					'delete' => function($url, $model) {
+						if ($model->id_status <= 2) {
+							return Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+										'title' => Yii::t('yii', 'Delete'),
+										'data-confirm' => Yii::t('yii', 'Are you sure to delete this item?'),
+										'data-method' => 'post',
+							]);
+						}
+					},
+				]],
 		],
 	]);
 	?>

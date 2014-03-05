@@ -11,7 +11,7 @@ SalesAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>" manifest="sales.appcache">
+<html lang="<?= Yii::$app->language ?>" manifestx="sales.appcache">
 	<head>
 		<meta charset="<?= Yii::$app->charset ?>"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,6 +34,30 @@ SalesAsset::register($this);
 		</footer>
 
 		<?php $this->endBody() ?>
+
+		<?php
+		$s = '<html>';
+		foreach ($this->jsFiles as $jsFiles) {
+			$s.="\n" . implode("\n", $jsFiles);
+		}
+		$s.="\n" . implode("\n", $this->cssFiles);
+
+		$s.="\n</html>";
+
+		$caches = [];
+		$dom = new DOMDocument();
+		$dom->loadHTML($s);
+		$scripts = $dom->getElementsByTagName('script');
+		foreach ($scripts as $script) {
+			$caches[] = $script->getAttribute('src');
+		}
+		$styles = $dom->getElementsByTagName('link');
+		foreach ($styles as $style) {
+			$caches[] = $style->getAttribute('href');
+		}
+		$manifest = $this->render('@backend/modules/sales/_manifest.php', ['caches' => $caches]);
+		//echo $manifest;
+		?>
 	</body>
 </html>
 <?php $this->endPage() ?>

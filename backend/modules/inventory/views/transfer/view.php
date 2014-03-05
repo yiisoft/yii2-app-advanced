@@ -10,8 +10,8 @@ use yii\data\ActiveDataProvider;
  * @var yii\web\View $this
  * @var backend\modules\inventory\models\TransferHdr $model
  */
-$this->title = $model->id_transfer_hdr;
-$this->params['breadcrumbs'][] = ['label' => 'Transfer Hdrs', 'url' => ['index']];
+$this->title = $model->transfer_num;
+$this->params['breadcrumbs'][] = ['label' => 'Inventory Transfer', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transfer-hdr-view">
@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
 						'confirm' => Yii::t('app', 'Are you sure to approve this item?'),
 						'method' => 'post',
 					],
-				]).' ';
+				]) . ' ';
 				echo Html::a('Reject', ['confirm', 'id' => $model->id_transfer_hdr, 'confirm' => TransferHdr::STATUS_CONFIRM_REJECT], [
 					'class' => 'btn btn-primary',
 					'data' => [
@@ -89,6 +89,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
 			'idProduct.nm_product',
 			'transfer_qty_send',
+			'transfer_qty_receive',
+			['label' => 'Selisih', 'value' => function($model) {
+					return $model->transfer_qty_receive - $model->transfer_qty_send;
+				}],
 			'idUom.nm_uom'
 		]
 	]);

@@ -191,6 +191,7 @@ class TransferController extends Controller
 	public function actionIssue($id)
 	{
 		$model = $this->findModel($id);
+		
 		if ($model->id_status === TransferHdr::STATUS_DRAFT) {
 			$transaction = Yii::$app->db->beginTransaction();
 			try {
