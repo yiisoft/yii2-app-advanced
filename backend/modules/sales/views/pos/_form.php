@@ -8,26 +8,25 @@ use yii\widgets\ActiveForm;
  * @var backend\modules\sales\models\SalesHdr $model
  * @var yii\widgets\ActiveForm $form
  */
+
 ?>
 
 <div class="sales-hdr-form">
-
-	<?php $form = ActiveForm::begin(); ?>
-
-	<?= $form->field($model, 'sales_num')->textInput(['maxlength' => 16]) ?>
-
-	<?= $form->field($model, 'id_warehouse')->textInput() ?>
-
-	<?= $form->field($model, 'id_customer')->textInput() ?>
-
-	<?= $form->field($model, 'sales_date')->textInput() ?>
+	<?= date('d-m-Y H:i:s') ?>
+	<?php $form = ActiveForm::begin(['options'=>['id'=>'pos-form']]); ?>
 	<?php
 	echo $this->render('_detail', ['model' => $model, 'detailProvider' => $detailProvider]);
 	?>
 	<div class="form-group">
-		<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+		<?php echo Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
 	</div>
 
 	<?php ActiveForm::end(); ?>
 
 </div>
+
+<?php 
+$this->registerJsFile(Html::url(['js']),[\yii\web\YiiAsset::className()]);
+$js = $this->render('_script');
+$this->registerJs($js);
+?>

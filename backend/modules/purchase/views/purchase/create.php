@@ -7,8 +7,8 @@ use yii\helpers\Html;
  * @var backend\modules\purchase\models\PurchaseHdr $model
  */
 
-$this->title = 'Create Purchase Hdr';
-$this->params['breadcrumbs'][] = ['label' => 'Purchase Hdrs', 'url' => ['index']];
+$this->title = 'Create Purchase';
+$this->params['breadcrumbs'][] = ['label' => 'Purchase', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="purchase-hdr-create">

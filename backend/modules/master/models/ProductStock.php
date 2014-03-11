@@ -123,7 +123,7 @@ class ProductStock extends \yii\db\ActiveRecord
 		}
 		$qty_per_uom = ProductUom::getQtyProductUom($params['id_product'], $params['id_uom']);
 		if ($change_cogs) {
-			$paramsCogs = [
+			$paramsCogs = $paramsPrice = [
 				'id_branch' => $params['id_branch'],
 				'id_product' => $params['id_product'],
 				'id_uom' => $stock->id_uom,
@@ -131,9 +131,10 @@ class ProductStock extends \yii\db\ActiveRecord
 				'new_stock' => $params['qty'] * $qty_per_uom,
 				'price' => 1.0 * $params['price'] / $qty_per_uom,
 			];
+			$paramsPrice['price']=1.0 * $params['selling_price'] / $qty_per_uom;
 		}
 
-		if (!$change_cogs or Cogs::UpdateCogs($paramsCogs)) {
+		if (!$change_cogs or (Cogs::UpdateCogs($paramsCogs) and Price::UpdatePrice($paramsPrice))) {
 			$stock->qty_stock = $stock->qty_stock + $params['qty'] * $qty_per_uom;
 			if (!$stock->save()) {
 				throw new \yii\base\UserException(implode(",\n", $stock->firstErrors));

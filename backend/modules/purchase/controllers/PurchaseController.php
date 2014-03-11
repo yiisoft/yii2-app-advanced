@@ -326,12 +326,14 @@ class PurchaseController extends Controller
 				->where(['ps.id_supplier' => $supp]);
 
 		if (!empty($term)) {
+			$term = strtolower($term);
 			$query->andWhere(['or',
-				['like', 'p.cd_product', $term],
-				['like', 'p.nm_product', $term]]);
+				['like', 'lower(p.cd_product)', $term],
+				['like', 'lower(p.nm_product)', $term]]);
 		}
 
 		$query->limit(20);
+		
 		$result = [];
 		foreach ($query->all() as $row) {
 			$result[] = [

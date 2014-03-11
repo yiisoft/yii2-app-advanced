@@ -8,10 +8,12 @@ use yii\helpers\Html;
  * @var string $content
  */
 SalesAsset::register($this);
+
+$manifest = empty($this->context->manifest) ? '' : $this->context->manifest;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>" manifestx="sales.appcache">
+<html lang="<?= Yii::$app->language ?>" <?= $manifest !== '' ? "manifestx=\"{$manifest}\"" : '' ?> >
 	<head>
 		<meta charset="<?= Yii::$app->charset ?>"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,27 +38,31 @@ SalesAsset::register($this);
 		<?php $this->endBody() ?>
 
 		<?php
-		$s = '<html>';
-		foreach ($this->jsFiles as $jsFiles) {
-			$s.="\n" . implode("\n", $jsFiles);
-		}
-		$s.="\n" . implode("\n", $this->cssFiles);
+		$cache = Yii::$app->cache;
+		if ($manifest !== '' && $cache && $cache->get($manifest) === false) {
+			try {
+				$html = '<html>';
+				foreach ($this->jsFiles as $jsFiles) {
+					$html.="\n" . implode("\n", $jsFiles);
+				}
+				$html.="\n" . implode("\n", $this->cssFiles);
 
-		$s.="\n</html>";
+				$html.="\n</html>";
 
-		$caches = [];
-		$dom = new DOMDocument();
-		$dom->loadHTML($s);
-		$scripts = $dom->getElementsByTagName('script');
-		foreach ($scripts as $script) {
-			$caches[] = $script->getAttribute('src');
+				$caches = [];
+				$dom = new DOMDocument();
+				$dom->loadHTML($html);
+				foreach ($dom->getElementsByTagName('script') as $script) {
+					$caches[] = $script->getAttribute('src');
+				}
+				foreach ($dom->getElementsByTagName('link') as $style) {
+					$caches[] = $style->getAttribute('href');
+				}
+				$cache->set($manifest, $caches);
+			} catch (Exception $exc) {
+				
+			}
 		}
-		$styles = $dom->getElementsByTagName('link');
-		foreach ($styles as $style) {
-			$caches[] = $style->getAttribute('href');
-		}
-		$manifest = $this->render('@backend/modules/sales/_manifest.php', ['caches' => $caches]);
-		//echo $manifest;
 		?>
 	</body>
 </html>

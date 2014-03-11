@@ -5,16 +5,22 @@ namespace backend\modules\sales\controllers;
 use Yii;
 use backend\modules\sales\models\SalesHdr;
 use backend\modules\sales\models\SalesHdrSearch;
+use backend\modules\sales\models\SalesDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
+use yii\data\ArrayDataProvider;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
  */
 class PosController extends Controller
 {
-	
+
+	const MANIFEST_NAME = 'pos.appcache';
+
+	public $manifest;
+
 	public function behaviors()
 	{
 		return [
@@ -22,6 +28,7 @@ class PosController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
+					'save-pos'=>['post']
 				],
 			],
 		];
@@ -37,8 +44,8 @@ class PosController extends Controller
 		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
 		return $this->render('index', [
-			'dataProvider' => $dataProvider,
-			'searchModel' => $searchModel,
+					'dataProvider' => $dataProvider,
+					'searchModel' => $searchModel,
 		]);
 	}
 
@@ -50,7 +57,7 @@ class PosController extends Controller
 	public function actionView($id)
 	{
 		return $this->render('view', [
-			'model' => $this->findModel($id),
+					'model' => $this->findModel($id),
 		]);
 	}
 
@@ -62,15 +69,50 @@ class PosController extends Controller
 	public function actionCreate()
 	{
 		$this->layout = 'main';
+		$this->manifest = self::MANIFEST_NAME;
 		$model = new SalesHdr;
+		$details = [new SalesDtl];
+		return $this->render('create', [
+					'model' => $model,
+					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
+		]);
+	}
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id_sales_hdr]);
-		} else {
-			return $this->render('create', [
-				'model' => $model,
-			]);
+	public function actionSavePos()
+	{
+		sleep(3);
+		return \yii\helpers\Json::encode([
+			'type'=>'S'
+		]);
+	}
+
+	public function actionJs()
+	{
+		$sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
+			u.id_uom, u.nm_uom, pu.isi,pc.price
+			from product p
+			join product_uom pu on(pu.id_product=p.id_product)
+			join uom u on(u.id_uom=pu.id_uom)
+			left join price pc on(pc.id_product=p.id_product)
+			order by p.id_product";
+		$result = [];
+		foreach (\Yii::$app->db->createCommand($sql)->queryAll() as $row) {
+			$id = $row['id'];
+			if (!isset($result[$id])) {
+				$result[$id] = [
+					'id' => $row['id'],
+					'cd' => $row['cd'],
+					'text' => $row['nm'],
+				];
+			}
+			$result[$id]['uoms'][$row['id_uom']] = [
+				'id' => $row['id_uom'],
+				'nm' => $row['nm_uom'],
+				'isi' => $row['isi']
+			];
 		}
+
+		return $this->renderPartial('master.js.php', ['product' => $result,'url'=>  $this->createUrl(['save-pos'])]);
 	}
 
 	/**
@@ -87,7 +129,7 @@ class PosController extends Controller
 			return $this->redirect(['view', 'id' => $model->id_sales_hdr]);
 		} else {
 			return $this->render('update', [
-				'model' => $model,
+						'model' => $model,
 			]);
 		}
 	}
@@ -118,5 +160,18 @@ class PosController extends Controller
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
+	}
+
+	public function actionUpdateManifest()
+	{
+		Yii::$app->user->identity->id_branch;
+		$cache = Yii::$app->cache;
+		if($cache && ($data=$cache->get(self::MANIFEST_NAME))!==false){
+			$content = $this->renderPartial('@backend/modules/sales/_manifest.php', ['caches'=>$data]);
+			$dest = Yii::getAlias('@webroot/'.self::MANIFEST_NAME);
+			file_put_contents($dest, $content);
+			return $content;
+		}
+		throw new \yii\base\UserException('Error gan...');
 	}
 }
