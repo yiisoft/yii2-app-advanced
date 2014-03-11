@@ -12,6 +12,6 @@ class InputGridAsset extends \yii\web\AssetBundle
 		'mdm.inputGrid.js',
 	];
 	public $depends = [
-		'yii\grid\GridViewAsset',
+		'yii\web\JqueryAsset',
 	];
 }

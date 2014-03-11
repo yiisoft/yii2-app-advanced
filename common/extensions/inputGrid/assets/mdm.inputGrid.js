@@ -1,11 +1,12 @@
 (function($) {
-	$.fn.mdmInputGrid = function(method, args) {
+	$.fn.mdmInputGrid = function(method) {
 		if (typeof method === 'object' || !method) {
 			return methods.init.apply(this, arguments);
 		} else if (methods[method]) {
 			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
 		} else {
-			return $(this).yiiGridView(method, args);
+			$.error('Method ' + method + ' does not exist on jQuery.mdmInputGrid');
+			return false;
 		}
 	};
 
@@ -14,27 +15,26 @@
 		templateRow: '<tr></tr>',
 	};
 
+	var gridData = {};
+
 	var methods = {
 		init: function(options) {
 			return this.each(function() {
 				var $e = $(this);
-				$e.yiiGridView(options);
 				var settings = $.extend({}, defaults, options || {});
-				$e.data('mdmInputGrid', {
-					settings: settings
-				});
+				gridData[$e.prop('id')] = {settings: settings};
 
 				if ($e.find('tbody > tr[data-key]').length <= 1) {
 					$e.find('a[data-action="delete"]').hide();
 				}
 
-				$($e.find('a[data-action]')).on('click.mdmInputGrid', function() {
+				$e.on('click.mdmInputGrid','a[data-action]', function() {
 					var $btn = $(this);
 					if ($btn.data('action') == 'add') {
-						$e.mdmInputGrid('newRow');
+						methods.newRow.apply($e);
 					} else {
 						var index = $btn.closest('tr[data-key]').index();
-						$e.mdmInputGrid('deleteRow', index);
+						methods.deleteRow.call($e,index);
 					}
 					return false;
 				});
@@ -50,16 +50,16 @@
 		newRow: function() {
 			return this.each(function() {
 				var $grid = $(this);
-				var data = $grid.mdmInputGrid('data');
+				var data = gridData[$grid.prop('id')];
 
-				var $row = $(data.settings.templateRow.replace(/_index_/g, data.settings.counter)); //$grid.find('tbody tr').first().clone(true);
+				var $row = $(data.settings.templateRow.replace(/_index_/g, data.settings.counter));
 				$row.attr('data-key', '');
 				$row.attr('data-index', data.settings.counter);
 
 				data.settings.counter++;
 				$grid.find('tbody').append($row);
 				$grid.find('tbody a[data-action="delete"]').show();
-				$grid.mdmInputGrid('rearrange');
+				methods.rearrange.apply($grid);
 				if (data.settings.afterAddRow != undefined) {
 					data.settings.afterAddRow.call($grid, $row);
 				}
@@ -75,7 +75,7 @@
 						$body.find('a[data-action="delete"]').hide();
 					}
 				}
-				$grid.mdmInputGrid('rearrange');
+				methods.rearrange.apply($grid);
 			});
 		},
 		rearrange: function() {
@@ -88,8 +88,17 @@
 
 			});
 		},
-		data: function() {
-			return this.data('mdmInputGrid');
+
+		destroy: function () {
+			return this.each(function () {
+				$(window).unbind('.mdmInputGrid');
+				$(this).removeData('mdmInputGrid');
+			});
+		},
+
+		data: function () {
+			var id = $(this).prop('id');
+			return gridData[id];
 		}
 	};
 })(window.jQuery);
