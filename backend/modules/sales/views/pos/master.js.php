@@ -9,6 +9,8 @@
 			limit: 20,
 		};
 		var runing = false;
+		var needReload = false;
+		
 		var pub = {
 			data: options.product,
 			setOptions: function(value) {
@@ -38,7 +40,7 @@
 				$.each(keys, function() {
 					var key = this;
 					if (key != 'pos-data-count' && key.indexOf('pos-data-') == 0) {
-						if (!runing) {
+						if (!runing && !needReload) {
 							runing = true;
 							$.ajax(options.pushUrl, {
 								data: localStorage.getItem(key),
@@ -47,6 +49,7 @@
 								success: function(r) {
 									if (r.type == 'S') {
 										localStorage.removeItem(key);
+										needReload = r.needReload !== undefined && r.needReload;
 									}
 									runing = false;
 								},
@@ -61,6 +64,9 @@
 				setTimeout(function() {
 					pub.push();
 				}, options.delay);
+			},
+			needReload : function(){
+				return needReload;
 			},
 			init: function() {
 				pub.push();

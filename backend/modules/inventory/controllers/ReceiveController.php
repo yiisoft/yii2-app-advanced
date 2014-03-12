@@ -72,7 +72,7 @@ class ReceiveController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
-		if ($model->id_status != TransferHdr::STATUS_ISSUE && $model->id_status != TransferHdr::STATUS_DRAFT_RECEIVE) {
+		if(!in_array($model->id_status, [TransferHdr::STATUS_ISSUE,  TransferHdr::STATUS_DRAFT_RECEIVE,  TransferHdr::STATUS_CONFIRM_REJECT])){
 			throw new \yii\base\UserException('tidak bisa diedit');
 		}
 		$model->id_status = TransferHdr::STATUS_DRAFT_RECEIVE;

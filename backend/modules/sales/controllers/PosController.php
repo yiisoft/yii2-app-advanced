@@ -28,7 +28,7 @@ class PosController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
-					'save-pos'=>['post']
+					'save-pos' => ['post']
 				],
 			],
 		];
@@ -80,9 +80,26 @@ class PosController extends Controller
 
 	public function actionSavePos()
 	{
-		sleep(3);
+		$transaction = \Yii::$app->db->beginTransaction();
+		try {
+			$model = new SalesHdr;
+			$post = \Yii::$app->request->post();
+			$model->load($post);
+			$model->save();
+			foreach ($post['SalesDtl'] as $detail) {
+				$modelDtl = new SalesDtl;
+				$modelDtl->load($detail, '');
+				$modelDtl->save();
+			}
+			$transaction->commit();
+			$result = 'S';
+		} catch (\Exception $exc) {
+			$transaction->rollBack();
+			$result = 'E';
+		}
+
 		return \yii\helpers\Json::encode([
-			'type'=>'S'
+					'type' => $result,
 		]);
 	}
 
@@ -112,7 +129,7 @@ class PosController extends Controller
 			];
 		}
 
-		return $this->renderPartial('master.js.php', ['product' => $result,'url'=>  $this->createUrl(['save-pos'])]);
+		return $this->renderPartial('master.js.php', ['product' => $result, 'url' => $this->createUrl(['save-pos'])]);
 	}
 
 	/**
@@ -166,12 +183,13 @@ class PosController extends Controller
 	{
 		Yii::$app->user->identity->id_branch;
 		$cache = Yii::$app->cache;
-		if($cache && ($data=$cache->get(self::MANIFEST_NAME))!==false){
-			$content = $this->renderPartial('@backend/modules/sales/_manifest.php', ['caches'=>$data]);
-			$dest = Yii::getAlias('@webroot/'.self::MANIFEST_NAME);
+		if ($cache && ($data = $cache->get(self::MANIFEST_NAME)) !== false) {
+			$content = $this->renderPartial('@backend/modules/sales/_manifest.php', ['caches' => $data]);
+			$dest = Yii::getAlias('@webroot/' . self::MANIFEST_NAME);
 			file_put_contents($dest, $content);
 			return $content;
 		}
 		throw new \yii\base\UserException('Error gan...');
 	}
+
 }
