@@ -104,6 +104,7 @@ class PosController extends Controller
 					'id' => $row['id'],
 					'cd' => $row['cd'],
 					'text' => $row['nm'],
+					'price'=>1000,
 				];
 			}
 			$result[$id]['uoms'][$row['id_uom']] = [

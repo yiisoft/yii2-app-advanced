@@ -11,21 +11,29 @@ kartik\widgets\Select2Asset::register($this);
 	var afterAddRow = function(row) {
 		var $product = row.find('input[data-attribute="id_product"]');
 		var $qty = row.find('input[data-attribute="sales_qty"]');
+		var $price = row.find('input[data-attribute="sales_price"]');
+		var $drUom = row.find('select[data-attribute="id_uom"]');
 		$product.select2({
 			query: yii.Product.query,
 			minimumInputLength: 2,
 			width: "resolve"
 		}).on('select2-selecting.mdmInputGrid', function(e) {
 			var uoms = e.object.uoms;
-			var $drUom = row.find('select[data-attribute="id_uom"]');
 			$drUom.html('');
 			$.each(uoms, function() {
 				var opt = $('<option></option>');
 				opt.attr('value', this.id);
+				opt.data('price',e.object.price*this.isi);
 				opt.text(this.nm);
 				$drUom.append(opt);
 			});
+		}).change(function(){
+			$drUom.change();
 			$qty.focus();
+		});
+		
+		$drUom.change(function(){
+			$price.val($drUom.children(':selected').data('price'))
 		});
 	}
 </script>
