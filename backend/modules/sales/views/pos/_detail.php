@@ -9,39 +9,28 @@ kartik\widgets\Select2Asset::register($this);
 ?>
 <script>
 	var afterAddRow = function(row) {
-		row.find('input[data-attribute="id_product"]').select2({
+		var $product = row.find('input[data-attribute="id_product"]');
+		var $qty = row.find('input[data-attribute="sales_qty"]');
+		$product.select2({
 			query: yii.Product.query,
 			minimumInputLength: 2,
 			width: "resolve"
 		}).on('select2-selecting.mdmInputGrid', function(e) {
 			var uoms = e.object.uoms;
-			var drUom = row.find('select[data-attribute="id_uom"]');
-			drUom.html('');
-			$.each(uoms,function(){
+			var $drUom = row.find('select[data-attribute="id_uom"]');
+			$drUom.html('');
+			$.each(uoms, function() {
 				var opt = $('<option></option>');
-				opt.attr('value',this.id);
+				opt.attr('value', this.id);
 				opt.text(this.nm);
-				drUom.append(opt);
+				$drUom.append(opt);
 			});
-		});
-
-		row.find('input[data-attribute="purch_price"]').on('change', function() {
-			var $sell = row.find('input[data-attribute="selling_price"]');
-			var $mark = row.find('input[data-attribute="markup_percen"]');
-			$sell.val((1 + $mark.val() / 100.0) * $(this).val());
+			$qty.focus();
 		});
 	}
 </script>
 <div class="col-lg-12">
 	<?php
-	$inpDropDownUom = function($model, $index, $column) {
-				$items = [];
-				if ($model->id_product) {
-					$items = Product::ListUoms($model->id_product);
-				}
-				return Html::activeDropDownList($model, "[$index]id_uom", $items, ['data-attribute' => 'id_uom']);
-			};
-
 	echo Grid::widget([
 		'dataProvider' => $detailProvider,
 		'columns' => [
@@ -53,7 +42,7 @@ kartik\widgets\Select2Asset::register($this);
 			['class' => 'common\extensions\inputGrid\InputColumn',
 				'attribute' => 'sales_price',],
 			['class' => 'common\extensions\inputGrid\InputColumn',
-				'inputType'=>'dropDownList',
+				'inputType' => 'dropDownList',
 				'attribute' => 'id_uom',],
 			['class' => 'common\extensions\inputGrid\ActionColumn',],
 		],
