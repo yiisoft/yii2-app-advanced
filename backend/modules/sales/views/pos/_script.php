@@ -12,7 +12,6 @@
 		$grid.find('tbody').html('');
 		$grid.mdmInputGrid('newRow');
 		$grid.find('tbody a[data-action="delete"]').hide();
-		
 		return false;
 	});
 <?php if (false): ?>
