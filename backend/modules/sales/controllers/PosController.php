@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
 use yii\data\ArrayDataProvider;
+use yii\helpers\Url;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -112,7 +113,7 @@ class PosController extends Controller
 			];
 		}
 
-		return $this->renderPartial('master.js.php', ['product' => $result,'url'=>  $this->createUrl(['save-pos'])]);
+		return $this->renderPartial('master.js.php', ['product' => $result,'url'=> Url::toRoute(['save-pos'])]);
 	}
 
 	/**

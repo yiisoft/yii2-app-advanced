@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 use yii\web\JsExpression;
 use kartik\widgets\Select2;
@@ -46,7 +47,7 @@ $pluginOptions = [
 		</div>
 		<div class="col-lg-4">
 			<?php
-			$urlSupp = Html::url(['list-of-supplier']);
+			$urlSupp = Url::toRoute(['list-of-supplier']);
 			echo $form->field($model, 'id_supplier')->widget(Select2::classname(), [
 				'options' => [
 					'data-url' => $urlSupp,

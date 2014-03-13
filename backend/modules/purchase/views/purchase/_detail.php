@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use common\extensions\inputGrid\Grid;
 use yii\web\JsExpression;
 use backend\modules\master\models\Product;
@@ -11,7 +12,7 @@ kartik\widgets\Select2Asset::register($this);
 	var afterAddRow = function(row) {
 		row.find('input[data-attribute="id_product"]').select2({
 			ajax: {
-				url: '<?= Html::url(['product-of-supplier']) ?>',
+				url: '<?= Url::toRoute(['product-of-supplier']) ?>',
 				dataType: "json",
 				data: function(term, page) {
 					return {
@@ -26,7 +27,7 @@ kartik\widgets\Select2Asset::register($this);
 			initSelection: function(element, callback) {
 				var id = $(element).val();
 				if (id !== "") {
-					$.ajax('<?= Html::url(['/master/product/list']) ?>', {
+					$.ajax('<?= Url::toRoute(['/master/product/list']) ?>', {
 						dataType: 'json',
 						data: {id: id},
 					}).done(function(data) {
@@ -36,7 +37,7 @@ kartik\widgets\Select2Asset::register($this);
 			},
 			width: "resolve"
 		}).on('change', function(e) {
-			$.get('<?= Html::url(['uom-of-product']) ?>',
+			$.get('<?= Url::toRoute(['uom-of-product']) ?>',
 					{prod: e.val}, function(result) {
 				row.find('td select[data-attribute="id_uom"]').html(result);
 			});

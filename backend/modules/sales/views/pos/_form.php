@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /**
@@ -26,7 +27,7 @@ use yii\widgets\ActiveForm;
 </div>
 
 <?php 
-$this->registerJsFile(Html::url(['js']),[\yii\web\YiiAsset::className()]);
+$this->registerJsFile(Url::toRoute(['js']),[\yii\web\YiiAsset::className()]);
 $js = $this->render('_script');
 $this->registerJs($js);
 ?>
