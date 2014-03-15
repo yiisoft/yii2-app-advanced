@@ -14,10 +14,9 @@ use yii\helpers\Json;
 			'clientOptions' => [
 				'source' => new JsExpression('yii.Product.source'),
 				'select' => new JsExpression('yii.Pos.onSelect'),
-				//'search' => new JsExpression('yii.Pos.onSearch'),
+				'delay'=>500,
 			]
 		]);
-		echo ord('-');
 		?>
 		<table id="detail-grid" class="table table-striped">
 			<tbody>
@@ -28,24 +27,24 @@ use yii\helpers\Json;
 					<td class="items">
 						<ul class="nav nav-list">
 							<li><span class="item">
-									<input type="hidden" class="id_product">
+									<input type="hidden" data-field="id_product">
 									<span class="nm_product"></span>
 								</span></li>
 							<li><span class="qty">
 									<div>
-										Jumlah <input type="text" size="5" class="qty"> <span class="nm_uom"></span>
+										Jumlah <input type="text" size="5" data-field="qty"> <span class="nm_uom"></span>
 										@ Rp<span class="price"></span>
 									</div>
 								</span></li>
 							<li><span class="discon">
 									<div>
-										Discon <input type="text" size="5" class="discon"> %
+										Discon <input type="text" size="5" data-field="discon"> %
 									</div>
 								</span></li>
 						</ul>
 					</td>
 					<td class="total-price">
-						<span class="total-price"></span>
+						<input type="hidden" data-field="price"><span class="total-price"></span>
 					</td>
 				</tr>
 			</tbody>

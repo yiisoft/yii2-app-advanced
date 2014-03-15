@@ -12,7 +12,7 @@
 		var runing = false;
 		var pub = {
 			data: options.product,
-			getOptions : function(){
+			getOptions: function() {
 				return options;
 			},
 			setOptions: function(value) {
@@ -37,7 +37,7 @@
 				var limit = options.limit;
 				var term = request.term.toLowerCase();
 				$.each(options.product, function() {
-					if (this.text.toLowerCase().indexOf(term) >= 0 || this.cd==term) {
+					if (this.text.toLowerCase().indexOf(term) >= 0 || this.cd == term) {
 						result.push(this);
 						limit--;
 						if (limit <= 0) {
@@ -47,11 +47,11 @@
 				});
 				callback(result);
 			},
-			searchByCode:function(cd){
+			searchByCode: function(cd) {
 				var result = false;
 				$.each(options.product, function() {
-					if (this.cd==cd) {
-						result=this;
+					if (this.cd == cd) {
+						result = this;
 						return false;
 					}
 				});
@@ -69,8 +69,9 @@
 					if (key != 'pos-data-count' && key.indexOf('pos-data-') == 0) {
 						if (!runing) {
 							runing = true;
+							var data = JSON.parse(localStorage.getItem(key));
 							$.ajax(options.pushUrl, {
-								data: localStorage.getItem(key),
+								data: data,
 								dataType: 'json',
 								type: 'POST',
 								success: function(r) {

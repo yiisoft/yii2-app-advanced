@@ -44,9 +44,9 @@
 				var has = false;
 				$('#detail-grid > tbody > tr:not(:first)').each(function() {
 					var $row = $(this);
-					if ($row.find('.id_product').val() == item.id) {
+					if ($row.find('input[data-field="id_product"]').val() == item.id) {
 						has = true;
-						var $qty = $row.find('span.qty > div > input');
+						var $qty = $row.find('input[data-field="qty"]');
 						if ($qty.val() == '') {
 							$qty.val('2');
 						} else {
@@ -59,7 +59,7 @@
 					var $row = $template.clone();
 					$row.show();
 					$row.find('.items span.nm_product').text(item.text);
-					$row.find('.items input.id_product').val(item.id);
+					$row.find('input[data-field="id_product"]').val(item.id);
 					$row.find('.items span.price').text(item.price);
 
 					var uom = false;
@@ -88,24 +88,25 @@
 				$('#detail-grid > tbody > tr:not(:first)').each(function() {
 					var $row = $(this);
 					var q, d;
-					if ($row.find('span.qty > div > input').val() == '') {
+					if ($row.find('input[data-field="qty"]').val() == '') {
 						$row.find('span.qty > div').hide();
 						q = 1;
 					} else {
 						$row.find('span.qty > div').show();
-						q = $row.find('span.qty > div > input').val();
+						q = $row.find('input[data-field="qty"]').val();
 					}
 
-					if ($row.find('span.discon > div > input').val() == '') {
+					if ($row.find('input[data-field="discon"]').val() == '') {
 						$row.find('span.discon > div').hide();
 						d = 0;
 					} else {
 						$row.find('span.discon > div').show();
-						d = $row.find('span.discon > div > input').val();
+						d = $row.find('input[data-field="discon"]').val();
 					}
 
 					var t = (1 - 0.01 * d) * q * $row.find('span.qty > div > span.price').text();
 					$row.find('td.total-price > span.total-price').text(t);
+					$row.find('input[data-field="price"]').val(t);
 					total += t;
 				});
 				$('#total-price').text(total);
@@ -119,9 +120,25 @@
 					$(this).closest('tr').remove();
 					return false;
 				});
+
 				$form.on('submit', function() {
-					yii.Product.add($form.serialize());
-					$('#detail-grid > tbody > tr:not(:first)').remove();
+					try {
+						var data = {
+							detail: [],
+						};
+						$('#detail-grid > tbody > tr:not(:first)').each(function() {
+							var $row = $(this), detail = {};
+							$row.find('input[data-field]').each(function() {
+								var field = $(this).data('field');
+								detail[field] = $(this).val();
+							});
+							data.detail.push(detail);
+						});
+						yii.Product.add(JSON.stringify(data));
+						$('#detail-grid > tbody > tr:not(:first)').remove();
+					} catch (e) {
+
+					}
 					return false;
 				});
 
@@ -171,20 +188,6 @@
 					$('#product').focus();
 					pub.normalizeItem();
 				});
-
-				var lastValue = '';
-				$grid.on('keydown keypress', 'input', function(e) {
-					if (e.type === 'keydown') {
-						lastValue = e.target.value;
-						console.log('down = ' + lastValue);
-					} else {
-						var val = e.target.value;
-						console.log('press = ' + lastValue);
-						if (!jQuery.isNumeric(val)) {
-							e.target.value = lastValue;
-						}
-					}
-				});
 			},
 		};
 		return pub;
@@ -207,7 +210,6 @@
 		this.value = '';
 		$(this).autocomplete("close")
 	});
-
 <?php $this->endBlock(); ?>
 </script>
 <?php
