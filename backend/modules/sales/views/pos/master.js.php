@@ -7,10 +7,14 @@
 			pushUrl: '<?= $url; ?>',
 			delay: 1000,
 			limit: 20,
+			templateRow: undefined,
 		};
 		var runing = false;
 		var pub = {
 			data: options.product,
+			getOptions : function(){
+				return options;
+			},
 			setOptions: function(value) {
 				options = $.extend({}, options, value || {});
 			},
@@ -27,6 +31,31 @@
 					}
 				});
 				option.callback({results: result});
+			},
+			source: function(request, callback) {
+				var result = [];
+				var limit = options.limit;
+				var term = request.term.toLowerCase();
+				$.each(options.product, function() {
+					if (this.text.toLowerCase().indexOf(term) >= 0 || this.cd==term) {
+						result.push(this);
+						limit--;
+						if (limit <= 0) {
+							return false;
+						}
+					}
+				});
+				callback(result);
+			},
+			searchByCode:function(cd){
+				var result = false;
+				$.each(options.product, function() {
+					if (this.cd==cd) {
+						result=this;
+						return false;
+					}
+				});
+				return result;
 			},
 			add: function(data) {
 				var idata = localStorage.getItem('pos-data-count') * 1 + 1;

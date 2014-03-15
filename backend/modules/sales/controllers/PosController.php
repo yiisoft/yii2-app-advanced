@@ -95,7 +95,7 @@ class PosController extends Controller
 			join product_uom pu on(pu.id_product=p.id_product)
 			join uom u on(u.id_uom=pu.id_uom)
 			left join price pc on(pc.id_product=p.id_product)
-			order by p.id_product";
+			order by p.id_product,pu.isi";
 		$result = [];
 		foreach (\Yii::$app->db->createCommand($sql)->queryAll() as $row) {
 			$id = $row['id'];

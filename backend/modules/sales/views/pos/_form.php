@@ -13,13 +13,10 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="sales-hdr-form">
-	<?= date('d-m-Y H:i:s') ?>
 	<?php $form = ActiveForm::begin(['options'=>['id'=>'pos-form']]); ?>
-	<?php
-	echo $this->render('_detail', ['model' => $model, 'detailProvider' => $detailProvider]);
-	?>
+	<?= $this->render('_detail2', ['model' => $model, 'detailProvider' => $detailProvider]); ?>
 	<div class="form-group">
-		<?php echo Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
+		<?php echo Html::a('Save','',['class'=>'btn btn-primary','data-method'=>'pos']);?>
 	</div>
 
 	<?php ActiveForm::end(); ?>
@@ -28,6 +25,4 @@ use yii\widgets\ActiveForm;
 
 <?php 
 $this->registerJsFile(Url::toRoute(['js']),[\yii\web\YiiAsset::className()]);
-$js = $this->render('_script');
-$this->registerJs($js);
-?>
+$this->render('_script');
