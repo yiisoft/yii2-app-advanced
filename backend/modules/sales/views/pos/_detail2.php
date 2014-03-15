@@ -32,7 +32,7 @@ use yii\helpers\Json;
 								</span></li>
 							<li><span class="qty">
 									<div>
-										Jumlah <input type="text" size="5" data-field="qty"> <span class="nm_uom"></span>
+										Jumlah <input type="text" size="5" data-field="qty" value="1"> <span class="nm_uom"></span>
 										@ Rp<span class="price"></span>
 									</div>
 								</span></li>

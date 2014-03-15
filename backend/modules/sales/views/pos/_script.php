@@ -1,7 +1,7 @@
 <style>
 <?php $this->beginBlock('CSS') ?>
 	#detail-grid td.items .qty > div{
-		display:none;
+/*		display:none;*/
 		padding-left: 20px;
 	}
 	#detail-grid td.items .discon > div{
@@ -89,7 +89,7 @@
 					var $row = $(this);
 					var q, d;
 					if ($row.find('input[data-field="qty"]').val() == '') {
-						$row.find('span.qty > div').hide();
+						//$row.find('span.qty > div').hide();
 						q = 1;
 					} else {
 						$row.find('span.qty > div').show();
