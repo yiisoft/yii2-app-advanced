@@ -26,14 +26,14 @@ use yii\helpers\Json;
 					</td>
 					<td class="items">
 						<ul class="nav nav-list">
+							<input type="hidden" data-field="price"><input type="hidden" data-field="id_uom">
+							<input type="hidden" data-field="id_product">
 							<li><span class="item">
-									<input type="hidden" data-field="id_product">
 									<span class="nm_product"></span>
 								</span></li>
 							<li><span class="qty">
 									Jumlah <input type="text" size="5" data-field="qty" value="1"> <span class="nm_uom"></span>
 									@ Rp<span class="price"></span>
-									<input type="hidden" data-field="price"><input type="hidden" data-field="id_uom">
 								</span></li>
 							<li><span class="discon">
 									Discon <input type="text" size="5" data-field="discon"> %

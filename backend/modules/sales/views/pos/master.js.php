@@ -7,7 +7,6 @@
 			pushUrl: '<?= $url; ?>',
 			delay: 1000,
 			limit: 20,
-			templateRow: undefined,
 		};
 		var runing = false;
 		var pub = {
@@ -58,10 +57,8 @@
 				return result;
 			},
 			add: function(data) {
-				//var idata = localStorage.getItem('pos-data-count') * 1 + 1;
 				var date = new Date();
 				localStorage.setItem('pos-data-' + date.getTime(), data);
-				//localStorage.setItem('pos-data-count', idata);
 			},
 			push: function() {
 				var keys = Object.keys(localStorage);

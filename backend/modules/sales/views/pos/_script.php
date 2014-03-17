@@ -1,7 +1,7 @@
 <style>
 <?php $this->beginBlock('CSS') ?>
 	#detail-grid td.items .qty{
-/*		display:none;*/
+		/*		display:none;*/
 		padding-left: 20px;
 	}
 	#detail-grid td.items .discon{
@@ -37,8 +37,72 @@
 	}
 <?php $this->endBlock(); ?>
 </style>
+
 <script type="text/javascript">
 <?php $this->beginBlock('JS_END') ?>
+	yii.numericInput = (function($) {
+		function getCaret(element) {
+			if (element.selectionStart)
+				return element.selectionStart;
+
+			else if (document.selection) { //IE specific
+				element.focus();
+				var r = document.selection.createRange();
+				if (r == null)
+					return 0;
+
+				var re = element.createTextRange(), rc = re.duplicate();
+				re.moveToBookmark(r.getBookmark());
+				rc.setEndPoint('EndToStart', re);
+				return rc.text.length;
+			}
+
+			return 0;
+		}
+		var allowFloat = true, allowNegative = false;
+		
+		var pub = {
+			init: function() {
+				$('#detail-grid').on('keypress', 'input', pub.keypress)
+			},
+			keypress: function(event) {
+				var inputCode = event.which;
+				var currentValue = $(this).val();
+
+				if (inputCode > 0 && (inputCode < 48 || inputCode > 57)) {	// Checks the if the character code is not a digit
+					if (allowFloat == true && inputCode == 46) {	// Conditions for a period (decimal point)
+						//Disallows a period before a negative
+						if (allowNegative == true && getCaret(this) == 0 && currentValue.charAt(0) == '-')
+							return false;
+
+						//Disallows more than one decimal point.
+						if (currentValue.match(/[.]/))
+							return false;
+					}
+
+					else if (allowNegative == true && inputCode == 45) {	// Conditions for a decimal point
+						if (currentValue.charAt(0) == '-')
+							return false;
+
+						if (getCaret(this) != 0)
+							return false;
+					}
+
+					else if (inputCode == 8) 	// Allows backspace
+						return true;
+					else								// Disallow non-numeric
+						return false;
+				}
+
+				else if (inputCode > 0 && (inputCode >= 48 && inputCode <= 57)) {	// Disallows numbers before a negative.
+					if (allowNegative == true && currentValue.charAt(0) == '-' && getCaret(this) == 0)
+						return false;
+				}
+			}
+		}
+		return pub;
+	})(window.jQuery);
+
 	yii.Pos = (function($) {
 		var $grid, $form, $template;
 
@@ -68,11 +132,11 @@
 					$row.find('input[data-field="qty"]').val('1');
 					$row.find('input[data-field="id_uom"]').val(item.id_uom);
 					$row.find('.items span.nm_uom').text(item.nm_uom);
-										
+
 					$grid.find('tbody > tr').removeClass('selected');
 					$row.addClass('selected');
 					$grid.children('tbody').append($row);
-					$grid.find('input').numericInput({allowFloat: true});
+					//$grid.find('input').numericInput({allowFloat: true});
 				}
 				pub.normalizeItem();
 			},
@@ -82,12 +146,12 @@
 			onSearch: function(e, ui) {
 				//console.log(e.target.value);
 			},
-			getCurrentSession:function(){
+			getCurrentSession: function() {
 				var key = localStorage.getItem('session-current');
-				if(key == undefined){
+				if (key == undefined) {
 					key = (new Date()).getTime();
-					localStorage.setItem('session-current',key);
-					localStorage.setItem('session-'+key,'[]');
+					localStorage.setItem('session-current', key);
+					localStorage.setItem('session-' + key, '[]');
 					$('#list-session > li').removeClass('active');
 					$('#list-session').append($('<li>').text(key).addClass('active'));
 				}
@@ -119,10 +183,10 @@
 					$row.find('td.total-price > span.total-price').text(t);
 					$row.find('input[data-field="total_price"]').val(t);
 					total += t;
-					
+
 					// session
 					var detail = {};
-					$row.find('input[data-field]').each(function(){
+					$row.find('input[data-field]').each(function() {
 						detail[$(this).data('field')] = this.value;
 					});
 					detail.nm_product = $row.find('.items span.nm_product').text();
@@ -131,13 +195,13 @@
 				});
 				$('#total-price').text(total);
 				var key = pub.getCurrentSession();
-				localStorage.setItem('session-'+key,JSON.stringify(details))
+				localStorage.setItem('session-' + key, JSON.stringify(details))
 			},
-			changeSession:function(key){
-				var details = JSON.parse(localStorage.getItem('session-'+key));
-				localStorage.setItem('session-current',key);
+			changeSession: function(key) {
+				var details = JSON.parse(localStorage.getItem('session-' + key));
+				localStorage.setItem('session-current', key);
 				$('#detail-grid > tbody > tr:not(:first)').remove();
-				$.each(details,function(){
+				$.each(details, function() {
 					var item = this;
 					var $row = $template.clone();
 					$row.show();
@@ -146,27 +210,28 @@
 					$row.find('.items span.price').text(item.price);
 					$row.find('input[data-field="price"]').val(item.price);
 					$row.find('input[data-field="qty"]').val(item.qty);
+					$row.find('input[data-field="discon"]').val(item.discon);
 					$row.find('input[data-field="id_uom"]').val(item.id_uom);
 					$row.find('.items span.nm_uom').text(item.nm_uom);
-										
+
 					$grid.children('tbody').append($row);
-					$grid.find('input').numericInput({allowFloat: true});
+					//$grid.find('input').numericInput({allowFloat: true});
 				});
 				pub.normalizeItem();
 			},
-			newSession:function(){
+			newSession: function() {
 				localStorage.removeItem('session-current');
 				$('#detail-grid > tbody > tr:not(:first)').remove();
 				$('#product').focus();
 			},
-			initSession:function(){
+			initSession: function() {
 				var current = pub.getCurrentSession();
 				var keys = Object.keys(localStorage);
-				$.each(keys,function(){
+				$.each(keys, function() {
 					var key = this;
-					if(key != 'session-current' && key.indexOf('session-')==0){
+					if (key != 'session-current' && key.indexOf('session-') == 0) {
 						var $li = $('<li>').text(key.substr(8));
-						if(key == 'session-'+current){
+						if (key == 'session-' + current) {
 							$li.addClass('active');
 						}
 						$('#list-session').append($li);
@@ -207,11 +272,11 @@
 					$('#product').focus();
 					pub.normalizeItem();
 				});
-				
-				$grid.on('focus','input',function(e){
+
+				$grid.on('focus', 'input', function(e) {
 					$(e.target).select();
 				});
-				
+
 				$form.on('submit', function() {
 					try {
 						var data = {
@@ -227,7 +292,7 @@
 						});
 						yii.Product.add(JSON.stringify(data));
 						var key = pub.getCurrentSession();
-						localStorage.removeItem('session-'+key);
+						localStorage.removeItem('session-' + key);
 						localStorage.removeItem('session-current');
 						$('#list-session > li.active').remove();
 						$('#detail-grid > tbody > tr:not(:first)').remove();
@@ -238,12 +303,12 @@
 				});
 
 				pub.initSession();
-				$('#new-session').click(function(){
+				$('#new-session').click(function() {
 					pub.newSession();
 					return false;
 				});
-				
-				$('#list-session').on('click','li',function(){
+
+				$('#list-session').on('click', 'li', function() {
 					var $this = $(this);
 					var key = $this.text();
 					$('#list-session > li').removeClass('active');
@@ -251,7 +316,7 @@
 					pub.changeSession(key);
 					return false;
 				});
-				
+
 				$(document).on('keydown', '', function(e) {
 					var action = false;
 					if ((e.shiftKey && e.keyCode == 56) || e.keyCode == 42) {
@@ -267,9 +332,9 @@
 						}
 						var $row = $grid.find('tbody > tr.selected');
 						if ($row.length == 1) {
-							var $div = $row.find('span' + action + ' > div');
-							$div.show();
-							$div.children('input').focus().select();
+							var $span= $row.find('span' + action);
+							$span.show();
+							$span.children('input').focus().select();
 							return false;
 						}
 					}
@@ -300,7 +365,7 @@
 <?php $this->endBlock(); ?>
 </script>
 <?php
-$this->registerJsFile(Yii::getAlias('@web/js/numericInput.min.js'), [yii\web\JqueryAsset::className()]);
+//$this->registerJsFile(Yii::getAlias('@web/js/numericInput.min.js'), [yii\web\JqueryAsset::className()]);
 $this->registerCss($this->blocks['CSS']);
 $this->registerJs($this->blocks['JS_END'], yii\web\View::POS_END);
 $this->registerJs($this->blocks['JS_READY'], yii\web\View::POS_READY);

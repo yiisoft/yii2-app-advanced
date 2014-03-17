@@ -83,7 +83,7 @@ class PosController extends Controller
 	{
 		sleep(3);
 		return \yii\helpers\Json::encode([
-			'type'=>'E'
+			'type'=>'S'
 		]);
 	}
 
