@@ -49,8 +49,6 @@ use yii\helpers\Json;
 	</div>
 	<div class="col-lg-3">
 		<span id="total-price"></span><br><a id="new-session" href="#">New Session</a><br>
-		<ul id="list-session" class="nav nav-list">
-
-		</ul>
+		<ul id="list-session" class="nav nav-list"></ul>
 	</div>
 </div>

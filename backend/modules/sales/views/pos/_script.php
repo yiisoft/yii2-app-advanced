@@ -32,6 +32,9 @@
 		/* prevent horizontal scrollbar */
 		overflow-x: hidden;
 	}
+	#list-session li{
+		
+	}
 	#list-session li.active{
 		color:blue;
 	}
@@ -143,9 +146,6 @@
 			onSelect: function(event, ui) {
 				pub.addItem(ui.item);
 			},
-			onSearch: function(e, ui) {
-				//console.log(e.target.value);
-			},
 			getCurrentSession: function() {
 				var key = localStorage.getItem('session-current');
 				if (key == undefined) {
@@ -218,11 +218,13 @@
 					$grid.children('tbody').append($row);
 					//$grid.find('input').numericInput({allowFloat: true});
 				});
+				$('#product').focus();
 				pub.normalizeItem();
 			},
 			newSession: function() {
 				localStorage.removeItem('session-current');
 				$('#detail-grid > tbody > tr:not(:first)').remove();
+				$('#list-session li').removeClass('active');
 				$('#product').focus();
 			},
 			listSession: function() {
@@ -356,8 +358,7 @@
 
 <?php $this->beginBlock('JS_READY') ?>
 	$('#product').data("ui-autocomplete")._renderItem = function(ul, item) {
-		var $a = $('<a>').append($('<b>').text(item.text))
-				.append('<br>')
+		var $a = $('<a>').append($('<b>').text(item.text)).append('<br>')
 				.append($('<i>').text(item.cd + ' - @ Rp' + item.price).css({color: '#999999'}));
 		return $("<li>").append($a).appendTo(ul);
 	};
@@ -370,6 +371,9 @@
 		this.value = '';
 		$(this).autocomplete("close");
 	});
+	
+	$('#product').focus();
+	
 <?php $this->endBlock(); ?>
 </script>
 <?php
