@@ -60,7 +60,7 @@
 			return 0;
 		}
 		var allowFloat = true, allowNegative = false;
-		
+
 		var pub = {
 			init: function() {
 				$('#detail-grid').on('keypress', 'input', pub.keypress)
@@ -195,7 +195,8 @@
 				});
 				$('#total-price').text(total);
 				var key = pub.getCurrentSession();
-				localStorage.setItem('session-' + key, JSON.stringify(details))
+				localStorage.setItem('session-' + key, JSON.stringify(details));
+				pub.listSession();
 			},
 			changeSession: function(key) {
 				var details = JSON.parse(localStorage.getItem('session-' + key));
@@ -224,9 +225,10 @@
 				$('#detail-grid > tbody > tr:not(:first)').remove();
 				$('#product').focus();
 			},
-			initSession: function() {
-				var current = pub.getCurrentSession();
+			listSession: function() {
+				var current = localStorage.getItem('session-current');
 				var keys = Object.keys(localStorage);
+				$('#list-session').html('');
 				$.each(keys, function() {
 					var key = this;
 					if (key != 'session-current' && key.indexOf('session-') == 0) {
@@ -237,7 +239,13 @@
 						$('#list-session').append($li);
 					}
 				});
-				pub.changeSession(current);
+				return current;
+			},
+			initSession: function() {
+				var current = pub.listSession();
+				if (current) {
+					pub.changeSession(current);
+				}
 			},
 			init: function() {
 				$grid = $('#detail-grid');
@@ -332,7 +340,7 @@
 						}
 						var $row = $grid.find('tbody > tr.selected');
 						if ($row.length == 1) {
-							var $span= $row.find('span' + action);
+							var $span = $row.find('span' + action);
 							$span.show();
 							$span.children('input').focus().select();
 							return false;
