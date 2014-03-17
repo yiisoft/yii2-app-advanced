@@ -83,7 +83,7 @@ class PosController extends Controller
 	{
 		sleep(3);
 		return \yii\helpers\Json::encode([
-			'type'=>'S'
+			'type'=>'E'
 		]);
 	}
 
@@ -105,6 +105,8 @@ class PosController extends Controller
 					'cd' => $row['cd'],
 					'text' => $row['nm'],
 					'price'=>1000,
+					'id_uom'=>$row['id_uom'],
+					'nm_uom' => $row['nm_uom'],
 				];
 			}
 			$result[$id]['uoms'][$row['id_uom']] = [

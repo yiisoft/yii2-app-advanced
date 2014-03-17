@@ -58,9 +58,10 @@
 				return result;
 			},
 			add: function(data) {
-				var idata = localStorage.getItem('pos-data-count') * 1 + 1;
-				localStorage.setItem('pos-data-' + idata, data);
-				localStorage.setItem('pos-data-count', idata);
+				//var idata = localStorage.getItem('pos-data-count') * 1 + 1;
+				var date = new Date();
+				localStorage.setItem('pos-data-' + date.getTime(), data);
+				//localStorage.setItem('pos-data-count', idata);
 			},
 			push: function() {
 				var keys = Object.keys(localStorage);

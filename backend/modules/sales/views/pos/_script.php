@@ -1,10 +1,10 @@
 <style>
 <?php $this->beginBlock('CSS') ?>
-	#detail-grid td.items .qty > div{
+	#detail-grid td.items .qty{
 /*		display:none;*/
 		padding-left: 20px;
 	}
-	#detail-grid td.items .discon > div{
+	#detail-grid td.items .discon{
 		display:none;
 		padding-left: 20px;
 	}
@@ -31,6 +31,9 @@
 		overflow-y: auto;
 		/* prevent horizontal scrollbar */
 		overflow-x: hidden;
+	}
+	#list-session li.active{
+		color:blue;
 	}
 <?php $this->endBlock(); ?>
 </style>
@@ -61,15 +64,11 @@
 					$row.find('.items span.nm_product').text(item.text);
 					$row.find('input[data-field="id_product"]').val(item.id);
 					$row.find('.items span.price').text(item.price);
-
-					var uom = false;
-					for (var i in item.uoms) {
-						uom = item.uoms[i];
-						break;
-					}
-					if (uom) {
-						$row.find('.items span.nm_uom').text(uom.nm);
-					}
+					$row.find('input[data-field="price"]').val(item.price);
+					$row.find('input[data-field="qty"]').val('1');
+					$row.find('input[data-field="id_uom"]').val(item.id_uom);
+					$row.find('.items span.nm_uom').text(item.nm_uom);
+										
 					$grid.find('tbody > tr').removeClass('selected');
 					$row.addClass('selected');
 					$grid.children('tbody').append($row);
@@ -83,33 +82,97 @@
 			onSearch: function(e, ui) {
 				//console.log(e.target.value);
 			},
+			getCurrentSession:function(){
+				var key = localStorage.getItem('session-current');
+				if(key == undefined){
+					key = (new Date()).getTime();
+					localStorage.setItem('session-current',key);
+					localStorage.setItem('session-'+key,'[]');
+					$('#list-session > li').removeClass('active');
+					$('#list-session').append($('<li>').text(key).addClass('active'));
+				}
+				return key;
+			},
 			normalizeItem: function() {
 				var total = 0.0;
+				var details = [];
 				$('#detail-grid > tbody > tr:not(:first)').each(function() {
 					var $row = $(this);
 					var q, d;
 					if ($row.find('input[data-field="qty"]').val() == '') {
-						//$row.find('span.qty > div').hide();
+						//$row.find('span.qty').hide();
 						q = 1;
 					} else {
-						$row.find('span.qty > div').show();
+						//$row.find('span.qty').show();
 						q = $row.find('input[data-field="qty"]').val();
 					}
 
 					if ($row.find('input[data-field="discon"]').val() == '') {
-						$row.find('span.discon > div').hide();
+						$row.find('span.discon').hide();
 						d = 0;
 					} else {
-						$row.find('span.discon > div').show();
+						$row.find('span.discon').show();
 						d = $row.find('input[data-field="discon"]').val();
 					}
 
-					var t = (1 - 0.01 * d) * q * $row.find('span.qty > div > span.price').text();
+					var t = (1 - 0.01 * d) * q * $row.find('span.qty > span.price').text();
 					$row.find('td.total-price > span.total-price').text(t);
-					$row.find('input[data-field="price"]').val(t);
+					$row.find('input[data-field="total_price"]').val(t);
 					total += t;
+					
+					// session
+					var detail = {};
+					$row.find('input[data-field]').each(function(){
+						detail[$(this).data('field')] = this.value;
+					});
+					detail.nm_product = $row.find('.items span.nm_product').text();
+					detail.nm_uom = $row.find('.items span.nm_uom').text();
+					details.push(detail);
 				});
 				$('#total-price').text(total);
+				var key = pub.getCurrentSession();
+				localStorage.setItem('session-'+key,JSON.stringify(details))
+			},
+			changeSession:function(key){
+				var details = JSON.parse(localStorage.getItem('session-'+key));
+				localStorage.setItem('session-current',key);
+				$('#detail-grid > tbody > tr:not(:first)').remove();
+				$.each(details,function(){
+					var item = this;
+					var $row = $template.clone();
+					$row.show();
+					$row.find('.items span.nm_product').text(item.nm_product);
+					$row.find('input[data-field="id_product"]').val(item.id_product);
+					$row.find('.items span.price').text(item.price);
+					$row.find('input[data-field="price"]').val(item.price);
+					$row.find('input[data-field="qty"]').val(item.qty);
+					$row.find('input[data-field="id_uom"]').val(item.id_uom);
+					$row.find('.items span.nm_uom').text(item.nm_uom);
+										
+					$grid.children('tbody').append($row);
+					$grid.find('input').numericInput({allowFloat: true});
+				});
+				pub.normalizeItem();
+			},
+			newSession:function(){
+				localStorage.removeItem('session-current');
+				$('#detail-grid > tbody > tr:not(:first)').remove();
+				$('#product').focus();
+			},
+			initSession:function(){
+				var current = pub.getCurrentSession();
+				var keys = Object.keys(localStorage);
+				$.each(keys,function(){
+					var key = this;
+					if(key != 'session-current' && key.indexOf('session-')==0){
+						var $li = $('<li>').text(key.substr(8));
+						if(key == 'session-'+current){
+							$li.addClass('active');
+						}
+						$('#list-session').append($li);
+					}
+				});
+				pub.changeSession(current);
 			},
 			init: function() {
 				$grid = $('#detail-grid');
@@ -121,6 +184,34 @@
 					return false;
 				});
 
+				$grid.on('click', 'tr', function() {
+					$grid.find('tbody > tr').removeClass('selected');
+					$(this).addClass('selected');
+				});
+
+				var enterPressed = false;
+				$grid.on('change keydown', ':input', function(e) {
+					if (e.type === 'keydown') {
+						if (e.keyCode !== 13) {
+							return; // only react to enter key
+						} else {
+							enterPressed = true;
+						}
+					} else {
+						// prevent processing for both keydown and change events
+						if (enterPressed) {
+							enterPressed = false;
+							return;
+						}
+					}
+					$('#product').focus();
+					pub.normalizeItem();
+				});
+				
+				$grid.on('focus','input',function(e){
+					$(e.target).select();
+				});
+				
 				$form.on('submit', function() {
 					try {
 						var data = {
@@ -135,6 +226,10 @@
 							data.detail.push(detail);
 						});
 						yii.Product.add(JSON.stringify(data));
+						var key = pub.getCurrentSession();
+						localStorage.removeItem('session-'+key);
+						localStorage.removeItem('session-current');
+						$('#list-session > li.active').remove();
 						$('#detail-grid > tbody > tr:not(:first)').remove();
 					} catch (e) {
 
@@ -142,11 +237,21 @@
 					return false;
 				});
 
-				$grid.on('click', 'tr', function() {
-					$grid.find('tbody > tr').removeClass('selected');
-					$(this).addClass('selected');
+				pub.initSession();
+				$('#new-session').click(function(){
+					pub.newSession();
+					return false;
 				});
-
+				
+				$('#list-session').on('click','li',function(){
+					var $this = $(this);
+					var key = $this.text();
+					$('#list-session > li').removeClass('active');
+					$this.addClass('active');
+					pub.changeSession(key);
+					return false;
+				});
+				
 				$(document).on('keydown', '', function(e) {
 					var action = false;
 					if ((e.shiftKey && e.keyCode == 56) || e.keyCode == 42) {
@@ -170,24 +275,6 @@
 					}
 				});
 
-				var enterPressed = false;
-				$grid.on('change keydown', ':input', function(e) {
-					if (e.type === 'keydown') {
-						if (e.keyCode !== 13) {
-							return; // only react to enter key
-						} else {
-							enterPressed = true;
-						}
-					} else {
-						// prevent processing for both keydown and change events
-						if (enterPressed) {
-							enterPressed = false;
-							return;
-						}
-					}
-					$('#product').focus();
-					pub.normalizeItem();
-				});
 			},
 		};
 		return pub;
@@ -208,7 +295,7 @@
 			yii.Pos.addItem(item);
 		}
 		this.value = '';
-		$(this).autocomplete("close")
+		$(this).autocomplete("close");
 	});
 <?php $this->endBlock(); ?>
 </script>
