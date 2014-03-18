@@ -29,7 +29,7 @@ class PosController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
-					'save-pos'=>['post']
+					'save-pos' => ['post']
 				],
 			],
 		];
@@ -83,40 +83,50 @@ class PosController extends Controller
 	{
 		sleep(3);
 		return \yii\helpers\Json::encode([
-			'type'=>'S'
+					'type' => 'S'
 		]);
 	}
 
-	public function actionJs()
+	public function actionJs($script)
 	{
-		$sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
+		switch ($script) {
+			case 'master':
+				$sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
 			u.id_uom, u.nm_uom, pu.isi,pc.price
 			from product p
 			join product_uom pu on(pu.id_product=p.id_product)
 			join uom u on(u.id_uom=pu.id_uom)
 			left join price pc on(pc.id_product=p.id_product)
 			order by p.id_product,pu.isi";
-		$result = [];
-		foreach (\Yii::$app->db->createCommand($sql)->queryAll() as $row) {
-			$id = $row['id'];
-			if (!isset($result[$id])) {
-				$result[$id] = [
-					'id' => $row['id'],
-					'cd' => $row['cd'],
-					'text' => $row['nm'],
-					'price'=>1000,
-					'id_uom'=>$row['id_uom'],
-					'nm_uom' => $row['nm_uom'],
-				];
-			}
-			$result[$id]['uoms'][$row['id_uom']] = [
-				'id' => $row['id_uom'],
-				'nm' => $row['nm_uom'],
-				'isi' => $row['isi']
-			];
+				$result = [];
+				foreach (\Yii::$app->db->createCommand($sql)->queryAll() as $row) {
+					$id = $row['id'];
+					if (!isset($result[$id])) {
+						$result[$id] = [
+							'id' => $row['id'],
+							'cd' => $row['cd'],
+							'text' => $row['nm'],
+							'price' => 1000,
+							'id_uom' => $row['id_uom'],
+							'nm_uom' => $row['nm_uom'],
+						];
+					}
+					$result[$id]['uoms'][$row['id_uom']] = [
+						'id' => $row['id_uom'],
+						'nm' => $row['nm_uom'],
+						'isi' => $row['isi']
+					];
+				}
+				return $this->renderPartial('master.js.php', ['product' => $result]);
+				break;
+				
+			case 'process':
+				return $this->renderPartial('process.js.php');
+				break;
+			
+			default:
+				break;
 		}
-
-		return $this->renderPartial('master.js.php', ['product' => $result,'url'=> Url::toRoute(['save-pos'])]);
 	}
 
 	/**
@@ -170,12 +180,13 @@ class PosController extends Controller
 	{
 		Yii::$app->user->identity->id_branch;
 		$cache = Yii::$app->cache;
-		if($cache && ($data=$cache->get(self::MANIFEST_NAME))!==false){
-			$content = $this->renderPartial('@backend/modules/sales/_manifest.php', ['caches'=>$data]);
-			$dest = Yii::getAlias('@webroot/'.self::MANIFEST_NAME);
+		if ($cache && ($data = $cache->get(self::MANIFEST_NAME)) !== false) {
+			$content = $this->renderPartial('@backend/modules/sales/_manifest.php', ['caches' => $data]);
+			$dest = Yii::getAlias('@webroot/' . self::MANIFEST_NAME);
 			file_put_contents($dest, $content);
 			return $content;
 		}
 		throw new \yii\base\UserException('Error gan...');
 	}
+
 }
