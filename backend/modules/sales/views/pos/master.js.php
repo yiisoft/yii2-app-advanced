@@ -4,7 +4,7 @@
 	yii.Product = (function($) {
 		var options = {
 			product: <?= json_encode($product); ?>,
-			pushUrl: '<?= $url; ?>',
+			pushUrl: '<?= \yii\helpers\Url::toRoute(['save-pos']) ?>',
 			delay: 1000,
 			limit: 20,
 		};
@@ -20,8 +20,9 @@
 			query: function(option) {
 				var result = [];
 				var limit = options.limit;
+				var term = option.term.toLowerCase();
 				$.each(options.product, function() {
-					if (this.text.toLowerCase().indexOf(option.term.toLowerCase()) >= 0) {
+					if (this.text.toLowerCase().indexOf(term) >= 0) {
 						result.push(this);
 						limit--;
 						if (limit <= 0) {
@@ -57,8 +58,10 @@
 				return result;
 			},
 			add: function(data) {
-				var date = new Date();
-				localStorage.setItem('pos-data-' + date.getTime(), data);
+				var date = (new Date()).getTime();
+				data.timestamp = date;
+				var s = JSON.stringify(data);
+				localStorage.setItem('pos-data-' + date, s);
 			},
 			push: function() {
 				var keys = Object.keys(localStorage);

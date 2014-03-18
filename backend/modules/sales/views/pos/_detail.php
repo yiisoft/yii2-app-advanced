@@ -1,82 +1,54 @@
 <?php
 
-use yii\helpers\Html;
-use common\extensions\inputGrid\Grid;
 use yii\web\JsExpression;
-use backend\modules\master\models\Product;
-
-kartik\widgets\Select2Asset::register($this);
+use yii\jui\AutoComplete;
+use yii\helpers\Html;
+use yii\helpers\Json;
 ?>
-<script>
-	function calcTotal(){
-		var total = 0;
-		$('#detail-grid [data-attribute="total_price"]').each(function(){
-			total += $(this).val()*1;
-		});
-		$('#total').text(total);
-	}
-	
-	var afterAddRow = function(row) {
-		var $product = row.find('input[data-attribute="id_product"]');
-		var $qty = row.find('input[data-attribute="sales_qty"]');
-		var $price = row.find('input[data-attribute="sales_price"]');
-		var $total_price = row.find('input[data-attribute="total_price"]');
-		var $drUom = row.find('select[data-attribute="id_uom"]');
-		$product.select2({
-			query: yii.Product.query,
-			minimumInputLength: 2,
-			width: "resolve"
-		}).on('select2-selecting.mdmInputGrid', function(e) {
-			var uoms = e.object.uoms;
-			$drUom.html('');
-			$.each(uoms, function() {
-				var opt = $('<option></option>');
-				opt.attr('value', this.id);
-				opt.data('price',e.object.price*this.isi);
-				opt.text(this.nm);
-				$drUom.append(opt);
-			});
-		}).change(function(){
-			$drUom.change();
-			$qty.focus();
-		});
-		$qty.change(function(){
-			$total_price.val($qty.val()*$price.val());
-			calcTotal();
-		});
-		$drUom.change(function(){
-			$price.val($drUom.children(':selected').data('price'));
-			$total_price.val($qty.val()*$price.val());
-			calcTotal();
-		});
-		
-		row.find('span.select2-choice').focus();
-	}
-</script>
 <div class="col-lg-12">
-	<?php
-	echo Grid::widget([
-		'dataProvider' => $detailProvider,
-		'id'=>'detail-grid',
-		'columns' => [
-			['class' => 'common\extensions\inputGrid\SerialColumn'],
-			['class' => 'common\extensions\inputGrid\InputColumn',
-				'attribute' => 'id_product',],
-			['class' => 'common\extensions\inputGrid\InputColumn',
-				'attribute' => 'sales_qty',],
-			['class' => 'common\extensions\inputGrid\InputColumn',
-				'attribute' => 'sales_price',
-				'inputOptions'=>['readonly'=>true]],
-			['class' => 'common\extensions\inputGrid\InputColumn',
-				'attribute' => 'total_price',
-				'inputOptions'=>['readonly'=>true]],
-			['class' => 'common\extensions\inputGrid\InputColumn',
-				'inputType' => 'dropDownList',
-				'attribute' => 'id_uom',],
-			['class' => 'common\extensions\inputGrid\ActionColumn',],
-		],
-		'afterAddRow' => new JsExpression('afterAddRow'),
-	]);
-	?>
+	<div class="col-lg-9">
+		<?php
+		echo AutoComplete::widget([
+			'name' => 'product',
+			'id' => 'product',
+			'clientOptions' => [
+				'source' => new JsExpression('yii.Product.source'),
+				'select' => new JsExpression('yii.Pos.onSelect'),
+				'delay' => 500,
+			]
+		]);
+		?>
+		<table id="detail-grid" class="table table-striped">
+			<tbody>
+				<tr style="display: none">
+					<td style="width: 50px">
+						<a data-action="delete" title="Delete" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+					</td>
+					<td class="items">
+						<ul class="nav nav-list">
+							<input type="hidden" data-field="price"><input type="hidden" data-field="id_uom">
+							<input type="hidden" data-field="id_product">
+							<li><span class="item">
+									<span class="nm_product"></span>
+								</span></li>
+							<li><span class="qty">
+									Jumlah <input type="text" size="5" data-field="qty" value="1"> <span class="nm_uom"></span>
+									@ Rp<span class="price"></span>
+								</span></li>
+							<li><span class="discon">
+									Discon <input type="text" size="5" data-field="discon"> %
+								</span></li>
+						</ul>
+					</td>
+					<td class="total-price">
+						<input type="hidden" data-field="total_price"><span class="total-price"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-lg-3">
+		<span id="total-price"></span><br><a id="new-session" href="#">New Session</a><br>
+		<ul id="list-session" class="nav nav-list"></ul>
+	</div>
 </div>
-

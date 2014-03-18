@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
 <div class="sales-hdr-form">
 	<?php $form = ActiveForm::begin(['options'=>['id'=>'pos-form']]); ?>
-	<?= $this->render('_detail2', ['model' => $model, 'detailProvider' => $detailProvider]); ?>
+	<?= $this->render('_detail'); ?>
 	<div class="form-group">
 		<?php echo Html::a('Save','',['class'=>'btn btn-primary','data-method'=>'pos']);?>
 	</div>
@@ -24,5 +24,4 @@ use yii\widgets\ActiveForm;
 </div>
 
 <?php 
-$this->registerJsFile(Url::toRoute(['js']),[\yii\web\YiiAsset::className()]);
 $this->render('_script');
