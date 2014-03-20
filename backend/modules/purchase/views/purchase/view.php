@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'data-confirm' => Yii::t('app', 'Are you sure to release this item?'),
 				'data-method' => 'post',
 			]) . ' ';
-		} elseif (true) {
+		} elseif ($model->id_status == PurchaseHdr::STATUS_RELEASE) {
 			echo Html::a('Receive', ['receive', 'id' => $model->id_purchase_hdr], [
 				'class' => 'btn btn-primary',
 				'data-confirm' => Yii::t('app', 'Are you sure to receive this item?'),
