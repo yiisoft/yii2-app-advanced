@@ -218,6 +218,7 @@ class PurchaseController extends Controller
 								'qty' => $detail->purch_qty,
 								'price' => $detail->purch_price,
 								'id_uom' => $detail->id_uom,
+								'selling_price'=> $detail->selling_price,
 					]);
 				}
 
