@@ -70,7 +70,7 @@
 		var pub = {
 			addItem: function(item) {
 				var has = false;
-				$('#detail-grid > tbody > tr:not(:first)').each(function() {
+				$('#detail-grid > tbody > tr').each(function() {
 					var $row = $(this);
 					if ($row.find('input[data-field="id_product"]').val() == item.id) {
 						has = true;
@@ -85,10 +85,10 @@
 				});
 				if (!has) {
 					var $row = $template.clone();
-					$row.show();
+					//$row.show();
 					$row.find('.items span.nm_product').text(item.text);
 					$row.find('input[data-field="id_product"]').val(item.id);
-					$row.find('.items span.price').text(item.price);
+					$row.find('.items span.price').text(pub.format(item.price));
 					$row.find('input[data-field="price"]').val(item.price);
 					$row.find('input[data-field="qty"]').val('1');
 					$row.find('input[data-field="id_uom"]').val(item.id_uom);
@@ -102,6 +102,10 @@
 			},
 			onSelect: function(event, ui) {
 				pub.addItem(ui.item);
+			},
+			format:function(n){
+				//return n;
+				return $.number( n, 2 );
 			},
 			getCurrentSession: function() {
 				var key = localStorage.getItem('session-current');
@@ -117,7 +121,7 @@
 			normalizeItem: function() {
 				var total = 0.0;
 				var details = [];
-				$('#detail-grid > tbody > tr:not(:first)').each(function() {
+				$('#detail-grid > tbody > tr').each(function() {
 					var $row = $(this);
 					var q, d;
 					if ($row.find('input[data-field="qty"]').val() == '') {
@@ -136,8 +140,8 @@
 						d = $row.find('input[data-field="discon"]').val();
 					}
 
-					var t = (1 - 0.01 * d) * q * $row.find('span.qty > span.price').text();
-					$row.find('td.total-price > span.total-price').text(t);
+					var t = (1 - 0.01 * d) * q * $row.find('input[data-field="price"]').val();
+					$row.find('td.total-price > span.total-price').text(pub.format(t));
 					$row.find('input[data-field="total_price"]').val(t);
 					total += t;
 
@@ -150,7 +154,7 @@
 					detail.nm_uom = $row.find('.items span.nm_uom').text();
 					details.push(detail);
 				});
-				$('#total-price').text(total);
+				$('#total-price').text(pub.format(total));
 				var key = pub.getCurrentSession();
 				localStorage.setItem('session-' + key, JSON.stringify(details));
 				pub.listSession();
@@ -158,14 +162,14 @@
 			changeSession: function(key) {
 				var details = JSON.parse(localStorage.getItem('session-' + key));
 				localStorage.setItem('session-current', key);
-				$('#detail-grid > tbody > tr:not(:first)').remove();
+				$('#detail-grid > tbody > tr').remove();
 				$.each(details, function() {
 					var item = this;
 					var $row = $template.clone();
-					$row.show();
+					//$row.show();
 					$row.find('.items span.nm_product').text(item.nm_product);
 					$row.find('input[data-field="id_product"]').val(item.id_product);
-					$row.find('.items span.price').text(item.price);
+					$row.find('.items span.price').text(pub.format(item.price));
 					$row.find('input[data-field="price"]').val(item.price);
 					$row.find('input[data-field="qty"]').val(item.qty);
 					$row.find('input[data-field="discon"]').val(item.discon);
@@ -180,7 +184,7 @@
 			},
 			newSession: function() {
 				localStorage.removeItem('session-current');
-				$('#detail-grid > tbody > tr:not(:first)').remove();
+				$('#detail-grid > tbody > tr').remove();
 				$('#list-session li').removeClass('active');
 				$('#product').focus();
 			},
@@ -209,8 +213,8 @@
 			init: function() {
 				$grid = $('#detail-grid');
 				$form = $('#pos-form');
-				$template = $('#detail-grid > tbody > tr:first');
-
+				$template = $('#detail-grid > thead > tr');
+				
 				$grid.on('click', '[data-action="delete"]', function() {
 					$(this).closest('tr').remove();
 					return false;
@@ -245,7 +249,7 @@
 				});
 
 				$form.on('submit', function() {
-					var $rows = $('#detail-grid > tbody > tr:not(:first)');
+					var $rows = $('#detail-grid > tbody > tr');
 					if ($rows.length == 0) {
 						return false;
 					}
@@ -265,7 +269,7 @@
 					localStorage.removeItem('session-' + key);
 					localStorage.removeItem('session-current');
 					$('#list-session > li.active').remove();
-					$('#detail-grid > tbody > tr:not(:first)').remove();
+					$('#detail-grid > tbody > tr').remove();
 
 					return false;
 				});
@@ -285,12 +289,13 @@
 					return false;
 				});
 
-				$(document).on('keydown', '', function(e) {
+				$(document).on('keypress', '', function(e) {
 					var action = false;
-					if ((e.shiftKey && e.keyCode == 56) || e.keyCode == 42) {
+					var kode = e.which;
+					if (kode == 42) {
 						action = '.qty';
 					}
-					if (e.keyCode == 189 || e.keyCode == 173) {
+					if (kode == 45) {
 						action = '.discon';
 					}
 					if (action !== false) {

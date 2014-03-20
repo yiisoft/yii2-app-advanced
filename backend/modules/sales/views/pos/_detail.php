@@ -19,8 +19,8 @@ use yii\helpers\Json;
 		]);
 		?>
 		<table id="detail-grid" class="table table-striped">
-			<tbody>
-				<tr style="display: none">
+			<thead style="display: none">
+				<tr>
 					<td style="width: 50px">
 						<a data-action="delete" title="Delete" href="#"><span class="glyphicon glyphicon-trash"></span></a>
 					</td>
@@ -44,11 +44,21 @@ use yii\helpers\Json;
 						<input type="hidden" data-field="total_price"><span class="total-price"></span>
 					</td>
 				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="2">&nbsp;</td>
+					<td class="total-price">
+						<input type="hidden" data-field="total_price"><span id="total-price"></span>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
 			</tbody>
 		</table>
 	</div>
 	<div class="col-lg-3">
-		<span id="total-price"></span><br><a id="new-session" href="#">New Session</a><br>
+		<a id="new-session" href="#">New Session</a><br>
 		<ul id="list-session" class="nav nav-list"></ul>
 	</div>
 </div>

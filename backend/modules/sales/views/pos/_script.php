@@ -23,6 +23,12 @@ use yii\helpers\Url;
 		color:inherit;
 		text-align:right;
 	}
+	#detail-grid td.total-price{
+		text-align:right;
+	}
+	#detail-grid tfoot .total-price{
+		text-decoration:underline;
+	}
 	#detail-grid input:focus{
 		
 	}
@@ -70,8 +76,9 @@ use yii\helpers\Url;
 <?php $this->endBlock(); ?>
 </script>
 <?php
+$this->registerJsFile(Yii::getAlias('@web/js/jquery.number.min.js'),[\yii\web\JqueryAsset::className()]);
 $this->registerJsFile(Url::toRoute(['js','script'=>'master']),[\yii\web\YiiAsset::className()]);
 $this->registerJsFile(Url::toRoute(['js','script'=>'process']),[\yii\web\YiiAsset::className()]);
+
 $this->registerCss($this->blocks['CSS']);
-//$this->registerJs($this->blocks['JS_END'], yii\web\View::POS_END);
 $this->registerJs($this->blocks['JS_READY'], yii\web\View::POS_READY);
