@@ -67,13 +67,6 @@ $pluginOptions = [
 			echo $form->field($model, 'transfer_date')->textInput(['readonly'=>true]);
 			?>
 		</div>
-		<div class="col-lg-4">
-			<?php
-			echo $form->field($model, 'id_status', [
-				'template' => "{label}{input}<br><span class='btn btn-primary'>Release</span>\n{hint}\n{error}"
-			]);
-			?>
-		</div>
 	</div>
 	<?= $this->render('_detail', ['model' => $model, 'detailProvider' => $detailProvider]) ?>
 	<div class="col-lg-12">
