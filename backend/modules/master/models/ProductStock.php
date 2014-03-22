@@ -30,6 +30,9 @@ class ProductStock extends \yii\db\ActiveRecord
 	const STATUS_CLOSE = 0;
 	const STATUS_OPEN = 1;
 	const STATUS_OPEN_2 = 2;
+	const LOG_STOCK = 'log_stock';
+
+	public $log_params;
 
 	/**
 	 * @inheritdoc
@@ -47,7 +50,7 @@ class ProductStock extends \yii\db\ActiveRecord
 		return [
 			[['opening_date', 'id_warehouse', 'id_product', 'id_uom', 'qty_stock', 'status_closing'], 'required'],
 			[['id_warehouse', 'id_product', 'id_uom', 'status_closing'], 'integer'],
-			[['qty_stock'], 'number']
+			[['qty_stock'], 'number'],
 		];
 	}
 
@@ -131,11 +134,17 @@ class ProductStock extends \yii\db\ActiveRecord
 				'new_stock' => $params['qty'] * $qty_per_uom,
 				'price' => 1.0 * $params['price'] / $qty_per_uom,
 			];
-			$paramsPrice['price']=1.0 * $params['selling_price'] / $qty_per_uom;
+			if(isset($params['log_params'])){
+				$paramsCogs['log_params'] = $paramsPrice['log_params'] = $params['log_params'];
+			}
+			$paramsPrice['price'] = 1.0 * $params['selling_price'] / $qty_per_uom;
 		}
 
 		if (!$change_cogs or (Cogs::UpdateCogs($paramsCogs) and Price::UpdatePrice($paramsPrice))) {
 			$stock->qty_stock = $stock->qty_stock + $params['qty'] * $qty_per_uom;
+			if(isset($params['log_params'])){
+				$stock->log_params = $params['log_params'];
+			}
 			if (!$stock->save()) {
 				throw new \yii\base\UserException(implode(",\n", $stock->firstErrors));
 			}
@@ -182,6 +191,26 @@ class ProductStock extends \yii\db\ActiveRecord
 				'class' => 'backend\components\AutoUser',
 			]
 		];
+	}
+
+	public function afterSave($insert)
+	{
+		parent::afterSave($insert);
+		try {
+			$collection = \Yii::$app->mongodb->getCollection(self::LOG_STOCK);
+			$user = \Yii::$app->user;
+			
+			$collection->insert(array_merge([
+				'id_warehouse' => $this->id_warehouse,
+				'id_product' => $this->id_product,
+				'qty_stock' => $this->qty_stock,
+				'log_time' => time(),
+				'log_by' => $user->getIsGuest() ? 0 : $user->id,
+							], $this->log_params));
+			return true;
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 
 }
