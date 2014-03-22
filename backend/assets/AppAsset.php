@@ -7,7 +7,6 @@
  */
 
 namespace backend\assets;
-
 use yii\web\AssetBundle;
 
 /**
@@ -18,12 +17,26 @@ class AppAsset extends AssetBundle {
 
     public $basePath = '@webroot';
     public $baseUrl = '@web';
-    public $depends = [
+    public $css = [
+        'css/site.css',
+        'css/metro-bootstrap.css',
+//        'docs/docs.css',
+//        'docs/font-awesome.css'
+        ];
+    public $js = [
+//        'docs/application.js',
+//        'docs/bootstrap.js',
+//        'docs/bootstrap.min.js',
+//        'docs/bootstrap.min.js', 
+//        'docs/jquery-1.8.0.js',
+//        'docs/jquery.validate.js',
+//        'docs/jquery.validate.unobtrusive.js',
+//        'docs/jquery.unobtrusive-ajax.js',
+//        'docs/metro-bootstrap/metro-docs.js'
+        ];
+    public $depends = [  
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',  
+        'yii\bootstrap\BootstrapAsset',
     ];
-    public $css = ['css/site.css',
-        'css/dashboard.css'];
-    public $js = ['js/docs.min.js'];
 
 }
