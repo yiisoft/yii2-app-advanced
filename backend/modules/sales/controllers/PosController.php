@@ -69,7 +69,7 @@ class PosController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$this->layout = 'main';
+		//$this->layout = 'main';
 		$this->manifest = self::MANIFEST_NAME;
 		$model = new SalesHdr;
 		$details = [new SalesDtl];
