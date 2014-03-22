@@ -76,9 +76,7 @@ class PurchaseController extends Controller
 		if ($success) {
 			return $this->redirect(['view', 'id' => $model->id_purchase_hdr]);
 		}
-		return $this->render('create', [
-					'model' => $model,
-					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
+		return $this->render('create', ['model' => $model, 'details' => $details
 		]);
 	}
 
@@ -98,9 +96,7 @@ class PurchaseController extends Controller
 		if ($success) {
 			return $this->redirect(['view', 'id' => $model->id_purchase_hdr]);
 		}
-		return $this->render('update', [
-					'model' => $model,
-					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
+		return $this->render('update', ['model' => $model, 'details' => $details
 		]);
 	}
 
@@ -109,18 +105,14 @@ class PurchaseController extends Controller
 		$post = Yii::$app->request->post();
 		$details = $model->purchaseDtls;
 		$success = false;
-		$objs = $deleted = [];
 
 		if ($model->load($post)) {
 			$transaction = Yii::$app->db->beginTransaction();
+			$objs = [];
+			foreach ($details as $detail) {
+				$objs[$detail->id_purchase_dtl] = [false, $detail];
+			}
 			try {
-				if (!$model->isNewRecord) {
-					foreach ($details as $detail) {
-						$id = $detail->id_purchase_dtl;
-						$objs[$id] = $detail;
-						$deleted[$id] = $id;
-					}
-				}
 				$success = $model->save();
 			} catch (Exception $exc) {
 				$model->addError('', $exc->getMessage());
@@ -128,17 +120,18 @@ class PurchaseController extends Controller
 			}
 
 			$formName = (new PurchaseDtl)->formName();
-
 			$id_hdr = $success ? $model->id_purchase_hdr : false;
+			$details = [];
 			foreach ($post[$formName] as $dataDetail) {
-				if (!empty($dataDetail['id_purchase_dtl']) && isset($objs[$dataDetail['id_purchase_dtl']])) {
-					$detail = $objs[$dataDetail['id_purchase_dtl']];
-					unset($deleted[$detail->id_purchase_dtl]);
+				$id_dtl = $dataDetail['id_purchase_dtl'];
+				if ($id_dtl != '' && isset($objs[$id_dtl])) {
+					$detail = $objs[$id_dtl][1];
+					$objs[$id_dtl][0] = true;
 				} else {
 					$detail = new PurchaseDtl;
 				}
-				
-				$detail->load($dataDetail,'');
+
+				$detail->setAttributes($dataDetail);
 				if ($id_hdr !== false) {
 					$detail->id_purchase_hdr = $model->id_purchase_hdr;
 					try {
@@ -152,7 +145,12 @@ class PurchaseController extends Controller
 			}
 			if ($success) {
 				try {
-					$deleted = array_values($deleted);
+					$deleted = [];
+					foreach ($objs as $id_dtl => $value) {
+						if ($value[0] == false) {
+							$deleted[] = $id_dtl;
+						}
+					}
 					if (count($deleted) > 0) {
 						$success = PurchaseDtl::deleteAll(['id_purchase_dtl' => $deleted]);
 					}
@@ -166,9 +164,6 @@ class PurchaseController extends Controller
 			} else {
 				$transaction->rollBack();
 			}
-		}
-		if (count($details) == 0) {
-			$details[] = new PurchaseDtl;
 		}
 		return [$details, $success];
 	}
@@ -185,22 +180,10 @@ class PurchaseController extends Controller
 		return $this->redirect(['index']);
 	}
 
-	public function actionRelease($id)
-	{
-		$model = $this->findModel($id);
-		if ($model->id_status === PurchaseHdr::STATUS_DRAFT) {
-			$model->id_status = PurchaseHdr::STATUS_RELEASE;
-			$model->save();
-			return $this->redirect(['index']);
-		} else {
-			throw new \yii\base\UserException('Dokument tidak boleh direlese');
-		}
-	}
-
 	public function actionReceive($id)
 	{
 		$model = $this->findModel($id);
-		if ($model->id_status === PurchaseHdr::STATUS_RELEASE) {
+		if ($model->id_status === PurchaseHdr::STATUS_DRAFT) {
 			$transaction = Yii::$app->db->beginTransaction();
 			try {
 				$model->id_status = PurchaseHdr::STATUS_RECEIVE;
@@ -218,7 +201,7 @@ class PurchaseController extends Controller
 								'qty' => $detail->purch_qty,
 								'price' => $detail->purch_price,
 								'id_uom' => $detail->id_uom,
-								'selling_price'=> $detail->selling_price,
+								'selling_price' => $detail->selling_price,
 					]);
 				}
 
@@ -257,8 +240,9 @@ class PurchaseController extends Controller
 		$query->from('supplier');
 		if ($id === null) {
 			if (!empty($term)) {
-				$query->orWhere(['like', 'nm_supplier', $term]);
-				$query->orWhere(['like', 'cd_supplier', $term]);
+				$term = strtolower($term);
+				$query->orWhere(['like', 'lower(nm_supplier)', $term]);
+				$query->orWhere(['like', 'lower(cd_supplier)', $term]);
 			}
 
 			$query->limit(20);
@@ -266,9 +250,9 @@ class PurchaseController extends Controller
 			foreach ($query->all() as $row) {
 				$result[] = [
 					'id' => $row['id_supplier'],
-					'value' => $row['id_supplier'],
-					'text' => "{$row['cd_supplier']} - {$row['nm_supplier']}",
-					'label' => "{$row['cd_supplier']} - {$row['nm_supplier']}",
+					//'value' => $row['id_supplier'],
+					'text' => "{$row['nm_supplier']}",
+					'label' => "{$row['nm_supplier']}",
 					'extra' => $row,
 				];
 			}
@@ -317,11 +301,11 @@ class PurchaseController extends Controller
 
 	public function actionProductOfSupplier($supp, $term = '')
 	{
-		if ($supp === null) {
+		if ($supp == '') {
 			return Json::encode([]);
 		}
 		$query = new Query;
-		$query = $query->select(['ps.id_supplier', 'p.*'])
+		$query = $query->select(['p.id_product', 'p.nm_product', ''])
 				->from('product_supplier ps')
 				->innerJoin('product p', 'p.id_product=ps.id_product')
 				->where(['ps.id_supplier' => $supp]);
@@ -334,7 +318,7 @@ class PurchaseController extends Controller
 		}
 
 		$query->limit(20);
-		
+
 		$result = [];
 		foreach ($query->all() as $row) {
 			$result[] = [
@@ -367,6 +351,48 @@ class PurchaseController extends Controller
 		}
 
 		return \yii\helpers\Html::renderSelectOptions([], $result);
+	}
+
+	public function actionJs()
+	{
+		$sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
+			u.id_uom, u.nm_uom, pu.isi
+			from product p
+			join product_uom pu on(pu.id_product=p.id_product)
+			join uom u on(u.id_uom=pu.id_uom)
+			order by p.id_product,pu.isi";
+		$product = [];
+		foreach (\Yii::$app->db->createCommand($sql)->query() as $row) {
+			$id = $row['id'];
+			if (!isset($product[$id])) {
+				$product[$id] = [
+					'id' => $row['id'],
+					'cd' => $row['cd'],
+					'text' => $row['nm'],
+					'id_uom' => $row['id_uom'],
+					'nm_uom' => $row['nm_uom'],
+				];
+			}
+			$product[$id]['uoms'][$row['id_uom']] = [
+				'id' => $row['id_uom'],
+				'nm' => $row['nm_uom'],
+				'isi' => $row['isi']
+			];
+		}
+
+		$sql = "select id_supplier,id_product
+			from product_supplier";
+		$ps = [];
+		foreach (\Yii::$app->db->createCommand($sql)->queryAll() as $row) {
+			$ps[$row['id_supplier']][] = $row['id_product'];
+		}
+		
+		$sql = "select id_supplier as id, nm_supplier as label from supplier";
+		$supp = \Yii::$app->db->createCommand($sql)->queryAll();
+		return $this->renderPartial('process.js.php', [
+			'product' => $product, 
+			'ps' => $ps,
+			'supp'=>$supp]);
 	}
 
 }
