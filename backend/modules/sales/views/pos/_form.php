@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="col-lg-3" style="padding-right: 0px;">
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading" style="font-weight: bold;">
                 Active Session
             </div>
             <div class="panel-body">
@@ -31,37 +31,32 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="panel panel-default">            
-            <div class="panel-heading">
+            <div class="panel-heading" style="font-weight: bold;">
                 Payment
             </div>
             <div class="panel-body">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                Type :
-                            </td>
-                            <td>
-                                <input type="text">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Value :
-                            </td>
-                            <td>
-                                <input type="text">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Cash Back :
-                            </td>
-                            <td>Rp0</td>
-                        </tr>
-                    </tbody>
-                </table>
+                CashBack :<h3><span id="cashback">Rp0</span></h32>
             </div>
+            <table class="table table-striped" style="margin-bottom: 0px;">
+                <tbody>
+                    <tr>
+                        <td>
+                            Type :
+                        </td>
+                        <td>
+                            <input type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Value :
+                        </td>
+                        <td>
+                            <input type="text">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <?php echo Html::a('Save', '', ['class' => 'btn btn-primary', 'data-method' => 'pos']); ?>
         <a id="new-session" class="btn btn-success" href="#">New Session</a>
