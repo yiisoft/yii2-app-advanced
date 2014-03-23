@@ -16,7 +16,7 @@
 					key = (new Date()).getTime();
 					localStorage.setItem('session-current', key);
 					localStorage.setItem('session-' + key, '[]');
-					
+
 					$list_session.children('div').removeClass('active');
 					var $div = $list_template.clone();
 					$div.children('.session').text(key);
@@ -49,6 +49,7 @@
 				localStorage.removeItem('session-current');
 				$('#detail-grid > tbody > tr').remove();
 				$list_session.children('div').removeClass('active');
+				$('#total-price').text(local.format(0));
 				$('#product').focus();
 			},
 			listSession: function() {
@@ -139,20 +140,20 @@
 
 				$list_session.on('click', 'a', function() {
 					var $this = $(this);
-					if($this.is('.session')){
-						if($this.closest('div').hasClass('active')){
+					if ($this.is('.session')) {
+						if ($this.closest('div').hasClass('active')) {
 							return false;
 						}
 						var key = $this.text();
 						$('#list-session > div').removeClass('active');
 						$this.closest('div').addClass('active');
 						storage.changeSession(key);
-					}else{
+					} else {
 						var $div = $this.closest('div');
 						var key = $div.children('.session').text();
 						$div.remove();
-						localStorage.removeItem('session-'+key);
-						if(localStorage.getItem('session-current') == key){
+						localStorage.removeItem('session-' + key);
+						if (localStorage.getItem('session-current') == key) {
 							localStorage.removeItem('session-current');
 							$('#detail-grid > tbody > tr').remove();
 							$('#product').focus();
@@ -203,14 +204,32 @@
 				}
 				local.normalizeItem();
 			},
-			selectRow:function($row,focus){
-				if($row.is('.selected')){
+			selectRow: function($row, focus) {
+				if ($row.is('.selected')) {
 					return;
 				}
 				$grid.find('tbody > tr').removeClass('selected');
 				$row.addClass('selected');
-				if(focus){
+				if (focus) {
 					$row.find('input[data-field="qty"]')
+				}
+			},
+			setFocus: function(act) {
+				var $row = $grid.find('tbody > tr.selected');
+				if ($row.length == 1) {
+					var $li = $row.find('li' + (act == 42 ? '.qty' : '.discon'));
+					$li.show();
+					$li.children('input').focus().select();
+					return false;
+				}
+			},
+			delActiveRow: function() {
+				var $row = $grid.find('tbody > tr.selected');
+				if ($row.length == 1) {
+					$row.remove();
+					local.normalizeItem();
+					$('#product').focus();
+					return false;
 				}
 			},
 			format: function(n) {
@@ -264,7 +283,7 @@
 				});
 
 				$grid.on('click', 'tr', function() {
-					local.selectRow($(this),true);
+					local.selectRow($(this), true);
 				});
 
 				var enterPressed = false;
@@ -297,32 +316,42 @@
 				});
 
 				$(document).on('keypress', '', function(e) {
-					var action = false;
+					var $elem = $(e.target);
+					if ($elem.is(':input') && $elem.val() != '') {
+						return;
+					}
 					var kode = e.which;
-					if (kode == 42) {
-						action = '.qty';
-					}
-					if (kode == 45) {
-						action = '.discon';
-					}
-					if (action !== false) {
-						var $elem = $(e.target);
-						if ($elem.is(':input') && $elem.val() != '') {
-							return;
-						}
-						var $row = $grid.find('tbody > tr.selected');
-						if ($row.length == 1) {
-							var $li = $row.find('li' + action);
-							$li.show();
-							$li.children('input').focus().select();
-							return false;
-						}
+					switch (kode) {
+						case 42:
+						case 45:
+							return local.setFocus(kode);
+						default:
+							
 					}
 				});
-				
-				yii.numeric.input($grid,'input[data-field]',{
-					allowFloat:true,
-					allowNegative:false,
+
+				$(document).on('keydown', '', function(e) {
+					var n = $(e.target).is(':input') && e.target.value;
+					
+					var kode = e.which;
+					switch (kode) {
+						case 46:
+							if(!n){
+								return local.delActiveRow();
+							}
+						case 78:
+							if(e.ctrlKey){
+								storage.newSession();
+								return false;
+							}
+						default:
+							console.log(kode);
+					}
+				});
+
+				yii.numeric.input($grid, 'input[data-field]', {
+					allowFloat: true,
+					allowNegative: false,
 				});
 			},
 			init: function() {

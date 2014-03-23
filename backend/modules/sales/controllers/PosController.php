@@ -69,13 +69,16 @@ class PosController extends Controller
 	 */
 	public function actionCreate()
 	{
-		//$this->layout = 'main';
 		$this->manifest = self::MANIFEST_NAME;
 		$model = new SalesHdr;
-		$details = [new SalesDtl];
+		if(true){
+			$this->getView()->attachBehavior('appcache', [
+				'class'=>  \backend\components\AppCache::className(),
+				'manifest_file' => self::MANIFEST_NAME,
+			]);
+		}
 		return $this->render('create', [
-					'model' => $model,
-					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
+			'model' => $model,
 		]);
 	}
 
