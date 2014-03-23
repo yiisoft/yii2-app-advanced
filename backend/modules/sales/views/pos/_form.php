@@ -31,11 +31,11 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="panel panel-default">            
-<!--            <div class="panel-heading" style="font-weight: bold;">
-                Payment
-            </div>-->
-            <div class="panel-body label-info">
-                CashBack :<h3><span id="cashback">Rp0.00</span></h32>
+            <!--            <div class="panel-heading" style="font-weight: bold;">
+                            Payment
+                        </div>-->
+            <div class="panel-body label-info" style="text-align: right;">
+                <h3>CB: <span id="cashback">Rp0.00</span></h32>
             </div>
             <table class="table table-striped" style="margin-bottom: 0px;">
                 <tbody>
