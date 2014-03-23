@@ -18,7 +18,7 @@ use yii\jui\AutoComplete;
         ]);
         ?>
     </div>
-    <div class="panel-body pull-right">        
+    <div class="panel-body" style="text-align: right;">        
         <input type="hidden" data-field="total_price"><h2>Rp<span id="total-price"></h2></span>
     </div>
     <table id="detail-grid" class="table table-striped" style="padding: 0px;">
