@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
  *
  * @author MDMunir
  */
-class AutoUser extends \yii\behaviors\AttributeBehavior
+class AutoUser extends \yii\behaviors\BlameableBehavior
 {
 
 	/**
@@ -24,11 +24,5 @@ class AutoUser extends \yii\behaviors\AttributeBehavior
 		ActiveRecord::EVENT_BEFORE_INSERT => ['create_by', 'update_by'],
 		ActiveRecord::EVENT_BEFORE_UPDATE => ['update_by'],
 	];
-
-	public function init()
-	{
-		$this->value = ($user = \Yii::$app->user) ? $user->id : 0;
-		parent::init();
-	}
 
 }
