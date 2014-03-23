@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\bootstrap\Modal;
-
 /**
  * @var yii\web\View $this
  * @var backend\modules\sales\models\SalesHdr $model
@@ -13,23 +11,28 @@ use yii\bootstrap\Modal;
 
 <div class="sales-hdr-form">
     <?php $form = ActiveForm::begin(['options' => ['id' => 'pos-form']]); ?>
+	<div class="col-lg-9" style="padding-left: 0px;">
     <?= $this->render('_detail'); ?>
-    <div class="col-lg-3">
-        <?php echo Html::a('Save', '', ['class' => 'btn btn-primary', 'data-method' => 'pos']); ?>
-        <a id="new-session" class="btn btn-success" href="#">New Session</a>
+	</div>
+    <div class="col-lg-3" style="padding-right: 0px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Active Session
+        </div>
+        <div class="panel-body">
+			<div id="list-template" style="display: none;">
+				<div><a href="#" class="session"></a>
+					&nbsp;&nbsp;&nbsp;
+					<a href="#" class="del">&minus;</a></div>
+			</div>
+            <div id="list-session">
+			</div>
+        </div>
     </div>
+	<?php echo Html::a('Save', '', ['class' => 'btn btn-primary', 'data-method' => 'pos']); ?>
+        <a id="new-session" class="btn btn-success" href="#">New Session</a>
+</div>
     <?php ActiveForm::end(); ?>
 </div>
-<?php
-Modal::begin([
-    'header' => 'Test...',
-    'clientOptions' => [
-        'backdrop' => 'static',
-    ]
-]);
-?>
-
-<?php Modal::end(); ?>
-
 <?php
 $this->render('_script');

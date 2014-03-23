@@ -1,73 +1,177 @@
 <?php if (false): ?>
 	<script type="text/javascript">
 <?php endif; ?>
-	yii.numericInput = (function($) {
-		function getCaret(element) {
-			if (element.selectionStart)
-				return element.selectionStart;
+	yii.pos = (function($) {
+		var $grid, $form, $template, runing = false, $list_session, $list_template;
 
-			else if (document.selection) { //IE specific
-				element.focus();
-				var r = document.selection.createRange();
-				if (r == null)
-					return 0;
+		var product = <?= json_encode($product); ?>,
+				delay = 1000,
+				limit = 20;
 
-				var re = element.createTextRange(), rc = re.duplicate();
-				re.moveToBookmark(r.getBookmark());
-				rc.setEndPoint('EndToStart', re);
-				return rc.text.length;
-			}
-
-			return 0;
-		}
-		var allowFloat = true, allowNegative = false;
-
-		var pub = {
-			init: function() {
-				$('#detail-grid').on('keypress', 'input', pub.keypress)
+		var storage = {
+			pushUrl: '<?= \yii\helpers\Url::toRoute(['save-pos']) ?>',
+			getCurrentSession: function() {
+				var key = localStorage.getItem('session-current');
+				if (key == undefined) {
+					key = (new Date()).getTime();
+					localStorage.setItem('session-current', key);
+					localStorage.setItem('session-' + key, '[]');
+					
+					$list_session.children('div').removeClass('active');
+					var $div = $list_template.clone();
+					$div.children('.session').text(key);
+					$list_session.append($div.addClass('active'));
+				}
+				return key;
 			},
-			keypress: function(event) {
-				var inputCode = event.which;
-				var currentValue = $(this).val();
+			changeSession: function(key) {
+				var details = JSON.parse(localStorage.getItem('session-' + key));
+				localStorage.setItem('session-current', key);
+				$('#detail-grid > tbody > tr').remove();
+				$.each(details, function() {
+					var item = this;
+					var $row = $template.clone();
+					$row.find('span[data-text="nm_product"]').text(item.nm_product);
+					$row.find('input[data-field="id_product"]').val(item.id_product);
+					$row.find('span[data-text="price"]').text(local.format(item.price));
+					$row.find('input[data-field="price"]').val(item.price);
+					$row.find('input[data-field="qty"]').val(item.qty);
+					$row.find('input[data-field="discon"]').val(item.discon);
+					$row.find('input[data-field="id_uom"]').val(item.id_uom);
+					$row.find('span[data-text="nm_uom"]').text(item.nm_uom);
 
-				if (inputCode > 0 && (inputCode < 48 || inputCode > 57)) {	// Checks the if the character code is not a digit
-					if (allowFloat == true && inputCode == 46) {	// Conditions for a period (decimal point)
-						//Disallows a period before a negative
-						if (allowNegative == true && getCaret(this) == 0 && currentValue.charAt(0) == '-')
-							return false;
-
-						//Disallows more than one decimal point.
-						if (currentValue.match(/[.]/))
-							return false;
+					$grid.children('tbody').append($row);
+				});
+				$('#product').focus();
+				local.normalizeItem();
+			},
+			newSession: function() {
+				localStorage.removeItem('session-current');
+				$('#detail-grid > tbody > tr').remove();
+				$list_session.children('div').removeClass('active');
+				$('#product').focus();
+			},
+			listSession: function() {
+				var current = localStorage.getItem('session-current');
+				var keys = Object.keys(localStorage);
+				$list_session.children('div').remove();
+				$.each(keys, function() {
+					var key = this;
+					if (key != 'session-current' && key.indexOf('session-') == 0) {
+						var $div = $list_template.clone();
+						$div.children('.session').text(key.substr(8));
+						if (key == 'session-' + current) {
+							$div.addClass('active');
+						}
+						$list_session.append($div);
 					}
+				});
+				return current;
+			},
+			saveSession: function(data) {
+				var key = storage.getCurrentSession();
+				localStorage.setItem('session-' + key, JSON.stringify(data));
+				storage.listSession();
+			},
+			save: function() {
+				var $rows = $('#detail-grid > tbody > tr');
+				if ($rows.length == 0) {
+					return false;
+				}
+				var data = {
+					detail: [],
+				};
+				$rows.each(function() {
+					var $row = $(this), detail = {};
+					$row.find('input[data-field]').each(function() {
+						var field = $(this).data('field');
+						detail[field] = $(this).val();
+					});
+					data.detail.push(detail);
+				});
 
-					else if (allowNegative == true && inputCode == 45) {	// Conditions for a decimal point
-						if (currentValue.charAt(0) == '-')
-							return false;
+				// -- save to queue and remove session
+				var key = storage.getCurrentSession();
+				data.key = key;
+				var s = JSON.stringify(data);
+				localStorage.setItem('pos-data-' + key, s);
 
-						if (getCaret(this) != 0)
-							return false;
+				localStorage.removeItem('session-' + key);
+				localStorage.removeItem('session-current');
+				$('#list-session > div.active').remove();
+				$('#detail-grid > tbody > tr').remove();
+			},
+			push: function() {
+				var keys = Object.keys(localStorage);
+				$.each(keys, function() {
+					var key = this;
+					if (key != 'pos-data-count' && key.indexOf('pos-data-') == 0) {
+						if (!runing) {
+							runing = true;
+							var data = JSON.parse(localStorage.getItem(key));
+							$.ajax(storage.pushUrl, {
+								data: data,
+								dataType: 'json',
+								type: 'POST',
+								success: function(r) {
+									if (r.type == 'S') {
+										localStorage.removeItem(key);
+									}
+									runing = false;
+								},
+								error: function() {
+									runing = false;
+								}
+							});
+						}
+						return false;
 					}
+				});
+				setTimeout(function() {
+					storage.push();
+				}, delay);
+			},
+			initEvent: function() {
+				$('#new-session').click(function() {
+					storage.newSession();
+					return false;
+				});
 
-					else if (inputCode == 8) 	// Allows backspace
-						return true;
-					else								// Disallow non-numeric
-						return false;
+				$list_session.on('click', 'a', function() {
+					var $this = $(this);
+					if($this.is('.session')){
+						if($this.closest('div').hasClass('active')){
+							return false;
+						}
+						var key = $this.text();
+						$('#list-session > div').removeClass('active');
+						$this.closest('div').addClass('active');
+						storage.changeSession(key);
+					}else{
+						var $div = $this.closest('div');
+						var key = $div.children('.session').text();
+						$div.remove();
+						localStorage.removeItem('session-'+key);
+						if(localStorage.getItem('session-current') == key){
+							localStorage.removeItem('session-current');
+							$('#detail-grid > tbody > tr').remove();
+							$('#product').focus();
+						}
+					}
+					return false;
+				});
+			},
+			init: function() {
+				var current = storage.listSession();
+				if (current) {
+					storage.changeSession(current);
 				}
-
-				else if (inputCode > 0 && (inputCode >= 48 && inputCode <= 57)) {	// Disallows numbers before a negative.
-					if (allowNegative == true && currentValue.charAt(0) == '-' && getCaret(this) == 0)
-						return false;
-				}
-			}
+				storage.initEvent();
+				storage.push();
+			},
 		}
-		return pub;
-	})(window.jQuery);
 
-	yii.Pos = (function($) {
-		var $grid, $form, $template;
-
-		var pub = {
+		var local = {
 			addItem: function(item) {
 				var has = false;
 				$('#detail-grid > tbody > tr').each(function() {
@@ -86,62 +190,50 @@
 				if (!has) {
 					var $row = $template.clone();
 					//$row.show();
-					$row.find('.items span.nm_product').text(item.text);
+					$row.find('span[data-text="nm_product"]').text(item.text);
 					$row.find('input[data-field="id_product"]').val(item.id);
-					$row.find('.items span.price').text(pub.format(item.price));
+					$row.find('span[data-text="price"]').text(local.format(item.price));
 					$row.find('input[data-field="price"]').val(item.price);
 					$row.find('input[data-field="qty"]').val('1');
 					$row.find('input[data-field="id_uom"]').val(item.id_uom);
-					$row.find('.items span.nm_uom').text(item.nm_uom);
+					$row.find('span[data-text="nm_uom"]').text(item.nm_uom);
 
-					$grid.find('tbody > tr').removeClass('selected');
-					$row.addClass('selected');
+					local.selectRow($row)
 					$grid.children('tbody').append($row);
 				}
-				pub.normalizeItem();
+				local.normalizeItem();
 			},
-			onSelect: function(event, ui) {
-				pub.addItem(ui.item);
-			},
-			format:function(n){
-				//return n;
-				return $.number( n, 2 );
-			},
-			getCurrentSession: function() {
-				var key = localStorage.getItem('session-current');
-				if (key == undefined) {
-					key = (new Date()).getTime();
-					localStorage.setItem('session-current', key);
-					localStorage.setItem('session-' + key, '[]');
-					$('#list-session > li').removeClass('active');
-					$('#list-session').append($('<li>').text(key).addClass('active'));
+			selectRow:function($row,focus){
+				if($row.is('.selected')){
+					return;
 				}
-				return key;
+				$grid.find('tbody > tr').removeClass('selected');
+				$row.addClass('selected');
+				if(focus){
+					$row.find('input[data-field="qty"]')
+				}
+			},
+			format: function(n) {
+				return $.number(n, 2);
 			},
 			normalizeItem: function() {
 				var total = 0.0;
 				var details = [];
 				$('#detail-grid > tbody > tr').each(function() {
 					var $row = $(this);
-					var q, d;
-					if ($row.find('input[data-field="qty"]').val() == '') {
-						//$row.find('span.qty').hide();
-						q = 1;
-					} else {
-						//$row.find('span.qty').show();
-						q = $row.find('input[data-field="qty"]').val();
-					}
+					var q = $row.find('input[data-field="qty"]').val(),
+							d = $row.find('input[data-field="discon"]').val();
+					q = q == '' ? 1 : q;
 
-					if ($row.find('input[data-field="discon"]').val() == '') {
-						$row.find('span.discon').hide();
+					if (d == '') {
+						$row.find('li.discon').hide();
 						d = 0;
 					} else {
-						$row.find('span.discon').show();
-						d = $row.find('input[data-field="discon"]').val();
+						$row.find('li.discon').show();
 					}
 
 					var t = (1 - 0.01 * d) * q * $row.find('input[data-field="price"]').val();
-					$row.find('td.total-price > span.total-price').text(pub.format(t));
+					$row.find('span[data-text="total_price"]').text(local.format(t));
 					$row.find('input[data-field="total_price"]').val(t);
 					total += t;
 
@@ -150,79 +242,29 @@
 					$row.find('input[data-field]').each(function() {
 						detail[$(this).data('field')] = this.value;
 					});
-					detail.nm_product = $row.find('.items span.nm_product').text();
-					detail.nm_uom = $row.find('.items span.nm_uom').text();
+					detail.nm_product = $row.find('span[data-text="nm_product"]').text();
+					detail.nm_uom = $row.find('span[data-text="nm_uom"]').text();
 					details.push(detail);
 				});
-				$('#total-price').text(pub.format(total));
-				var key = pub.getCurrentSession();
-				localStorage.setItem('session-' + key, JSON.stringify(details));
-				pub.listSession();
+				$('#total-price').text(local.format(total));
+				storage.saveSession(details);
 			},
-			changeSession: function(key) {
-				var details = JSON.parse(localStorage.getItem('session-' + key));
-				localStorage.setItem('session-current', key);
-				$('#detail-grid > tbody > tr').remove();
-				$.each(details, function() {
-					var item = this;
-					var $row = $template.clone();
-					//$row.show();
-					$row.find('.items span.nm_product').text(item.nm_product);
-					$row.find('input[data-field="id_product"]').val(item.id_product);
-					$row.find('.items span.price').text(pub.format(item.price));
-					$row.find('input[data-field="price"]').val(item.price);
-					$row.find('input[data-field="qty"]').val(item.qty);
-					$row.find('input[data-field="discon"]').val(item.discon);
-					$row.find('input[data-field="id_uom"]').val(item.id_uom);
-					$row.find('.items span.nm_uom').text(item.nm_uom);
-
-					$grid.children('tbody').append($row);
-					//$grid.find('input').numericInput({allowFloat: true});
-				});
-				$('#product').focus();
-				pub.normalizeItem();
-			},
-			newSession: function() {
-				localStorage.removeItem('session-current');
-				$('#detail-grid > tbody > tr').remove();
-				$('#list-session li').removeClass('active');
-				$('#product').focus();
-			},
-			listSession: function() {
-				var current = localStorage.getItem('session-current');
-				var keys = Object.keys(localStorage);
-				$('#list-session').html('');
-				$.each(keys, function() {
-					var key = this;
-					if (key != 'session-current' && key.indexOf('session-') == 0) {
-						var $li = $('<li>').text(key.substr(8));
-						if (key == 'session-' + current) {
-							$li.addClass('active');
-						}
-						$('#list-session').append($li);
-					}
-				});
-				return current;
-			},
-			initSession: function() {
-				var current = pub.listSession();
-				if (current) {
-					pub.changeSession(current);
-				}
-			},
-			init: function() {
+			initObj: function() {
 				$grid = $('#detail-grid');
 				$form = $('#pos-form');
 				$template = $('#detail-grid > thead > tr');
-				
+				$list_session = $('#list-session');
+				$list_template = $('#list-template > div');
+			},
+			initEvent: function() {
 				$grid.on('click', '[data-action="delete"]', function() {
 					$(this).closest('tr').remove();
+					local.normalizeItem();
 					return false;
 				});
 
 				$grid.on('click', 'tr', function() {
-					$grid.find('tbody > tr').removeClass('selected');
-					$(this).addClass('selected');
+					local.selectRow($(this),true);
 				});
 
 				var enterPressed = false;
@@ -241,51 +283,16 @@
 						}
 					}
 					$('#product').focus();
-					pub.normalizeItem();
+					local.normalizeItem();
 				});
 
 				$grid.on('focus', 'input', function(e) {
 					$(e.target).select();
+					local.selectRow($(e.target).closest('tr'));
 				});
 
 				$form.on('submit', function() {
-					var $rows = $('#detail-grid > tbody > tr');
-					if ($rows.length == 0) {
-						return false;
-					}
-					var data = {
-						detail: [],
-					};
-					$rows.each(function() {
-						var $row = $(this), detail = {};
-						$row.find('input[data-field]').each(function() {
-							var field = $(this).data('field');
-							detail[field] = $(this).val();
-						});
-						data.detail.push(detail);
-					});
-					yii.Product.add(data);
-					var key = pub.getCurrentSession();
-					localStorage.removeItem('session-' + key);
-					localStorage.removeItem('session-current');
-					$('#list-session > li.active').remove();
-					$('#detail-grid > tbody > tr').remove();
-
-					return false;
-				});
-
-				pub.initSession();
-				$('#new-session').click(function() {
-					pub.newSession();
-					return false;
-				});
-
-				$('#list-session').on('click', 'li', function() {
-					var $this = $(this);
-					var key = $this.text();
-					$('#list-session > li').removeClass('active');
-					$this.addClass('active');
-					pub.changeSession(key);
+					storage.save();
 					return false;
 				});
 
@@ -305,14 +312,65 @@
 						}
 						var $row = $grid.find('tbody > tr.selected');
 						if ($row.length == 1) {
-							var $span = $row.find('span' + action);
-							$span.show();
-							$span.children('input').focus().select();
+							var $li = $row.find('li' + action);
+							$li.show();
+							$li.children('input').focus().select();
 							return false;
 						}
 					}
 				});
+				
+				yii.numeric.input($grid,'input[data-field]',{
+					allowFloat:true,
+					allowNegative:false,
+				});
+			},
+			init: function() {
+				local.initObj();
+				local.initEvent();
+			}
+		}
 
+		var pub = {
+			sourceProduct: function(request, callback) {
+				var result = [];
+				var c = limit;
+				var term = request.term.toLowerCase();
+				$.each(product, function() {
+					if (this.text.toLowerCase().indexOf(term) >= 0 || this.cd == term) {
+						result.push(this);
+						c--;
+						if (c <= 0) {
+							return false;
+						}
+					}
+				});
+				callback(result);
+			},
+			searchProductByCode: function(cd) {
+				var result = false;
+				$.each(product, function() {
+					if (this.cd == cd) {
+						result = this;
+						return false;
+					}
+				});
+				return result;
+			},
+			onSelectProduct: function(event, ui) {
+				local.addItem(ui.item);
+			},
+			onProductChange: function() {
+				var item = pub.searchProductByCode(this.value);
+				if (item !== false) {
+					local.addItem(item);
+				}
+				this.value = '';
+				$(this).autocomplete("close");
+			},
+			init: function() {
+				local.init();
+				storage.init();
 			},
 		};
 		return pub;
