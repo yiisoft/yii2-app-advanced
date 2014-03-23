@@ -14,11 +14,11 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<?php 
-if(isset($this->manifest_file)){
-	$manifest = "manifest=\"{$this->manifest_file}\"";
-}  else {
-	$manifest = '';
+<?php
+if (isset($this->manifest_file)) {
+    $manifest = "manifest=\"{$this->manifest_file}\"";
+} else {
+    $manifest = '';
 }
 ?>
 <html lang="<?= Yii::$app->language ?>" <?= $manifest ?>>
@@ -56,6 +56,22 @@ if(isset($this->manifest_file)){
             if (!Yii::$app->user->isGuest) {
                 $menuItems2 = [
                     [
+                        'label' => 'Setup',
+                        'url' => ['#'],
+                        'items' => [
+                            ['label' => 'User Management',
+                                'url' => ['#'],
+                                'linkOptions' => ['data-method' => 'post']],
+                            ['label' => 'Auth & Autorization',
+                                'url' => ['#'],
+                                'linkOptions' => ['data-method' => 'post']],
+                            '<li class="divider"></li>',
+                            ['label' => 'Organization Setup',
+                                'url' => ['#'],
+                                'linkOptions' => ['data-method' => 'post']],
+                        ]
+                    ],
+                    [
                         'label' => 'Master',
                         'url' => ['#'],
                         'items' => [
@@ -71,55 +87,77 @@ if(isset($this->manifest_file)){
                         ]
                     ], [
                         'label' => 'Purchasing',
-                        'url' => ['/purchase/purchase'],
-                        'linkOptions' => ['data-method' => 'post']
+                        'items' => [
+                            ['label' => 'Entri Pembelian',
+                                'url' => ['/purchase/purchase/create'],
+                                'linkOptions' => ['data-method' => 'post']],
+                            ['label' => 'Receive Pembelian',
+                                'url' => ['/purchase/purchase/create'],
+                                'linkOptions' => ['data-method' => 'post']],
+                            ['label' => 'Posting Pembelian',
+                                'url' => ['/purchase/purchase/create'],
+                                'linkOptions' => ['data-method' => 'post']],
+                            '<li class="divider"></li>',
+                            ['label' => 'Pembelian Per Supplier', 'url' => ['#']],
+                            ['label' => 'Pembelian Per Jatuh Tempo', 'url' => ['#']],
+                            ['label' => 'Pembelian Per Nilai Faktur', 'url' => ['#']],
+                        ]
                     ],
                     [
                         'label' => 'Inventory',
-                        //'url' => ['/inventory'],
-                        //'linkOptions' => ['data-method' => 'post'],
                         'items' => [
-                            ['label' => 'Transfer',
+                            ['label' => 'Transfer Antar Gudang',
                                 'url' => ['/inventory/transfer'],
                                 'linkOptions' => ['data-method' => 'post']],
-                            ['label' => 'Receive',
+                            ['label' => 'Receive Transfer',
                                 'url' => ['/inventory/receive'],
                                 'linkOptions' => ['data-method' => 'post']],
                             '<li class="divider"></li>',
-                            ['label' => 'Stock Opname',
-                                'url' => ['/inventory/opname'],
-                                'linkOptions' => ['data-method' => 'post']]
+                            ['label' => 'Stock Opname', 'url' => ['#']],
+                            ['label' => 'Stock Adjusment', 'url' => ['#']],
+                            '<li class="divider"></li>',
+                            ['label' => 'Stock Per Barang', 'url' => ['#']],
+                            ['label' => 'Stock Per Group', 'url' => ['#']],
+                            ['label' => 'Stock Per Category', 'url' => ['#']],
+                            ['label' => 'Rekap Nilai Stok', 'url' => ['#']],
                         ]
                     ],
                     [
                         'label' => 'Sales',
-                        //'url' => ['/inventory'],
-                        //'linkOptions' => ['data-method' => 'post'],
                         'items' => [
                             ['label' => 'Sales Standart',
                                 'url' => ['/sales'],
                                 'linkOptions' => ['data-method' => 'post']],
                             ['label' => 'Point of Sales',
-                                'url' => ['/sales/pos'],
-                                'linkOptions' => ['data-method' => 'post']]
+                                'url' => ['/sales/pos/create'],
+                                'linkOptions' => ['data-method' => 'post']],
+                            ['label' => 'Posting Penjualan', 'url' => ['#']],
+                            '<li class="divider"></li>',
+                            ['label' => 'Sales Harian', 'url' => '#'],
+                            ['label' => 'Sales Bulanan', 'url' => '#'],
+                            ['label' => 'Sales Tahunan', 'url' => '#'],
+                            ['label' => 'Sales Per Group', 'url' => '#'],
+                            ['label' => 'Sales Per Category', 'url' => '#'],
+                            '<li class="divider"></li>',
+                            ['label' => 'Analisa Barang Laku', 'url' => '#'],
                         ]
                     ],
                     [
                         'label' => 'Accounting',
-                        //'url' => ['/inventory'],
-                        //'linkOptions' => ['data-method' => 'post'],
                         'items' => [
-                            ['label' => 'COA',
-                                'url' => ['/coa'],
-                                'linkOptions' => ['data-method' => 'post']],
-                            ['label' => 'Entry Sheet',
-                                'url' => ['/Entry'],
-                                'linkOptions' => ['data-method' => 'post']],
-                            ['label' => 'Entry Sheet',
-                                'url' => ['/Entry'],
-                                'linkOptions' => ['data-method' => 'post']],
-                            '<li class="dropdown-header">Dropdown Header</li>',
-                            ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
+                            ['label' => 'COA', 'url' => ['#']],
+                            ['label' => 'Entry Sheet', 'url' => ['#']],
+                            '<li class="divider"></li>',
+                            ['label' => 'Entri Journal', 'url' => '#'],
+                            ['label' => 'Pembayaran Hutang', 'url' => '#'],
+                            ['label' => 'Penerimaan Piutang', 'url' => '#'],
+                            ['label' => 'Entri Biaya', 'url' => '#'],
+                            ['label' => 'Setoran Bank', 'url' => '#'],
+                            '<li class="divider"></li>',
+                            ['label' => 'Journal Umum', 'url' => '#'],
+                            ['label' => 'Buku Besar', 'url' => '#'],
+                            ['label' => 'Neraca', 'url' => '#'],
+                            ['label' => 'Laba/Rugi', 'url' => '#'],                            
                         ]
                     ]
                 ];
