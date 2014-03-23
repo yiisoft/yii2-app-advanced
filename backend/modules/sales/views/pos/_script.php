@@ -23,7 +23,7 @@ use yii\helpers\Url;
 		color:inherit;
 		text-align:right;
 	}
-	#detail-grid span[data-text="total_price"]{
+	#detail-grid td.total-price{
 		text-align:right;
 	}
 	#detail-grid tfoot .total-price{

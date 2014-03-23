@@ -42,7 +42,7 @@ use yii\jui\AutoComplete;
 						</li>
 					</ul>
 				</td>
-				<td>
+				<td class="total-price">
 					<input type="hidden" data-field="total_price"><span data-text="total_price"></span>
 				</td>
 			</tr>
