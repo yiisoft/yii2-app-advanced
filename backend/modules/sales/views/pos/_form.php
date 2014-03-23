@@ -29,19 +29,21 @@ use yii\widgets\ActiveForm;
                 <div id="list-session">
                 </div>
             </div>
+            <div class="panel-footer">
+                No.Kasir:<span id="kasir">1</span><br>
+                Nama Kasir:<br>
+                date-time:<span id="kasir">now()</span><br>
+            </div>
         </div>
-        <div class="panel panel-default">            
-            <!--            <div class="panel-heading" style="font-weight: bold;">
-                            Payment
-                        </div>-->
+        <div class="panel panel-default">
             <div class="panel-body label-info" style="text-align: right;">
-                <h3>CB: <span id="cashback">Rp0.00</span></h32>
+                <h3>CashBack: <span id="cashback">Rp0.00</span></h32>
             </div>
             <table class="table table-striped" style="margin-bottom: 0px;">
                 <tbody>
                     <tr>
                         <td>
-                            Type :
+                            Payment Type :
                         </td>
                         <td>
                             <input type="text">
