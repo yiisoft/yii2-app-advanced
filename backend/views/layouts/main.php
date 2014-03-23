@@ -14,11 +14,11 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<?php 
-if(isset($this->manifest_file)){
-	$manifest = "manifest=\"{$this->manifest_file}\"";
-}  else {
-	$manifest = '';
+<?php
+if (isset($this->manifest_file)) {
+    $manifest = "manifest=\"{$this->manifest_file}\"";
+} else {
+    $manifest = '';
 }
 ?>
 <html lang="<?= Yii::$app->language ?>" <?= $manifest ?>>
@@ -55,6 +55,22 @@ if(isset($this->manifest_file)){
 
             if (!Yii::$app->user->isGuest) {
                 $menuItems2 = [
+                    [
+                        'label' => 'Setup',
+                        'url' => ['#'],
+                        'items' => [
+                            ['label' => 'User Management',
+                                'url' => ['#'],
+                                'linkOptions' => ['data-method' => 'post']],
+                            ['label' => 'Auth & Autorization',
+                                'url' => ['#'],
+                                'linkOptions' => ['data-method' => 'post']],
+                            '<li class="divider"></li>',
+                            ['label' => 'Organization Setup',
+                                'url' => ['#'],
+                                'linkOptions' => ['data-method' => 'post']],
+                        ]
+                    ],
                     [
                         'label' => 'Master',
                         'url' => ['#'],
