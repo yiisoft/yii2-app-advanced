@@ -7,7 +7,7 @@ use backend\modules\purchase\models\PurchaseDtl;
 use backend\modules\master\models\Product;
 ?>
 <div class="col-lg-9" style="padding-left: 0px;">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">
             Product :
             <?php
