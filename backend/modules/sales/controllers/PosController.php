@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
+use backend\components\AppCache;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -71,14 +72,27 @@ class PosController extends Controller
 	{
 		$this->manifest = self::MANIFEST_NAME;
 		$model = new SalesHdr;
-		if(true){
-			$this->getView()->attachBehavior('appcache', [
-				'class'=>  \backend\components\AppCache::className(),
-				'manifest_file' => self::MANIFEST_NAME,
-			]);
-		}
+		$this->getView()->attachBehavior('appcache', [
+			'class' => AppCache::className(),
+			'manifest_file' => self::MANIFEST_NAME,
+		]);
 		return $this->render('create', [
-			'model' => $model,
+					'model' => $model,
+		]);
+	}
+
+	public function actionOpen()
+	{
+		$model = new \backend\modules\sales\models\Session;
+
+		if ($model->load(Yii::$app->request->post())) {
+			if ($model->validate()) {
+				// form inputs are valid, do something here
+				return;
+			}
+		}
+		return $this->render('open', [
+					'model' => $model,
 		]);
 	}
 
@@ -170,15 +184,7 @@ class PosController extends Controller
 
 	public function actionUpdateManifest()
 	{
-		Yii::$app->user->identity->id_branch;
-		$cache = Yii::$app->cache;
-		if ($cache && ($data = $cache->get(self::MANIFEST_NAME)) !== false) {
-			$content = $this->renderPartial('@backend/modules/sales/_manifest.php', ['caches' => $data]);
-			$dest = Yii::getAlias('@webroot/' . self::MANIFEST_NAME);
-			file_put_contents($dest, $content);
-			return $content;
-		}
-		throw new \yii\base\UserException('Error gan...');
+		return AppCache::forceUpdateManifest(self::MANIFEST_NAME);
 	}
 
 }

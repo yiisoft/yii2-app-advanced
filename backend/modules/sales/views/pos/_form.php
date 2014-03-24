@@ -22,9 +22,10 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="panel-body">
                 <div id="list-template" style="display: none;">
-                    <div><a href="#" class="session"></a>
-                        &nbsp;&nbsp;&nbsp;
-                        <a href="#" class="del">&minus;</a></div>
+                    <div>
+						<a href="#" class="session"></a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="del"><span class="glyphicon glyphicon-trash"></span></a>
+					</div>
                 </div>
                 <div id="list-session">
                 </div>
@@ -36,8 +37,10 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="panel panel-default">
-            <div class="panel-body label-info" style="text-align: right;">
-                <h3>CashBack: <span id="cashback">Rp0.00</span></h32>
+            <div class="panel-body label-info">
+                <h3 style="margin-bottom: 0px;margin-top: 2px;">
+					CashBack:<div id="cashback" style="text-align: right;">Rp 0.00</div>
+				</h3>
             </div>
             <table class="table table-striped" style="margin-bottom: 0px;">
                 <tbody>
@@ -46,7 +49,10 @@ use yii\widgets\ActiveForm;
                             Payment Type :
                         </td>
                         <td>
-                            <input type="text">
+                            <?php echo Html::dropDownList(false, '', [
+								1=>'Cash',
+								2=>'Bank'
+							], ['id'=>'payment-type']); ?>
                         </td>
                     </tr>
                     <tr>
@@ -54,14 +60,16 @@ use yii\widgets\ActiveForm;
                             Value :
                         </td>
                         <td>
-                            <input type="text">
+                            <?php echo Html::textInput(false, '', [
+								'id'=>'payment-value',
+								'size'=>10,]); ?>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <?php echo Html::a('Save', '', ['class' => 'btn btn-primary', 'data-method' => 'pos']); ?>
-        <a id="new-session" class="btn btn-success" href="#">New Session</a>
+        <?= Html::a('Save', '', ['class' => 'btn btn-primary', 'id' => 'btn-save']); ?>
+		<?= Html::a('New Session', '', ['class' => 'btn btn-success', 'id' => 'new-session']); ?>
     </div>
     <?php ActiveForm::end(); ?>
 </div>

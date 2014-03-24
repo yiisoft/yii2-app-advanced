@@ -266,7 +266,27 @@
 					details.push(detail);
 				});
 				$('#total-price').text(local.format(total));
+				$('#h-total-price').val(total);
 				storage.saveSession(details);
+			},
+			enterPressed: false,
+			isChangeOrEnter: function($obj, sel, func) {
+				$obj.on('change keydown', sel, function(e) {
+					if (e.type === 'keydown') {
+						if (e.keyCode !== 13) {
+							return; // only react to enter key
+						} else {
+							local.enterPressed = true;
+						}
+					} else {
+						// prevent processing for both keydown and change events
+						if (local.enterPressed) {
+							local.enterPressed = false;
+							return;
+						}
+					}
+					return func.apply(e.target);
+				});
 			},
 			initObj: function() {
 				$grid = $('#detail-grid');
@@ -286,23 +306,22 @@
 					local.selectRow($(this), true);
 				});
 
-				var enterPressed = false;
-				$grid.on('change keydown', ':input', function(e) {
-					if (e.type === 'keydown') {
-						if (e.keyCode !== 13) {
-							return; // only react to enter key
-						} else {
-							enterPressed = true;
-						}
-					} else {
-						// prevent processing for both keydown and change events
-						if (enterPressed) {
-							enterPressed = false;
-							return;
-						}
-					}
+				local.isChangeOrEnter($grid, ':input', function() {
 					$('#product').focus();
 					local.normalizeItem();
+				});
+
+				local.isChangeOrEnter($('#payment-value'), '', function() {
+					var p = this.value * 1;
+					var t = $('#h-total-price').val() * 1;
+					$('#cashback').text('Rp ' + local.format(p - t));
+					if (p >= t) {
+						$('#cashback').css({'color': 'black'});
+						$('#btn-save').focus();
+					} else {
+						$('#cashback').css({'color': 'red'});
+					}
+					return false;
 				});
 
 				$grid.on('focus', 'input', function(e) {
@@ -310,42 +329,48 @@
 					local.selectRow($(e.target).closest('tr'));
 				});
 
-				$form.on('submit', function() {
+				$('#btn-save').on('click', function() {
 					storage.save();
+					$('#product').focus();
 					return false;
 				});
 
-				$(document).on('keypress', '', function(e) {
-					var $elem = $(e.target);
-					if ($elem.is(':input') && $elem.val() != '') {
-						return;
-					}
-					var kode = e.which;
-					switch (kode) {
-						case 42:
-						case 45:
-							return local.setFocus(kode);
-						default:
-							
-					}
-				});
-
-				$(document).on('keydown', '', function(e) {
+				$(document).on('keypress keydown', '*', function(e) {
 					var n = $(e.target).is(':input') && e.target.value;
-					
 					var kode = e.which;
-					switch (kode) {
-						case 46:
-							if(!n){
-								return local.delActiveRow();
-							}
-						case 78:
-							if(e.ctrlKey){
-								storage.newSession();
-								return false;
-							}
-						default:
-							console.log(kode);
+					if (e.type == 'keydown') {
+						switch (kode) {
+							case 46: // delete
+								if (!n) {
+									return local.delActiveRow();
+								}
+							case 78: // ctrl+N
+								if (e.ctrlKey) {
+									storage.newSession();
+									return false;
+								}
+							case 66: // ctrl+B
+							case 67: // ctrl+C
+								if (e.ctrlKey) {
+									$('#payment-type').val(kode==67?1:2);
+									$('#payment-value').focus();
+									return false;
+								}
+							default:
+								//console.log('keydown '+kode);
+								break;
+						}
+					} else {
+						switch (kode) {
+							case 42:
+							case 45:
+								if (!n) {
+									return local.setFocus(kode);
+								}
+							default:
+								//console.log('keypress '+kode);
+								break;
+						}
 					}
 				});
 
@@ -353,6 +378,8 @@
 					allowFloat: true,
 					allowNegative: false,
 				});
+
+				yii.numeric.input($('#payment-value'), '', {});
 			},
 			init: function() {
 				local.initObj();
