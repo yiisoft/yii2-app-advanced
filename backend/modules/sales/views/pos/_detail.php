@@ -3,7 +3,7 @@
 use yii\web\JsExpression;
 use yii\jui\AutoComplete;
 ?>
-<div class="panel panel-default">
+<div class="panel panel-primary">
     <div class="panel-heading">
         Product :
         <?php
@@ -18,8 +18,8 @@ use yii\jui\AutoComplete;
         ]);
         ?>
     </div>
-    <div class="panel-body" style="text-align: right;">        
-        <input type="hidden" data-field="total_price"><h2>Rp<span id="total-price">0</span></h2>
+    <div class="panel-body" style="text-align: right; font-size: xx-large">   
+        <input type="hidden" data-field="total_price">Rp<span id="total-price">0.00</span>
     </div>
     <table id="detail-grid" class="table table-striped" style="padding: 0px;">
         <thead style="display: none">
@@ -40,7 +40,6 @@ use yii\jui\AutoComplete;
                         </li>
                         <li class="discon">
                             Discon <input type="text" size="5" data-field="discon"> %
-
                         </li>
                     </ul>
                 </td>

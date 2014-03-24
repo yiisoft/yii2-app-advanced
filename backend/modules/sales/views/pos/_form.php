@@ -16,34 +16,18 @@ use yii\widgets\ActiveForm;
         <?= $this->render('_detail'); ?>
     </div>
     <div class="col-lg-3" style="padding-right: 0px;">
-        <div class="panel panel-default">
-            <div class="panel-heading" style="font-weight: bold;">
-                Active Session
+        <div class="panel panel-info">
+            <div class="panel-heading">                
+                Payment 
             </div>
-            <div class="panel-body">
-                <div id="list-template" style="display: none;">
-                    <div><a href="#" class="session"></a>
-                        &nbsp;&nbsp;&nbsp;
-                        <a href="#" class="del">&minus;</a></div>
-                </div>
-                <div id="list-session">
-                </div>
-            </div>
-            <div class="panel-footer">
-                No.Kasir:<span id="kasir">1</span><br>
-                Nama Kasir:<br>
-                date-time:<span id="kasir">now()</span><br>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-body label-info" style="text-align: right;">
-                <h3>CashBack: <span id="cashback">Rp0.00</span></h32>
+            <div class="panel-body" style="font-size: xx-large; text-align: right;">
+                <span id="cashback" >Rp0.00</span>
             </div>
             <table class="table table-striped" style="margin-bottom: 0px;">
                 <tbody>
                     <tr>
                         <td>
-                            Payment Type :
+                            Pyment Type:
                         </td>
                         <td>
                             <input type="text">
@@ -51,10 +35,43 @@ use yii\widgets\ActiveForm;
                     </tr>
                     <tr>
                         <td>
-                            Value :
+                            Value:
                         </td>
                         <td>
                             <input type="text">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel  panel-info">
+            <div class="panel-heading">
+                Active Session
+            </div>
+            <table class="table table-striped" style="margin-bottom: 0px;">
+                <tbody>
+                    <tr>
+                        <td width="100px;">
+                            No.Kasir:
+                        </td>
+                        <td>
+                            <span id="kasir">1</span><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Nama Kasir:
+                        </td>
+                        <td>
+                            <span id="nmkasir">1</span><br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            date-time:
+                        </td>
+                        <td>
+                            <span id="kasir">now()</span>
                         </td>
                     </tr>
                 </tbody>
