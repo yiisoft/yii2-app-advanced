@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
         <?= $this->render('_detail'); ?>
     </div>
     <div class="col-lg-3" style="padding-right: 0px;">
-        <div class="panel panel-info">
+        <div class="panel panel-primary">
             <div class="panel-heading">                
                 Payment 
             </div>
@@ -27,10 +27,10 @@ use yii\widgets\ActiveForm;
                 <tbody>
                     <tr>
                         <td>
-                            Pyment Type:
+                            Type:
                         </td>
                         <td>
-                            <input type="text">
+                            <input type="text" width="100%">
                         </td>
                     </tr>
                     <tr>
@@ -38,7 +38,7 @@ use yii\widgets\ActiveForm;
                             Value:
                         </td>
                         <td>
-                            <input type="text">
+                            <input type="text" width="100%">
                         </td>
                     </tr>
                 </tbody>
@@ -47,6 +47,15 @@ use yii\widgets\ActiveForm;
         <div class="panel  panel-info">
             <div class="panel-heading">
                 Active Session
+            </div>
+            <div class="panel-body">
+                <div id="list-template" style="display: none;">
+                    <div><a href="#" class="session"></a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="#" class="del">&minus;</a></div>
+                </div>
+                <div id="list-session">
+                </div>
             </div>
             <table class="table table-striped" style="margin-bottom: 0px;">
                 <tbody>
