@@ -31,9 +31,22 @@ use yii\widgets\ActiveForm;
                 </div>
             </div>
             <div class="panel-footer">
-                No.Kasir:<span id="kasir">1</span><br>
-                Nama Kasir:<br>
-                date-time:<span id="kasir">now()</span><br>
+				<?php
+				Html::a('<span class="glyphicon glyphicon-pencil"></span>', '', [
+					'id'=>'edit-kasir',
+					'style'=>'float: right;'
+				]);
+				echo Html::a('<span class="glyphicon glyphicon-pencil"></span>', '', [
+					'id'=>'edit-kasir',
+					'data-toggle'=>'modal','data-target'=>'#dlg-drawer',
+					'style'=>'float: right;'
+				]);
+				?>
+				<input type="hidden" id="id-drawer">
+				<div>No. Kasir: &nbsp;<span id="no-kasir"></span></div>
+				<div>Nama Kasir: &nbsp;<span id="nama-kasir"></span></div>
+				<div>Time: &nbsp;<span id="current-time"></span></div>
+                <br>
             </div>
         </div>
         <div class="panel panel-primary">
@@ -45,35 +58,18 @@ use yii\widgets\ActiveForm;
                     <div id="cashback" style="text-align: right;">Rp 0.00</div>
                 </h3>
             </div>
-            <table class="table table-striped" style="margin-bottom: 0px;">
-                <tbody>
-                    <tr>
-                        <td>
-                            Payment Type :
-                        </td>
-                        <td>
-                            <?php
-                            echo Html::dropDownList(false, '', [
-                                1 => 'Cash',
-                                2 => 'Debit Card'
-                                    ], ['id' => 'payment-type']);
-                            ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
+			<div class="panel-body" style="margin-right: 10px;">
+				<div style="margin-bottom: 10px;">
+					<?php echo Html::dropDownList(false, '', $payment_methods, [
+						'id'=>'payment-method','style'=>'float:right;']); ?>
+					Payment Method :
+				</div>
+				<div >
+					<?php echo Html::textInput(false, '', [
+								'id'=>'payment-value','size'=>10,'style'=>'float:right;']); ?>
                             Value :
-                        </td>
-                        <td>
-                            <?php
-                            echo Html::textInput(false, '', [
-                                'id' => 'payment-value',
-                                'size' => 10,]);
-                            ?>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        </div>
+			</div>
         </div>
 <?= Html::a('Save', '', ['class' => 'btn btn-primary', 'id' => 'btn-save']); ?>
 <?= Html::a('New Session', '', ['class' => 'btn btn-success', 'id' => 'new-session']); ?>
@@ -81,4 +77,5 @@ use yii\widgets\ActiveForm;
 <?php ActiveForm::end(); ?>
 </div>
 <?php
+echo $this->render('_dialog');
 $this->render('_script');
