@@ -33,7 +33,7 @@ $pluginOptions = [
     <?php echo $form->errorSummary($model) ?>
     <?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
     <div class="col-lg-3" style="padding-right: 0px;">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 Purchase Header
             </div>
@@ -59,7 +59,7 @@ $pluginOptions = [
                 <?php
                 echo $form->field($model, 'purchase_date')
                         ->widget('yii\jui\DatePicker', [
-                            'options' => ['class' => 'form-control', 'style' => 'width:35%'],
+                            'options' => ['class' => 'form-control', 'style' => 'width:50%'],
                             'clientOptions' => [
                                 'dateFormat' => 'yy-mm-dd'
                             ],

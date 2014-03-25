@@ -16,6 +16,8 @@ class AppCache extends \yii\base\Behavior
 	public $manifest_file;
 	public $template_file;
 
+	public $extra_caches = [];
+	
 	public function init()
 	{
 		if ($this->manifest_file === null) {
@@ -39,10 +41,11 @@ class AppCache extends \yii\base\Behavior
 	{
 		$js = "
 if (window.applicationCache) {
+	window.applicationCache.update();
 	window.applicationCache.addEventListener('updateready', function(e) {
 		if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
 			window.applicationCache.swapCache();
-			window.location.reload();
+			//window.location.reload();
 		}
 	}, false);
 }
@@ -72,6 +75,7 @@ if (window.applicationCache) {
 				foreach ($dom->getElementsByTagName('link') as $style) {
 					$caches[] = $style->getAttribute('href');
 				}
+				$caches = array_merge($caches, $this->extra_caches);
 				$manifest = $view->renderFile($this->template_file, ['caches' => $caches]);
 				file_put_contents(Yii::getAlias('@webroot/' . $this->manifest_file), $manifest);
 

@@ -28,7 +28,6 @@ return [
 					'class' => 'common\extensions\MongoTarget',
 					'levels' => ['info'],
 					'categories'=>['application*'],
-					'logUser' => true,
 				],
 			],
 		],

@@ -17,9 +17,8 @@ class AutoTimestamp extends \yii\behaviors\TimestampBehavior
 		ActiveRecord::EVENT_BEFORE_UPDATE => ['update_date'],
 	];
 	
-	public function init()
+	protected function getValue($event)
 	{
-		$this->value = new Expression('NOW()');
-		parent::init();
+		return new Expression('NOW()');
 	}
 }

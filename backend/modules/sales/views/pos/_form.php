@@ -16,16 +16,16 @@ use yii\widgets\ActiveForm;
         <?= $this->render('_detail'); ?>
     </div>
     <div class="col-lg-3" style="padding-right: 0px;">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading" style="font-weight: bold;">
                 Active Session
             </div>
             <div class="panel-body">
                 <div id="list-template" style="display: none;">
                     <div>
-						<a href="#" class="session"></a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="session"></a>&nbsp;&nbsp;&nbsp;
                         <a href="#" class="del"><span class="glyphicon glyphicon-trash"></span></a>
-					</div>
+                    </div>
                 </div>
                 <div id="list-session">
                 </div>
@@ -49,11 +49,14 @@ use yii\widgets\ActiveForm;
                 <br>
             </div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-body label-info">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Payment
+            </div>
+            <div class="panel-body">
                 <h3 style="margin-bottom: 0px;margin-top: 2px;">
-					CashBack:<div id="cashback" style="text-align: right;">Rp 0.00</div>
-				</h3>
+                    <div id="cashback" style="text-align: right;">Rp 0.00</div>
+                </h3>
             </div>
 			<div class="panel-body" style="margin-right: 10px;">
 				<div style="margin-bottom: 10px;">
@@ -68,10 +71,10 @@ use yii\widgets\ActiveForm;
 				</div>
 			</div>
         </div>
-        <?= Html::a('Save', '', ['class' => 'btn btn-primary', 'id' => 'btn-save']); ?>
-		<?= Html::a('New Session', '', ['class' => 'btn btn-success', 'id' => 'new-session']); ?>
+<?= Html::a('Save', '', ['class' => 'btn btn-primary', 'id' => 'btn-save']); ?>
+<?= Html::a('New Session', '', ['class' => 'btn btn-success', 'id' => 'new-session']); ?>
     </div>
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 </div>
 <?php
 echo $this->render('_dialog');
