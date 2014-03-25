@@ -12,6 +12,7 @@ use yii\web\VerbFilter;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
 use backend\components\AppCache;
+use backend\modules\sales\models\LogCashier;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -71,29 +72,16 @@ class PosController extends Controller
 	public function actionCreate()
 	{
 		$this->manifest = self::MANIFEST_NAME;
-		$model = new SalesHdr;
+		$extra = [];
 		$this->getView()->attachBehavior('appcache', [
 			'class' => AppCache::className(),
 			'manifest_file' => self::MANIFEST_NAME,
 		]);
-		return $this->render('create', [
-					'model' => $model,
-		]);
-	}
-
-	public function actionOpen()
-	{
-		$model = new \backend\modules\sales\models\Session;
-
-		if ($model->load(Yii::$app->request->post())) {
-			if ($model->validate()) {
-				// form inputs are valid, do something here
-				return;
-			}
-		}
-		return $this->render('open', [
-					'model' => $model,
-		]);
+		$payment_methods = [
+			1 => 'Cash',
+			2 => 'Bank',
+		];
+		return $this->render('create', ['payment_methods' => $payment_methods]);
 	}
 
 	public function actionSavePos()

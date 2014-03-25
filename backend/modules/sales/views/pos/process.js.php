@@ -1,3 +1,7 @@
+<?php
+
+use yii\helpers\Url;
+?>
 <?php if (false): ?>
 	<script type="text/javascript">
 <?php endif; ?>
@@ -9,7 +13,7 @@
 				limit = 20;
 
 		var storage = {
-			pushUrl: '<?= \yii\helpers\Url::toRoute(['save-pos']) ?>',
+			pushUrl: '<?= Url::toRoute(['save-pos']) ?>',
 			getCurrentSession: function() {
 				var key = localStorage.getItem('session-current');
 				if (key == undefined) {
@@ -79,7 +83,10 @@
 				if ($rows.length == 0) {
 					return false;
 				}
+				var key = storage.getCurrentSession();
 				var data = {
+					id_drawer: 1,
+					key: key,
 					detail: [],
 				};
 				$rows.each(function() {
@@ -92,8 +99,6 @@
 				});
 
 				// -- save to queue and remove session
-				var key = storage.getCurrentSession();
-				data.key = key;
 				var s = JSON.stringify(data);
 				localStorage.setItem('pos-data-' + key, s);
 
@@ -288,6 +293,10 @@
 					return func.apply(e.target);
 				});
 			},
+			currentTime: function() {
+
+				setTimeout(local.currentTime, 1000);
+			},
 			initObj: function() {
 				$grid = $('#detail-grid');
 				$form = $('#pos-form');
@@ -352,7 +361,7 @@
 							case 66: // ctrl+B
 							case 67: // ctrl+C
 								if (e.ctrlKey) {
-									$('#payment-type').val(kode==67?1:2);
+									$('#payment-method').val(kode == 67 ? 1 : 2);
 									$('#payment-value').focus();
 									return false;
 								}
@@ -425,10 +434,33 @@
 				$(this).autocomplete("close");
 			},
 			init: function() {
+				initDrawer();
 				local.init();
 				storage.init();
+
 			},
 		};
+
+		function checkLogin(){
+			$.ajax('<?= Url::toRoute(['check-login']) ?>',{
+				data:{},
+				success:function(r){
+					
+				}
+			});
+		}
+		function initDrawer() {
+			var drawer = localStorage.getItem('drawer');
+			if (drawer) {
+				drawer = JSON.parse(drawer);
+				$('#no-kasir').text(drawer.no_kasir);
+				$('#nama-kasir').text(drawer.nama_kasir);
+				$('#open-time').text(drawer.open_time);
+			} else {
+				$('#dlg-drawer').modal('show');
+			}
+		}
+
 		return pub;
 	})(window.jQuery);
 <?php if (false): ?>
