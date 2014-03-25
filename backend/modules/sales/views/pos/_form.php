@@ -37,9 +37,12 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
         <div class="panel panel-primary">
-            <div class="panel-body label-info">
+            <div class="panel-heading">
+                Payment
+            </div>
+            <div class="panel-body">
                 <h3 style="margin-bottom: 0px;margin-top: 2px;">
-                    CashBack:<div id="cashback" style="text-align: right;">Rp 0.00</div>
+                    <div id="cashback" style="text-align: right;">Rp 0.00</div>
                 </h3>
             </div>
             <table class="table table-striped" style="margin-bottom: 0px;">
@@ -52,7 +55,7 @@ use yii\widgets\ActiveForm;
                             <?php
                             echo Html::dropDownList(false, '', [
                                 1 => 'Cash',
-                                2 => 'Bank'
+                                2 => 'Debit Card'
                                     ], ['id' => 'payment-type']);
                             ?>
                         </td>
