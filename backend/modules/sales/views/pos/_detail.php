@@ -3,7 +3,7 @@
 use yii\web\JsExpression;
 use yii\jui\AutoComplete;
 ?>
-<div class="panel panel-default">
+<div class="panel panel-info">
     <div class="panel-heading">
         Product :
         <?php

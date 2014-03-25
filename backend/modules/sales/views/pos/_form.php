@@ -16,16 +16,16 @@ use yii\widgets\ActiveForm;
         <?= $this->render('_detail'); ?>
     </div>
     <div class="col-lg-3" style="padding-right: 0px;">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading" style="font-weight: bold;">
                 Active Session
             </div>
             <div class="panel-body">
                 <div id="list-template" style="display: none;">
                     <div>
-						<a href="#" class="session"></a>&nbsp;&nbsp;&nbsp;
+                        <a href="#" class="session"></a>&nbsp;&nbsp;&nbsp;
                         <a href="#" class="del"><span class="glyphicon glyphicon-trash"></span></a>
-					</div>
+                    </div>
                 </div>
                 <div id="list-session">
                 </div>
@@ -36,11 +36,11 @@ use yii\widgets\ActiveForm;
                 date-time:<span id="kasir">now()</span><br>
             </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-body label-info">
                 <h3 style="margin-bottom: 0px;margin-top: 2px;">
-					CashBack:<div id="cashback" style="text-align: right;">Rp 0.00</div>
-				</h3>
+                    CashBack:<div id="cashback" style="text-align: right;">Rp 0.00</div>
+                </h3>
             </div>
             <table class="table table-striped" style="margin-bottom: 0px;">
                 <tbody>
@@ -49,10 +49,12 @@ use yii\widgets\ActiveForm;
                             Payment Type :
                         </td>
                         <td>
-                            <?php echo Html::dropDownList(false, '', [
-								1=>'Cash',
-								2=>'Bank'
-							], ['id'=>'payment-type']); ?>
+                            <?php
+                            echo Html::dropDownList(false, '', [
+                                1 => 'Cash',
+                                2 => 'Bank'
+                                    ], ['id' => 'payment-type']);
+                            ?>
                         </td>
                     </tr>
                     <tr>
@@ -60,18 +62,20 @@ use yii\widgets\ActiveForm;
                             Value :
                         </td>
                         <td>
-                            <?php echo Html::textInput(false, '', [
-								'id'=>'payment-value',
-								'size'=>10,]); ?>
+                            <?php
+                            echo Html::textInput(false, '', [
+                                'id' => 'payment-value',
+                                'size' => 10,]);
+                            ?>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <?= Html::a('Save', '', ['class' => 'btn btn-primary', 'id' => 'btn-save']); ?>
-		<?= Html::a('New Session', '', ['class' => 'btn btn-success', 'id' => 'new-session']); ?>
+<?= Html::a('Save', '', ['class' => 'btn btn-primary', 'id' => 'btn-save']); ?>
+<?= Html::a('New Session', '', ['class' => 'btn btn-success', 'id' => 'new-session']); ?>
     </div>
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 </div>
 <?php
 $this->render('_script');
