@@ -26,7 +26,7 @@ class MongoTarget extends \yii\log\Target
 	{
 		parent::init();
 		if (is_string($this->db)) {
-			$this->db = Yii::$app->getComponent($this->db);
+			$this->db = Yii::$app->get($this->db);
 		}
 		if (!$this->db instanceof Connection) {
 			throw new InvalidConfigException("DbTarget::db must be either a MongoDB connection instance or the application component ID of a DB connection.");
@@ -46,7 +46,7 @@ class MongoTarget extends \yii\log\Target
 	protected function getContextMessage()
 	{
 		$context = [];
-		if ($this->logUser && ($user = Yii::$app->getComponent('user', false)) !== null) {
+		if (($user = Yii::$app->getComponent('user', false)) !== null) {
 			/** @var \yii\web\User $user */
 			$context['user'] = $user->getId();
 		}
