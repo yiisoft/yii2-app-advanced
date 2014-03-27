@@ -1,13 +1,11 @@
 <?php if (false): ?>
 	<script type="text/javascript">
 <?php endif; ?>
-	yii.purchase = (function($) {
+	yii.sales = (function($) {
 		var $grid, $form, template, counter = 0;
 
 		var local = {
 			product: <?= json_encode($product); ?>,
-			ps:<?= json_encode($ps) ?>,
-			supp:<?= json_encode($supp) ?>,
 			delay: 1000,
 			limit: 20,
 			
@@ -156,19 +154,13 @@
 			},
 			sourceProduct: function(request, callback) {
 				var result = [];
-				var limit = local.limit;
+				var c = local.limit;
 				var term = request.term.toLowerCase();
-				var sup = $('#purchasehdr-id_supplier').val();
-				if (sup == '') {
-					callback([]);
-					return;
-				}
-				$.each(local.ps[sup], function() {
-					var prod = local.product[this + ''];
-					if (prod.text.toLowerCase().indexOf(term) >= 0 || prod.cd == term) {
-						result.push(prod);
-						limit--;
-						if (limit <= 0) {
+				$.each(local.product, function() {
+					if (this.text.toLowerCase().indexOf(term) >= 0 || this.cd == term) {
+						result.push(this);
+						c--;
+						if (c <= 0) {
 							return false;
 						}
 					}

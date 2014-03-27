@@ -22,4 +22,10 @@ return [
             'class' => 'backend\modules\sales\Module',
         ],
 	],
+	'as access' => [
+		'class'=>'mdm\admin\components\AccessControl',
+		'allowActions'=>[
+			'site/login',
+			'site/error',
+		]],
 ];

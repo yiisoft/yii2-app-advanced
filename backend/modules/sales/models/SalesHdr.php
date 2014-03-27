@@ -2,6 +2,9 @@
 
 namespace backend\modules\sales\models;
 
+use backend\modules\master\models\Warehouse;
+use backend\modules\master\models\Customer;
+
 /**
  * This is the model class for table "sales_hdr".
  *

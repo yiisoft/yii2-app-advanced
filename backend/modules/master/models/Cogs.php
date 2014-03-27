@@ -22,6 +22,9 @@ namespace backend\modules\master\models;
 class Cogs extends \yii\db\ActiveRecord
 {
 
+	const LOG_COGS = 'log_cogs';
+
+	public $log_params = [];
 	/**
 	 * @inheritdoc
 	 */
@@ -97,7 +100,7 @@ class Cogs extends \yii\db\ActiveRecord
 				'id_branch' => $params['id_branch'],
 				'id_product' => $params['id_product'],
 				'id_uom' => $params['id_uom'],
-					], false);
+					], true);
 		}
 		$cogs->cogs = 1.0*($cogs->cogs * $params['old_stock'] + $params['price'] * $params['new_stock']) / ($params['old_stock'] + $params['new_stock']);
 		if(!$cogs->save()){
@@ -116,6 +119,27 @@ class Cogs extends \yii\db\ActiveRecord
 				'class' => 'backend\components\AutoUser',
 			]
 		];
+	}
+
+	public function afterSave($insert)
+	{
+		parent::afterSave($insert);
+		try {
+			$collection = \Yii::$app->mongodb->getCollection(self::LOG_COGS);
+			$user = \Yii::$app->user;
+			
+			$collection->insert(array_merge([
+				'id_branch' => $this->id_branch,
+				'id_product' => $this->id_product,
+				'id_uom' => $this->id_uom,
+				'cogs' => $this->cogs,
+				'log_time' => time(),
+				'log_by' => $user->getIsGuest() ? 0 : $user->id,
+							], $this->log_params));
+			return true;
+		} catch (\Exception $exc) {
+			throw $exc;
+		}
 	}
 
 }

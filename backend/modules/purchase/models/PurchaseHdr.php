@@ -28,8 +28,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 {
 
 	const STATUS_DRAFT = 1;
-	const STATUS_RELEASE = 2;
-	const STATUS_RECEIVE = 3;
+	const STATUS_RECEIVE = 2;
 
 	/**
 	 * @inheritdoc
@@ -99,7 +98,6 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 	{
 		$maps = [
 			self::STATUS_DRAFT => 'Draft',
-			self::STATUS_RELEASE => 'Release',
 			self::STATUS_RECEIVE => 'Receive',
 		];
 		return $maps[$this->id_status];

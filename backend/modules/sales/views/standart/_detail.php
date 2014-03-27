@@ -15,8 +15,8 @@ use backend\modules\master\models\Product;
                 'name' => 'product',
                 'id' => 'product',
                 'clientOptions' => [
-                    'source' => new JsExpression('yii.purchase.sourceProduct'),
-                    'select' => new JsExpression('yii.purchase.onProductSelect'),
+                    'source' => new JsExpression('yii.sales.sourceProduct'),
+                    'select' => new JsExpression('yii.sales.onProductSelect'),
                     'delay' => 100,
                 ]
             ]);

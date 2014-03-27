@@ -3,6 +3,7 @@
 namespace backend\modules\master\models;
 
 use yii\db\Expression;
+use \Exception;
 
 /**
  * This is the model class for table "product_stock".
@@ -32,7 +33,7 @@ class ProductStock extends \yii\db\ActiveRecord
 	const STATUS_OPEN_2 = 2;
 	const LOG_STOCK = 'log_stock';
 
-	public $log_params;
+	public $log_params = [];
 
 	/**
 	 * @inheritdoc
@@ -208,8 +209,8 @@ class ProductStock extends \yii\db\ActiveRecord
 				'log_by' => $user->getIsGuest() ? 0 : $user->id,
 							], $this->log_params));
 			return true;
-		} catch (\Exception $e) {
-			return false;
+		} catch (Exception $exc) {
+			throw $exc;
 		}
 	}
 
