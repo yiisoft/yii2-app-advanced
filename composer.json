@@ -1,8 +1,7 @@
 {
 	"name": "sangkilsoft/sangkilbiz-3",
 	"description": "Yii 2 for SangkilBiz project",
-	"keywords": ["yii", "framework", "advanced", "application template"],
-	"homepage": "http://www.yiiframework.com/",
+	"keywords": ["yii", "erp application", "sangkilsoft"],
 	"type": "project",
 	"license": "BSD-3-Clause",
 	"support": {
