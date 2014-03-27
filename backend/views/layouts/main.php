@@ -49,7 +49,9 @@ if (isset($this->manifest_file)) {
                 $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
-					'linkOptions'=>['data-user_id'=>Yii::$app->user->id]
+					'linkOptions'=>[
+						'data-user_id'=>Yii::$app->user->id,
+						'data-method'=>'post']
                 ];
             }
 
