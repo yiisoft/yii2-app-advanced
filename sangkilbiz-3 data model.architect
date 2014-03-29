@@ -4,11 +4,11 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
-   <property key="Logical" value="sangkilbiz_conn" />
+   <property key="Logical" value="postgre" />
    <property key="Connection Type" value="PostgreSQL" />
-   <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/sangkilbiz_db" />
-   <property key="UID" value="postgres" />
-   <property key="PWD" value="bismillah@2013" />
+   <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/sangkilbiz" />
+   <property key="UID" value="mdmunir" />
+   <property key="PWD" value="123456789" />
    <property key="ca.sqlpower.architect.etl.kettle.database" value="" />
    <property key="ca.sqlpower.architect.etl.kettle.port" value="" />
    <property key="ca.sqlpower.architect.etl.kettle.hostname" value="" />
@@ -453,7 +453,7 @@
   <table id="TAB133" populated="true" UUID="2c93e8a6-06fd-411b-8c55-7d4706115c63" name="purchase_hdr" objectType="TABLE" physicalName="purchase_hdr" >
    <remarks></remarks>
    <folder id="FOLTAB1331" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL134" populated="true" UUID="02422b54-b63a-4319-b458-30599b62a348" autoIncrement="true" autoIncrementSequenceName="purchase_hdr_id_purchase_hdr_seq" defaultValue="" name="id_purchase_hdr" nullable="0" physicalName="id_purchase_hdr" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL134" populated="true" UUID="02422b54-b63a-4319-b458-30599b62a348" autoIncrement="true" autoIncrementSequenceName="purchase_hdr_id_purchase_seq" defaultValue="" name="id_purchase" nullable="0" physicalName="id_purchase" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL135" populated="true" UUID="2270961f-aa99-4744-85d1-56595675d9b4" autoIncrement="false" autoIncrementSequenceName="purchase_hdr_purchase_num_seq" defaultValue="" name="purchase_num" nullable="0" physicalName="purchase_num" precision="16" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -471,7 +471,7 @@
     <column id="COL139" populated="true" UUID="411ab473-37bc-407f-9c33-28dcec5e4a63" autoIncrement="false" autoIncrementSequenceName="purchase_invoice_purchase_value_seq" defaultValue="" name="purchase_value" nullable="0" physicalName="purchase_value" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="8" userDefinedTypeUUID="4fc90970-b2e5-41dd-911c-cc605d87e7a8" >
      <remarks></remarks>
     </column>
-    <column id="COL140" populated="true" UUID="c1b34f87-fae4-44c4-96a1-b35f3c014c3e" autoIncrement="false" autoIncrementSequenceName="purchase_invoice_payment_discount_seq" defaultValue="" name="payment_discount" nullable="0" physicalName="payment_discount" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="8" userDefinedTypeUUID="4fc90970-b2e5-41dd-911c-cc605d87e7a8" >
+    <column id="COL140" populated="true" UUID="c1b34f87-fae4-44c4-96a1-b35f3c014c3e" autoIncrement="false" autoIncrementSequenceName="purchase_invoice_payment_discount_seq" defaultValue="0" name="payment_discount" nullable="0" physicalName="payment_discount" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="8" userDefinedTypeUUID="4fc90970-b2e5-41dd-911c-cc605d87e7a8" >
      <remarks></remarks>
     </column>
     <column id="COL141" populated="true" UUID="3e6af46e-6511-4c39-a542-1ea76e7efee5" autoIncrement="false" autoIncrementSequenceName="purchase_hdr_status_seq" defaultValue="" name="status" nullable="0" physicalName="status" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
@@ -496,17 +496,17 @@
     </folder>
     <folder id="FOLTAB1334" populated="true" name="Indices" physicalName="Indices" type="4">
     <index id="IDX146" populated="true" UUID="01cd4106-81f8-4916-a690-e874df756d4c" clustered="false" name="purchase_hdr_pk" physicalName="purchase_hdr_pk" primaryKeyIndex="true" unique="false" >
-     <index-column id="IDC147" populated="true" UUID="1f42d447-04dc-46c8-b730-8fcdab086f81" ascendingOrDescending="UNSPECIFIED" column-ref="COL134" name="id_purchase_hdr" physicalName="id_purchase_hdr" />
+     <index-column id="IDC147" populated="true" UUID="1f42d447-04dc-46c8-b730-8fcdab086f81" ascendingOrDescending="UNSPECIFIED" column-ref="COL134" name="id_purchase" physicalName="id_purchase" />
     </index>
    </folder>
   </table>
   <table id="TAB148" populated="true" UUID="41c5a3e2-745d-4d21-8d8a-8a8b27faf44f" name="purchase_dtl" objectType="TABLE" physicalName="purchase_dtl" >
    <remarks></remarks>
    <folder id="FOLTAB1481" populated="true" name="Columns" physicalName="Columns" type="1">
-    <column id="COL149" populated="true" UUID="d34029cc-2696-4582-add5-cbae3ec110ee" autoIncrement="true" autoIncrementSequenceName="purchase_dtl_id_purchase_dtl_seq" defaultValue="" name="id_purchase_dtl" nullable="0" physicalName="id_purchase_dtl" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="-5" userDefinedTypeUUID="433cc8af-284d-4abb-8ef7-08ebcb34dbf1" >
+    <column id="COL149" populated="true" UUID="d34029cc-2696-4582-add5-cbae3ec110ee" autoIncrement="true" autoIncrementSequenceName="purchase_dtl_id_purchase_dtl_seq" defaultValue="" name="id_purchase_dtl" nullable="0" physicalName="id_purchase_dtl" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL150" populated="true" UUID="182942a8-610e-4977-b361-307d1d4acaf0" autoIncrement="false" autoIncrementSequenceName="purchase_hdr_id_purchase_hdr_seq_1" defaultValue="" name="id_purchase_hdr" nullable="0" physicalName="id_purchase_hdr" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL150" populated="true" UUID="182942a8-610e-4977-b361-307d1d4acaf0" autoIncrement="false" autoIncrementSequenceName="purchase_hdr_id_purchase_hdr_seq_1" defaultValue="" name="id_purchase" nullable="0" physicalName="id_purchase" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     <column id="COL151" populated="true" UUID="2ba1c596-f00f-4058-98a8-1db553384a20" autoIncrement="false" defaultValue="" name="id_product" nullable="0" physicalName="id_product" precision="0" referenceCount="1" scale="0" sourceDataTypeName="serial" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
@@ -1646,7 +1646,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.7071067811865474" viewportX="0" viewportY="463" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.7071067811865474" viewportX="447" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="1002" y="478" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB12" x="374" y="261" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB26" x="93" y="217" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
