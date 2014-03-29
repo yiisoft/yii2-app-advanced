@@ -62,15 +62,10 @@ class Category extends \yii\db\ActiveRecord
 		return $this->hasMany(Product::className(), ['id_category' => 'id_category']);
 	}
 
-	public function behaviors()
-	{
-		return [
-			'timestamp' => [
-				'class' => 'backend\components\AutoTimestamp',
-			],
-			'changeUser' => [
-				'class' => 'backend\components\AutoUser',
-			]
-		];
-	}
+        public function behaviors() {
+        return [
+            'backend\components\AutoTimestamp',
+            'backend\components\AutoUser'
+        ];
+    }
 }
