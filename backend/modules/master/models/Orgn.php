@@ -64,12 +64,8 @@ class Orgn extends \yii\db\ActiveRecord
 	public function behaviors()
 	{
 		return [
-			'timestamp' => [
-				'class' => 'backend\components\AutoTimestamp',
-			],
-			'changeUser' => [
-				'class' => 'backend\components\AutoUser',
-			]
+			'backend\components\AutoTimestamp',
+			'backend\components\AutoUser',
 		];
 	}
 }

@@ -53,6 +53,7 @@ use yii\jui\AutoComplete;
                             ],
                 ]);
                 ?>
+                <?= $form->field($model, 'payment_discount')->textInput(); ?>
             </div>
         </div>
         <div class="form-group">

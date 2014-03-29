@@ -73,10 +73,10 @@ class PosController extends Controller
 	{
 		$this->manifest = self::MANIFEST_NAME;
 		$extra = [];
-		$this->getView()->attachBehavior('appcache', [
-			'class' => AppCache::className(),
-			'manifest_file' => self::MANIFEST_NAME,
-		]);
+//		$this->getView()->attachBehavior('appcache', [
+//			'class' => AppCache::className(),
+//			'manifest_file' => self::MANIFEST_NAME,
+//		]);
 		$payment_methods = [
 			1 => 'Cash',
 			2 => 'Bank',
@@ -86,10 +86,16 @@ class PosController extends Controller
 
 	public function actionSavePos()
 	{
-		sleep(3);
-		return \yii\helpers\Json::encode([
-					'type' => 'S'
-		]);
+		$post = \Yii::$app->request->post();
+		try {
+			$transaction = \Yii::$app->db->beginTransaction();
+			$hdr = new SalesHdr;
+			$hdr->id_warehouse = '';
+
+			$trancaction->commit();
+		} catch (\Exception $exc) {
+			$transaction->rollback();
+		}
 	}
 
 	public function actionJs()

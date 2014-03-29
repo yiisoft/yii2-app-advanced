@@ -2,91 +2,100 @@
 
 namespace backend\modules\sales\models;
 
+use Yii;
 use backend\modules\master\models\Product;
+use backend\modules\master\models\Warehouse;
 use backend\modules\master\models\Uom;
 
 /**
  * This is the model class for table "sales_dtl".
  *
  * @property integer $id_sales_dtl
- * @property integer $id_sales_hdr
+ * @property integer $id_sales
  * @property integer $id_product
  * @property integer $id_uom
+ * @property integer $id_warehouse
  * @property string $sales_price
  * @property string $sales_qty
- * @property string $discon
- * @property string $create_date
- * @property integer $create_by
- * @property string $update_date
- * @property integer $update_by
+ * @property string $discount
+ * @property string $cogs
+ * @property string $tax
  *
  * @property Uom $idUom
+ * @property SalesHdr $idSales
  * @property Product $idProduct
- * @property SalesHdr $idSalesHdr
+ * @property Warehouse $idWarehouse
  */
 class SalesDtl extends \yii\db\ActiveRecord
 {
-	/**
-	 * @inheritdoc
-	 */
-	public static function tableName()
-	{
-		return 'sales_dtl';
-	}
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'sales_dtl';
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function rules()
-	{
-		return [
-			[['id_sales_hdr', 'id_product', 'id_uom', 'sales_price', 'sales_qty', 'create_date', 'create_by', 'update_date', 'update_by'], 'required'],
-			[['id_sales_hdr', 'id_product', 'id_uom', 'create_by', 'update_by'], 'integer'],
-			[['sales_price', 'sales_qty', 'discon', 'create_date', 'update_date'], 'string']
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['id_sales', 'id_product', 'id_uom', 'id_warehouse', 'sales_price', 'sales_qty', 'cogs'], 'required'],
+            [['id_sales', 'id_product', 'id_uom', 'id_warehouse'], 'integer'],
+            [['sales_price', 'sales_qty', 'discount', 'cogs', 'tax'], 'number']
+        ];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function attributeLabels()
-	{
-		return [
-			'id_sales_dtl' => 'Id Sales Dtl',
-			'id_sales_hdr' => 'Id Sales Hdr',
-			'id_product' => 'Id Product',
-			'id_uom' => 'Id Uom',
-			'sales_price' => 'Sales Price',
-			'sales_qty' => 'Sales Qty',
-			'discon' => 'Discon',
-			'create_date' => 'Create Date',
-			'create_by' => 'Create By',
-			'update_date' => 'Update Date',
-			'update_by' => 'Update By',
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id_sales_dtl' => 'Id Sales Dtl',
+            'id_sales' => 'Id Sales',
+            'id_product' => 'Id Product',
+            'id_uom' => 'Id Uom',
+            'id_warehouse' => 'Id Warehouse',
+            'sales_price' => 'Sales Price',
+            'sales_qty' => 'Sales Qty',
+            'discount' => 'Discount',
+            'cogs' => 'Cogs',
+            'tax' => 'Tax',
+        ];
+    }
 
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getIdUom()
-	{
-		return $this->hasOne(Uom::className(), ['id_uom' => 'id_uom']);
-	}
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdUom()
+    {
+        return $this->hasOne(Uom::className(), ['id_uom' => 'id_uom']);
+    }
 
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getIdProduct()
-	{
-		return $this->hasOne(Product::className(), ['id_product' => 'id_product']);
-	}
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdSales()
+    {
+        return $this->hasOne(SalesHdr::className(), ['id_sales' => 'id_sales']);
+    }
 
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getIdSalesHdr()
-	{
-		return $this->hasOne(SalesHdr::className(), ['id_sales_hdr' => 'id_sales_hdr']);
-	}
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdProduct()
+    {
+        return $this->hasOne(Product::className(), ['id_product' => 'id_product']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdWarehouse()
+    {
+        return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse']);
+    }
 }

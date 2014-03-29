@@ -3,7 +3,7 @@
 use yii\web\JsExpression;
 use yii\jui\AutoComplete;
 use yii\helpers\Html;
-use backend\modules\purchase\models\PurchaseDtl;
+use backend\modules\sales\models\SalesDtl;
 use backend\modules\master\models\Product;
 ?>
 <div class="col-lg-9" style="padding-left: 0px;">
@@ -36,7 +36,7 @@ use backend\modules\master\models\Product;
                     <td style="width: 50px">
                         <a data-action="delete" title="Delete" href="#"><span class="glyphicon glyphicon-trash"></span></a>
                         <?= Html::activeHiddenInput($model, "[$index]id_product", ['data-field' => 'id_product', 'id' => false]) ?>
-                        <?= Html::activeHiddenInput($model, "[$index]id_purchase_dtl", ['data-field' => 'id_purchase_dtl', 'id' => false]) ?>
+                        <?= Html::activeHiddenInput($model, "[$index]id_sales_dtl", ['data-field' => 'id_sales_dtl', 'id' => false]) ?>
                     </td>
                     <td class="items" style="width: 45%">
                         <ul class="nav nav-list">
@@ -44,46 +44,42 @@ use backend\modules\master\models\Product;
                                 - <span class="nm_product"><?= Html::getAttributeValue($model, 'idProduct[nm_product]') ?></span></li>
                             <li>
                                 Jumlah <?=
-                                Html::activeTextInput($model, "[$index]purch_qty", [
-                                    'data-field' => 'purch_qty',
+                                Html::activeTextInput($model, "[$index]sales_qty", [
+                                    'data-field' => 'sales_qty',
                                     'size' => 5, 'id' => false,
                                     'required' => true])
                                 ?>
                                 <?= Html::activeDropDownList($model, "[$index]id_uom", Product::ListUoms($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
                             </li>
                             <li>
-                                Price Rp <?=
-                                Html::activeTextInput($model, "[$index]purch_price", [
-                                    'data-field' => 'purch_price',
-                                    'size' => 16, 'id' => false,
-                                    'required' => true])
-                                ?>
+								<?= Html::activeHiddenInput($model, "[$index]sales_price", ['data-field' => 'sales_price','id' => false]) ?>
+                                Price Rp <span class="sales_price"><?= Html::getAttributeValue($model, 'sales_price') ?></span> 
                             </li>
                         </ul>
                     </td>
                     <td class="selling" style="width: 40%">
                         <ul class="nav nav-list">
-                            <li>Selling Price</li>
+                            <li>Discon</li>
                             <li>
                                 <?php
-                                $purch_price = $model->purch_price;
-                                $selling_price = $model->selling_price;
-                                $markup = $selling_price > 0 ? 100 * ($selling_price - $purch_price) / $selling_price : 0;
-								$markup = round($markup, 2);
+                                $sales_price = $model->sales_price;
+                                $discon = $model->discount;
+                                $discon_percen = $sales_price > 0 ? 100 * $discon/ $sales_price : 0;
+								$discon_percen = round($discon_percen, 2);
                                 ?>
-                                Markup <?=
-                                Html::textInput('', $markup, [
-                                    'data-field' => 'markup_price',
+                                Percen <?=
+                                Html::textInput('', $discon_percen, [
+                                    'data-field' => 'discount_percen',
                                     'size' => 8, 'id' => false,
-                                    'required' => true])
+                                    'required' => false])
                                 ?> %
                             </li>
                             <li>
-                                Price Rp <?=
-                                Html::activeTextInput($model, "[$index]selling_price", [
-                                    'data-field' => 'selling_price',
+                                Discon Rp <?=
+                                Html::activeTextInput($model, "[$index]discount", [
+                                    'data-field' => 'discount',
                                     'size' => 16, 'id' => false,
-                                    'required' => true])
+                                    'required' => false])
                                 ?>
                             </li>
                         </ul>
@@ -106,7 +102,7 @@ use backend\modules\master\models\Product;
             foreach ($details as $index => $model) {
                 $rows[] = renderRow($model, $index);
             }
-            echo Html::tag('tbody', implode("\n", $rows), ['data-template' => renderRow(new PurchaseDtl, '_index_')])
+            echo Html::tag('tbody', implode("\n", $rows), ['data-template' => renderRow(new SalesDtl, '_index_')])
             ?>
         </table>
     </div>

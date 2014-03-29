@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			['class' => 'yii\grid\SerialColumn'],
 			'purchase_num',
 			'idSupplier.nm_supplier',
-			'idWarehouse.nm_whse',
+			'idBranch.nm_branch',
 			'purchase_date',
 			'nmStatus',
 			[
@@ -37,13 +37,13 @@ $this->params['breadcrumbs'][] = $this->title;
 				'template' => '{view} {update} {delete} {receive}',
 				'buttons' => [
 					'update' => function ($url, $model) {
-						return $model->id_status == PurchaseHdr::STATUS_DRAFT ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+						return $model->status == PurchaseHdr::STATUS_DRAFT ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
 									'title' => Yii::t('yii', 'Update'),
 									'data-pjax' => '0',
 								]) : '';
 					},
 					'delete' => function ($url, $model) {
-						return $model->id_status == PurchaseHdr::STATUS_DRAFT ? Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
+						return $model->status == PurchaseHdr::STATUS_DRAFT ? Html::a('<span class="glyphicon glyphicon-trash"></span>', $url, [
 									'title' => Yii::t('yii', 'Delete'),
 									'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
 									'data-method' => 'post',
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
 								]) : '';
 					},
 					'receive' => function ($url, $model) {
-						return $model->id_status == PurchaseHdr::STATUS_DRAFT ? Html::a('<span class="glyphicon glyphicon-save"></span>', $url, [
+						return $model->status == PurchaseHdr::STATUS_DRAFT ? Html::a('<span class="glyphicon glyphicon-save"></span>', $url, [
 									'title' => Yii::t('yii', 'Receive'),
 									'data-confirm' => Yii::t('yii', 'Are you sure you want to Receive this item?'),
 									'data-method' => 'post',

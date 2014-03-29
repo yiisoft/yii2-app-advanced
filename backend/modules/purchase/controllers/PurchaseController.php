@@ -10,7 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
 use backend\modules\purchase\models\PurchaseDtl;
 use \Exception;
-use backend\modules\master\models\ProductStock;
+use backend\modules\inventory\models\ProductStock;
+use backend\modules\master\models\Cogs;
 
 /**
  * PurchaseHdrController implements the CRUD actions for PurchaseHdr model.
@@ -66,7 +67,7 @@ class PurchaseController extends Controller
 	public function actionCreate()
 	{
 		$model = new PurchaseHdr;
-		$model->id_status = PurchaseHdr::STATUS_DRAFT;
+		$model->status = PurchaseHdr::STATUS_DRAFT;
 		$model->id_branch = Yii::$app->user->identity->id_branch;
 
 		list($details, $success) = $this->savePurchase($model);
@@ -85,7 +86,7 @@ class PurchaseController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
-		if ($model->id_status != PurchaseHdr::STATUS_DRAFT) {
+		if ($model->status != PurchaseHdr::STATUS_DRAFT) {
 			throw new \yii\base\UserException('tidak bisa diedit');
 		}
 		list($details, $success) = $this->savePurchase($model);
@@ -96,6 +97,11 @@ class PurchaseController extends Controller
 		]);
 	}
 
+	/**
+	 * 
+	 * @param PurchaseHdr $model
+	 * @return array
+	 */
 	protected function savePurchase($model)
 	{
 		$post = Yii::$app->request->post();
@@ -105,6 +111,8 @@ class PurchaseController extends Controller
 		if ($model->load($post)) {
 			$transaction = Yii::$app->db->beginTransaction();
 			$objs = [];
+			$model->payment_discount = 1.0 * $model->payment_discount;
+			$model->purchase_value = 1.0 * $model->purchase_value;
 			foreach ($details as $detail) {
 				$objs[$detail->id_purchase_dtl] = [false, $detail];
 			}
@@ -117,6 +125,7 @@ class PurchaseController extends Controller
 
 			$formName = (new PurchaseDtl)->formName();
 			$id_hdr = $success ? $model->id_purchase_hdr : false;
+			$id_whse = $model->id_warehouse;
 			$details = [];
 			foreach ($post[$formName] as $dataDetail) {
 				$id_dtl = $dataDetail['id_purchase_dtl'];
@@ -129,7 +138,8 @@ class PurchaseController extends Controller
 
 				$detail->setAttributes($dataDetail);
 				if ($id_hdr !== false) {
-					$detail->id_purchase_hdr = $model->id_purchase_hdr;
+					$detail->id_purchase_hdr = $id_hdr;
+					$detail->id_warehouse = $id_whse;
 					try {
 						$success = $success && $detail->save();
 					} catch (Exception $exc) {
@@ -179,25 +189,39 @@ class PurchaseController extends Controller
 	public function actionReceive($id)
 	{
 		$model = $this->findModel($id);
-		if ($model->id_status === PurchaseHdr::STATUS_DRAFT) {
+		if ($model->status === PurchaseHdr::STATUS_DRAFT) {
 			$transaction = Yii::$app->db->beginTransaction();
 			try {
-				$model->id_status = PurchaseHdr::STATUS_RECEIVE;
+				$model->status = PurchaseHdr::STATUS_RECEIVE;
 				if (!$model->save()) {
 					throw new \yii\base\UserException(implode(",\n", $model->firstErrors));
 				}
 				$id_warehouse = $model->id_warehouse;
-				$id_branch = $model->idWarehouse->id_branch;
+				$id_branch = $model->id_branch;
 				$sukses = true;
 				foreach ($model->purchaseDtls as $detail) {
-					$sukses = $sukses && ProductStock::UpdateStock([
-								'id_warehouse' => $id_warehouse,
+					if (!$sukses) {
+						break;
+					}
+					$stock = ProductStock::UpdateStock([
+								'id_warehouse' => $detail->id_warehouse,
 								'id_product' => $detail->id_product,
-								'id_branch' => $id_branch,
-								'qty' => $detail->purch_qty,
-								'price' => $detail->purch_price,
 								'id_uom' => $detail->id_uom,
-								'selling_price' => $detail->selling_price,
+								'qty' => $detail->purch_qty,
+									], [
+								'app' => 'purchase',
+								'id_ref' => $detail->id_purchase_dtl,
+					]);
+
+					Cogs::UpdateCogs([
+						'id_product' => $detail->id_product,
+						'id_uom' => $detail->id_uom,
+						'old_stock' => $stock['old_stock'],
+						'added_stock' => $stock['added_stock'],
+						'price' => $detail->purch_price / $stock['qty_per_uom'],
+							], [
+						'app' => 'purchase',
+						'id_ref' => $detail->id_purchase_dtl,
 					]);
 				}
 
@@ -263,13 +287,13 @@ class PurchaseController extends Controller
 		foreach (\Yii::$app->db->createCommand($sql)->queryAll() as $row) {
 			$ps[$row['id_supplier']][] = $row['id_product'];
 		}
-		
+
 		$sql = "select id_supplier as id, nm_supplier as label from supplier";
 		$supp = \Yii::$app->db->createCommand($sql)->queryAll();
 		return $this->renderPartial('process.js.php', [
-			'product' => $product, 
-			'ps' => $ps,
-			'supp'=>$supp]);
+					'product' => $product,
+					'ps' => $ps,
+					'supp' => $supp]);
 	}
 
 }

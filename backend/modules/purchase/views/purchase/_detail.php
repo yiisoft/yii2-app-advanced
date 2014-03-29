@@ -23,7 +23,8 @@ use backend\modules\master\models\Product;
             ?>
         </div>
         <div class="panel-body" style="text-align: right;">
-            <input type="hidden" data-field="total_price"><h2>Rp<span id="total-price"></h2></span>
+			<?= Html::activeHiddenInput($model, 'purchase_value'); ?>
+            <h2>Rp <span id="total-price"></span></h2>
         </div>
         <table id="detail-grid" class="table table-striped">
             <?php

@@ -19,7 +19,10 @@ use yii\jui\AutoComplete;
                 'id' => 'sales-form',
     ]);
     ?>
-    <?php echo $form->errorSummary($model) ?>
+    <?php 
+	$models = $details;
+	$models[] = $model;
+	echo $form->errorSummary($models) ?>
     <?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
     <div class="col-lg-3" style="padding-right: 0px;">
         <div class="panel panel-primary">
@@ -28,7 +31,15 @@ use yii\jui\AutoComplete;
             </div>
             <div class="panel-body">
                 <?= $form->field($model, 'sales_num')->textInput(['maxlength' => 16, 'readonly' => true]); ?>
-                
+				<?= Html::activeHiddenInput($model, 'id_customer'); ?>
+                <?= $form->field($model, 'idCustomer[nm_cust]')->widget('yii\jui\AutoComplete',[
+					'options' => ['class' => 'form-control'],
+                            'clientOptions' => [
+                                'source' => new JsExpression('yii.sales.sourceCustomer'),
+								'select'=> new JsExpression('yii.sales.onCustomerSelect'),
+								'open'=> new JsExpression('yii.sales.onCustomerOpen'),
+                            ],
+					]); ?>
                 <?= $form->field($model, 'id_warehouse')->dropDownList(Warehouse::WarehouseList()); ?>
                 <?php
                 echo $form->field($model, 'sales_date')

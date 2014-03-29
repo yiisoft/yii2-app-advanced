@@ -54,7 +54,7 @@
 					var $row = $(this);
 					var q=$row.find('input[data-field="purch_qty"]').val();
 					q = q==''?1:q;
-					var isi = $row.find('[data-field="id_uom"] > :selected').data('isi');
+					var isi = 1; //$row.find('[data-field="id_uom"] > :selected').data('isi');
 					isi = isi ? isi : 1;
 					
 					var t = isi * q * $row.find('input[data-field="purch_price"]').val();
@@ -62,6 +62,7 @@
 					$row.find('input[data-field="total_price"]').val(t);
 					total += t;
 				});
+				$('#purchasehdr-purchase_value').val(total);
 				$('#total-price').text(local.format(total));
 			},
 			initRow: function() {

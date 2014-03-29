@@ -12,7 +12,7 @@ use yii\web\VerbFilter;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
 use backend\components\AppCache;
-use backend\modules\sales\models\LogCashier;
+use backend\modules\master\models\Cogs;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -26,8 +26,7 @@ class StandartController extends Controller
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
-					'delete' => ['post'],
-					'save-pos' => ['post']
+					'delete' => ['post']
 				],
 			],
 		];
@@ -72,21 +71,22 @@ class StandartController extends Controller
 			2 => 'Bank',
 		];
 		$model = new SalesHdr;
-
+		$model->id_branch = Yii::$app->user->identity->id_branch;
+		$model->status = 1;
 		list($details, $success) = $this->saveSales($model);
 		if ($success) {
-			return $this->redirect(['view', 'id' => $model->id_sales_hdr]);
+			return $this->redirect(['view', 'id' => $model->id_sales]);
 		}
 		return $this->render('create', [
-			'model' => $model, 
-			'details' => $details,
-			'payment_methods' => $payment_methods]);
+					'model' => $model,
+					'details' => $details,
+					'payment_methods' => $payment_methods]);
 	}
 
 	/**
 	 * 
 	 * @param SalesHdr $model
-	 * @return boolean
+	 * @return array
 	 */
 	protected function saveSales($model)
 	{
@@ -108,7 +108,8 @@ class StandartController extends Controller
 			}
 
 			$formName = (new SalesDtl)->formName();
-			$id_hdr = $success ? $model->id_sales_hdr : false;
+			$id_hdr = $success ? $model->id_sales : false;
+			$id_whse = $model->id_warehouse;
 			$details = [];
 			foreach ($post[$formName] as $dataDetail) {
 				$id_dtl = $dataDetail['id_sales_dtl'];
@@ -121,7 +122,14 @@ class StandartController extends Controller
 
 				$detail->setAttributes($dataDetail);
 				if ($id_hdr !== false) {
-					$detail->id_sales_hdr = $id_hdr;
+					$detail->id_sales = $id_hdr;
+					$detail->id_warehouse = $id_whse;
+					$cogs = Cogs::find(['id_product' => $detail->id_product]);
+					if ($cogs) {
+						$detail->cogs = $cogs->cogs;
+					} else {
+						$detail->cogs = 0;
+					}
 					try {
 						$success = $success && $detail->save();
 					} catch (Exception $exc) {
@@ -156,7 +164,6 @@ class StandartController extends Controller
 		return [$details, $success];
 	}
 
-	
 	public function actionJs()
 	{
 		$sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
@@ -185,7 +192,10 @@ class StandartController extends Controller
 				'isi' => $row['isi']
 			];
 		}
-		return $this->renderPartial('process.js.php', ['product' => $result]);
+		$sql = 'select id_customer as id, nm_cust as label
+			from customer';
+		$cust = \Yii::$app->db->createCommand($sql)->queryAll();
+		return $this->renderPartial('process.js.php', ['product' => $result, 'cust' => $cust]);
 	}
 
 	/**
@@ -198,13 +208,19 @@ class StandartController extends Controller
 	{
 		$model = $this->findModel($id);
 
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id_sales_hdr]);
-		} else {
-			return $this->render('update', [
-						'model' => $model,
-			]);
+		$payment_methods = [
+			1 => 'Cash',
+			2 => 'Bank',
+		];
+
+		list($details, $success) = $this->saveSales($model);
+		if ($success) {
+			return $this->redirect(['view', 'id' => $model->id_sales]);
 		}
+		return $this->render('update', [
+					'model' => $model,
+					'details' => $details,
+					'payment_methods' => $payment_methods]);
 	}
 
 	/**

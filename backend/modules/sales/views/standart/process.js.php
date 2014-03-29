@@ -6,16 +6,16 @@
 
 		var local = {
 			product: <?= json_encode($product); ?>,
+			cust: <?= json_encode($cust)?>,
 			delay: 1000,
 			limit: 20,
-			
 			addItem: function(item) {
 				var has = false;
 				$('#detail-grid > tbody > tr').each(function() {
 					var $row = $(this);
 					if ($row.find('input[data-field="id_product"]').val() == item.id) {
 						has = true;
-						var $qty = $row.find('input[data-field="purch_qty"]');
+						var $qty = $row.find('input[data-field="sales_qty"]');
 						if ($qty.val() == '') {
 							$qty.val('2');
 						} else {
@@ -30,16 +30,18 @@
 					$row.find('span.nm_product').text(item.text);
 					$row.find('input[data-field="id_product"]').val(item.id);
 
-					$row.find('input[data-field="purch_qty"]').val('1');
+					$row.find('input[data-field="sales_qty"]').val('1');
+					$row.find('input[data-field="sales_price"]').val(item.price);
+					$row.find('span.sales_price').text(item.price);
 					var $select = $row.find('select[data-field="id_uom"]').html('');
 					$.each(item.uoms, function() {
-						$select.append($('<option>').val(this.id).text(this.nm).attr('data-isi',this.isi));
+						$select.append($('<option>').val(this.id).text(this.nm).attr('data-isi', this.isi));
 					});
 
 					$grid.find('tbody > tr').removeClass('selected');
 					$row.addClass('selected');
 					$grid.children('tbody').append($row);
-					$row.find('input[data-field="purch_qty"]').focus();
+					$row.find('input[data-field="sales_qty"]').focus();
 				}
 				local.normalizeItem();
 			},
@@ -50,12 +52,15 @@
 				var total = 0.0;
 				$('#detail-grid > tbody > tr').each(function() {
 					var $row = $(this);
-					var q=$row.find('input[data-field="purch_qty"]').val();
-					q = q==''?1:q;
+					var q = $row.find('input[data-field="sales_qty"]').val();
+					q = q == '' ? 1 : q;
+					var d = $row.find('input[data-field="discount"]').val();
+					d = d == '' ? 0 : d;
 					var isi = $row.find('[data-field="id_uom"] > :selected').data('isi');
 					isi = isi ? isi : 1;
-					
-					var t = isi * q * $row.find('input[data-field="purch_price"]').val();
+
+					var t = isi * q * ($row.find('input[data-field="sales_price"]').val() - d);
+
 					$row.find('span.total-price').text(local.format(t));
 					$row.find('input[data-field="total_price"]').val(t);
 					total += t;
@@ -66,11 +71,11 @@
 				$('#detail-grid > tbody > tr').each(function() {
 					var $row = $(this);
 					var product = local.product[$row.find('[data-field="id_product"]').val()];
-					if(product){
-						$row.find('[data-field="id_uom"] > option').each(function(){
+					if (product) {
+						$row.find('[data-field="id_uom"] > option').each(function() {
 							var $opt = $(this);
 							var isi = product.uoms[$opt.val()].isi;
-							$opt.attr('data-isi',isi);
+							$opt.attr('data-isi', isi);
 							//$opt.data('isi',isi);
 						});
 					}
@@ -113,30 +118,30 @@
 				$grid.on('change', ':input[data-field]', function() {
 					var $row = $(this).closest('tr');
 					switch ($(this).data('field')) {
-						case 'markup_price':
-							var p = $row.find('input[data-field="purch_price"]').val();
-							var m = $row.find('input[data-field="markup_price"]').val();
-							var s = p / (1 - 0.01 * m);
-							$row.find('input[data-field="selling_price"]').val(s.toFixed(2));
+						case 'discount_percen':
+							var p = $row.find('input[data-field="sales_price"]').val();
+							var dp = $row.find('input[data-field="discount_percen"]').val();
+							var d = 0.01 * p * dp;
+							$row.find('input[data-field="discount"]').val(d.toFixed(2));
 							break;
 
-						case 'purch_price':
-						case 'selling_price':
-							var p = $row.find('input[data-field="purch_price"]').val();
-							var s = $row.find('input[data-field="selling_price"]').val();
-							var m = s > 0 ? 100 * (s - p) / s : 0;
-							$row.find('input[data-field="markup_price"]').val(m.toFixed(2));
+						case 'sales_price':
+						case 'discount':
+							var p = $row.find('input[data-field="sales_price"]').val();
+							var d = $row.find('input[data-field="discount"]').val();
+							var dp = p > 0 ? 100 * d / p : 0;
+							$row.find('input[data-field="discount_percen"]').val(dp.toFixed(2));
 							break;
 					}
 					local.normalizeItem();
 				});
-				
+
 				var clicked = false;
-				$grid.on('click focus','input[data-field]',function(e){
-					if(e.type=='click'){
+				$grid.on('click focus', 'input[data-field]', function(e) {
+					if (e.type == 'click') {
 						clicked = true;
-					}else{
-						if(!clicked){
+					} else {
+						if (!clicked) {
 							$(this).select();
 						}
 						clicked = false;
@@ -170,13 +175,13 @@
 			onProductSelect: function(event, ui) {
 				local.addItem(ui.item);
 			},
-			onSupplierSelect:function(event, ui){
-				$('#purchasehdr-id_supplier').val(ui.item.id);
+			onCustomerSelect: function(event, ui) {
+				$('#saleshdr-id_customer').val(ui.item.id);
 			},
-			onSupplierOpen:function(event, ui){
-				$('#purchasehdr-id_supplier').val('');
+			onCustomerOpen: function(event, ui) {
+				$('#saleshdr-id_customer').val('');
 			},
-			sourceSupplier: local.supp,
+			sourceCustomer: local.cust,
 		};
 		return pub;
 	})(window.jQuery);

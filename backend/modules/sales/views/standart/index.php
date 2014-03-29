@@ -9,7 +9,7 @@ use backend\modules\purchase\models\PurchaseHdr;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var backend\modules\purchase\models\PurchaseHdrSearch $searchModel
  */
-$this->title = 'Purchase Hdrs';
+$this->title = 'Sales';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="purchase-hdr-index">
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<h1><?= Html::encode($this->title) ?></h1>
 
 	<p>
-		<?= Html::a('Create Purchase Hdr', ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a('Create Sales', ['create'], ['class' => 'btn btn-success']) ?>
 	</p>
 
 	<?php yii\widgets\Pjax::begin(['formSelector' => 'form', 'enablePushState' => false]); ?>
@@ -28,8 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
 			'sales_num',
-			'idCustomer.nm_customer',
-			'idWarehouse.nm_whse',
+			'idCustomer.nm_cust',
+			'idBranch.nm_branch',
 			'sales_date',
 			[
 				'class' => 'yii\grid\ActionColumn',

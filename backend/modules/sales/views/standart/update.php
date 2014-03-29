@@ -7,12 +7,12 @@ use yii\helpers\Html;
  * @var backend\modules\purchase\models\PurchaseHdr $model
  */
 
-$this->title = 'Update Purchase Hdr: ' . $model->id_purchase_hdr;
-$this->params['breadcrumbs'][] = ['label' => 'Purchase Hdrs', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_purchase_hdr, 'url' => ['view', 'id' => $model->id_purchase_hdr]];
+$this->title = 'Update Sales: ' . $model->sales_num;
+$this->params['breadcrumbs'][] = ['label' => 'Sales', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->sales_num, 'url' => ['view', 'id' => $model->id_sales]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="purchase-hdr-update">
+<div class="sales-update">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 

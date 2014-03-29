@@ -1,26 +1,27 @@
 <?php
 
-namespace backend\modules\master\models;
+namespace backend\modules\inventory\models;
 
-use yii\db\Expression;
 use \Exception;
+use backend\modules\master\models\ProductUom;
+use backend\modules\master\models\Cogs;
+use backend\modules\master\models\Warehouse;
+use backend\modules\master\models\Product;
+use backend\modules\master\models\Uom;
 
 /**
  * This is the model class for table "product_stock".
  *
  * @property integer $id_stock
- * @property integer $id_periode
  * @property integer $id_warehouse
  * @property integer $id_product
  * @property integer $id_uom
  * @property string $qty_stock
- * @property integer $status_closing
  * @property string $create_date
  * @property integer $create_by
  * @property string $update_date
  * @property integer $update_by
  *
- * @property AccPeriode $idPeriode
  * @property Uom $idUom
  * @property Product $idProduct
  * @property Warehouse $idWarehouse
@@ -28,12 +29,7 @@ use \Exception;
 class ProductStock extends \yii\db\ActiveRecord
 {
 
-	const STATUS_CLOSE = 0;
-	const STATUS_OPEN = 1;
-	const STATUS_OPEN_2 = 2;
-	const LOG_STOCK = 'log_stock';
-
-	public $log_params = [];
+	const COLLECTION_NAME = 'log_stock';
 
 	/**
 	 * @inheritdoc
@@ -49,8 +45,8 @@ class ProductStock extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['opening_date', 'id_warehouse', 'id_product', 'id_uom', 'qty_stock', 'status_closing'], 'required'],
-			[['id_warehouse', 'id_product', 'id_uom', 'status_closing'], 'integer'],
+			[['id_warehouse', 'id_product', 'id_uom', 'qty_stock'], 'required'],
+			[['id_warehouse', 'id_product', 'id_uom'], 'integer'],
 			[['qty_stock'], 'number'],
 		];
 	}
@@ -62,25 +58,15 @@ class ProductStock extends \yii\db\ActiveRecord
 	{
 		return [
 			'id_stock' => 'Id Stock',
-			'opening_date' => 'Opening Date',
 			'id_warehouse' => 'Id Warehouse',
 			'id_product' => 'Id Product',
 			'id_uom' => 'Id Uom',
 			'qty_stock' => 'Qty Stock',
-			'status_closing' => 'Status Closing',
 			'create_date' => 'Create Date',
 			'create_by' => 'Create By',
 			'update_date' => 'Update Date',
 			'update_by' => 'Update By',
 		];
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getIdPeriode()
-	{
-		return $this->hasOne(AccPeriode::className(), ['id_periode' => 'id_periode']);
 	}
 
 	/**
@@ -107,10 +93,10 @@ class ProductStock extends \yii\db\ActiveRecord
 		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse']);
 	}
 
-	public static function UpdateStock($params, $change_cogs = true)
+	public static function UpdateStock($params,$logs=[])
 	{
+		$result = [];
 		$stock = self::find([
-					'status_closing' => self::STATUS_OPEN,
 					'id_warehouse' => $params['id_warehouse'],
 					'id_product' => $params['id_product'],
 		]);
@@ -118,24 +104,37 @@ class ProductStock extends \yii\db\ActiveRecord
 			$stock = new self();
 			$id_uom = ProductUom::getSmallestUom($params['id_product']);
 			$stock->setAttributes([
-				'opening_date' => new Expression('NOW()'),
 				'id_warehouse' => $params['id_warehouse'],
 				'id_product' => $params['id_product'],
 				'id_uom' => $id_uom,
-				'status_closing' => self::STATUS_OPEN,
-					], true);
+				'qty_stock' => 0,
+			]);
 		}
 		$qty_per_uom = ProductUom::getQtyProductUom($params['id_product'], $params['id_uom']);
+		$result['old_stock'] = $stock->qty_stock;
+		$result['added_stock'] = $params['qty'] * $qty_per_uom;
+		$result['qty_per_uom'] = $qty_per_uom;
+
+		$stock->qty_stock = $stock->qty_stock + $result['added_stock'];
+		if (!empty($logs) && $stock->canSetProperty('logParams')) {
+			$stock->logParams = $logs;
+		}
+		if (!$stock->save()) {
+			throw new \yii\base\UserException(implode(",\n", $stock->firstErrors));
+		}
+
+		return $result;
+
 		if ($change_cogs) {
 			$paramsCogs = $paramsPrice = [
 				'id_branch' => $params['id_branch'],
 				'id_product' => $params['id_product'],
 				'id_uom' => $stock->id_uom,
 				'old_stock' => $stock->qty_stock,
-				'new_stock' => $params['qty'] * $qty_per_uom,
+				'added_stock' => $params['qty'] * $qty_per_uom,
 				'price' => 1.0 * $params['price'] / $qty_per_uom,
 			];
-			if(isset($params['log_params'])){
+			if (isset($params['log_params'])) {
 				$paramsCogs['log_params'] = $paramsPrice['log_params'] = $params['log_params'];
 			}
 			$paramsPrice['price'] = 1.0 * $params['selling_price'] / $qty_per_uom;
@@ -143,8 +142,8 @@ class ProductStock extends \yii\db\ActiveRecord
 
 		if (!$change_cogs or (Cogs::UpdateCogs($paramsCogs) and Price::UpdatePrice($paramsPrice))) {
 			$stock->qty_stock = $stock->qty_stock + $params['qty'] * $qty_per_uom;
-			if(isset($params['log_params'])){
-				$stock->log_params = $params['log_params'];
+			if (isset($params['log_params'])) {
+				$stock->logParams = $params['log_params'];
 			}
 			if (!$stock->save()) {
 				throw new \yii\base\UserException(implode(",\n", $stock->firstErrors));
@@ -185,33 +184,14 @@ class ProductStock extends \yii\db\ActiveRecord
 	public function behaviors()
 	{
 		return [
-			'timestamp' => [
-				'class' => 'backend\components\AutoTimestamp',
-			],
-			'changeUser' => [
-				'class' => 'backend\components\AutoUser',
+			'backend\components\AutoTimestamp',
+			'backend\components\AutoUser',
+			[
+				'class' => 'backend\components\Logger',
+				'collectionName' => self::COLLECTION_NAME,
+				'attributes' => ['id_stock', 'id_warehouse', 'id_product', 'id_uom', 'qty_stock'],
 			]
 		];
-	}
-
-	public function afterSave($insert)
-	{
-		parent::afterSave($insert);
-		try {
-			$collection = \Yii::$app->mongodb->getCollection(self::LOG_STOCK);
-			$user = \Yii::$app->user;
-			
-			$collection->insert(array_merge([
-				'id_warehouse' => $this->id_warehouse,
-				'id_product' => $this->id_product,
-				'qty_stock' => $this->qty_stock,
-				'log_time' => time(),
-				'log_by' => $user->getIsGuest() ? 0 : $user->id,
-							], $this->log_params));
-			return true;
-		} catch (Exception $exc) {
-			throw $exc;
-		}
 	}
 
 }

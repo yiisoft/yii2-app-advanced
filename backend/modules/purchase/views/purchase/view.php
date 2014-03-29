@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<p>
 		<?php
-		if ($model->id_status == PurchaseHdr::STATUS_DRAFT) {
+		if ($model->status == PurchaseHdr::STATUS_DRAFT) {
 			echo Html::a('Update', ['update', 'id' => $model->id_purchase_hdr], ['class' => 'btn btn-primary']) . ' ';
 			echo Html::a('Delete', ['delete', 'id' => $model->id_purchase_hdr], [
 				'class' => 'btn btn-danger',
@@ -40,7 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
 		'attributes' => [
 			'purchase_num',
 			'idSupplier.nm_supplier',
-			'idWarehouse.nm_whse',
 			'purchase_date',
 			'nmStatus',
 		],
@@ -54,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				]),
 		'columns'=>[
 			['class'=>'yii\grid\SerialColumn'],
+			'idWarehouse.nm_whse',
 			'idProduct.nm_product',
 			'purch_qty',
 			'purch_price',

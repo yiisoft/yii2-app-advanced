@@ -2,27 +2,29 @@
 
 namespace backend\modules\purchase\models;
 
+use Yii;
 use backend\modules\master\models\Supplier;
-use backend\modules\master\models\Warehouse;
+use backend\modules\master\models\Branch;
 
 /**
  * This is the model class for table "purchase_hdr".
  *
  * @property integer $id_purchase_hdr
- * @property integer $id_branch
  * @property string $purchase_num
  * @property integer $id_supplier
- * @property integer $id_warehouse
+ * @property integer $id_branch
  * @property string $purchase_date
- * @property integer $id_status
+ * @property double $purchase_value
+ * @property double $payment_discount
+ * @property integer $status
+ * @property string $create_date
+ * @property integer $create_by
  * @property string $update_date
  * @property integer $update_by
- * @property integer $create_by
- * @property string $create_date
  *
  * @property PurchaseDtl[] $purchaseDtls
  * @property Supplier $idSupplier
- * @property Warehouse $idWarehouse
+ * @property Branch $idBranch
  */
 class PurchaseHdr extends \yii\db\ActiveRecord
 {
@@ -30,6 +32,9 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 	const STATUS_DRAFT = 1;
 	const STATUS_RECEIVE = 2;
 
+
+	public $id_warehouse;
+	
 	/**
 	 * @inheritdoc
 	 */
@@ -44,10 +49,10 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id_supplier', 'id_warehouse', 'purchase_date', 'id_status'], 'required'],
-			[['id_supplier', 'id_warehouse', 'id_status'], 'integer'],
-			[['purchase_date'], 'safe'],
-			[['purchase_num'], 'string', 'max' => 16]
+			[['id_supplier', 'id_branch', 'purchase_date', 'purchase_value', 'status'], 'required'],
+			[['id_supplier', 'id_branch', 'status'], 'integer'],
+			[['purchase_value', 'payment_discount'], 'double'],
+			[['id_warehouse'],'safe']
 		];
 	}
 
@@ -60,18 +65,20 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 			'id_purchase_hdr' => 'Id Purchase Hdr',
 			'purchase_num' => 'Purchase Num',
 			'id_supplier' => 'Id Supplier',
-			'id_warehouse' => 'Id Warehouse',
+			'id_branch' => 'Id Branch',
 			'purchase_date' => 'Purchase Date',
-			'id_status' => 'Id Status',
+			'purchase_value' => 'Purchase Value',
+			'payment_discount' => 'Payment Discount',
+			'status' => 'Status',
+			'create_date' => 'Create Date',
+			'create_by' => 'Create By',
 			'update_date' => 'Update Date',
 			'update_by' => 'Update By',
-			'create_by' => 'Create By',
-			'create_date' => 'Create Date',
 		];
 	}
 
 	/**
-	 * @return \yii\db\ActiveRelation
+	 * @return \yii\db\ActiveQuery
 	 */
 	public function getPurchaseDtls()
 	{
@@ -79,7 +86,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 	}
 
 	/**
-	 * @return \yii\db\ActiveRelation
+	 * @return \yii\db\ActiveQuery
 	 */
 	public function getIdSupplier()
 	{
@@ -87,11 +94,11 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 	}
 
 	/**
-	 * @return \yii\db\ActiveRelation
+	 * @return \yii\db\ActiveQuery
 	 */
-	public function getIdWarehouse()
+	public function getIdBranch()
 	{
-		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse']);
+		return $this->hasOne(Branch::className(), ['id_branch' => 'id_branch']);
 	}
 
 	public function getNmStatus()
@@ -100,26 +107,21 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 			self::STATUS_DRAFT => 'Draft',
 			self::STATUS_RECEIVE => 'Receive',
 		];
-		return $maps[$this->id_status];
+		return $maps[$this->status];
 	}
 
 	public function behaviors()
 	{
 		return [
-			'timestamp' => [
-				'class' => 'backend\components\AutoTimestamp',
-			],
-			'changeUser' => [
-				'class' => 'backend\components\AutoUser',
-			],
-			'autoNumber' => [
+			'backend\components\AutoTimestamp',
+			'backend\components\AutoUser',
+			[
 				'class' => 'mdm\autonumber\Behavior',
 				'digit' => 4,
-				'attributes' => [
-					self::EVENT_BEFORE_INSERT => ['purchase_num']
-				],
+				'group' => 'purchase',
+				'attribute' => 'purchase_num',
 				'value' => function($event) {
-					return date('1.ymd.?');
+					return date('ymd.?');
 				}
 			]
 		];
