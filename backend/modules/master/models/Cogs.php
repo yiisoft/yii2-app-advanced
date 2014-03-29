@@ -6,7 +6,6 @@ namespace backend\modules\master\models;
  * This is the model class for table "cogs".
  *
  * @property integer $id_cogs
- * @property integer $id_branch
  * @property integer $id_product
  * @property integer $id_uom
  * @property string $cogs
@@ -16,15 +15,13 @@ namespace backend\modules\master\models;
  * @property integer $update_by
  *
  * @property Uom $idUom
- * @property Branch $idBranch
  * @property Product $idProduct
  */
 class Cogs extends \yii\db\ActiveRecord
 {
 
-	const LOG_COGS = 'log_cogs';
+	const COLLECTION_NAME = 'log_cogs';
 
-	public $log_params = [];
 	/**
 	 * @inheritdoc
 	 */
@@ -39,8 +36,8 @@ class Cogs extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id_branch', 'id_product', 'id_uom', 'cogs'], 'required'],
-			[['id_branch', 'id_product', 'id_uom'], 'integer'],
+			[['id_product', 'id_uom', 'cogs'], 'required'],
+			[['id_product', 'id_uom'], 'integer'],
 			[['cogs'], 'number']
 		];
 	}
@@ -52,7 +49,6 @@ class Cogs extends \yii\db\ActiveRecord
 	{
 		return [
 			'id_cogs' => 'Id Cogs',
-			'id_branch' => 'Id Branch',
 			'id_product' => 'Id Product',
 			'id_uom' => 'Id Uom',
 			'cogs' => 'Cogs',
@@ -64,7 +60,7 @@ class Cogs extends \yii\db\ActiveRecord
 	}
 
 	/**
-	 * @return \yii\db\ActiveRelation
+	 * @return \yii\db\ActiveQuery
 	 */
 	public function getIdUom()
 	{
@@ -72,74 +68,46 @@ class Cogs extends \yii\db\ActiveRecord
 	}
 
 	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getIdBranch()
-	{
-		return $this->hasOne(Branch::className(), ['id_branch' => 'id_branch']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveRelation
+	 * @return \yii\db\ActiveQuery
 	 */
 	public function getIdProduct()
 	{
 		return $this->hasOne(Product::className(), ['id_product' => 'id_product']);
 	}
 
-	public static function UpdateCogs($params)
+	public static function UpdateCogs($params,$logs=[])
 	{
-		$cogs = self::find([
-					'id_branch' => $params['id_branch'],
-					'id_product' => $params['id_product'],
-		]);
+		$cogs = self::find(['id_product' => $params['id_product'],]);
 
 		if (!$cogs) {
 			$cogs = new self();
 			$cogs->setAttributes([
-				'id_branch' => $params['id_branch'],
 				'id_product' => $params['id_product'],
 				'id_uom' => $params['id_uom'],
-					], true);
+				'cogs' => 0.0
+			]);
 		}
-		$cogs->cogs = 1.0*($cogs->cogs * $params['old_stock'] + $params['price'] * $params['new_stock']) / ($params['old_stock'] + $params['new_stock']);
-		if(!$cogs->save()){
+		$cogs->cogs = 1.0 * ($cogs->cogs * $params['old_stock'] + $params['price'] * $params['added_stock']) / ($params['old_stock'] + $params['added_stock']);
+		if (!empty($logs) && $cogs->canSetProperty('logParams')) {
+			$cogs->logParams = $logs;
+		}
+		if (!$cogs->save()) {
 			throw new \yii\base\UserException(implode(",\n", $cogs->firstErrors));
 		}
-		return true;;
+		return true;
 	}
 
 	public function behaviors()
 	{
 		return [
-			'timestamp' => [
-				'class' => 'backend\components\AutoTimestamp',
-			],
-			'changeUser' => [
-				'class' => 'backend\components\AutoUser',
+			'backend\components\AutoTimestamp',
+			'backend\components\AutoUser',
+			[
+				'class' => 'backend\components\Logger',
+				'collectionName' => self::COLLECTION_NAME,
+				'attributes' => ['id_cogs', 'id_product', 'id_uom', 'cogs'],
 			]
 		];
-	}
-
-	public function afterSave($insert)
-	{
-		parent::afterSave($insert);
-		try {
-			$collection = \Yii::$app->mongodb->getCollection(self::LOG_COGS);
-			$user = \Yii::$app->user;
-			
-			$collection->insert(array_merge([
-				'id_branch' => $this->id_branch,
-				'id_product' => $this->id_product,
-				'id_uom' => $this->id_uom,
-				'cogs' => $this->cogs,
-				'log_time' => time(),
-				'log_by' => $user->getIsGuest() ? 0 : $user->id,
-							], $this->log_params));
-			return true;
-		} catch (\Exception $exc) {
-			throw $exc;
-		}
 	}
 
 }
