@@ -785,7 +785,7 @@
     <column id="COL231" populated="true" UUID="eab0ca31-22de-4b9c-a4f6-8473ce74ad1f" autoIncrement="false" autoIncrementSequenceName="sales_hdr_discount_seq" defaultValue="" name="discount" nullable="1" physicalName="discount" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="8" userDefinedTypeUUID="4fc90970-b2e5-41dd-911c-cc605d87e7a8" >
      <remarks></remarks>
     </column>
-    <column id="COL232" populated="true" UUID="79834f23-1074-4939-bfa9-53984986183a" autoIncrement="false" autoIncrementSequenceName="sales_hdr_sales_date_seq" defaultValue="" name="sales_date" nullable="0" physicalName="sales_date" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="93" userDefinedTypeUUID="6497d8de-0e00-40d6-a42e-e2adca83be64" >
+    <column id="COL232" populated="true" UUID="79834f23-1074-4939-bfa9-53984986183a" autoIncrement="false" autoIncrementSequenceName="sales_hdr_sales_date_seq" defaultValue="" name="sales_date" nullable="0" physicalName="sales_date" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
      <remarks></remarks>
     </column>
     <column id="COL233" populated="true" UUID="75ff0f78-4172-4455-9270-d1dffc1883b2" autoIncrement="false" autoIncrementSequenceName="sales_hdr_status_seq" defaultValue="" name="status" nullable="0" physicalName="status" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
@@ -1646,7 +1646,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.7071067811865474" viewportX="447" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.7071067811865474" viewportX="447" viewportY="376" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="1002" y="478" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB12" x="374" y="261" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB26" x="93" y="217" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
