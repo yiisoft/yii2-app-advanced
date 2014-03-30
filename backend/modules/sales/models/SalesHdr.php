@@ -36,14 +36,6 @@ class SalesHdr extends \yii\db\ActiveRecord
 
 	public $id_warehouse;
 
-	public function init()
-	{
-		parent::init();
-//		$this->on(self::EVENT_BEFORE_VALIDATE, function($event) {
-//					$this->id_customer = empty($this->id_customer) ? null : (int) $this->id_customer;
-//				});
-	}
-
 	/**
 	 * @inheritdoc
 	 */
