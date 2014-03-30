@@ -4,14 +4,14 @@ namespace backend\modules\purchase\models;
 
 use Yii;
 use backend\modules\master\models\Product;
-use backend\modules\master\models\Warehouse;
 use backend\modules\master\models\Uom;
+use backend\modules\master\models\Warehouse;
 
 /**
  * This is the model class for table "purchase_dtl".
  *
  * @property integer $id_purchase_dtl
- * @property integer $id_purchase_hdr
+ * @property integer $id_purchase
  * @property integer $id_product
  * @property integer $id_warehouse
  * @property integer $id_uom
@@ -20,7 +20,7 @@ use backend\modules\master\models\Uom;
  * @property string $selling_price
  *
  * @property Uom $idUom
- * @property PurchaseHdr $idPurchaseHdr
+ * @property PurchaseHdr $idPurchase
  * @property Product $idProduct
  * @property Warehouse $idWarehouse
  */
@@ -40,8 +40,8 @@ class PurchaseDtl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_purchase_hdr', 'id_product', 'id_warehouse', 'id_uom', 'purch_qty', 'selling_price'], 'required'],
-            [['id_purchase_hdr', 'id_product', 'id_warehouse', 'id_uom'], 'integer'],
+            [['id_purchase', 'id_product', 'id_warehouse', 'id_uom', 'purch_qty', 'selling_price'], 'required'],
+            [['id_purchase', 'id_product', 'id_warehouse', 'id_uom'], 'integer'],
             [['purch_qty', 'purch_price', 'selling_price'], 'string']
         ];
     }
@@ -53,7 +53,7 @@ class PurchaseDtl extends \yii\db\ActiveRecord
     {
         return [
             'id_purchase_dtl' => 'Id Purchase Dtl',
-            'id_purchase_hdr' => 'Id Purchase Hdr',
+            'id_purchase' => 'Id Purchase',
             'id_product' => 'Id Product',
             'id_warehouse' => 'Id Warehouse',
             'id_uom' => 'Id Uom',
@@ -74,9 +74,9 @@ class PurchaseDtl extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdPurchaseHdr()
+    public function getIdPurchase()
     {
-        return $this->hasOne(PurchaseHdr::className(), ['id_purchase_hdr' => 'id_purchase_hdr']);
+        return $this->hasOne(PurchaseHdr::className(), ['id_purchase' => 'id_purchase']);
     }
 
     /**

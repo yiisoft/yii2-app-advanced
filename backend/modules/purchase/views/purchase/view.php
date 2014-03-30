@@ -8,8 +8,8 @@ use backend\modules\purchase\models\PurchaseHdr;
  * @var yii\web\View $this
  * @var backend\modules\purchase\models\PurchaseHdr $model
  */
-$this->title = $model->id_purchase_hdr;
-$this->params['breadcrumbs'][] = ['label' => 'Purchase Hdrs', 'url' => ['index']];
+$this->title = $model->purchase_num;
+$this->params['breadcrumbs'][] = ['label' => 'Purchase', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="purchase-hdr-view">
@@ -19,13 +19,13 @@ $this->params['breadcrumbs'][] = $this->title;
 	<p>
 		<?php
 		if ($model->status == PurchaseHdr::STATUS_DRAFT) {
-			echo Html::a('Update', ['update', 'id' => $model->id_purchase_hdr], ['class' => 'btn btn-primary']) . ' ';
-			echo Html::a('Delete', ['delete', 'id' => $model->id_purchase_hdr], [
+			echo Html::a('Update', ['update', 'id' => $model->id_purchase], ['class' => 'btn btn-primary']) . ' ';
+			echo Html::a('Delete', ['delete', 'id' => $model->id_purchase], [
 				'class' => 'btn btn-danger',
 				'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
 				'data-method' => 'post',
 			]) . ' ';
-			echo Html::a('Receive', ['receive', 'id' => $model->id_purchase_hdr], [
+			echo Html::a('Receive', ['receive', 'id' => $model->id_purchase], [
 				'class' => 'btn btn-primary',
 				'data-confirm' => Yii::t('app', 'Are you sure to receive this item?'),
 				'data-method' => 'post',

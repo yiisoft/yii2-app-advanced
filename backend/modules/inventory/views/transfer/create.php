@@ -4,20 +4,21 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var backend\modules\inventory\models\TransferHdr $model
+ * @var backend\modules\purchase\models\PurchaseHdr $model
  */
-
-$this->title = 'Create Transfer Hdr';
-$this->params['breadcrumbs'][] = ['label' => 'Transfer Hdrs', 'url' => ['index']];
+$this->title = 'Create Purchase';
+$this->params['breadcrumbs'][] = ['label' => 'Purchase', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="transfer-hdr-create">
+<div class="purchase-hdr-create">
 
 	<h1><?= Html::encode($this->title) ?></h1>
 
-	<?php echo $this->render('_form', [
+	<?php
+	echo $this->render('_form', [
 		'model' => $model,
-		'detailProvider' => $detailProvider
-	]); ?>
+		'details' => $details
+	]);
+	?>
 
 </div>

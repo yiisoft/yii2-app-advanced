@@ -72,7 +72,7 @@ class PurchaseController extends Controller
 
 		list($details, $success) = $this->savePurchase($model);
 		if ($success) {
-			return $this->redirect(['view', 'id' => $model->id_purchase_hdr]);
+			return $this->redirect(['view', 'id' => $model->id_purchase]);
 		}
 		return $this->render('create', ['model' => $model, 'details' => $details]);
 	}
@@ -91,7 +91,7 @@ class PurchaseController extends Controller
 		}
 		list($details, $success) = $this->savePurchase($model);
 		if ($success) {
-			return $this->redirect(['view', 'id' => $model->id_purchase_hdr]);
+			return $this->redirect(['view', 'id' => $model->id_purchase]);
 		}
 		return $this->render('update', ['model' => $model, 'details' => $details
 		]);
@@ -111,10 +111,11 @@ class PurchaseController extends Controller
 		if ($model->load($post)) {
 			$transaction = Yii::$app->db->beginTransaction();
 			$objs = [];
-			$model->payment_discount = 1.0 * $model->payment_discount;
-			$model->purchase_value = 1.0 * $model->purchase_value;
 			foreach ($details as $detail) {
 				$objs[$detail->id_purchase_dtl] = [false, $detail];
+			}
+			if (empty($model->id_warehouse) && count($details)) {
+				$model->id_warehouse = $details[0]->id_warehouse;
 			}
 			try {
 				$success = $model->save();
@@ -124,30 +125,35 @@ class PurchaseController extends Controller
 			}
 
 			$formName = (new PurchaseDtl)->formName();
-			$id_hdr = $success ? $model->id_purchase_hdr : false;
+			$id_hdr = $success ? $model->id_purchase : false;
 			$id_whse = $model->id_warehouse;
 			$details = [];
-			foreach ($post[$formName] as $dataDetail) {
-				$id_dtl = $dataDetail['id_purchase_dtl'];
-				if ($id_dtl != '' && isset($objs[$id_dtl])) {
-					$detail = $objs[$id_dtl][1];
-					$objs[$id_dtl][0] = true;
-				} else {
-					$detail = new PurchaseDtl;
-				}
-
-				$detail->setAttributes($dataDetail);
-				if ($id_hdr !== false) {
-					$detail->id_purchase_hdr = $id_hdr;
-					$detail->id_warehouse = $id_whse;
-					try {
-						$success = $success && $detail->save();
-					} catch (Exception $exc) {
-						$success = false;
-						$detail->addError('', $exc->getMessage());
+			if (!empty($post[$formName])) {
+				foreach ($post[$formName] as $dataDetail) {
+					$id_dtl = $dataDetail['id_purchase_dtl'];
+					if ($id_dtl != '' && isset($objs[$id_dtl])) {
+						$detail = $objs[$id_dtl][1];
+						$objs[$id_dtl][0] = true;
+					} else {
+						$detail = new PurchaseDtl;
 					}
+
+					$detail->setAttributes($dataDetail);
+					if ($id_hdr !== false) {
+						$detail->id_purchase = $id_hdr;
+						$detail->id_warehouse = $id_whse;
+						try {
+							$success = $success && $detail->save();
+						} catch (Exception $exc) {
+							$success = false;
+							$detail->addError('', $exc->getMessage());
+						}
+					}
+					$details[] = $detail;
 				}
-				$details[] = $detail;
+			} else {
+				$success = false;
+				$model->addError('', 'Detail tidak boleh kosong');
 			}
 			if ($success) {
 				try {
@@ -227,8 +233,10 @@ class PurchaseController extends Controller
 
 				if ($sukses) {
 					$transaction->commit();
+				}  else {
+					$transaction->rollBack();
 				}
-			} catch (\Exception $exc) {
+			} catch (Exception $exc) {
 				$transaction->rollBack();
 				throw $exc;
 			}

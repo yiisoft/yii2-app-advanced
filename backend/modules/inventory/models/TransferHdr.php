@@ -2,28 +2,26 @@
 
 namespace backend\modules\inventory\models;
 
+use Yii;
 use backend\modules\master\models\Warehouse;
-use backend\modules\master\models\Branch;
 
 /**
  * This is the model class for table "transfer_hdr".
  *
- * @property integer $id_transfer_hdr
- * @property integer $id_branch
+ * @property integer $id_transfer
  * @property string $transfer_num
  * @property integer $id_warehouse_source
  * @property integer $id_warehouse_dest
  * @property string $transfer_date
- * @property integer $id_status
+ * @property integer $status
+ * @property string $create_date
+ * @property integer $create_by
  * @property string $update_date
  * @property integer $update_by
- * @property integer $create_by
- * @property string $create_date
  *
  * @property TransferDtl[] $transferDtls
  * @property Warehouse $idWarehouseSource
  * @property Warehouse $idWarehouseDest
- * @property Branch $idBranch
  */
 class TransferHdr extends \yii\db\ActiveRecord
 {
@@ -36,77 +34,68 @@ class TransferHdr extends \yii\db\ActiveRecord
 	const STATUS_CONFIRM_APPROVE = 6;
 	const STATUS_RECEIVE = 7;
 
-	/**
-	 * @inheritdoc
-	 */
-	public static function tableName()
-	{
-		return 'transfer_hdr';
-	}
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'transfer_hdr';
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function rules()
-	{
-		return [
-			[['id_branch', 'id_warehouse_source', 'id_warehouse_dest', 'transfer_date', 'id_status'], 'required'],
-			[['id_branch', 'id_warehouse_source', 'id_warehouse_dest', 'id_status'], 'integer'],
-			[['transfer_date'], 'safe']
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['id_warehouse_source', 'id_warehouse_dest', 'transfer_date', 'status'], 'required'],
+            [['id_warehouse_source', 'id_warehouse_dest', 'status'], 'integer'],
+            [['transfer_date'], 'safe']
+        ];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function attributeLabels()
-	{
-		return [
-			'id_transfer_hdr' => 'Id Transfer Hdr',
-			'id_branch' => 'Id Branch',
-			'transfer_num' => 'Transfer Num',
-			'id_warehouse_source' => 'Id Warehouse Source',
-			'id_warehouse_dest' => 'Id Warehouse Dest',
-			'transfer_date' => 'Transfer Date',
-			'id_status' => 'Id Status',
-			'update_date' => 'Update Date',
-			'update_by' => 'Update By',
-			'create_by' => 'Create By',
-			'create_date' => 'Create Date',
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id_transfer' => 'Id Transfer',
+            'transfer_num' => 'Transfer Num',
+            'id_warehouse_source' => 'Id Warehouse Source',
+            'id_warehouse_dest' => 'Id Warehouse Dest',
+            'transfer_date' => 'Transfer Date',
+            'status' => 'Status',
+            'create_date' => 'Create Date',
+            'create_by' => 'Create By',
+            'update_date' => 'Update Date',
+            'update_by' => 'Update By',
+        ];
+    }
 
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getTransferDtls()
-	{
-		return $this->hasMany(TransferDtl::className(), ['id_transfer_hdr' => 'id_transfer_hdr']);
-	}
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransferDtls()
+    {
+        return $this->hasMany(TransferDtl::className(), ['id_transfer' => 'id_transfer']);
+    }
 
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getIdWarehouseSource()
-	{
-		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse_source']);
-	}
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdWarehouseSource()
+    {
+        return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse_source']);
+    }
 
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getIdWarehouseDest()
-	{
-		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse_dest']);
-	}
-
-	/**
-	 * @return \yii\db\ActiveQuery
-	 */
-	public function getIdBranch()
-	{
-		return $this->hasOne(Branch::className(), ['id_branch' => 'id_branch']);
-	}
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdWarehouseDest()
+    {
+        return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse_dest']);
+    }
 
 	public function getNmStatus()
 	{
@@ -119,26 +108,21 @@ class TransferHdr extends \yii\db\ActiveRecord
 			self::STATUS_CONFIRM_REJECT => 'Reject',
 			self::STATUS_RECEIVE => 'Receive',
 		];
-		return $maps[$this->id_status];
+		return $maps[$this->status];
 	}
 
 	public function behaviors()
 	{
 		return [
-			'timestamp' => [
-				'class' => 'backend\components\AutoTimestamp',
-			],
-			'changeUser' => [
-				'class' => 'backend\components\AutoUser',
-			],
-			'autoNumber' => [
-				'class' => \mdm\autonumber\Behavior::className(),
+			'backend\components\AutoTimestamp',
+			'backend\components\AutoUser',
+			[
+				'class' => 'mdm\autonumber\Behavior',
 				'digit' => 4,
-				'attributes' => [
-					self::EVENT_BEFORE_INSERT => ['transfer_num']
-				],
+				'group' => 'transfer',
+				'attribute' => 'transfer_num',
 				'value' => function($event) {
-					return date('2.ymd.?');
+					return date('ymd.?');
 				}
 			]
 		];

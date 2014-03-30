@@ -1,40 +1,87 @@
 <?php
 
 use yii\helpers\Html;
-use common\extensions\inputGrid\Grid;
-use yii\web\JsExpression;
+use backend\modules\inventory\models\TransferDtl;
 use backend\modules\master\models\Product;
-
-
-kartik\widgets\Select2Asset::register($this);
 ?>
-<script>
-	var afterAddRow = function() {
-		
-	}
-</script>
-<div class="col-lg-12">
-	<?php
-	$inpDropDownUom = function($model,$index,$column){
-		$items = [];
-		if($model->id_product){
-			$items = Product::ListUoms($model->id_product);
-		}
-		return Html::activeDropDownList($model, "[$index]id_uom", $items,['data-attribute'=>'id_uom']);
-	};
-	
-	echo Grid::widget([
-		'dataProvider' => $detailProvider,
-		'columns' => [
-			['class' => 'common\extensions\inputGrid\SerialColumn'],
-			['attribute' => 'idProduct.nm_product',],
-			['attribute' => 'transfer_qty_send',],
-			['class' => 'common\extensions\inputGrid\InputColumn',
-				'attribute' => 'transfer_qty_receive',],
-			['attribute' => 'idUom.nm_uom'],
-			],
-		//'afterAddRow' => new JsExpression('afterAddRow'),
-	]);
-	?>
-</div>
+<div class="col-lg-9" style="padding-left: 0px;">
+    <div class="panel panel-info">
+        <table id="detail-grid" class="table table-striped">
+			<?php
 
+			function renderRow($model, $index)
+			{
+				ob_start();
+				ob_implicit_flush(false);
+				?>
+				<tr>
+					<td style="width: 50px">
+						<?= $index + 1; ?>
+						<?= Html::activeHiddenInput($model, "[$index]id_product", ['data-field' => 'id_product', 'id' => false]) ?>
+						<?= Html::activeHiddenInput($model, "[$index]id_transfer_dtl", ['data-field' => 'id_transfer_dtl', 'id' => false]) ?>
+					</td>
+					<td class="items" style="width: 45%">
+						<ul class="nav nav-list">
+							<li><span class="cd_product"><?= Html::getAttributeValue($model, 'idProduct[cd_product]') ?></span> 
+								- <span class="nm_product"><?= Html::getAttributeValue($model, 'idProduct[nm_product]') ?></span></li>
+							<li>
+								Jumlah <?=
+								Html::activeTextInput($model, "[$index]transfer_qty_send", [
+									'data-field' => 'transfer_qty_send',
+									'size' => 5, 'id' => false,
+									'readonly' => true, 'disabled' => true])
+								?>
+								<span > &nbsp; <?= Html::getAttributeValue($model, 'idUom[nm_uom]') ?></span>
+								<?php Html::activeDropDownList($model, "[$index]id_uom", Product::ListUoms($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
+							</li>
+							<li>
+							</li>
+						</ul>
+					</td>
+					<td class="selling" style="width: 40%">
+						<ul class="nav nav-list">
+							<li>Receive</li>
+							<li>
+								Jumlah <?=
+								Html::activeTextInput($model, "[$index]transfer_qty_receive", [
+									'data-field' => 'transfer_qty_receive',
+									'size' => 5, 'id' => false,
+									'required' => true])
+								?>
+							</li>
+							<li>
+								Selisih <?php
+								$selisih = $model->transfer_qty_receive - $model->transfer_qty_send;
+								echo Html::textInput('', $selisih, [
+									'data-field' => 'transfer_selisih',
+									'size' => 5, 'id' => false,
+									'readonly' => true, 'disabled' => true])
+								?>
+							</li>
+						</ul>
+					</td>
+					<td class="total-price">
+						<ul class="nav nav-list">
+							<li>&nbsp;</li>
+							<li>
+								<input type="hidden" data-field="total_price">
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<?php
+				return trim(preg_replace('/>\s+</', '><', ob_get_clean()));
+			}
+			?>
+			<?php
+			$rows = [];
+			foreach ($details as $index => $model) {
+				$rows[] = renderRow($model, $index);
+			}
+			echo Html::tag('tbody', implode("\n", $rows), ['data-template' => renderRow(new TransferDtl, '_index_')])
+			?>
+        </table>
+    </div>
+</div>
+<?php
+$this->render('_script');

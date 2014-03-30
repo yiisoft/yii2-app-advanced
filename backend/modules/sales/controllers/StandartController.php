@@ -9,8 +9,6 @@ use backend\modules\sales\models\SalesDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
-use yii\data\ArrayDataProvider;
-use yii\helpers\Url;
 use backend\components\AppCache;
 use backend\modules\master\models\Cogs;
 
@@ -111,33 +109,38 @@ class StandartController extends Controller
 			$id_hdr = $success ? $model->id_sales : false;
 			$id_whse = $model->id_warehouse;
 			$details = [];
-			foreach ($post[$formName] as $dataDetail) {
-				$id_dtl = $dataDetail['id_sales_dtl'];
-				if ($id_dtl != '' && isset($objs[$id_dtl])) {
-					$detail = $objs[$id_dtl][1];
-					$objs[$id_dtl][0] = true;
-				} else {
-					$detail = new SalesDtl;
-				}
-
-				$detail->setAttributes($dataDetail);
-				if ($id_hdr !== false) {
-					$detail->id_sales = $id_hdr;
-					$detail->id_warehouse = $id_whse;
-					$cogs = Cogs::find(['id_product' => $detail->id_product]);
-					if ($cogs) {
-						$detail->cogs = $cogs->cogs;
+			if (!empty($post[$formName])) {
+				foreach ($post[$formName] as $dataDetail) {
+					$id_dtl = $dataDetail['id_sales_dtl'];
+					if ($id_dtl != '' && isset($objs[$id_dtl])) {
+						$detail = $objs[$id_dtl][1];
+						$objs[$id_dtl][0] = true;
 					} else {
-						$detail->cogs = 0;
+						$detail = new SalesDtl;
 					}
-					try {
-						$success = $success && $detail->save();
-					} catch (Exception $exc) {
-						$success = false;
-						$detail->addError('', $exc->getMessage());
+
+					$detail->setAttributes($dataDetail);
+					if ($id_hdr !== false) {
+						$detail->id_sales = $id_hdr;
+						$detail->id_warehouse = $id_whse;
+						$cogs = Cogs::find(['id_product' => $detail->id_product]);
+						if ($cogs) {
+							$detail->cogs = $cogs->cogs;
+						} else {
+							$detail->cogs = 0;
+						}
+						try {
+							$success = $success && $detail->save();
+						} catch (Exception $exc) {
+							$success = false;
+							$detail->addError('', $exc->getMessage());
+						}
 					}
+					$details[] = $detail;
 				}
-				$details[] = $detail;
+			}else{
+				$success = false;
+				$model->addError('', 'Detail harus diisi');
 			}
 			if ($success) {
 				try {

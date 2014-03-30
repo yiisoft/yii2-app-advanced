@@ -36,6 +36,14 @@ class SalesHdr extends \yii\db\ActiveRecord
 
 	public $id_warehouse;
 
+	public function init()
+	{
+		parent::init();
+//		$this->on(self::EVENT_BEFORE_VALIDATE, function($event) {
+//					$this->id_customer = empty($this->id_customer) ? null : (int) $this->id_customer;
+//				});
+	}
+
 	/**
 	 * @inheritdoc
 	 */
@@ -50,8 +58,11 @@ class SalesHdr extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
+			[['id_customer'], 'filter', 'filter' => function($val) {
+					return empty($val) ? null : (int) $val;
+				}],
 			[['id_branch', 'id_customer', 'sales_date', 'status'], 'required'],
-			[['id_branch', 'id_customer', 'id_cashdrawer', 'status', 'id_warehouse'], 'integer'],
+			[['id_branch', 'id_cashdrawer', 'status', 'id_warehouse'], 'integer'],
 			[['discount', 'sales_date'], 'string'],
 			[['sales_num'], 'string', 'max' => 16]
 		];

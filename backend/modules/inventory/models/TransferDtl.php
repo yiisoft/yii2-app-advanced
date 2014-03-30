@@ -2,28 +2,27 @@
 
 namespace backend\modules\inventory\models;
 
+use Yii;
 use backend\modules\master\models\Product;
 use backend\modules\master\models\Uom;
+
 /**
  * This is the model class for table "transfer_dtl".
  *
- * @property string $id_transfer_dtl
- * @property integer $id_transfer_hdr
+ * @property integer $id_transfer_dtl
+ * @property integer $id_transfer
  * @property integer $id_product
  * @property string $transfer_qty_send
  * @property string $transfer_qty_receive
  * @property integer $id_uom
- * @property string $create_date
- * @property integer $create_by
- * @property string $update_date
- * @property integer $update_by
  *
  * @property Uom $idUom
  * @property Product $idProduct
- * @property TransferHdr $idTransferHdr
+ * @property TransferHdr $idTransfer
  */
 class TransferDtl extends \yii\db\ActiveRecord
 {
+
 	/**
 	 * @inheritdoc
 	 */
@@ -38,10 +37,11 @@ class TransferDtl extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id_transfer_hdr', 'id_product', 'transfer_qty_send', 'id_uom'], 'required'],
-			[['transfer_qty_receive'],'safe'],
-			[['id_transfer_hdr', 'id_product', 'id_uom'], 'integer'],
-			[['transfer_qty_send', 'transfer_qty_receive'], 'number']
+			[['id_transfer', 'id_product', 'transfer_qty_send', 'id_uom'], 'required'],
+			[['id_transfer', 'id_product', 'id_uom'], 'integer'],
+			[['transfer_qty_send', 'transfer_qty_receive'], 'filter', 'filter' => function($val) {
+					return empty($val) ? 0 : (double) $val;
+				}]
 		];
 	}
 
@@ -52,15 +52,11 @@ class TransferDtl extends \yii\db\ActiveRecord
 	{
 		return [
 			'id_transfer_dtl' => 'Id Transfer Dtl',
-			'id_transfer_hdr' => 'Id Transfer Hdr',
+			'id_transfer' => 'Id Transfer',
 			'id_product' => 'Id Product',
 			'transfer_qty_send' => 'Transfer Qty Send',
 			'transfer_qty_receive' => 'Transfer Qty Receive',
 			'id_uom' => 'Id Uom',
-			'create_date' => 'Create Date',
-			'create_by' => 'Create By',
-			'update_date' => 'Update Date',
-			'update_by' => 'Update By',
 		];
 	}
 
@@ -83,21 +79,9 @@ class TransferDtl extends \yii\db\ActiveRecord
 	/**
 	 * @return \yii\db\ActiveQuery
 	 */
-	public function getIdTransferHdr()
+	public function getIdTransfer()
 	{
-		return $this->hasOne(TransferHdr::className(), ['id_transfer_hdr' => 'id_transfer_hdr']);
-	}
-	
-	public function behaviors()
-	{
-		return [
-			'timestamp' => [
-				'class' => 'backend\components\AutoTimestamp',
-			],
-			'changeUser' => [
-				'class' => 'backend\components\AutoUser',
-			]
-		];
+		return $this->hasOne(TransferHdr::className(), ['id_transfer' => 'id_transfer']);
 	}
 
 }

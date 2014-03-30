@@ -5,29 +5,27 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var backend\modules\inventory\models\TransferHdrSearch $model
+ * @var backend\modules\purchase\models\PurchaseHdrSearch $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
 
-<div class="transfer-hdr-search">
+<div class="purchase-hdr-search">
 
 	<?php $form = ActiveForm::begin([
 		'action' => ['index'],
 		'method' => 'get',
 	]); ?>
 
-		<?= $form->field($model, 'id_transfer_hdr') ?>
+		<?= $form->field($model, 'id_purchase_hdr') ?>
 
-		<?= $form->field($model, 'id_branch') ?>
+		<?= $form->field($model, 'purchase_num') ?>
 
-		<?= $form->field($model, 'transfer_num') ?>
+		<?= $form->field($model, 'id_supplier') ?>
 
-		<?= $form->field($model, 'id_warehouse_source') ?>
+		<?= $form->field($model, 'id_warehouse') ?>
 
-		<?= $form->field($model, 'id_warehouse_dest') ?>
-
-		<?php // echo $form->field($model, 'transfer_date') ?>
+		<?= $form->field($model, 'purchase_date') ?>
 
 		<?php // echo $form->field($model, 'id_status') ?>
 

@@ -9,10 +9,8 @@ use backend\modules\inventory\models\TransferDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
-use yii\data\ArrayDataProvider;
-use backend\modules\master\models\ProductStock;
-use yii\db\Query;
-use yii\helpers\Json;
+use backend\modules\inventory\models\ProductStock;
+use \Exception;
 
 /**
  * TransferController implements the CRUD actions for TransferHdr model.
@@ -71,16 +69,15 @@ class TransferController extends Controller
 	public function actionCreate()
 	{
 		$model = new TransferHdr;
-		$model->id_status = TransferHdr::STATUS_DRAFT;
-		$model->id_branch = Yii::$app->user->identity->id_branch;
+		$model->status = TransferHdr::STATUS_DRAFT;
 
 		list($details, $success) = $this->saveTransfer($model);
 		if ($success) {
-			return $this->redirect(['view', 'id' => $model->id_transfer_hdr]);
+			return $this->redirect(['view', 'id' => $model->id_transfer]);
 		}
 		return $this->render('create', [
 					'model' => $model,
-					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
+					'details' => $details,
 		]);
 	}
 
@@ -93,16 +90,16 @@ class TransferController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
-		if ($model->id_status != TransferHdr::STATUS_DRAFT) {
+		if ($model->status != TransferHdr::STATUS_DRAFT) {
 			throw new \yii\base\UserException('tidak bisa diedit');
 		}
 		list($details, $success) = $this->saveTransfer($model);
 		if ($success) {
-			return $this->redirect(['view', 'id' => $model->id_transfer_hdr]);
+			return $this->redirect(['view', 'id' => $model->id_transfer]);
 		}
 		return $this->render('update', [
 					'model' => $model,
-					'detailProvider' => new ArrayDataProvider(['allModels' => $details]),
+					'details' => $details,
 		]);
 	}
 
@@ -116,18 +113,14 @@ class TransferController extends Controller
 		$post = Yii::$app->request->post();
 		$details = $model->transferDtls;
 		$success = false;
-		$objs = $deleted = [];
 
 		if ($model->load($post)) {
 			$transaction = Yii::$app->db->beginTransaction();
+			$objs = [];
+			foreach ($details as $detail) {
+				$objs[$detail->id_transfer_dtl] = [false, $detail];
+			}
 			try {
-				if (!$model->isNewRecord) {
-					foreach ($details as $detail) {
-						$id = $detail->id_transfer_dtl;
-						$objs[$id] = $detail;
-						$deleted[$id] = $id;
-					}
-				}
 				$success = $model->save();
 			} catch (Exception $exc) {
 				$model->addError('', $exc->getMessage());
@@ -136,28 +129,41 @@ class TransferController extends Controller
 
 			$formName = (new TransferDtl)->formName();
 
-			$id_hdr = $success ? $model->id_transfer_hdr : false;
-			foreach ($post[$formName] as $dataDetail) {
-				if (!empty($dataDetail['id_transfer_dtl']) && isset($objs[$dataDetail['id_transfer_dtl']])) {
-					$detail = $objs[$dataDetail['id_transfer_dtl']];
-					unset($deleted[$detail->id_transfer_dtl]);
-				} else {
-					$detail = new TransferDtl;
-				}
-				$detail->load($dataDetail,'');
-				if ($id_hdr !== false) {
-					$detail->id_transfer_hdr = $model->id_transfer_hdr;
-					try {
-						$success = $detail->save() && $success;
-					} catch (Exception $exc) {
-						$detail->addError('', $exc->getMessage());
+			$id_hdr = $success ? $model->id_transfer : false;
+			$details = [];
+			if (!empty($post[$formName])) {
+				foreach ($post[$formName] as $dataDetail) {
+					$id_dtl = $dataDetail['id_transfer_dtl'];
+					if ($id_dtl != '' && isset($objs[$id_dtl])) {
+						$detail = $objs[$id_dtl][1];
+						$objs[$id_dtl][0] = true;
+					} else {
+						$detail = new TransferDtl;
 					}
+
+					$detail->setAttributes($dataDetail);
+					if ($id_hdr !== false) {
+						$detail->id_transfer = $id_hdr;
+						try {
+							$success = $success && $detail->save();
+						} catch (Exception $exc) {
+							$detail->addError('', $exc->getMessage());
+						}
+					}
+					$details[] = $detail;
 				}
-				$details[] = $detail;
+			} else {
+				$success = false;
+				$model->addError('', 'Detail tidak boleh kosong');
 			}
 			if ($success) {
 				try {
-					$deleted = array_values($deleted);
+					$deleted = [];
+					foreach ($objs as $id_dtl => $value) {
+						if ($value[0] == false) {
+							$deleted[] = $id_dtl;
+						}
+					}
 					if (count($deleted) > 0) {
 						$success = TransferDtl::deleteAll(['id_transfer_dtl' => $deleted]);
 					}
@@ -165,13 +171,12 @@ class TransferController extends Controller
 					$success = false;
 					$model->addError('', $exc->getMessage());
 				}
+			}
+			if ($success) {
 				$transaction->commit();
 			} else {
 				$transaction->rollBack();
 			}
-		}
-		if (count($details) == 0) {
-			$details[] = new TransferDtl;
 		}
 		return [$details, $success];
 	}
@@ -191,11 +196,11 @@ class TransferController extends Controller
 	public function actionIssue($id)
 	{
 		$model = $this->findModel($id);
-		
-		if ($model->id_status === TransferHdr::STATUS_DRAFT) {
+
+		if ($model->status === TransferHdr::STATUS_DRAFT) {
 			$transaction = Yii::$app->db->beginTransaction();
 			try {
-				$model->id_status = TransferHdr::STATUS_ISSUE;
+				$model->status = TransferHdr::STATUS_ISSUE;
 				if (!$model->save()) {
 					throw new \yii\base\UserException(implode(",\n", $model->firstErrors));
 				}
@@ -203,17 +208,24 @@ class TransferController extends Controller
 				$id_branch = $model->idWarehouseSource->id_branch;
 				$sukses = true;
 				foreach ($model->transferDtls as $detail) {
-					$sukses = $sukses && ProductStock::UpdateStock([
-								'id_warehouse' => $id_warehouse,
-								'id_product' => $detail->id_product,
-								'id_branch' => $id_branch,
-								'qty' => -$detail->transfer_qty_send,
-								'id_uom' => $detail->id_uom,
-									], false);
+					if (!$sukses) {
+						break;
+					}
+					ProductStock::UpdateStock([
+						'id_warehouse' => $id_warehouse,
+						'id_product' => $detail->id_product,
+						'id_uom' => $detail->id_uom,
+						'qty' => -$detail->transfer_qty_send,
+							], [
+						'app' => 'transfer',
+						'id_ref' => $detail->id_transfer_dtl,
+					]);
 				}
 
 				if ($sukses) {
 					$transaction->commit();
+				} else {
+					$transaction->rollBack();
 				}
 			} catch (Exception $exc) {
 				$transaction->rollBack();
@@ -226,35 +238,38 @@ class TransferController extends Controller
 	public function actionConfirm($id, $confirm)
 	{
 		$model = $this->findModel($id);
-		$model->id_status = $confirm;
+		$model->status = $confirm;
 		try {
 			$transaction = Yii::$app->db->beginTransaction();
 			$success = $model->save();
 			if ($confirm === TransferHdr::STATUS_CONFIRM_APPROVE) {
-				$id_warehouse_source = $model->id_warehouse_source;
-				$id_branch_source = $model->idWarehouseSource->id_branch;
-				$id_warehouse_dest = $model->id_warehouse_dest;
-				$id_branch_dest = $model->idWarehouseDest->id_branch;
-				$success = true;
+				$id_warehouse = $model->id_warehouse_source;
 				foreach ($model->transferDtls as $detail) {
+					if (!$sukses) {
+						break;
+					}
 					$qty = $detail->transfer_qty_send - $detail->transfer_qty_receive;
 					if ($qty != 0) {
-						$success = $success && ProductStock::UpdateStock([ // stock gudang asal
-									'id_warehouse' => $id_warehouse_source,
-									'id_product' => $detail->id_product,
-									'id_branch' => $id_branch_source,
-									'qty' => $qty,
-									'id_uom' => $detail->id_uom,
-										], false);
+						ProductStock::UpdateStock([
+							'id_warehouse' => $id_warehouse,
+							'id_product' => $detail->id_product,
+							'id_uom' => $detail->id_uom,
+							'qty' => $qty,
+								], [
+							'app' => 'confirm-transfer',
+							'id_ref' => $detail->id_transfer_dtl,
+						]);
 					}
 				}
 			}
 			if ($success) {
 				$transaction->commit();
+			} else {
+				$transaction->rollBack();
 			}
 		} catch (Exception $exc) {
 			$transaction->rollBack();
-			echo $exc->getTraceAsString();
+			throw $exc;
 		}
 
 		return $this->redirect(['index']);
@@ -276,59 +291,43 @@ class TransferController extends Controller
 		}
 	}
 
-	public function actionProductOfWarehouse($whse = null, $term = '')
+	public function actionJs()
 	{
-		if ($whse === null) {
-			return Json::encode([]);
-		}
-		$query = new Query;
-		$query = $query->select(['ps.id_warehouse', 'p.*'])
-				->from('product_stock ps')
-				->innerJoin('product p', 'p.id_product=ps.id_product')
-				->where([
-					'ps.id_warehouse' => $whse,
-					'ps.status_closing' => ProductStock::STATUS_OPEN])
-				->andWhere('ps.qty_stock > 0');
-
-		if (!empty($term)) {
-			$query->andWhere(['or',
-				['like', 'p.cd_product', $term],
-				['like', 'p.nm_product', $term]]);
-		}
-
-		$query->limit(20);
-		$result = [];
-		foreach ($query->all() as $row) {
-			$result[] = [
-				'id' => $row['id_product'],
-				'value' => $row['id_product'],
-				'label' => "{$row['cd_product']} - {$row['nm_product']}",
-				'text' => "{$row['cd_product']} - {$row['nm_product']}",
-				'extra' => $row,
+		$sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
+			u.id_uom, u.nm_uom, pu.isi
+			from product p
+			join product_uom pu on(pu.id_product=p.id_product)
+			join uom u on(u.id_uom=pu.id_uom)
+			order by p.id_product,pu.isi";
+		$product = [];
+		foreach (\Yii::$app->db->createCommand($sql)->query() as $row) {
+			$id = $row['id'];
+			if (!isset($product[$id])) {
+				$product[$id] = [
+					'id' => $row['id'],
+					'cd' => $row['cd'],
+					'text' => $row['nm'],
+					'id_uom' => $row['id_uom'],
+					'nm_uom' => $row['nm_uom'],
+				];
+			}
+			$product[$id]['uoms'][$row['id_uom']] = [
+				'id' => $row['id_uom'],
+				'nm' => $row['nm_uom'],
+				'isi' => $row['isi']
 			];
 		}
 
-		return Json::encode($result);
-	}
-
-	public function actionUomOfProduct($prod = null)
-	{
-		if ($prod === null) {
-			return '';
-		}
-		$query = new Query;
-		$query = $query->select(['u.*'])
-				->distinct()
-				->from('product_uom pu')
-				->innerJoin('uom u', 'u.id_uom=pu.id_uom')
-				->where(['pu.id_product' => $prod]);
-
-		$result = [];
-		foreach ($query->all() as $row) {
-			$result[$row['id_uom']] = "{$row['cd_uom']} - {$row['nm_uom']}";
+		$sql = "select id_warehouse,id_product,qty_stock
+			from product_stock";
+		$ps = [];
+		foreach (\Yii::$app->db->createCommand($sql)->queryAll() as $row) {
+			$ps[$row['id_warehouse']][] = ['id' => $row['id_product'], 'qty' => $row['qty_stock']];
 		}
 
-		return \yii\helpers\Html::renderSelectOptions([], $result);
+		return $this->renderPartial('process.js.php', [
+					'product' => $product,
+					'ps' => $ps]);
 	}
 
 }

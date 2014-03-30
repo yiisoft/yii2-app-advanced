@@ -9,13 +9,13 @@ use backend\modules\master\models\Branch;
 /**
  * This is the model class for table "purchase_hdr".
  *
- * @property integer $id_purchase_hdr
+ * @property integer $id_purchase
  * @property string $purchase_num
  * @property integer $id_supplier
  * @property integer $id_branch
  * @property string $purchase_date
- * @property double $purchase_value
- * @property double $payment_discount
+ * @property string $purchase_value
+ * @property string $payment_discount
  * @property integer $status
  * @property string $create_date
  * @property integer $create_by
@@ -32,9 +32,8 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 	const STATUS_DRAFT = 1;
 	const STATUS_RECEIVE = 2;
 
-
 	public $id_warehouse;
-	
+
 	/**
 	 * @inheritdoc
 	 */
@@ -51,8 +50,10 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 		return [
 			[['id_supplier', 'id_branch', 'purchase_date', 'purchase_value', 'status'], 'required'],
 			[['id_supplier', 'id_branch', 'status'], 'integer'],
-			[['purchase_value', 'payment_discount'], 'double'],
-			[['id_warehouse'],'safe']
+			[['purchase_date', 'id_warehouse'], 'safe'],
+			[['purchase_value', 'payment_discount'], 'filter', 'filter' => function($v) {
+					return empty($v) ? 0 : (double) $v;
+				}],
 		];
 	}
 
@@ -62,7 +63,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 	public function attributeLabels()
 	{
 		return [
-			'id_purchase_hdr' => 'Id Purchase Hdr',
+			'id_purchase' => 'Id Purchase',
 			'purchase_num' => 'Purchase Num',
 			'id_supplier' => 'Id Supplier',
 			'id_branch' => 'Id Branch',
@@ -82,7 +83,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 	 */
 	public function getPurchaseDtls()
 	{
-		return $this->hasMany(PurchaseDtl::className(), ['id_purchase_hdr' => 'id_purchase_hdr']);
+		return $this->hasMany(PurchaseDtl::className(), ['id_purchase' => 'id_purchase']);
 	}
 
 	/**

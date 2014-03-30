@@ -14,50 +14,59 @@ use yii\jui\AutoComplete;
 ?>
 
 <div class="purchase-hdr-form">
-    <?php
-    $form = ActiveForm::begin([
-                'id' => 'sales-form',
-    ]);
-    ?>
-    <?php 
+	<?php
+	$form = ActiveForm::begin([
+				'id' => 'sales-form',
+	]);
+	?>
+	<?php
 	$models = $details;
 	$models[] = $model;
-	echo $form->errorSummary($models) ?>
-    <?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
+	echo $form->errorSummary($models)
+	?>
+	<?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
     <div class="col-lg-3" style="padding-right: 0px;">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Sales Header
             </div>
             <div class="panel-body">
-                <?= $form->field($model, 'sales_num')->textInput(['maxlength' => 16, 'readonly' => true]); ?>
-				<?= Html::activeHiddenInput($model, 'id_customer'); ?>
-                <?= $form->field($model, 'idCustomer[nm_cust]')->widget('yii\jui\AutoComplete',[
-					'options' => ['class' => 'form-control'],
-                            'clientOptions' => [
-                                'source' => new JsExpression('yii.sales.sourceCustomer'),
-								'select'=> new JsExpression('yii.sales.onCustomerSelect'),
-								'open'=> new JsExpression('yii.sales.onCustomerOpen'),
-                            ],
-					]); ?>
-                <?= $form->field($model, 'id_warehouse')->dropDownList(Warehouse::WarehouseList()); ?>
-                <?php
-                echo $form->field($model, 'sales_date')
-                        ->widget('yii\jui\DatePicker', [
-                            'options' => ['class' => 'form-control', 'style' => 'width:50%'],
-                            'clientOptions' => [
-                                'dateFormat' => 'yy-mm-dd'
-                            ],
-                ]);
-                ?>
+				<?= $form->field($model, 'sales_num')->textInput(['readonly' => true]); ?>
+				<?php
+				$id_input = Html::getInputId($model, 'id_customer');
+				$field = $form->field($model, 'id_customer', ['template' => "{label}\n{input}\n{text}\n{hint}\n{error}"]);
+				$field->labelOptions['for'] = $id_input;
+				$field->input('hidden', ['id' => 'id_customer']);
+				$field->parts['{text}'] = AutoComplete::widget([
+							'model' => $model,
+							'attribute' => 'idCustomer[nm_cust]',
+							'options' => ['class' => 'form-control','id' => $id_input],
+							'clientOptions' => [
+								'source' => new JsExpression('yii.sales.sourceCustomer'),
+								'select' => new JsExpression('yii.sales.onCustomerSelect'),
+								'open' => new JsExpression('yii.sales.onCustomerOpen'),
+							],
+				]);
+				echo $field;
+				?>
+				<?= $form->field($model, 'id_warehouse')->dropDownList(Warehouse::WarehouseList()); ?>
+				<?php
+				echo $form->field($model, 'sales_date')
+						->widget('yii\jui\DatePicker', [
+							'options' => ['class' => 'form-control', 'style' => 'width:50%'],
+							'clientOptions' => [
+								'dateFormat' => 'yy-mm-dd'
+							],
+				]);
+				?>
             </div>
         </div>
         <div class="form-group">
-            <?php
-            echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
-            ?>
+			<?php
+			echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+			?>
         </div>
     </div>
-    <?php ActiveForm::end(); ?>
+	<?php ActiveForm::end(); ?>
 
 </div>
