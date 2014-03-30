@@ -3,16 +3,16 @@
 namespace backend\modules\master\controllers;
 
 use Yii;
-use backend\modules\master\models\ProductUom;
-use backend\modules\master\models\ProductUomSearch;
+use backend\modules\master\models\ProductGroups;
+use backend\modules\master\models\SearchProductGroups;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
 
 /**
- * ProductUomController implements the CRUD actions for ProductUom model.
+ * ProductGroupsController implements the CRUD actions for ProductGroups model.
  */
-class ProductUomController extends Controller
+class ProductGroupsController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class ProductUomController extends Controller
     }
 
     /**
-     * Lists all ProductUom models.
+     * Lists all ProductGroups models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ProductUomSearch;
+        $searchModel = new SearchProductGroups;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
@@ -42,29 +42,28 @@ class ProductUomController extends Controller
     }
 
     /**
-     * Displays a single ProductUom model.
-     * @param integer $id_product
-     * @param integer $id_uom
+     * Displays a single ProductGroups model.
+     * @param integer $id
      * @return mixed
      */
-    public function actionView($id_product, $id_uom)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id_product, $id_uom),
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new ProductUom model.
+     * Creates a new ProductGroups model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ProductUom;
+        $model = new ProductGroups;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_product' => $model->id_product, 'id_uom' => $model->id_uom]);
+            return $this->redirect(['view', 'id' => $model->id_group]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -73,18 +72,17 @@ class ProductUomController extends Controller
     }
 
     /**
-     * Updates an existing ProductUom model.
+     * Updates an existing ProductGroups model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id_product
-     * @param integer $id_uom
+     * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id_product, $id_uom)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($id_product, $id_uom);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_product' => $model->id_product, 'id_uom' => $model->id_uom]);
+            return $this->redirect(['view', 'id' => $model->id_group]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -93,30 +91,28 @@ class ProductUomController extends Controller
     }
 
     /**
-     * Deletes an existing ProductUom model.
+     * Deletes an existing ProductGroups model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id_product
-     * @param integer $id_uom
+     * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id_product, $id_uom)
+    public function actionDelete($id)
     {
-        $this->findModel($id_product, $id_uom)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the ProductUom model based on its primary key value.
+     * Finds the ProductGroups model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id_product
-     * @param integer $id_uom
-     * @return ProductUom the loaded model
+     * @param integer $id
+     * @return ProductGroups the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id_product, $id_uom)
+    protected function findModel($id)
     {
-        if (($model = ProductUom::find(['id_product' => $id_product, 'id_uom' => $id_uom])) !== null) {
+        if ($id !== null && ($model = ProductGroups::find($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
