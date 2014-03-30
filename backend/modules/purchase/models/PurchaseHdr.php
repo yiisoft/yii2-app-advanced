@@ -48,12 +48,12 @@ class PurchaseHdr extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id_supplier', 'id_branch', 'purchase_date', 'purchase_value', 'status'], 'required'],
-			[['id_supplier', 'id_branch', 'status'], 'integer'],
-			[['purchase_date', 'id_warehouse'], 'safe'],
 			[['purchase_value', 'payment_discount'], 'filter', 'filter' => function($v) {
 					return empty($v) ? 0 : (double) $v;
 				}],
+			[['id_supplier', 'id_branch', 'purchase_date', 'purchase_value', 'status'], 'required'],
+			[['id_supplier', 'id_branch', 'status'], 'integer'],
+			[['purchase_date', 'id_warehouse'], 'safe'],
 		];
 	}
 
