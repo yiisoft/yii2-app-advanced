@@ -11,39 +11,31 @@ $this->title = $model->id_product;
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-view">
+<div class="product-view col-lg-6" style="padding-left: 0px;">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_product], ['class' => 'btn btn-primary']) ?>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Product
+        </div>
         <?=
-        Html::a('Delete', ['delete', 'id' => $model->id_product], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
+        DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'id_product',
+                'cd_product',
+                'nm_product',
+                'id_category',
+                'id_group',
+                'create_date',
+                'create_by',
+                'update_date',
+                'update_by',
             ],
         ])
         ?>
-    </p>
-
-    <?=
-    DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id_product',
-            'cd_product',
-            'nm_product',
-            'id_category',
-            'id_group',
-            'create_date',
-            'create_by',
-            'update_date',
-            'update_by',
-        ],
-    ])
-    ?>
+    </div>
+</div>
+<div class="col-lg-6">
     <style>
         .tab-content {
             border: 1px #e0e0e0 solid;
@@ -65,5 +57,16 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="tab-pane" id="profile"></div>
         <div class="tab-pane" id="profile"></div>
     </div>
+
     <br>
+    <?= Html::a('Update', ['update', 'id' => $model->id_product], ['class' => 'btn btn-primary']) ?>
+    <?=
+    Html::a('Delete', ['delete', 'id' => $model->id_product], [
+        'class' => 'btn btn-danger',
+        'data' => [
+            'confirm' => 'Are you sure you want to delete this item?',
+            'method' => 'post',
+        ],
+    ])
+    ?>
 </div>
