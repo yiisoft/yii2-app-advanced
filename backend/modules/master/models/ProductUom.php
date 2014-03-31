@@ -79,4 +79,28 @@ class ProductUom extends \yii\db\ActiveRecord {
         ];
     }
 
+    /**
+     * @return integer
+     */
+    public static function getSmallestUom($id) {
+        $sql = 'select pu.id_uom
+            from product_uom pu
+            where pu.id_product=:id
+            order by pu.isi ASC';
+        return \Yii::$app->db->createCommand($sql, [':id' => $id])->queryScalar();
+    }
+
+    /**
+     * @return integer
+     */
+    public static function getQtyProductUom($id_product, $id_uom) {
+        $sql = 'select pu.isi
+            from product_uom pu
+            where pu.id_product=:id_product and pu.id_uom=:id_uom';
+        return \Yii::$app->db->createCommand($sql, [
+                ':id_product' => $id_product,
+                ':id_uom' => $id_uom]
+            )->queryScalar();
+    }
+
 }
