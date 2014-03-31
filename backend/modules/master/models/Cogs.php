@@ -105,7 +105,7 @@ class Cogs extends \yii\db\ActiveRecord
 			[
 				'class' => 'backend\components\Logger',
 				'collectionName' => self::COLLECTION_NAME,
-				'attributes' => ['id_cogs', 'id_product', 'id_uom', 'cogs'],
+				'attributes' => ['id_product', 'id_uom', 'cogs'],
 			]
 		];
 	}

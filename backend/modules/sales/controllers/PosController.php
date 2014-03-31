@@ -20,7 +20,7 @@ use backend\modules\sales\models\LogCashier;
 class PosController extends Controller
 {
 
-	const MANIFEST_NAME = 'pos.appcache';
+	const MANIFEST_ID = 'sales-pos';
 
 	public $manifest;
 
@@ -46,10 +46,7 @@ class PosController extends Controller
 		$searchModel = new SalesHdrSearch;
 		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
-		return $this->render('index', [
-					'dataProvider' => $dataProvider,
-					'searchModel' => $searchModel,
-		]);
+		return $this->render('index', ['dataProvider' => $dataProvider,'searchModel' => $searchModel]);
 	}
 
 	/**
@@ -71,12 +68,11 @@ class PosController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$this->manifest = self::MANIFEST_NAME;
 		$extra = [];
-//		$this->getView()->attachBehavior('appcache', [
-//			'class' => AppCache::className(),
-//			'manifest_file' => self::MANIFEST_NAME,
-//		]);
+		$this->getView()->attachBehavior('appcache', [
+			'class' => AppCache::className(),
+			'id' => self::MANIFEST_ID,
+		]);
 		$payment_methods = [
 			1 => 'Cash',
 			2 => 'Bank',

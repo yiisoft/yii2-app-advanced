@@ -12,7 +12,6 @@ use backend\modules\master\models\Uom;
 /**
  * This is the model class for table "product_stock".
  *
- * @property integer $id_stock
  * @property integer $id_warehouse
  * @property integer $id_product
  * @property integer $id_uom
@@ -57,7 +56,6 @@ class ProductStock extends \yii\db\ActiveRecord
 	public function attributeLabels()
 	{
 		return [
-			'id_stock' => 'Id Stock',
 			'id_warehouse' => 'Id Warehouse',
 			'id_product' => 'Id Product',
 			'id_uom' => 'Id Uom',
@@ -124,33 +122,6 @@ class ProductStock extends \yii\db\ActiveRecord
 		}
 
 		return $result;
-
-		if ($change_cogs) {
-			$paramsCogs = $paramsPrice = [
-				'id_branch' => $params['id_branch'],
-				'id_product' => $params['id_product'],
-				'id_uom' => $stock->id_uom,
-				'old_stock' => $stock->qty_stock,
-				'added_stock' => $params['qty'] * $qty_per_uom,
-				'price' => 1.0 * $params['price'] / $qty_per_uom,
-			];
-			if (isset($params['log_params'])) {
-				$paramsCogs['log_params'] = $paramsPrice['log_params'] = $params['log_params'];
-			}
-			$paramsPrice['price'] = 1.0 * $params['selling_price'] / $qty_per_uom;
-		}
-
-		if (!$change_cogs or (Cogs::UpdateCogs($paramsCogs) and Price::UpdatePrice($paramsPrice))) {
-			$stock->qty_stock = $stock->qty_stock + $params['qty'] * $qty_per_uom;
-			if (isset($params['log_params'])) {
-				$stock->logParams = $params['log_params'];
-			}
-			if (!$stock->save()) {
-				throw new \yii\base\UserException(implode(",\n", $stock->firstErrors));
-			}
-			return true;
-		}
-		return false;
 	}
 
 	public static function closeStock()
@@ -189,7 +160,7 @@ class ProductStock extends \yii\db\ActiveRecord
 			[
 				'class' => 'backend\components\Logger',
 				'collectionName' => self::COLLECTION_NAME,
-				'attributes' => ['id_stock', 'id_warehouse', 'id_product', 'id_uom', 'qty_stock'],
+				'attributes' => ['id_warehouse', 'id_product', 'id_uom', 'qty_stock'],
 			]
 		];
 	}

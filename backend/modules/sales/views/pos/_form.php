@@ -11,9 +11,9 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="sales-hdr-form">
-    <?php $form = ActiveForm::begin(['options' => ['id' => 'pos-form']]); ?>
+	<?php $form = ActiveForm::begin(['options' => ['id' => 'pos-form']]); ?>
     <div class="col-lg-9" style="padding-left: 0px;">
-        <?= $this->render('_detail'); ?>
+		<?= $this->render('_detail'); ?>
     </div>
     <div class="col-lg-3" style="padding-right: 0px;">
         <div class="panel panel-primary">
@@ -33,13 +33,13 @@ use yii\widgets\ActiveForm;
             <div class="panel-footer">
 				<?php
 				Html::a('<span class="glyphicon glyphicon-pencil"></span>', '', [
-					'id'=>'edit-kasir',
-					'style'=>'float: right;'
+					'id' => 'edit-kasir',
+					'style' => 'float: right;'
 				]);
 				echo Html::a('<span class="glyphicon glyphicon-pencil"></span>', '', [
-					'id'=>'edit-kasir',
-					'data-toggle'=>'modal','data-target'=>'#dlg-drawer',
-					'style'=>'float: right;'
+					'id' => 'edit-kasir',
+					'data-toggle' => 'modal', 'data-target' => '#dlg-drawer',
+					'style' => 'float: right;'
 				]);
 				?>
 				<input type="hidden" id="id-drawer">
@@ -61,18 +61,20 @@ use yii\widgets\ActiveForm;
 			<div class="panel-body" style="margin-right: 10px;">
 				<div style="margin-bottom: 10px;">
 					<?php echo Html::dropDownList(false, '', $payment_methods, [
-						'id'=>'payment-method','style'=>'float:right;']); ?>
+						'id' => 'payment-method', 'style' => 'float:right;']);
+					?>
 					Payment Method :
 				</div>
 				<div >
 					<?php echo Html::textInput(false, '', [
-								'id'=>'payment-value','size'=>10,'style'=>'float:right;']); ?>
-                            Value :
-        </div>
+						'id' => 'payment-value', 'size' => 10, 'style' => 'float:right;']);
+					?>
+					Value :
+				</div>
 			</div>
         </div>
-<?= Html::a('Save', '', ['class' => 'btn btn-primary', 'id' => 'btn-save']); ?>
-<?= Html::a('New Session', '', ['class' => 'btn btn-success', 'id' => 'new-session']); ?>
+	<?= Html::a('Save', '', ['class' => 'btn btn-primary', 'id' => 'btn-save']); ?>&nbsp;
+	<?= Html::a('New Session', '', ['class' => 'btn btn-success', 'id' => 'new-session']); ?>
     </div>
 <?php ActiveForm::end(); ?>
 </div>
