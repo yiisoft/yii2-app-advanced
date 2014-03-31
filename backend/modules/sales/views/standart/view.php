@@ -25,9 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
 				'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
 				'data-method' => 'post',
 			]) . ' ';
-			echo Html::a('Receive', ['receive', 'id' => $model->id_sales], [
+			echo Html::a('Release', ['release', 'id' => $model->id_sales], [
 				'class' => 'btn btn-primary',
-				'data-confirm' => Yii::t('app', 'Are you sure to receive this item?'),
+				'data-confirm' => Yii::t('app', 'Are you sure to release this item?'),
 				'data-method' => 'post',
 			]);
 		}

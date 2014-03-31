@@ -32,6 +32,7 @@ class SalesHdr extends \yii\db\ActiveRecord
 {
 
 	const STATUS_DRAFT = 1;
+	const STATUS_RELEASE = 2;
 	const STATUS_CLOSE = 10;
 
 	public $id_warehouse;
@@ -85,6 +86,7 @@ class SalesHdr extends \yii\db\ActiveRecord
 	{
 		$map = [
 			self::STATUS_DRAFT => 'Draft',
+			self::STATUS_RELEASE => 'Release',
 			self::STATUS_CLOSE => 'Close',
 		];
 		return $map[$this->status];

@@ -11,6 +11,9 @@ use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
 use backend\components\AppCache;
 use backend\modules\master\models\Cogs;
+use \Exception;
+use yii\base\UserException;
+use backend\modules\inventory\models\ProductStock;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -24,7 +27,8 @@ class StandartController extends Controller
 			'verbs' => [
 				'class' => VerbFilter::className(),
 				'actions' => [
-					'delete' => ['post']
+					'delete' => ['post'],
+					'release' => ['post']
 				],
 			],
 		];
@@ -138,7 +142,7 @@ class StandartController extends Controller
 					}
 					$details[] = $detail;
 				}
-			}else{
+			} else {
 				$success = false;
 				$model->addError('', 'Detail harus diisi');
 			}
@@ -165,6 +169,36 @@ class StandartController extends Controller
 			}
 		}
 		return [$details, $success];
+	}
+
+	public function actionRelease($id)
+	{
+		$model = $this->findModel($id);
+		if ($model->status == SalesHdr::STATUS_DRAFT) {
+			try {
+				$transaction = Yii::$app->db->beginTransaction();
+				$model->status = SalesHdr::STATUS_RELEASE;
+				if(!$model->save()){
+					throw new UserException(implode("\n", $model->getFirstErrors()));
+				}
+				foreach ($model->salesDtls as $detail) {
+					ProductStock::UpdateStock([
+								'id_warehouse' => $detail->id_warehouse,
+								'id_product' => $detail->id_product,
+								'id_uom' => $detail->id_uom,
+								'qty' => $detail->sales_qty,
+									], [
+								'app' => 'sales-standart',
+								'id_ref' => $detail->id_sales_dtl,
+					]);
+				}
+				$transaction->commit();
+			} catch (Exception $exc) {
+				$transaction->rollBack();
+				throw $exc;
+			}
+		}
+		return $this->redirect(['view','id'=>$id]);
 	}
 
 	public function actionJs()
