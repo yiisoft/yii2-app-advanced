@@ -7,9 +7,9 @@ use yii\helpers\Html;
  * @var backend\modules\purchase\models\PurchaseHdr $model
  */
 
-$this->title = 'Update Purchase Hdr: ' . $model->id_purchase_hdr;
-$this->params['breadcrumbs'][] = ['label' => 'Purchase Hdrs', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id_purchase_hdr, 'url' => ['view', 'id' => $model->id_purchase_hdr]];
+$this->title = 'Update Purchase: ' . $model->purchase_num;
+$this->params['breadcrumbs'][] = ['label' => 'Purchase', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->purchase_num, 'url' => ['view', 'id' => $model->id_purchase]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="purchase-hdr-update">
