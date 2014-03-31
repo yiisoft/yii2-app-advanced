@@ -28,74 +28,79 @@ use backend\modules\master\models\Uom;
  */
 class SalesDtl extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return 'sales_dtl';
-    }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['id_sales', 'id_product', 'id_uom', 'id_warehouse', 'sales_price', 'sales_qty', 'cogs'], 'required'],
-            [['id_sales', 'id_product', 'id_uom', 'id_warehouse'], 'integer'],
-            [['sales_price', 'sales_qty', 'discount', 'cogs', 'tax'], 'number']
-        ];
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public static function tableName()
+	{
+		return 'sales_dtl';
+	}
 
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id_sales_dtl' => 'Id Sales Dtl',
-            'id_sales' => 'Id Sales',
-            'id_product' => 'Id Product',
-            'id_uom' => 'Id Uom',
-            'id_warehouse' => 'Id Warehouse',
-            'sales_price' => 'Sales Price',
-            'sales_qty' => 'Sales Qty',
-            'discount' => 'Discount',
-            'cogs' => 'Cogs',
-            'tax' => 'Tax',
-        ];
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function rules()
+	{
+		return [
+			[['discount'], 'filter', 'filter' => function($val) {
+				return empty($val) ? 0 : (double) $val;
+			}],
+			[['id_sales', 'id_product', 'id_uom', 'id_warehouse', 'sales_price', 'sales_qty', 'cogs'], 'required'],
+			[['id_sales', 'id_product', 'id_uom', 'id_warehouse'], 'integer'],
+			[['sales_price', 'sales_qty', 'discount', 'cogs', 'tax'], 'number']
+		];
+	}
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdUom()
-    {
-        return $this->hasOne(Uom::className(), ['id_uom' => 'id_uom']);
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function attributeLabels()
+	{
+		return [
+			'id_sales_dtl' => 'Id Sales Dtl',
+			'id_sales' => 'Id Sales',
+			'id_product' => 'Id Product',
+			'id_uom' => 'Id Uom',
+			'id_warehouse' => 'Id Warehouse',
+			'sales_price' => 'Sales Price',
+			'sales_qty' => 'Sales Qty',
+			'discount' => 'Discount',
+			'cogs' => 'Cogs',
+			'tax' => 'Tax',
+		];
+	}
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdSales()
-    {
-        return $this->hasOne(SalesHdr::className(), ['id_sales' => 'id_sales']);
-    }
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getIdUom()
+	{
+		return $this->hasOne(Uom::className(), ['id_uom' => 'id_uom']);
+	}
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdProduct()
-    {
-        return $this->hasOne(Product::className(), ['id_product' => 'id_product']);
-    }
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getIdSales()
+	{
+		return $this->hasOne(SalesHdr::className(), ['id_sales' => 'id_sales']);
+	}
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdWarehouse()
-    {
-        return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse']);
-    }
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getIdProduct()
+	{
+		return $this->hasOne(Product::className(), ['id_product' => 'id_product']);
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getIdWarehouse()
+	{
+		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse']);
+	}
+
 }
