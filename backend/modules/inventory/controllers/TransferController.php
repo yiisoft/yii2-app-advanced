@@ -217,6 +217,7 @@ class TransferController extends Controller
 						'id_uom' => $detail->id_uom,
 						'qty' => -$detail->transfer_qty_send,
 						], [
+						'mv_qty' => -$detail->transfer_qty_send,
 						'app' => 'transfer',
 						'id_ref' => $detail->id_transfer_dtl,
 					]);
@@ -254,6 +255,7 @@ class TransferController extends Controller
 							'id_uom' => $detail->id_uom,
 							'qty' => $qty,
 							], [
+							'mv_qty' => $qty,
 							'app' => 'confirm-transfer',
 							'id_ref' => $detail->id_transfer_dtl,
 						]);

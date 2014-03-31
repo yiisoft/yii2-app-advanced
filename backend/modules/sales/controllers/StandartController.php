@@ -186,8 +186,9 @@ class StandartController extends Controller
 								'id_warehouse' => $detail->id_warehouse,
 								'id_product' => $detail->id_product,
 								'id_uom' => $detail->id_uom,
-								'qty' => $detail->sales_qty,
+								'qty' => -1*$detail->sales_qty,
 									], [
+								'mv_qty' => -1*$detail->sales_qty,
 								'app' => 'sales-standart',
 								'id_ref' => $detail->id_sales_dtl,
 					]);

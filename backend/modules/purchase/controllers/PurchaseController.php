@@ -206,6 +206,7 @@ class PurchaseController extends Controller {
                             'id_uom' => $detail->id_uom,
                             'qty' => $detail->purch_qty,
                             ], [
+                            'mv_qty' => $detail->purch_qty,
                             'app' => 'purchase',
                             'id_ref' => $detail->id_purchase_dtl,
                     ]);

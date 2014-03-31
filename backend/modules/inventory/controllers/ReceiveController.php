@@ -174,6 +174,7 @@ class ReceiveController extends Controller
 				'id_uom' => $detail->id_uom,
 				'qty' => $detail->transfer_qty_receive,
 					], [
+				'mv_qty' => $detail->transfer_qty_receive,
 				'app' => 'receive',
 				'id_ref' => $detail->id_transfer_dtl,
 			]);
