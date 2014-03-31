@@ -2,50 +2,29 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use yii\helpers\ArrayHelper;
+use backend\modules\master\models\Branch;
 /**
  * @var yii\web\View $this
- * @var backend\modules\sales\models\CashDrawer $model
+ * @var backend\modules\sales\models\Cashdrawer $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
 
-<div class="cash-drawer-form">
+<div class="cashdrawer-form">
 
-	<?php $form = ActiveForm::begin(); ?>
-	<?php $readonly = $action == 'close'; ?>
-	<?=
-	$form->field($model, 'id_branch')->dropDownList([
-		1 => 'Satu',
-			], ['readonly' => $readonly])
-	?>
+    <?php $form = ActiveForm::begin(); ?>
 
-	<?=
-	$form->field($model, 'no_cashier')->dropDownList([
-		1 => 1, 2 => 2, 3 => 3, 4 => 4
-			], ['readonly' => $readonly])
-	?>
+    <?= $form->field($model, 'id_branch')->dropDownList(ArrayHelper::map(Branch::find()->all(), 'id_branch', 'nm_branch')) ?>
 
-	<?= $form->field($model, 'name_cashier')->textInput(['readonly' => true]) ?>
+    <?= $form->field($model, 'cashier_no')->dropDownList([1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7]) ?>
 
-	<?= $form->field($model, 'initial_cash')->textInput(['readonly' => $readonly]) ?>
+    <?= $form->field($model, 'init_cash')->textInput() ?>
 
-	<?= $action == 'open' ? '' : $form->field($model, 'close_cash')->textInput() ?>
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    </div>
 
-	<?= $form->field($model, 'create_date')->textInput(['readonly' => true]) ?>
-
-	<div class="form-group">
-		<?php
-		$text = $model->isNewRecord ? 'Open New' : ($action == 'open' ? 'Update' : 'Close');
-		?>
-		<?= Html::submitButton($text, ['class' => 'btn btn-success']) ?>
-		<?=
-		$model->isNewRecord ? '' : ($action == 'open' ? Html::a('Pos', yii\helpers\Url::toRoute(['pos/create']), [
-							'class' => 'btn btn-primary'
-						]) : '');
-		?>
-	</div>
-
-	<?php ActiveForm::end(); ?>
-
+    <?php ActiveForm::end(); ?>
+	
 </div>

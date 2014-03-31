@@ -3,20 +3,17 @@
 namespace backend\modules\sales\controllers;
 
 use Yii;
-use backend\modules\sales\models\CashDrawer;
-use backend\modules\sales\models\CashDrawerSearch;
+use backend\modules\sales\models\Cashdrawer;
+use backend\modules\sales\models\CashdrawerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
-use yii\web\AccessControl;
 
 /**
- * DrawerController implements the CRUD actions for CashDrawer model.
+ * DrawerController implements the CRUD actions for Cashdrawer model.
  */
 class DrawerController extends Controller
 {
-
-	const COOKIE_NAME = 'open_cash_drawer';
 
 	public function behaviors()
 	{
@@ -27,141 +24,120 @@ class DrawerController extends Controller
 					'delete' => ['post'],
 				],
 			],
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['open', 'close', 'index'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			]
 		];
 	}
 
 	/**
-	 * Lists all CashDrawer models.
+	 * Lists all Cashdrawer models.
 	 * @return mixed
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new CashDrawerSearch;
+		$searchModel = new CashdrawerSearch;
 		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
 		return $this->render('index', [
-					'dataProvider' => $dataProvider,
-					'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+				'searchModel' => $searchModel,
 		]);
 	}
 
 	/**
-	 * Displays a single CashDrawer model.
-	 * @param string $id
+	 * Displays a single Cashdrawer model.
+	 * @param integer $id
 	 * @return mixed
 	 */
 	public function actionView($id)
 	{
 		return $this->render('view', [
-					'model' => $this->findModel($id),
+				'model' => $this->findModel($id),
 		]);
 	}
 
 	/**
-	 * Creates a new CashDrawer model.
+	 * Creates a new Cashdrawer model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 * @return mixed
 	 */
+	public function actionCreate()
+	{
+		$model = new Cashdrawer;
+		$model->client_machine = Yii::$app->clientUniqueid;
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			return $this->redirect(['view', 'id' => $model->id_cashdrawer]);
+		} else {
+			return $this->render('create', [
+					'model' => $model,
+			]);
+		}
+	}
+
 	public function actionOpen()
 	{
-		$user = Yii::$app->user;
-		$id = Yii::$app->getRequest()->getCookies()->getValue(self::COOKIE_NAME);
-		if ($id !== null) {
-			$model = CashDrawer::find([
-						'id_cash_drawer' => $id,
-						'create_by' => $user->getId(),
-						'id_status' => CashDrawer::STATUS_OPEN,
+		$model = Cashdrawer::find([
+				'client_machine' => Yii::$app->clientUniqueid,
+				'id_user' => Yii::$app->user->getId(),
+				'status' => Cashdrawer::STATUS_OPEN,
+		]);
+		if ($model === null) {
+			$model = new Cashdrawer([
+				'client_machine' => Yii::$app->clientUniqueid,
+				'id_user' => Yii::$app->user->getId(),
+				'status' => Cashdrawer::STATUS_OPEN,
 			]);
 		}
-		$model = isset($model) ? $model : new CashDrawer;
-		$model->id_status = CashDrawer::STATUS_OPEN;
-		$model->name_cashier = $user->identity->username;
+		
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			$cookie = new \yii\web\Cookie([
-				'name' => self::COOKIE_NAME,
-				'value' => $model->id_cash_drawer,
-			]);
-			Yii::$app->getResponse()->getCookies()->add($cookie);
-			return $this->render('open', [
-						'model' => $model,
-						'drawer' => [
-							'id' => $model->id_cash_drawer,
-							'no_kasir' => $model->no_cashier,
-							'nama_kasir' => $model->name_cashier,
-							'open_time' => $model->create_date,
-						],
-			]);
+			return $this->redirect(['view', 'id' => $model->id_cashdrawer]);
 		} else {
-			return $this->render('open', [
-						'model' => $model,
+			return $this->render('create', [
+					'model' => $model,
 			]);
 		}
 	}
 
 	/**
-	 * Updates an existing CashDrawer model.
+	 * Updates an existing Cashdrawer model.
 	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param string $id
+	 * @param integer $id
 	 * @return mixed
 	 */
-	public function actionClose()
+	public function actionUpdate($id)
 	{
-		$user = Yii::$app->user;
-		$id = Yii::$app->getRequest()->getCookies()->getValue(self::COOKIE_NAME);
-		$model = CashDrawer::find([
-						'id_cash_drawer' => $id,
-						'create_by' => $user->getId(),
-						'id_status' => CashDrawer::STATUS_OPEN,
-			]);
-		
-		if($model === null){
-			throw new NotFoundHttpException('Open drawer not found');
-		}
-		$model->id_status = CashDrawer::STATUS_CLOSE;
-		$model->name_cashier = $user->identity->username;
-		$closed = false;
+		$model = $this->findModel($id);
+
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			Yii::$app->getResponse()->getCookies()->remove(self::COOKIE_NAME);
-			$closed = true;
-		}
-		return $this->render('close', [
+			return $this->redirect(['view', 'id' => $model->id_cashdrawer]);
+		} else {
+			return $this->render('update', [
 					'model' => $model,
-			'closed'=>$closed
-		]);
+			]);
+		}
 	}
 
 	/**
-	 * Deletes an existing CashDrawer model.
+	 * Deletes an existing Cashdrawer model.
 	 * If deletion is successful, the browser will be redirected to the 'index' page.
-	 * @param string $id
+	 * @param integer $id
 	 * @return mixed
 	 */
 	public function actionDelete($id)
 	{
 		$this->findModel($id)->delete();
+
 		return $this->redirect(['index']);
 	}
 
 	/**
-	 * Finds the CashDrawer model based on its primary key value.
+	 * Finds the Cashdrawer model based on its primary key value.
 	 * If the model is not found, a 404 HTTP exception will be thrown.
-	 * @param string $id
-	 * @return CashDrawer the loaded model
+	 * @param integer $id
+	 * @return Cashdrawer the loaded model
 	 * @throws NotFoundHttpException if the model cannot be found
 	 */
 	protected function findModel($id)
 	{
-		if ($id !== null && ($model = CashDrawer::find($id)) !== null) {
+		if (($model = Cashdrawer::find($id)) !== null) {
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');

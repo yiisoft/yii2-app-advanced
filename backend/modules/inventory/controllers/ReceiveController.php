@@ -10,6 +10,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
 use backend\modules\inventory\models\ProductStock;
+use backend\modules\master\models\ProductUom;
+use yii\base\UserException;
 use \Exception;
 
 /**
@@ -43,8 +45,8 @@ class ReceiveController extends Controller
 		$dataProvider->query->andWhere('status > 1');
 
 		return $this->render('index', [
-					'dataProvider' => $dataProvider,
-					'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+				'searchModel' => $searchModel,
 		]);
 	}
 
@@ -56,7 +58,7 @@ class ReceiveController extends Controller
 	public function actionView($id)
 	{
 		return $this->render('view', [
-					'model' => $this->findModel($id),
+				'model' => $this->findModel($id),
 		]);
 	}
 
@@ -71,14 +73,14 @@ class ReceiveController extends Controller
 		$model = $this->findModel($id);
 		$allowStatus = [TransferHdr::STATUS_ISSUE, TransferHdr::STATUS_CONFIRM_REJECT];
 		if (!in_array($model->status, $allowStatus)) {
-			throw new \yii\base\UserException('tidak bisa diedit');
+			throw new UserException('tidak bisa diedit');
 		}
 
 		list($details, $success) = $this->saveReceive($model);
 		if ($success) {
 			return $this->redirect(['view', 'id' => $model->id_transfer]);
 		}
-		return $this->render('update', ['model' => $model,'details' => $details,]);
+		return $this->render('update', ['model' => $model, 'details' => $details,]);
 	}
 
 	/**
@@ -142,7 +144,7 @@ class ReceiveController extends Controller
 		$model = $this->findModel($id);
 		$allowStatus = [TransferHdr::STATUS_CONFIRM_APPROVE];
 		if (!in_array($model->status, $allowStatus)) {
-			throw new \yii\base\UserException('tidak bisa diedit');
+			throw new UserException('tidak bisa diedit');
 		}
 		try {
 			$transaction = \Yii::$app->db->beginTransaction();
@@ -155,7 +157,7 @@ class ReceiveController extends Controller
 			}
 		} catch (Exception $exc) {
 			$transaction->rollBack();
-			throw $exc;
+			throw new UserException($exc->getMessage());
 		}
 		return $this->redirect(['index']);
 	}
@@ -168,13 +170,15 @@ class ReceiveController extends Controller
 	{
 		$id_warehouse = $model->id_warehouse_dest;
 		foreach ($model->transferDtls as $detail) {
+			$smallest_uom = ProductUom::getSmallestUom($detail->id_product);
+			$qty_per_uom = ProductUom::getQtyProductUom($detail->id_product, $detail->id_uom);
 			ProductStock::UpdateStock([
 				'id_warehouse' => $id_warehouse,
 				'id_product' => $detail->id_product,
-				'id_uom' => $detail->id_uom,
-				'qty' => $detail->transfer_qty_receive,
-					], [
-				'mv_qty' => $detail->transfer_qty_receive,
+				'id_uom' => $smallest_uom,
+				'qty' => $detail->transfer_qty_receive * $qty_per_uom,
+				], [
+				'mv_qty' => $detail->transfer_qty_receive * $qty_per_uom,
 				'app' => 'receive',
 				'id_ref' => $detail->id_transfer_dtl,
 			]);

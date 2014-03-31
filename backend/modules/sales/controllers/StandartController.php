@@ -14,6 +14,7 @@ use backend\modules\master\models\Cogs;
 use \Exception;
 use yii\base\UserException;
 use backend\modules\inventory\models\ProductStock;
+use backend\modules\master\models\ProductUom;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -31,6 +32,16 @@ class StandartController extends Controller
 					'release' => ['post']
 				],
 			],
+			'httpCache' => [
+				'class' => \yii\web\HttpCache::className(),
+				'only' => ['js'],
+				'lastModified' => function ($action, $params) {
+				return 50000 * ((int) (time() / 50000)) - 36000;
+			},
+				'etagSeed' => function($action, $params) {
+				return 1;
+			}
+			],
 		];
 	}
 
@@ -44,8 +55,8 @@ class StandartController extends Controller
 		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
 		return $this->render('index', [
-					'dataProvider' => $dataProvider,
-					'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+				'searchModel' => $searchModel,
 		]);
 	}
 
@@ -57,7 +68,7 @@ class StandartController extends Controller
 	public function actionView($id)
 	{
 		return $this->render('view', [
-					'model' => $this->findModel($id),
+				'model' => $this->findModel($id),
 		]);
 	}
 
@@ -80,9 +91,9 @@ class StandartController extends Controller
 			return $this->redirect(['view', 'id' => $model->id_sales]);
 		}
 		return $this->render('create', [
-					'model' => $model,
-					'details' => $details,
-					'payment_methods' => $payment_methods]);
+				'model' => $model,
+				'details' => $details,
+				'payment_methods' => $payment_methods]);
 	}
 
 	/**
@@ -178,28 +189,30 @@ class StandartController extends Controller
 			try {
 				$transaction = Yii::$app->db->beginTransaction();
 				$model->status = SalesHdr::STATUS_RELEASE;
-				if(!$model->save()){
+				if (!$model->save()) {
 					throw new UserException(implode("\n", $model->getFirstErrors()));
 				}
 				foreach ($model->salesDtls as $detail) {
+					$smallest_uom = ProductUom::getSmallestUom($detail->id_product);
+					$qty_per_uom = ProductUom::getQtyProductUom($detail->id_product, $detail->id_uom);
 					ProductStock::UpdateStock([
-								'id_warehouse' => $detail->id_warehouse,
-								'id_product' => $detail->id_product,
-								'id_uom' => $detail->id_uom,
-								'qty' => -1*$detail->sales_qty,
-									], [
-								'mv_qty' => -1*$detail->sales_qty,
-								'app' => 'sales-standart',
-								'id_ref' => $detail->id_sales_dtl,
+						'id_warehouse' => $detail->id_warehouse,
+						'id_product' => $detail->id_product,
+						'id_uom' => $smallest_uom,
+						'qty' => -1 * $detail->sales_qty * $qty_per_uom,
+						], [
+						'mv_qty' => -1 * $detail->sales_qty * $qty_per_uom,
+						'app' => 'sales-standart',
+						'id_ref' => $detail->id_sales_dtl,
 					]);
 				}
 				$transaction->commit();
 			} catch (Exception $exc) {
 				$transaction->rollBack();
-				throw $exc;
+				throw new UserException($exc->getMessage());
 			}
 		}
-		return $this->redirect(['view','id'=>$id]);
+		return $this->redirect(['view', 'id' => $id]);
 	}
 
 	public function actionJs()
@@ -256,9 +269,9 @@ class StandartController extends Controller
 			return $this->redirect(['view', 'id' => $model->id_sales]);
 		}
 		return $this->render('update', [
-					'model' => $model,
-					'details' => $details,
-					'payment_methods' => $payment_methods]);
+				'model' => $model,
+				'details' => $details,
+				'payment_methods' => $payment_methods]);
 	}
 
 	/**
@@ -287,11 +300,6 @@ class StandartController extends Controller
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');
 		}
-	}
-
-	public function actionUpdateManifest()
-	{
-		return AppCache::forceUpdateManifest(self::MANIFEST_NAME);
 	}
 
 }

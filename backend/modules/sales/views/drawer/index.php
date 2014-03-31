@@ -6,41 +6,44 @@ use yii\grid\GridView;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var backend\modules\sales\models\CashDrawerSearch $searchModel
+ * @var backend\modules\sales\models\CashdrawerSearch $searchModel
  */
 
-$this->title = 'Cash Drawers';
+$this->title = 'Cashdrawers';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cash-drawer-index">
+<div class="cashdrawer-index">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-	<p>
-		<?= Html::a('Create Cash Drawer', ['create'], ['class' => 'btn btn-success']) ?>
-	</p>
+    <p>
+        <?= Html::a('Create Cashdrawer', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
-	<?= GridView::widget([
-		'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
-		'columns' => [
-			['class' => 'yii\grid\SerialColumn'],
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
 
-			'id_cash_drawer',
-			'id_branch',
-			'no_cashier',
-			'initial_cash',
-			'close_cash',
-			// 'create_date',
-			// 'id_status',
-			// 'create_by',
-			// 'update_date',
-			// 'update_by',
+            'id_cashdrawer',
+            'client_machine',
+            'id_branch',
+            'cashier_no',
+            'id_user',
+            // 'init_cash',
+            // 'close_cash',
+            // 'variants',
+            // 'status',
+            // 'create_date',
+            // 'create_by',
+            // 'update_date',
+            // 'update_by',
 
-			['class' => 'yii\grid\ActionColumn'],
-		],
-	]); ?>
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 
 </div>

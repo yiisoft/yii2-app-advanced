@@ -5,42 +5,45 @@ use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View $this
- * @var backend\modules\sales\models\CashDrawer $model
+ * @var backend\modules\sales\models\Cashdrawer $model
  */
 
-$this->title = $model->id_cash_drawer;
-$this->params['breadcrumbs'][] = ['label' => 'Cash Drawers', 'url' => ['index']];
+$this->title = $model->id_cashdrawer;
+$this->params['breadcrumbs'][] = ['label' => 'Cashdrawers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cash-drawer-view">
+<div class="cashdrawer-view">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-	<p>
-		<?= Html::a('Update', ['update', 'id' => $model->id_cash_drawer], ['class' => 'btn btn-primary']) ?>
-		<?= Html::a('Delete', ['delete', 'id' => $model->id_cash_drawer], [
-			'class' => 'btn btn-danger',
-			'data' => [
-				'confirm' => Yii::t('app', 'Are you sure to delete this item?'),
-				'method' => 'post',
-			],
-		]) ?>
-	</p>
+    <p>
+        <?= Html::a('Update', ['update', 'id' => $model->id_cashdrawer], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id_cashdrawer], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Are you sure you want to delete this item?',
+                'method' => 'post',
+            ],
+        ]) ?>
+    </p>
 
-	<?= DetailView::widget([
-		'model' => $model,
-		'attributes' => [
-			'id_cash_drawer',
-			'id_branch',
-			'no_cashier',
-			'initial_cash',
-			'close_cash',
-			'create_date',
-			'id_status',
-			'create_by',
-			'update_date',
-			'update_by',
-		],
-	]) ?>
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'id_cashdrawer',
+            'client_machine',
+            'id_branch',
+            'cashier_no',
+            'id_user',
+            'init_cash',
+            'close_cash',
+            'variants',
+            'status',
+            'create_date',
+            'create_by',
+            'update_date',
+            'update_by',
+        ],
+    ]) ?>
 
 </div>

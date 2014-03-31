@@ -11,6 +11,8 @@ use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
 use backend\modules\inventory\models\ProductStock;
 use \Exception;
+use backend\modules\master\models\ProductUom;
+use yii\base\UserException;
 
 /**
  * TransferController implements the CRUD actions for TransferHdr model.
@@ -91,7 +93,7 @@ class TransferController extends Controller
 	{
 		$model = $this->findModel($id);
 		if ($model->status != TransferHdr::STATUS_DRAFT) {
-			throw new \yii\base\UserException('tidak bisa diedit');
+			throw new UserException('tidak bisa diedit');
 		}
 		list($details, $success) = $this->saveTransfer($model);
 		if ($success) {
@@ -202,7 +204,7 @@ class TransferController extends Controller
 			try {
 				$model->status = TransferHdr::STATUS_ISSUE;
 				if (!$model->save()) {
-					throw new \yii\base\UserException(implode(",\n", $model->firstErrors));
+					throw new UserException(implode(",\n", $model->firstErrors));
 				}
 				$id_warehouse = $model->id_warehouse_source;
 				$id_branch = $model->idWarehouseSource->id_branch;
@@ -211,13 +213,15 @@ class TransferController extends Controller
 					if (!$sukses) {
 						break;
 					}
+					$smallest_uom = ProductUom::getSmallestUom($detail->id_product);
+					$qty_per_uom = ProductUom::getQtyProductUom($detail->id_product, $detail->id_uom);
 					ProductStock::UpdateStock([
 						'id_warehouse' => $id_warehouse,
 						'id_product' => $detail->id_product,
-						'id_uom' => $detail->id_uom,
-						'qty' => -$detail->transfer_qty_send,
+						'id_uom' => $smallest_uom,
+						'qty' => -$detail->transfer_qty_send * $qty_per_uom,
 						], [
-						'mv_qty' => -$detail->transfer_qty_send,
+						'mv_qty' => -$detail->transfer_qty_send * $qty_per_uom,
 						'app' => 'transfer',
 						'id_ref' => $detail->id_transfer_dtl,
 					]);
@@ -230,7 +234,7 @@ class TransferController extends Controller
 				}
 			} catch (Exception $exc) {
 				$transaction->rollBack();
-				throw $exc;
+				throw new UserException($exc->getMessage());
 			}
 		}
 		return $this->redirect(['index']);
@@ -249,13 +253,15 @@ class TransferController extends Controller
 				foreach ($model->transferDtls as $detail) {
 					$qty = $detail->transfer_qty_send - $detail->transfer_qty_receive;
 					if ($qty != 0) {
+						$smallest_uom = ProductUom::getSmallestUom($detail->id_product);
+						$qty_per_uom = ProductUom::getQtyProductUom($detail->id_product, $detail->id_uom);
 						ProductStock::UpdateStock([
 							'id_warehouse' => $id_warehouse,
 							'id_product' => $detail->id_product,
-							'id_uom' => $detail->id_uom,
-							'qty' => $qty,
+							'id_uom' => $smallest_uom,
+							'qty' => $qty * $qty_per_uom,
 							], [
-							'mv_qty' => $qty,
+							'mv_qty' => $qty * $qty_per_uom,
 							'app' => 'confirm-transfer',
 							'id_ref' => $detail->id_transfer_dtl,
 						]);
@@ -269,7 +275,7 @@ class TransferController extends Controller
 			}
 		} catch (Exception $exc) {
 			$transaction->rollBack();
-			throw $exc;
+			throw new UserException($exc->getMessage());
 		}
 		return $this->redirect(['index']);
 	}

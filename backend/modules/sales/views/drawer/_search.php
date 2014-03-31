@@ -5,43 +5,49 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var backend\modules\sales\models\CashDrawerSearch $model
+ * @var backend\modules\sales\models\CashdrawerSearch $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
 
-<div class="cash-drawer-search">
+<div class="cashdrawer-search">
 
-	<?php $form = ActiveForm::begin([
-		'action' => ['index'],
-		'method' => 'get',
-	]); ?>
+    <?php $form = ActiveForm::begin([
+        'action' => ['index'],
+        'method' => 'get',
+    ]); ?>
 
-		<?= $form->field($model, 'id_cash_drawer') ?>
+    <?= $form->field($model, 'id_cashdrawer') ?>
 
-		<?= $form->field($model, 'id_branch') ?>
+    <?= $form->field($model, 'client_machine') ?>
 
-		<?= $form->field($model, 'no_cashier') ?>
+    <?= $form->field($model, 'id_branch') ?>
 
-		<?= $form->field($model, 'initial_cash') ?>
+    <?= $form->field($model, 'cashier_no') ?>
 
-		<?= $form->field($model, 'close_cash') ?>
+    <?= $form->field($model, 'id_user') ?>
 
-		<?php // echo $form->field($model, 'create_date') ?>
+    <?php // echo $form->field($model, 'init_cash') ?>
 
-		<?php // echo $form->field($model, 'id_status') ?>
+    <?php // echo $form->field($model, 'close_cash') ?>
 
-		<?php // echo $form->field($model, 'create_by') ?>
+    <?php // echo $form->field($model, 'variants') ?>
 
-		<?php // echo $form->field($model, 'update_date') ?>
+    <?php // echo $form->field($model, 'status') ?>
 
-		<?php // echo $form->field($model, 'update_by') ?>
+    <?php // echo $form->field($model, 'create_date') ?>
 
-		<div class="form-group">
-			<?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-			<?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
-		</div>
+    <?php // echo $form->field($model, 'create_by') ?>
 
-	<?php ActiveForm::end(); ?>
+    <?php // echo $form->field($model, 'update_date') ?>
+
+    <?php // echo $form->field($model, 'update_by') ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
 
 </div>

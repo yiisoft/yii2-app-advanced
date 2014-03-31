@@ -100,19 +100,17 @@ class ProductStock extends \yii\db\ActiveRecord
 		]);
 		if (!$stock) {
 			$stock = new self();
-			$id_uom = ProductUom::getSmallestUom($params['id_product']);
+			
 			$stock->setAttributes([
 				'id_warehouse' => $params['id_warehouse'],
 				'id_product' => $params['id_product'],
-				'id_uom' => $id_uom,
+				'id_uom' => $params['id_uom'],
 				'qty_stock' => 0,
 			]);
 		}
-		$qty_per_uom = ProductUom::getQtyProductUom($params['id_product'], $params['id_uom']);
+		
 		$result['old_stock'] = $stock->qty_stock;
-		$result['added_stock'] = $params['qty'] * $qty_per_uom;
-		$result['smallest_uom'] = $stock->id_uom;
-		$result['qty_per_uom'] = $qty_per_uom;
+		$result['added_stock'] = $params['qty'] * $params['qty_per_uom'];
 
 		$stock->qty_stock = $stock->qty_stock + $result['added_stock'];
 		if (!empty($logs) && $stock->canSetProperty('logParams')) {

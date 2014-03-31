@@ -10,7 +10,6 @@
 			supp:<?= json_encode($supp) ?>,
 			delay: 1000,
 			limit: 20,
-			
 			addItem: function(item) {
 				var has = false;
 				$('#detail-grid > tbody > tr').each(function() {
@@ -35,7 +34,7 @@
 					$row.find('input[data-field="purch_qty"]').val('1');
 					var $select = $row.find('select[data-field="id_uom"]').html('');
 					$.each(item.uoms, function() {
-						$select.append($('<option>').val(this.id).text(this.nm).attr('data-isi',this.isi));
+						$select.append($('<option>').val(this.id).text(this.nm).attr('data-isi', this.isi));
 					});
 
 					$grid.find('tbody > tr').removeClass('selected');
@@ -52,11 +51,11 @@
 				var total = 0.0;
 				$('#detail-grid > tbody > tr').each(function() {
 					var $row = $(this);
-					var q=$row.find('input[data-field="purch_qty"]').val();
-					q = q==''?1:q;
+					var q = $row.find('input[data-field="purch_qty"]').val();
+					q = q == '' ? 1 : q;
 					var isi = 1; //$row.find('[data-field="id_uom"] > :selected').data('isi');
 					isi = isi ? isi : 1;
-					
+
 					var t = isi * q * $row.find('input[data-field="purch_price"]').val();
 					$row.find('span.total-price').text(local.format(t));
 					$row.find('input[data-field="total_price"]').val(t);
@@ -69,11 +68,11 @@
 				$('#detail-grid > tbody > tr').each(function() {
 					var $row = $(this);
 					var product = local.product[$row.find('[data-field="id_product"]').val()];
-					if(product){
-						$row.find('[data-field="id_uom"] > option').each(function(){
+					if (product) {
+						$row.find('[data-field="id_uom"] > option').each(function() {
 							var $opt = $(this);
 							var isi = product.uoms[$opt.val()].isi;
-							$opt.attr('data-isi',isi);
+							$opt.attr('data-isi', isi);
 							//$opt.data('isi',isi);
 						});
 					}
@@ -115,31 +114,32 @@
 
 				$grid.on('change', ':input[data-field]', function() {
 					var $row = $(this).closest('tr');
+					var isi = $row.find('[data-field="id_uom"] > :selected').data('isi');
+					var p = $row.find('input[data-field="purch_price"]').val();
+					var m = $row.find('input[data-field="markup_price"]').val();
+					var s = $row.find('input[data-field="selling_price"]').val();
 					switch ($(this).data('field')) {
 						case 'markup_price':
-							var p = $row.find('input[data-field="purch_price"]').val();
-							var m = $row.find('input[data-field="markup_price"]').val();
-							var s = p / (1 - 0.01 * m);
+						case 'id_uom':
+							var s = (1.0*p/isi) / (1 - 0.01 * m);
 							$row.find('input[data-field="selling_price"]').val(s.toFixed(2));
 							break;
 
 						case 'purch_price':
 						case 'selling_price':
-							var p = $row.find('input[data-field="purch_price"]').val();
-							var s = $row.find('input[data-field="selling_price"]').val();
-							var m = s > 0 ? 100 * (s - p) / s : 0;
+							var m = s > 0 ? 100 * (s - (1.0*p/isi)) / s : 0;
 							$row.find('input[data-field="markup_price"]').val(m.toFixed(2));
 							break;
 					}
 					local.normalizeItem();
 				});
-				
+
 				var clicked = false;
-				$grid.on('click focus','input[data-field]',function(e){
-					if(e.type=='click'){
+				$grid.on('click focus', 'input[data-field]', function(e) {
+					if (e.type == 'click') {
 						clicked = true;
-					}else{
-						if(!clicked){
+					} else {
+						if (!clicked) {
 							$(this).select();
 						}
 						clicked = false;
@@ -174,10 +174,10 @@
 			onProductSelect: function(event, ui) {
 				local.addItem(ui.item);
 			},
-			onSupplierSelect:function(event, ui){
+			onSupplierSelect: function(event, ui) {
 				$('#id_supplier').val(ui.item.id);
 			},
-			onSupplierOpen:function(event, ui){
+			onSupplierOpen: function(event, ui) {
 				$('#id_supplier').val('');
 			},
 			sourceSupplier: local.supp,
