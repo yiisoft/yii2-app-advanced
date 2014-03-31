@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use backend\modules\master\models\Customer;
+use yii\helpers\ArrayHelper;
 
 /**
  * @var yii\web\View $this
@@ -10,26 +12,31 @@ use yii\widgets\ActiveForm;
  */
 ?>
 
-<div class="customer-form">
+<div class="customer-form col-lg-6" style="padding-left: 0px;">
 
-	<?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(); ?>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            New Cutomer
+        </div>
+        <div class="panel-body">
+            <?= $form->field($model, 'cd_cust')->textInput(['maxlength' => 13, 'style'=>'width:120px;']) ?>
 
-		<?= $form->field($model, 'cd_cust')->textInput(['maxlength' => 13]) ?>
+            <?= $form->field($model, 'nm_cust')->textInput(['maxlength' => 64]) ?>
 
-		<?= $form->field($model, 'nm_cust')->textInput(['maxlength' => 64]) ?>
+            <?= $form->field($model, 'contact_name')->textInput(['maxlength' => 64]) ?>
 
-		<?= $form->field($model, 'id_cclass')->textInput() ?>
+            <?= $form->field($model, 'contact_number')->textInput(['maxlength' => 64]) ?>
 
-		<?= $form->field($model, 'status')->textInput() ?>
+            <?= $form->field($model, 'status')->dropDownList($model->getStatus(), ['style' => 'width:200px;']); ?>
 
-		<?= $form->field($model, 'contact_name')->textInput(['maxlength' => 64]) ?>
+        </div>
+    </div>
 
-		<?= $form->field($model, 'contact_number')->textInput(['maxlength' => 64]) ?>
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    </div>
 
-		<div class="form-group">
-			<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-		</div>
-
-	<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
 </div>
