@@ -35,8 +35,8 @@ class ProductController extends Controller {
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-                    'dataProvider' => $dataProvider,
-                    'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
         ]);
     }
 
@@ -47,7 +47,7 @@ class ProductController extends Controller {
      */
     public function actionView($id) {
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+                'model' => $this->findModel($id),
         ]);
     }
 
@@ -63,7 +63,7 @@ class ProductController extends Controller {
             return $this->redirect(['view', 'id' => $model->id_product]);
         } else {
             return $this->render('create', [
-                        'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -81,7 +81,7 @@ class ProductController extends Controller {
             return $this->redirect(['view', 'id' => $model->id_product]);
         } else {
             return $this->render('update', [
-                        'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -93,9 +93,13 @@ class ProductController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        try {
+            $model->delete();
+            return $this->redirect(['index']);
+        } catch (\Exception $ex) {
+            throw new \yii\base\UserException($model->nm_product . ' telah terpakai..');
+        }
     }
 
     /**
@@ -117,11 +121,11 @@ class ProductController extends Controller {
 //        $sqlItem = 'SELECT id_product as did, cd_product || \'; \' || nm_product as label FROM product '
 //        . 'WHERE cd_product LIKE :dCode OR nm_product LIKE :dCode';
         $sqlItem = 'SELECT id_product as did, nm_product as label FROM product '
-        . 'WHERE cd_product LIKE :dCode OR nm_product LIKE :dCode';
+            . 'WHERE cd_product LIKE :dCode OR nm_product LIKE :dCode';
         $conn = \Yii::$app->db;
         $dCmd = $conn->createCommand($sqlItem); //$dQry->createCommand();
         $dGet = filter_input_array(INPUT_GET);
-        $dCmd->bindValue(':dCode', '%'.$dGet['term'].'%');
+        $dCmd->bindValue(':dCode', '%' . $dGet['term'] . '%');
         $data = $dCmd->queryAll();
         return json_encode($data);
     }
