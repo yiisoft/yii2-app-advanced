@@ -16,7 +16,7 @@ AppAsset::register($this);
 <!DOCTYPE html>
 <?php
 if (isset($this->manifest_file)) {
-    $manifest = 'manifest="'.Yii::getAlias('@web/'.$this->manifest_file).'"';
+    $manifest = 'manifest="' . Yii::getAlias('@web/' . $this->manifest_file) . '"';
 } else {
     $manifest = '';
 }
@@ -49,9 +49,9 @@ if (isset($this->manifest_file)) {
                 $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/site/logout'],
-					'linkOptions'=>[
-						'data-user_id'=>Yii::$app->user->id,
-						'data-method'=>'post']
+                    'linkOptions' => [
+                        'data-user_id' => Yii::$app->user->id,
+                        'data-method' => 'post']
                 ];
             }
 
@@ -61,26 +61,28 @@ if (isset($this->manifest_file)) {
                         'label' => 'Setup',
                         'url' => ['#'],
                         'items' => [
-                            ['label' => 'User Management','url' => ['#'],],
-                            ['label' => 'Auth & Autorization','url' => ['#'],],
+                            ['label' => 'User Management', 'url' => ['#'],],
+                            ['label' => 'Auth & Autorization', 'url' => ['#'],],
                             '<li class="divider"></li>',
-                            ['label' => 'Organization Setup','url' => ['#'],],
+                            ['label' => 'Organization', 'url' => ['/master/orgn'],],
+                            ['label' => 'Branch', 'url' => ['/master/branch'],],
                         ]
                     ],
                     [
                         'label' => 'Master',
                         'url' => ['#'],
                         'items' => [
-                            ['label' => 'Product','url' => ['/master/product'],],
-                            ['label' => 'Supplier','url' => ['/master/supplier'],],
-                            ['label' => 'Customer','url' => ['/customer'],]
+                            ['label' => 'Product', 'url' => ['/master/product'],],
+                            ['label' => 'Supplier', 'url' => ['/master/supplier/create'],],
+                            ['label' => 'Customer', 'url' => ['/master/customer/create'],],
+                            ['label' => 'Warehouse', 'url' => ['/master/warehouse/create'],]
                         ]
                     ], [
                         'label' => 'Purchasing',
                         'items' => [
-                            ['label' => 'Entri Pembelian','url' => ['/purchase/purchase/create'],],
-                            ['label' => 'Receive Pembelian','url' => ['/purchase/purchase/create'],],
-                            ['label' => 'Posting Pembelian','url' => ['/purchase/purchase/create'],],
+                            ['label' => 'Entri Pembelian', 'url' => ['/purchase/purchase/create'],],
+                            ['label' => 'Receive Pembelian', 'url' => ['/purchase/purchase/receive'],],
+                            ['label' => 'Posting Pembelian', 'url' => ['/purchase/purchase/posting'],],
                             '<li class="divider"></li>',
                             ['label' => 'Pembelian Per Supplier', 'url' => ['#']],
                             ['label' => 'Pembelian Per Jatuh Tempo', 'url' => ['#']],
@@ -90,8 +92,8 @@ if (isset($this->manifest_file)) {
                     [
                         'label' => 'Inventory',
                         'items' => [
-                            ['label' => 'Transfer Antar Gudang','url' => ['/inventory/transfer'],],
-                            ['label' => 'Receive Transfer','url' => ['/inventory/receive'],],
+                            ['label' => 'Transfer Antar Gudang', 'url' => ['/inventory/transfer'],],
+                            ['label' => 'Receive Transfer', 'url' => ['/inventory/receive'],],
                             '<li class="divider"></li>',
                             ['label' => 'Stock Opname', 'url' => ['#']],
                             ['label' => 'Stock Adjusment', 'url' => ['#']],
@@ -105,8 +107,8 @@ if (isset($this->manifest_file)) {
                     [
                         'label' => 'Sales',
                         'items' => [
-                            ['label' => 'Sales Standart','url' => ['/sales'],],
-                            ['label' => 'Point of Sales','url' => ['/sales/pos/create'],],
+                            ['label' => 'Sales Standart', 'url' => ['/sales/standart'],],
+                            ['label' => 'Point of Sales', 'url' => ['/sales/pos/create'],],
                             ['label' => 'Posting Penjualan', 'url' => ['#']],
                             '<li class="divider"></li>',
                             ['label' => 'Sales Harian', 'url' => '#'],
@@ -133,7 +135,7 @@ if (isset($this->manifest_file)) {
                             ['label' => 'Journal Umum', 'url' => '#'],
                             ['label' => 'Buku Besar', 'url' => '#'],
                             ['label' => 'Neraca', 'url' => '#'],
-                            ['label' => 'Laba/Rugi', 'url' => '#'],                            
+                            ['label' => 'Laba/Rugi', 'url' => '#'],
                         ]
                     ]
                 ];
