@@ -111,7 +111,7 @@ class ProductStock extends \yii\db\ActiveRecord
 		$qty_per_uom = ProductUom::getQtyProductUom($params['id_product'], $params['id_uom']);
 		$result['old_stock'] = $stock->qty_stock;
 		$result['added_stock'] = $params['qty'] * $qty_per_uom;
-		$result['smallest_uom'] = $id_uom;
+		$result['smallest_uom'] = $stock->id_uom;
 		$result['qty_per_uom'] = $qty_per_uom;
 
 		$stock->qty_stock = $stock->qty_stock + $result['added_stock'];
