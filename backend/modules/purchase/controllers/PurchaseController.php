@@ -12,6 +12,7 @@ use backend\modules\purchase\models\PurchaseDtl;
 use \Exception;
 use backend\modules\inventory\models\ProductStock;
 use backend\modules\master\models\Cogs;
+use backend\modules\master\models\Price;
 
 /**
  * PurchaseHdrController implements the CRUD actions for PurchaseHdr model.
@@ -213,10 +214,19 @@ class PurchaseController extends Controller {
 
                     Cogs::UpdateCogs([
                         'id_product' => $detail->id_product,
-                        'id_uom' => $detail->id_uom,
+                        'id_uom' => $stock['smallest_uom'],
                         'old_stock' => $stock['old_stock'],
                         'added_stock' => $stock['added_stock'],
                         'price' => $detail->purch_price / $stock['qty_per_uom'],
+                        ], [
+                        'app' => 'purchase',
+                        'id_ref' => $detail->id_purchase_dtl,
+                    ]);
+					
+					Price::UpdatePrice([
+                        'id_product' => $detail->id_product,
+                        'id_uom' => $stock['smallest_uom'],
+                        'price' => $detail->selling_price / $stock['qty_per_uom'],
                         ], [
                         'app' => 'purchase',
                         'id_ref' => $detail->id_purchase_dtl,

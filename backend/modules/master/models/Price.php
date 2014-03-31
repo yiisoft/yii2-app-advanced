@@ -2,11 +2,13 @@
 
 namespace backend\modules\master\models;
 
+use Yii;
+
 /**
  * This is the model class for table "price".
  *
- * @property integer $id_price
  * @property integer $id_product
+ * @property integer $id_price_category
  * @property integer $id_uom
  * @property string $price
  * @property string $create_date
@@ -14,11 +16,13 @@ namespace backend\modules\master\models;
  * @property string $update_date
  * @property integer $update_by
  *
+ * @property PriceCategory $idPriceCategory
  * @property Uom $idUom
  * @property Product $idProduct
  */
 class Price extends \yii\db\ActiveRecord
 {
+
 	const COLLECTION_NAME = 'log_price';
 
 	/**
@@ -35,9 +39,9 @@ class Price extends \yii\db\ActiveRecord
 	public function rules()
 	{
 		return [
-			[['id_branch', 'id_product', 'id_uom', 'price'], 'required'],
-			[['id_branch', 'id_product', 'id_uom'], 'integer'],
-			[['price'], 'number']
+			[['id_product', 'id_price_category', 'id_uom', 'price'], 'required'],
+			[['id_product', 'id_price_category', 'id_uom'], 'integer'],
+			[['price'], 'double']
 		];
 	}
 
@@ -47,8 +51,8 @@ class Price extends \yii\db\ActiveRecord
 	public function attributeLabels()
 	{
 		return [
-			'id_price' => 'Id Price',
 			'id_product' => 'Id Product',
+			'id_price_category' => 'Id Price Category',
 			'id_uom' => 'Id Uom',
 			'price' => 'Price',
 			'create_date' => 'Create Date',
@@ -56,6 +60,14 @@ class Price extends \yii\db\ActiveRecord
 			'update_date' => 'Update Date',
 			'update_by' => 'Update By',
 		];
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getIdPriceCategory()
+	{
+		return $this->hasOne(PriceCategory::className(), ['id_price_category' => 'id_price_category']);
 	}
 
 	/**
@@ -74,23 +86,40 @@ class Price extends \yii\db\ActiveRecord
 		return $this->hasOne(Product::className(), ['id_product' => 'id_product']);
 	}
 
-	public static function UpdatePrice($params)
+	private static function executeFormula($_formula_, $price)
 	{
-		$price = self::find(['id_product' => $params['id_product'],]);
+		return empty($_formula_) ? $price : @eval($_formula_);
+	}
 
-		if (!$price) {
-			$price = new self();
-			$price->setAttributes([
-				'id_product' => $params['id_product'],
-				'id_uom' => $params['id_uom'],
-				'price'=>0
-					], false);
+	public static function UpdatePrice($params, $logs = [])
+	{
+		$categories = PriceCategory::find()->all();
+		foreach ($categories as $category) {
+			$price = self::find([
+					'id_product' => $params['id_product'],
+					'id_price_category' => $category->id_price_category
+			]);
+
+			if (!$price) {
+				$price = new self();
+				$price->setAttributes([
+					'id_product' => $params['id_product'],
+					'id_price_category' => $category->id_price_category,
+					'id_uom' => $params['id_uom'],
+					'price' => 0
+				]);
+			}
+
+			if (!empty($logs) && $price->canSetProperty('logParams')) {
+				$price->logParams = $logs;
+			}
+			$price->price = self::executeFormula($category->formula, $params['price']);
+			if (!$price->save()) {
+				throw new \yii\base\UserException(implode(",\n", $price->firstErrors));
+			}
 		}
-		$price->price = 1.0*($price->price * $params['old_stock'] + $params['price'] * $params['added_stock']) / ($params['old_stock'] + $params['added_stock']);
-		if(!$price->save()){
-			throw new \yii\base\UserException(implode(",\n", $price->firstErrors));
-		}
-		return true;;
+
+		return true;
 	}
 
 	public function behaviors()
@@ -101,7 +130,7 @@ class Price extends \yii\db\ActiveRecord
 			[
 				'class' => 'backend\components\Logger',
 				'collectionName' => self::COLLECTION_NAME,
-				'attributes' => ['id_cogs', 'id_product', 'id_uom', 'cogs'],
+				'attributes' => ['id_product', 'id_price_category', 'id_uom', 'price'],
 			]
 		];
 	}

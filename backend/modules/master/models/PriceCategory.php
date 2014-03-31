@@ -15,7 +15,8 @@ use Yii;
  * @property integer $update_by
  * @property string $create_date
  *
- * @property Price[] $prices
+ * @property Price $price
+ * @property Product[] $idProducts
  */
 class PriceCategory extends \yii\db\ActiveRecord
 {
@@ -33,9 +34,8 @@ class PriceCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nm_price_category', 'formula', 'create_by', 'update_date', 'update_by', 'create_date'], 'required'],
-            [['nm_price_category', 'formula', 'update_date', 'create_date'], 'string'],
-            [['create_by', 'update_by'], 'integer']
+            [['nm_price_category', 'formula'], 'required'],
+            [['nm_price_category', 'formula'], 'string']
         ];
     }
 
@@ -58,8 +58,24 @@ class PriceCategory extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPrices()
+    public function getPrice()
     {
-        return $this->hasMany(Price::className(), ['id_price_category' => 'id_price_category']);
+        return $this->hasOne(Price::className(), ['id_price_category' => 'id_price_category']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdProducts()
+    {
+        return $this->hasMany(Product::className(), ['id_product' => 'id_product'])->viaTable('price', ['id_price_category' => 'id_price_category']);
+    }
+
+	public function behaviors()
+	{
+		return [
+			'backend\components\AutoTimestamp',
+			'backend\components\AutoUser'
+		];
+	}
 }
