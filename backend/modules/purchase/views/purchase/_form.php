@@ -32,12 +32,14 @@ use yii\jui\AutoComplete;
             <div class="panel-body">
                 <?= $form->field($model, 'purchase_num')->textInput(['maxlength' => 16, 'readonly' => true]); ?>
                 <?php
-                Html::activeHiddenInput($model, 'id_supplier');
-                $field = $form->field($model, "id_supplier", ['template' => "{label}\n{input}{text}\n{hint}\n{error}"])->input('hidden');
+				$el_id = Html::getInputId($model, 'id_supplier');
+                $field = $form->field($model, "id_supplier", ['template' => "{label}\n{input}{text}\n{hint}\n{error}"]);
+				$field->labelOptions['for']=$el_id;
+				$field->hiddenInput(['id'=>'id_supplier']);
                 $field->parts['{text}'] = AutoComplete::widget([
                             'model' => $model,
                             'attribute' => 'idSupplier[nm_supplier]',
-                            'options' => ['class' => 'form-control'],
+                            'options' => ['class' => 'form-control','id'=>$el_id],
                             'clientOptions' => [
                                 'source' => new JsExpression("yii.purchase.sourceSupplier"),
                                 'select' => new JsExpression("yii.purchase.onSupplierSelect"),

@@ -159,13 +159,8 @@
 				var result = [];
 				var limit = local.limit;
 				var term = request.term.toLowerCase();
-				var sup = $('#purchasehdr-id_supplier').val();
-				if (sup == '') {
-					callback([]);
-					return;
-				}
-				$.each(local.ps[sup], function() {
-					var prod = local.product[this + ''];
+				$.each(local.product, function() {
+					var prod = this;
 					if (prod.text.toLowerCase().indexOf(term) >= 0 || prod.cd == term) {
 						result.push(prod);
 						limit--;
@@ -180,10 +175,10 @@
 				local.addItem(ui.item);
 			},
 			onSupplierSelect:function(event, ui){
-				$('#purchasehdr-id_supplier').val(ui.item.id);
+				$('#id_supplier').val(ui.item.id);
 			},
 			onSupplierOpen:function(event, ui){
-				$('#purchasehdr-id_supplier').val('');
+				$('#id_supplier').val('');
 			},
 			sourceSupplier: local.supp,
 		};
