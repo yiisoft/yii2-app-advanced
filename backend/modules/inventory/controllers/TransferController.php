@@ -44,8 +44,8 @@ class TransferController extends Controller
 		$dataProvider = $searchModel->search($params);
 
 		return $this->render('index', [
-					'dataProvider' => $dataProvider,
-					'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+				'searchModel' => $searchModel,
 		]);
 	}
 
@@ -57,7 +57,7 @@ class TransferController extends Controller
 	public function actionView($id)
 	{
 		return $this->render('view', [
-					'model' => $this->findModel($id),
+				'model' => $this->findModel($id),
 		]);
 	}
 
@@ -76,8 +76,8 @@ class TransferController extends Controller
 			return $this->redirect(['view', 'id' => $model->id_transfer]);
 		}
 		return $this->render('create', [
-					'model' => $model,
-					'details' => $details,
+				'model' => $model,
+				'details' => $details,
 		]);
 	}
 
@@ -98,8 +98,8 @@ class TransferController extends Controller
 			return $this->redirect(['view', 'id' => $model->id_transfer]);
 		}
 		return $this->render('update', [
-					'model' => $model,
-					'details' => $details,
+				'model' => $model,
+				'details' => $details,
 		]);
 	}
 
@@ -216,7 +216,7 @@ class TransferController extends Controller
 						'id_product' => $detail->id_product,
 						'id_uom' => $detail->id_uom,
 						'qty' => -$detail->transfer_qty_send,
-							], [
+						], [
 						'app' => 'transfer',
 						'id_ref' => $detail->id_transfer_dtl,
 					]);
@@ -242,12 +242,10 @@ class TransferController extends Controller
 		try {
 			$transaction = Yii::$app->db->beginTransaction();
 			$success = $model->save();
-			if ($confirm === TransferHdr::STATUS_CONFIRM_APPROVE) {
+			if ($confirm == TransferHdr::STATUS_CONFIRM_APPROVE) {
 				$id_warehouse = $model->id_warehouse_source;
+				$details = $model->transferDtls;
 				foreach ($model->transferDtls as $detail) {
-					if (!$sukses) {
-						break;
-					}
 					$qty = $detail->transfer_qty_send - $detail->transfer_qty_receive;
 					if ($qty != 0) {
 						ProductStock::UpdateStock([
@@ -255,7 +253,7 @@ class TransferController extends Controller
 							'id_product' => $detail->id_product,
 							'id_uom' => $detail->id_uom,
 							'qty' => $qty,
-								], [
+							], [
 							'app' => 'confirm-transfer',
 							'id_ref' => $detail->id_transfer_dtl,
 						]);
@@ -271,7 +269,6 @@ class TransferController extends Controller
 			$transaction->rollBack();
 			throw $exc;
 		}
-
 		return $this->redirect(['index']);
 	}
 
@@ -326,8 +323,8 @@ class TransferController extends Controller
 		}
 
 		return $this->renderPartial('process.js.php', [
-					'product' => $product,
-					'ps' => $ps]);
+				'product' => $product,
+				'ps' => $ps]);
 	}
 
 }
