@@ -12,34 +12,30 @@ use yii\widgets\ActiveForm;
 
 <div class="product-uom-search">
 
-	<?php $form = ActiveForm::begin([
-		'action' => ['index'],
-		'method' => 'get',
-	]); ?>
+    <?php $form = ActiveForm::begin([
+        'action' => ['index'],
+        'method' => 'get',
+    ]); ?>
 
-		<?= $form->field($model, 'id_puom') ?>
+    <?= $form->field($model, 'id_product') ?>
 
-		<?= $form->field($model, 'id_product') ?>
+    <?= $form->field($model, 'id_uom') ?>
 
-		<?= $form->field($model, 'id_uom') ?>
+    <?= $form->field($model, 'isi') ?>
 
-		<?= $form->field($model, 'isi') ?>
+    <?= $form->field($model, 'create_date') ?>
 
-		<?= $form->field($model, 'smallest')->checkbox() ?>
+    <?= $form->field($model, 'create_by') ?>
 
-		<?php // echo $form->field($model, 'create_date') ?>
+    <?php // echo $form->field($model, 'update_date') ?>
 
-		<?php // echo $form->field($model, 'create_by') ?>
+    <?php // echo $form->field($model, 'update_by') ?>
 
-		<?php // echo $form->field($model, 'update_date') ?>
+    <div class="form-group">
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+    </div>
 
-		<?php // echo $form->field($model, 'update_by') ?>
-
-		<div class="form-group">
-			<?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-			<?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
-		</div>
-
-	<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
 </div>

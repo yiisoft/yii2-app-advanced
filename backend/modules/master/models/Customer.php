@@ -2,13 +2,14 @@
 
 namespace backend\modules\master\models;
 
+use Yii;
+
 /**
  * This is the model class for table "customer".
  *
  * @property integer $id_customer
  * @property string $cd_cust
  * @property string $nm_cust
- * @property integer $id_cclass
  * @property string $contact_name
  * @property string $contact_number
  * @property string $status
@@ -18,69 +19,81 @@ namespace backend\modules\master\models;
  * @property integer $update_by
  *
  * @property CustomerDetail $customerDetail
+ * @property SalesHdr[] $salesHdrs
  */
-class Customer extends \yii\db\ActiveRecord
-{
-	/**
-	 * @inheritdoc
-	 */
-	public static function tableName()
-	{
-		return 'customer';
-	}
+class Customer extends \yii\db\ActiveRecord {
 
-	/**
-	 * @inheritdoc
-	 */
-	public function rules()
-	{
-		return [
-			[['cd_cust', 'nm_cust', 'id_cclass'], 'required'],
-			[['id_cclass'], 'integer'],
-			[['status'], 'string'],
-			[['cd_cust'], 'string', 'max' => 13],
-			[['nm_cust', 'contact_name', 'contact_number'], 'string', 'max' => 64],
-			[['cd_cust'], 'unique']
-		];
-	}
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_BLOCKED = 2;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function attributeLabels()
-	{
-		return [
-			'id_customer' => 'Id Customer',
-			'cd_cust' => 'Cd Cust',
-			'nm_cust' => 'Nm Cust',
-			'id_cclass' => 'Id Cclass',
-			'contact_name' => 'Contact Name',
-			'contact_number' => 'Contact Number',
-			'status' => 'Status',
-			'create_date' => 'Create Date',
-			'create_by' => 'Create By',
-			'update_date' => 'Update Date',
-			'update_by' => 'Update By',
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public static function tableName() {
+        return 'customer';
+    }
 
-	/**
-	 * @return \yii\db\ActiveRelation
-	 */
-	public function getCustomerDetail()
-	{
-		return $this->hasOne(CustomerDetail::className(), ['id_customer' => 'id_customer']);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function rules() {
+        return [
+            [['cd_cust', 'nm_cust'], 'required'],
+            [['status', 'create_date', 'update_date'], 'string'],
+            [['create_by', 'update_by'], 'integer'],
+            [['cd_cust'], 'string', 'max' => 13],
+            [['nm_cust', 'contact_name', 'contact_number'], 'string', 'max' => 64],
+            [['cd_cust'], 'unique']
+        ];
+    }
 
-	public function behaviors()
-	{
-		return [
-			'timestamp' => [
-				'class' => 'backend\components\AutoTimestamp',
-			],
-			'changeUser' => [
-				'class' => 'backend\components\AutoUser',
-			]
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels() {
+        return [
+            'id_customer' => 'Id Customer',
+            'cd_cust' => 'Cd Cust',
+            'nm_cust' => 'Nm Cust',
+            'contact_name' => 'Contact Name',
+            'contact_number' => 'Contact Number',
+            'status' => 'Status',
+            'create_date' => 'Create Date',
+            'create_by' => 'Create By',
+            'update_date' => 'Update Date',
+            'update_by' => 'Update By',
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCustomerDetail() {
+        return $this->hasOne(CustomerDetail::className(), ['id_customer' => 'id_customer']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSalesHdrs() {
+        return $this->hasMany(SalesHdr::className(), ['id_customer' => 'id_customer']);
+    }
+
+    public function getStatus() {
+        $maps = [
+            self::STATUS_INACTIVE => 'InActive',
+            self::STATUS_ACTIVE => 'Active',
+            self::STATUS_BLOCKED => 'Blocked'            
+        ];
+        return $maps;
+    }
+
+    public function behaviors() {
+        return [
+            'backend\components\AutoTimestamp',
+            'backend\components\AutoUser'
+        ];
+    }
+
 }

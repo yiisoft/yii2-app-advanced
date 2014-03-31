@@ -5,33 +5,27 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var backend\modules\master\models\CustomerSearch $model
+ * @var backend\modules\master\models\SearchProductGroups $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
 
-<div class="customer-search">
+<div class="product-groups-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id_customer') ?>
+    <?= $form->field($model, 'id_group') ?>
 
-    <?= $form->field($model, 'cd_cust') ?>
+    <?= $form->field($model, 'cd_group') ?>
 
-    <?= $form->field($model, 'nm_cust') ?>
+    <?= $form->field($model, 'nm_group') ?>
 
-    <?= $form->field($model, 'contact_name') ?>
+    <?= $form->field($model, 'create_date') ?>
 
-    <?= $form->field($model, 'contact_number') ?>
-
-    <?php // echo $form->field($model, 'status') ?>
-
-    <?php // echo $form->field($model, 'create_date') ?>
-
-    <?php // echo $form->field($model, 'create_by') ?>
+    <?= $form->field($model, 'create_by') ?>
 
     <?php // echo $form->field($model, 'update_date') ?>
 

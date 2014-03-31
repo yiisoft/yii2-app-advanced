@@ -9,19 +9,23 @@ use yii\widgets\ActiveForm;
  * @var yii\widgets\ActiveForm $form
  */
 ?>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        Uoms
+    </div>
+    <div class="panel-body">
+        <?php $form = ActiveForm::begin(); ?>
 
-<div class="uom-form">
+        <?= $form->field($model, 'cd_uom')->textInput(['maxlength' => 4]) ?>
 
-	<?php $form = ActiveForm::begin(); ?>
+        <?= $form->field($model, 'nm_uom')->textInput(['maxlength' => 32]) ?>
 
-		<?= $form->field($model, 'cd_uom')->textInput(['maxlength' => 4]) ?>
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
 
-		<?= $form->field($model, 'nm_uom')->textInput(['maxlength' => 32]) ?>
+    </div>   
 
-		<div class="form-group">
-			<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-		</div>
-
-	<?php ActiveForm::end(); ?>
+    <?php ActiveForm::end(); ?>
 
 </div>

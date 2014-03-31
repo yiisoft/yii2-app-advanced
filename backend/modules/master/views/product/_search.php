@@ -12,32 +12,34 @@ use yii\widgets\ActiveForm;
 
 <div class="product-search">
 
-	<?php $form = ActiveForm::begin([
-		'action' => ['index'],
-		'method' => 'get',
-	]); ?>
+    <?php $form = ActiveForm::begin([
+        'action' => ['index'],
+        'method' => 'get',
+    ]); ?>
 
-		<?= $form->field($model, 'id_product') ?>
+    <?= $form->field($model, 'id_product') ?>
 
-		<?= $form->field($model, 'cd_product') ?>
+    <?= $form->field($model, 'cd_product') ?>
 
-		<?= $form->field($model, 'nm_product') ?>
+    <?= $form->field($model, 'nm_product') ?>
 
-		<?= $form->field($model, 'id_category') ?>
+    <?= $form->field($model, 'id_category') ?>
 
-		<?= $form->field($model, 'create_date') ?>
+    <?= $form->field($model, 'id_group') ?>
 
-		<?php // echo $form->field($model, 'create_by') ?>
+    <?php // echo $form->field($model, 'create_date') ?>
 
-		<?php // echo $form->field($model, 'update_date') ?>
+    <?php // echo $form->field($model, 'create_by') ?>
 
-		<?php // echo $form->field($model, 'update_by') ?>
+    <?php // echo $form->field($model, 'update_date') ?>
 
-		<div class="form-group">
-			<?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-			<?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
-		</div>
+    <?php // echo $form->field($model, 'update_by') ?>
 
-	<?php ActiveForm::end(); ?>
+    <div class="form-group">
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
 
 </div>
