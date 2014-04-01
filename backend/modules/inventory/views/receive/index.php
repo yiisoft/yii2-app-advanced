@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php Pjax::begin(['formSelector' => 'form', 'enablePushState' => false]); ?>
+    
     <?php
     echo GridView::widget([
         'dataProvider' => $dataProvider,
