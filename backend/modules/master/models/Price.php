@@ -88,7 +88,11 @@ class Price extends \yii\db\ActiveRecord
 
 	private static function executeFormula($_formula_, $price)
 	{
-		return empty($_formula_) ? $price : @eval($_formula_.';');
+		if(empty($_formula_)){
+			return $price;
+		}
+		$_formula_ = preg_replace('/price/i', '$price', $_formula_);
+		return empty($_formula_) ? $price : eval("return $_formula_;");
 	}
 
 	public static function UpdatePrice($params, $logs = [])

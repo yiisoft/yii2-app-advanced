@@ -8,6 +8,7 @@ use backend\modules\master\models\Cogs;
 use backend\modules\master\models\Warehouse;
 use backend\modules\master\models\Product;
 use backend\modules\master\models\Uom;
+use yii\base\UserException;
 
 /**
  * This is the model class for table "product_stock".
@@ -91,16 +92,25 @@ class ProductStock extends \yii\db\ActiveRecord
 		return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse']);
 	}
 
-	public static function UpdateStock($params,$logs=[])
+	public static function currentStock($id_whse, $id_product)
+	{
+		$stock = self::find([
+				'id_warehouse' => $id_whse,
+				'id_product' => $id_product,
+		]);
+		return $stock ? $stock->qty_stock : 0;
+	}
+
+	public static function UpdateStock($params, $logs = [])
 	{
 		$result = [];
 		$stock = self::find([
-					'id_warehouse' => $params['id_warehouse'],
-					'id_product' => $params['id_product'],
+				'id_warehouse' => $params['id_warehouse'],
+				'id_product' => $params['id_product'],
 		]);
 		if (!$stock) {
 			$stock = new self();
-			
+
 			$stock->setAttributes([
 				'id_warehouse' => $params['id_warehouse'],
 				'id_product' => $params['id_product'],
@@ -108,19 +118,16 @@ class ProductStock extends \yii\db\ActiveRecord
 				'qty_stock' => 0,
 			]);
 		}
-		
-		$result['old_stock'] = $stock->qty_stock;
-		$result['added_stock'] = $params['qty'] * $params['qty_per_uom'];
 
-		$stock->qty_stock = $stock->qty_stock + $result['added_stock'];
+		$stock->qty_stock = $stock->qty_stock + $params['qty'];
 		if (!empty($logs) && $stock->canSetProperty('logParams')) {
 			$stock->logParams = $logs;
 		}
 		if (!$stock->save()) {
-			throw new \yii\base\UserException(implode(",\n", $stock->firstErrors));
+			throw new UserException(implode(",\n", $stock->firstErrors));
 		}
 
-		return $result;
+		return true;
 	}
 
 	public static function closeStock()
