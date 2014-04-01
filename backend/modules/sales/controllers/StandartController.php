@@ -15,6 +15,7 @@ use \Exception;
 use yii\base\UserException;
 use backend\modules\inventory\models\ProductStock;
 use backend\modules\master\models\ProductUom;
+use backend\modules\master\models\GlobalConfig;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -217,12 +218,13 @@ class StandartController extends Controller
 
 	public function actionJs()
 	{
+		$p_ct = GlobalConfig::getConfigValue('sales_price', 'grosir_category',1);
 		$sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
 			u.id_uom, u.nm_uom, pu.isi,pc.price
 			from product p
 			join product_uom pu on(pu.id_product=p.id_product)
 			join uom u on(u.id_uom=pu.id_uom)
-			left join price pc on(pc.id_product=p.id_product)
+			left join price pc on(pc.id_product=p.id_product and pc.id_price_category=$p_ct)
 			order by p.id_product,pu.isi";
 		$result = [];
 		foreach (\Yii::$app->db->createCommand($sql)->queryAll() as $row) {
@@ -232,7 +234,7 @@ class StandartController extends Controller
 					'id' => $row['id'],
 					'cd' => $row['cd'],
 					'text' => $row['nm'],
-					'price' => 1000,
+					'price' => $row['price'],
 					'id_uom' => $row['id_uom'],
 					'nm_uom' => $row['nm_uom'],
 				];
