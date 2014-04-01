@@ -12,13 +12,13 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="purchase-hdr-create">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-	<?php
-	echo $this->render('_form', [
-		'model' => $model,
-		'details' => $details
-	]);
-	?>
+    <?php
+    echo $this->render('_form', [
+        'model' => $model,
+        'details' => $details
+    ]);
+    ?>
 
 </div>

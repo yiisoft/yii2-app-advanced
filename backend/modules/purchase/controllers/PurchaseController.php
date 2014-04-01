@@ -67,6 +67,8 @@ class PurchaseController extends Controller {
         $model = new PurchaseHdr;
         $model->status = PurchaseHdr::STATUS_DRAFT;
         $model->id_branch = Yii::$app->user->identity->id_branch;
+        $model->purchase_date = date('Y-m-d');
+        $model->due_date = date('Y-m-d', strtotime('+1 month'));
 
         list($details, $success) = $this->savePurchase($model);
         if ($success) {
