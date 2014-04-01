@@ -134,7 +134,6 @@ $umodel = new ProductUom;
 <div class="modal-body">
     <?= $form2->field($umodel, 'id_uom')->dropDownList(ArrayHelper::map(Uom::find()->all(), 'id_uom', 'nm_uom'), ['style' => 'width:200px;']); ?>
     <?= $form2->field($umodel, 'isi')->textInput(['style' => 'width:120px;']) ?>
-
 </div>    
 <div class="form-group modal-footer" style="text-align: right; padding-bottom: 0px;">
     <?= Html::submitButton($umodel->isNewRecord ? 'Create' : 'Update', ['class' => $umodel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

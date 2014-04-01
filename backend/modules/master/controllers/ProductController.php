@@ -8,7 +8,7 @@ use backend\modules\master\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\VerbFilter;
-use yii\helpers\ArrayHelper;
+use backend\modules\master\models\ProductUom;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -58,8 +58,13 @@ class ProductController extends Controller {
      */
     public function actionCreate() {
         $model = new Product;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $dPost = Yii::$app->request->post();
+        if ($model->load($dPost) && $model->save()) {
+//            $pUom = new ProductUom;
+//            $pUom->id_product = $model->id_product;
+//            $pUom->id_uom = $dPost['productUoms']['id_uom'];
+//            $pUom->isi = $dPost['productUoms']['isi'];
+//            $pUom->save();
             return $this->redirect(['view', 'id' => $model->id_product]);
         } else {
             return $this->render('create', [
@@ -76,8 +81,8 @@ class ProductController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $dPost = Yii::$app->request->post();
+        if ($model->load($dPost) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_product]);
         } else {
             return $this->render('update', [
