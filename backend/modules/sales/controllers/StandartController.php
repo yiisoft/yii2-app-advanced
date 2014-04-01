@@ -87,6 +87,8 @@ class StandartController extends Controller
 		$model = new SalesHdr;
 		$model->id_branch = Yii::$app->user->identity->id_branch;
 		$model->status = 1;
+                $model->id_customer = 1;
+                $model->sales_date = date('Y-m-d');
 		list($details, $success) = $this->saveSales($model);
 		if ($success) {
 			return $this->redirect(['view', 'id' => $model->id_sales]);
