@@ -87,7 +87,33 @@ use yii\grid\GridView;
             endif;
             ?>
         </div>
-        <div class="tab-pane" id="cogs"></div>
+        <div class="tab-pane" id="cogs">
+            <?php
+            if (!$model->isNewRecord):
+                $dCogs = new ActiveDataProvider([
+                    'query' => $model->getCogs(),
+                    'pagination' => [
+                        'pageSize' => 10,
+                    ],
+                ]);
+
+                echo GridView::widget([
+                    'dataProvider' => $dCogs,
+                    'tableOptions' => ['class' => 'table table-striped'],
+                    'layout' => '{items}',
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        'idUom.nm_uom',
+                        'idUom.cd_uom',
+                        [ 'header' => 'Cogs',
+                            'value' => function($model) {
+                            return number_format($model->cogs, 2);
+                        }]
+                    ],
+                ]);
+            endif;
+            ?>
+        </div>
         <div class="tab-pane" id="price"></div>
     </div>
     <br>
@@ -100,17 +126,18 @@ ActiveForm::end();
 
 Modal::begin([
     'id' => 'myModal',
-    'header' => '<h4 class="modal-title">Product Uoms</h4>@'.$model->nm_product
-]);
+    'header' => '<h4 class="modal-title">Product Uoms</h4>@' . $model->nm_product
+    ]);
 $umodel = new ProductUom;
 ?>
 <?php $form2 = ActiveForm::begin(); ?>
 <div class="modal-body">
     <?= $form2->field($umodel, 'id_uom')->dropDownList(ArrayHelper::map(Uom::find()->all(), 'id_uom', 'nm_uom'), ['style' => 'width:200px;']); ?>
     <?= $form2->field($umodel, 'isi')->textInput(['style' => 'width:120px;']) ?>
-    <div class="form-group" style="text-align: right">
-        <?= Html::submitButton($umodel->isNewRecord ? 'Create' : 'Update', ['class' => $umodel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+
+</div>    
+<div class="form-group modal-footer" style="text-align: right; padding-bottom: 0px;">
+    <?= Html::submitButton($umodel->isNewRecord ? 'Create' : 'Update', ['class' => $umodel->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 </div>
 <?php
 ActiveForm::end();

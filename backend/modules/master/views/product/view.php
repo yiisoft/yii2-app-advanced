@@ -79,12 +79,37 @@ $this->params['breadcrumbs'][] = $this->title;
                         'isi'
                     ],
                 ]);
-
             endif;
             ?>
         </div>
-        <div class="tab-pane" id="profile"></div>
-        <div class="tab-pane" id="profile"></div>
+        <div class="tab-pane" id="cogs">
+            <?php
+            if (!$model->isNewRecord):
+                $dCogs = new ActiveDataProvider([
+                    'query' => $model->getCogs(),
+                    'pagination' => [
+                        'pageSize' => 10,
+                    ],
+                ]);
+
+                echo GridView::widget([
+                    'dataProvider' => $dCogs,
+                    'tableOptions' => ['class' => 'table table-striped'],
+                    'layout' => '{items}',
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        'idUom.nm_uom',
+                        'idUom.cd_uom',
+                        [ 'header' => 'Cogs',
+                            'value' => function($model) {
+                            return number_format($model->cogs, 2);
+                        }]
+                    ],
+                ]);
+            endif;
+            ?>
+        </div>
+        <div class="tab-pane" id="price"></div>
     </div>
 
     <br>
