@@ -16,9 +16,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Purchase Hdr', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="pull-right">
+        <?= Html::a('', ['create'], ['class' => 'btn btn-default glyphicon glyphicon-plus', 'title'=>'Create New', 'style'=>'width:100%;']) ?>
+    </div>
 
     <?php yii\widgets\Pjax::begin(['formSelector' => 'form', 'enablePushState' => false]); ?>
     <?php
