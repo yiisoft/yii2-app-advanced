@@ -72,7 +72,7 @@ class Logger extends Behavior
 				unset($data[$attribute]);
 			}
 		}
-		foreach ($data as $attribute) {
+		foreach ($data as $attribute=>$value) {
 			$orders[$attribute] = $data[$attribute];
 		}
 		try {
