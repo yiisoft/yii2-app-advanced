@@ -39,20 +39,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <div class="col-lg-3" style="padding-left: 0px;">
-
-    <?php
-    echo DetailView::widget([
-        'options' => ['class' => 'table table-striped table-bordered detail-view', 'style' => 'padding:0px;'],
-        'model' => $model,
-        'attributes' => [
-            'purchase_num',
-            'idSupplier.nm_supplier',
-            'purchase_date',
-            'nmStatus',
-        ],
-    ]);
-    ?>
-
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Purchase Header
+        </div>
+        <?php
+        echo DetailView::widget([
+            'options' => ['class' => 'table table-striped detail-view', 'style' => 'padding:0px;'],
+            'model' => $model,
+            'attributes' => [
+                'purchase_num',
+                'idSupplier.nm_supplier',
+                'purchase_date',
+                'nmStatus',
+            ],
+        ]);
+        ?>
+    </div>
     <?php
     if ($model->status == PurchaseHdr::STATUS_DRAFT) {
         echo Html::a('Update', ['update', 'id' => $model->id_purchase], ['class' => 'btn btn-primary']) . ' ';
