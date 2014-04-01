@@ -4,6 +4,7 @@ namespace backend\components;
 
 use \Yii;
 use yii\web\View;
+use yii\helpers\Url;
 
 /**
  * Description of AppCache
@@ -13,15 +14,19 @@ use yii\web\View;
 class AppCache extends \yii\base\Behavior
 {
 
-	public $manifest_file;
-	public $template_file;
+	const CACHE_KEY = 'manifest';
 
+	public $id;
+	public $template_file;
+	public $route = '/site/manifest';
 	public $extra_caches = [];
-	
+	public $uniqueForClient = true;
+	public $uniqueForUser = true;
+
 	public function init()
 	{
-		if ($this->manifest_file === null) {
-			throw new \yii\base\InvalidConfigException(self::className() . '::manifest_file harus diisi');
+		if ($this->id === null) {
+			throw new \yii\base\InvalidConfigException(self::className() . '::idharus diisi');
 		}
 		if ($this->template_file === null) {
 			$this->template_file = __DIR__ . '/_manifest.php';
@@ -57,7 +62,8 @@ if (window.applicationCache) {
 	{
 		try {
 			$cache = Yii::$app->cache;
-			if ($cache === null or $cache->get($this->manifest_file) === false) {
+			$key = [self::CACHE_KEY, $this->id];
+			if ($cache === null or $cache->get($key) === false or true) {
 				$view = $event->sender;
 				$html = '<html>';
 				foreach ($view->jsFiles as $jsFiles) {
@@ -76,13 +82,13 @@ if (window.applicationCache) {
 					$caches[] = $style->getAttribute('href');
 				}
 				$caches = array_merge($caches, $this->extra_caches);
-				$manifest = $view->renderFile($this->template_file, ['caches' => $caches]);
-				file_put_contents(Yii::getAlias('@webroot/' . $this->manifest_file), $manifest);
 
 				if ($cache !== null) {
-					$cache->set($this->manifest_file, [
+					$cache->set($key, [
 						'template_file' => $this->template_file,
 						'caches' => $caches,
+						'uniqueForClient' => $this->uniqueForClient,
+						'uniqueForUser' => $this->uniqueForUser,
 					]);
 				}
 			}
@@ -91,14 +97,9 @@ if (window.applicationCache) {
 		}
 	}
 
-	public static function forceUpdateManifest($manifest_file)
+	public function getManifestFile()
 	{
-		if (($cache = Yii::$app->cache) && ($data = $cache->get($manifest_file)) !== false) {
-			$manifest = Yii::$app->getView()->renderFile($data['template_file'], ['caches' => $data['caches']]);
-			file_put_contents(Yii::getAlias('@webroot/' . $manifest_file), $manifest);
-			return $manifest;
-		}
-		return 'Gak ada gan....';
+		return Url::toRoute([$this->route, 'id' => $this->id], true);
 	}
 
 }

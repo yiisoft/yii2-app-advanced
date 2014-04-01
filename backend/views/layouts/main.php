@@ -14,14 +14,7 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<?php
-if (isset($this->manifest_file)) {
-    $manifest = 'manifest="' . Yii::getAlias('@web/' . $this->manifest_file) . '"';
-} else {
-    $manifest = '';
-}
-?>
-<html lang="<?= Yii::$app->language ?>" <?= $manifest ?>>
+<html lang="<?= Yii::$app->language ?>" manifest="<?= isset($this->manifestFile)?$this->manifestFile:'' ?>">
     <head>
         <meta charset="<?= Yii::$app->charset ?>"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -27,5 +27,7 @@ return [
 		'allowActions'=>[
 			'site/login',
 			'site/error',
+			'site/manifest'
 		]],
+	'as clientId' =>'backend\components\ClientKey'
 ];

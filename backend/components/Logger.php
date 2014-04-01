@@ -25,6 +25,7 @@ class Logger extends Behavior
 	private static $_user_id;
 	public $logParams = [];
 	public $attributes = [];
+	public $orderAttribute = [];
 	public $collectionName;
 
 	public function init()
@@ -54,7 +55,8 @@ class Logger extends Behavior
 	{
 		$model = $this->owner;
 		$data = [
-			'log_time' => time(),
+			'log_time1' => new \MongoDate(),
+			'log_time2' => time(),
 			'log_by' => self::$_user_id,
 		];
 		foreach ($this->attributes as $attribute) {
@@ -62,6 +64,16 @@ class Logger extends Behavior
 		}
 		foreach ($this->owner->logParams as $key => $value) {
 			$data[$key] = $value;
+		}
+		$orders = [];
+		foreach ($this->orderAttribute as $attribute) {
+			if(isset($data[$attribute])){
+				$orders[$attribute] = $data[$attribute];
+				unset($data[$attribute]);
+			}
+		}
+		foreach ($data as $attribute) {
+			$orders[$attribute] = $data[$attribute];
 		}
 		try {
 			self::$_collection[$this->collectionName]->insert($data);
