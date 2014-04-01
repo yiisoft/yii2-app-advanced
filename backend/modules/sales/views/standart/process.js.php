@@ -6,7 +6,7 @@
 
 		var local = {
 			product: <?= json_encode($product); ?>,
-			cust: <?= json_encode($cust)?>,
+			cust: <?= json_encode($cust) ?>,
 			delay: 1000,
 			limit: 20,
 			addItem: function(item) {
@@ -100,18 +100,23 @@
 					$(this).addClass('selected');
 				});
 
-				$grid.on('keydown', ':input[data-field]', function(e) {
+//				$grid.on('keydown', ':input[data-field]', function(e) {
+//					if (e.keyCode == 13) {
+//						var $this = $(this);
+//						var $inputs = $this.closest('tr').find(':input:visible[data-field]');
+//						var idx = $inputs.index(this);
+//						if (idx >= 0) {
+//							if (idx < $inputs.length - 1) {
+//								$inputs.eq(idx + 1).focus();
+//							} else {
+//								$('#product').focus();
+//							}
+//						}
+//					}
+//				});
+				$grid.on('keydown', ':input[data-field="sales_qty"]', function(e) {
 					if (e.keyCode == 13) {
-						var $this = $(this);
-						var $inputs = $this.closest('tr').find(':input:visible[data-field]');
-						var idx = $inputs.index(this);
-						if (idx >= 0) {
-							if (idx < $inputs.length - 1) {
-								$inputs.eq(idx + 1).focus();
-							} else {
-								$('#product').focus();
-							}
-						}
+						$('#product').focus();
 					}
 				});
 
