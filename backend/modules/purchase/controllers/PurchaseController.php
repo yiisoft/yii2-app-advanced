@@ -207,7 +207,6 @@ class PurchaseController extends Controller {
                     }
                     $qty_per_uom = ProductUom::getQtyProductUom($detail->id_product, $detail->id_uom);
                     $smallest_uom = ProductUom::getSmallestUom($detail->id_product);
-                    $current_qty = ProductStock::currentStock($detail->id_warehouse, $detail->id_product);
                     ProductStock::UpdateStock([
                         'id_warehouse' => $detail->id_warehouse,
                         'id_product' => $detail->id_product,
@@ -219,10 +218,11 @@ class PurchaseController extends Controller {
                         'id_ref' => $detail->id_purchase_dtl,
                     ]);
 
+					$current_qty_all = ProductStock::currentStockAll($detail->id_product);
                     Cogs::UpdateCogs([
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,
-                        'old_stock' => $current_qty,
+                        'old_stock' => $current_qty_all,
                         'added_stock' => $detail->purch_qty * $qty_per_uom,
                         'price' => $detail->purch_price / $qty_per_uom,
                         ], [

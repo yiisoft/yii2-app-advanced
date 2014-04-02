@@ -93,6 +93,7 @@ class StandartController extends Controller
 		if ($success) {
 			return $this->redirect(['view', 'id' => $model->id_sales]);
 		}
+		$model->setIsNewRecord(true);
 		return $this->render('create', [
 				'model' => $model,
 				'details' => $details,
