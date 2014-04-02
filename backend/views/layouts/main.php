@@ -74,7 +74,6 @@ AppAsset::register($this);
                         'label' => 'Purchasing',
                         'items' => [
                             ['label' => 'Entri Pembelian', 'url' => ['/purchase/purchase/create'],],
-                            ['label' => 'Receive Pembelian', 'url' => ['/purchase/purchase/receive'],],
                             ['label' => 'Posting Pembelian', 'url' => ['/purchase/purchase/posting'],],
                             '<li class="divider"></li>',
                             ['label' => 'Pembelian Per Supplier', 'url' => ['#']],

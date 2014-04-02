@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\data\ActiveDataProvider;
+use yii\grid\GridView;
 
 /**
  * @var yii\web\View $this
@@ -46,16 +48,68 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#home" data-toggle="tab">Uoms</a></li>
-        <li><a href="#home" data-toggle="tab">Cogs</a></li>
-        <li><a href="#profile" data-toggle="tab">Price</a></li>
+        <li class="active"><a href="#uoms" data-toggle="tab">Uoms</a></li>
+        <li><a href="#cogs" data-toggle="tab">Cogs</a></li>
+        <li><a href="#price" data-toggle="tab">Price</a></li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div class="tab-pane active" id="home"></div>
-        <div class="tab-pane" id="profile"></div>
-        <div class="tab-pane" id="profile"></div>
+        <div class="tab-pane active" id="uoms">
+            <?php
+            if ($model->isNewRecord):
+                echo $form->field($model, 'productUoms[id_uom]')->dropDownList(ArrayHelper::map(Uom::find()->all(), 'id_uom', 'nm_uom'), ['style' => 'width:200px;']);
+                echo $form->field($model, 'productUoms[isi]')->textInput(['style' => 'width:120px;']);
+            else:
+                $dPro = new ActiveDataProvider([
+                    'query' => $model->getProductUoms(),
+                    'pagination' => [
+                        'pageSize' => 10,
+                    ],
+                ]);
+
+                echo GridView::widget([
+                    'dataProvider' => $dPro,
+                    'tableOptions' => ['class' => 'table table-striped'],
+                    'layout' => '{items}',
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        'idUom.nm_uom',
+                        'idUom.cd_uom',
+                        'isi'
+                    ],
+                ]);
+            endif;
+            ?>
+        </div>
+        <div class="tab-pane" id="cogs">
+            <?php
+            if (!$model->isNewRecord):
+                $dCogs = new ActiveDataProvider([
+                    'query' => $model->getCogs(),
+                    'pagination' => [
+                        'pageSize' => 10,
+                    ],
+                ]);
+
+                echo GridView::widget([
+                    'dataProvider' => $dCogs,
+                    'tableOptions' => ['class' => 'table table-striped'],
+                    'layout' => '{items}',
+                    'columns' => [
+                        ['class' => 'yii\grid\SerialColumn'],
+                        'idUom.nm_uom',
+                        'idUom.cd_uom',
+                        [ 'header' => 'Cogs',
+                            'value' => function($model) {
+                            return number_format($model->cogs, 2);
+                        }]
+                    ],
+                ]);
+            endif;
+            ?>
+        </div>
+        <div class="tab-pane" id="price"></div>
     </div>
 
     <br>
@@ -70,3 +124,4 @@ $this->params['breadcrumbs'][] = $this->title;
     ])
     ?>
 </div>
+

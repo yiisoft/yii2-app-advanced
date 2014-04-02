@@ -12,36 +12,8 @@ $this->title = $model->transfer_num;
 $this->params['breadcrumbs'][] = ['label' => 'Receive', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="purchase-hdr-view">
-    <h1><?= Html::encode($this->title) ?></h1>
-    <p>
-        <?php
-        if ($model->status == TransferHdr::STATUS_ISSUE or $model->status == TransferHdr::STATUS_CONFIRM_REJECT) {
-            echo Html::a('Update', ['update', 'id' => $model->id_transfer], ['class' => 'btn btn-primary']) . ' ';
-        }
-        if ($model->status == TransferHdr::STATUS_CONFIRM_APPROVE) {
-            echo Html::a('Receive', ['receive-confirm', 'id' => $model->id_transfer], [
-                'class' => 'btn btn-primary',
-                'data-confirm' => Yii::t('app', 'Are you sure to receive this item?'),
-                'data-method' => 'post',
-            ]);
-        }
-        ?>
-    </p>
-
-    <?php
-    echo DetailView::widget([
-        'template'=>'<tr><th style="width:25%;">{label}</th><td>{value}</td></tr>',
-        'model' => $model,
-        'attributes' => [
-            'transfer_num',
-            'idWarehouseSource.nm_whse',
-            'idWarehouseDest.nm_whse',
-            'transfer_date',
-            'nmStatus',
-        ],
-    ]);
-    ?>
+<h1><?= Html::encode($this->title) ?></h1>
+<div class="purchase-hdr-view col-lg-9">
     <?php
     echo yii\grid\GridView::widget([
         'tableOptions' => ['class' => 'table table-striped'],
@@ -64,3 +36,39 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
     ?>
 </div>
+<div class="col-lg-3" style="padding-left: 0px;">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Receive Header
+        </div>
+        <?php
+        echo DetailView::widget([
+            'options' => ['class' => 'table table-striped detail-view', 'style' => 'padding:0px;'],
+            'model' => $model,
+            'attributes' => [
+                'transfer_num',
+                'idWarehouseSource.nm_whse',
+                'idWarehouseDest.nm_whse',
+                'transfer_date',
+                'nmStatus',
+            ],
+        ]);
+        ?>
+    </div>
+    <?php
+    if ($model->status == TransferHdr::STATUS_ISSUE or $model->status == TransferHdr::STATUS_CONFIRM_REJECT) {
+        echo Html::a('Update', ['update', 'id' => $model->id_transfer], ['class' => 'btn btn-primary']) . ' ';
+    }
+    if ($model->status == TransferHdr::STATUS_CONFIRM_APPROVE) {
+        echo Html::a('Receive', ['receive-confirm', 'id' => $model->id_transfer], [
+            'class' => 'btn btn-primary',
+            'data-confirm' => Yii::t('app', 'Are you sure to receive this item?'),
+            'data-method' => 'post',
+        ]);
+    }
+    ?>
+</div>
+
+
+
+
