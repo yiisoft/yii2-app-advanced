@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'nmStatus',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {delete} {receive}',
+                'template' => '{view} {update} {delete} {receive} {posting}',
                 'buttons' => [
                     'update' => function ($url, $model) {
                     return $model->status == PurchaseHdr::STATUS_DRAFT ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
@@ -56,6 +56,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->status == PurchaseHdr::STATUS_DRAFT ? Html::a('<span class="glyphicon glyphicon-save"></span>', $url, [
                             'title' => Yii::t('yii', 'Receive'),
                             'data-confirm' => Yii::t('yii', 'Are you sure you want to Receive this item?'),
+                            'data-method' => 'post',
+                            'data-pjax' => '0',
+                        ]) : '';
+                },
+                    'posting' => function ($url, $model) {
+                    return ($model->status == PurchaseHdr::STATUS_RECEIVE) ? Html::a('<span class="glyphicon glyphicon-usd"></span>', $url, [
+                            'title' => Yii::t('yii', 'Posting'),
+                            'data-confirm' => Yii::t('yii', 'Are you sure you want to Post this item?'),
                             'data-method' => 'post',
                             'data-pjax' => '0',
                         ]) : '';
