@@ -280,8 +280,7 @@ class PurchaseController extends Controller
                     'HUTANG_DAGANG'=>$model->purchase_value,
                 ];
                 
-                $glDtls = EntriSheet::getGLMaps('PEMBELIAN_KREDIT', $dtls);
-                
+                $glDtls = EntriSheet::getGLMaps('PEMBELIAN_KREDIT', $dtls);                
                 GlHeader::createGL($glHdr, $glDtls);
                 $transaction->commit();
             } catch (Exception $exc) {
