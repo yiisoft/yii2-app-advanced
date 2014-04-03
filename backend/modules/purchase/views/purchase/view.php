@@ -68,13 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'btn btn-success',
             'data-confirm' => Yii::t('app', 'Are you sure to receive this item?'),
             'data-method' => 'post',
-        ]);
-    } elseif ($model->status == PurchaseHdr::STATUS_RECEIVE) {
-        echo Html::a('Posting', ['Posting', 'id' => $model->id_purchase], [
-            'class' => 'btn btn-success',
-            'data-confirm' => Yii::t('app', 'Are you sure to posting to GL?'),
-            'data-method' => 'post',
-        ]);
+        ]);    
     }
     ?>
 </div>

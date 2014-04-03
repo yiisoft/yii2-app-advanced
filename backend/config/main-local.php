@@ -1,33 +1,34 @@
 <?php
+
 return [
-	'preload' => [
-		//'debug',
-	],
-	'modules' => [
-		'debug' => 'yii\debug\Module',
-		'gii' => 'yii\gii\Module',
-		'master' => [
+    'preload' => [
+    //'debug',
+    ],
+    'modules' => [
+        'debug' => 'yii\debug\Module',
+        'gii' => 'yii\gii\Module',
+        'master' => [
             'class' => 'backend\modules\master\Module',
         ],
-		'inventory' => [
+        'inventory' => [
             'class' => 'backend\modules\inventory\Module',
         ],
-		'accounting' => [
+        'accounting' => [
             'class' => 'backend\modules\accounting\Module',
-        ], 
-		'purchase' => [
+        ],
+        'purchase' => [
             'class' => 'backend\modules\purchase\Module',
         ],
-		 'sales' => [
+        'sales' => [
             'class' => 'backend\modules\sales\Module',
         ],
-	],
-	'as access' => [
-		'class'=>'mdm\admin\components\AccessControl',
-		'allowActions'=>[
-			'site/login',
-			'site/error',
-			'site/manifest'
-		]],
-	'as clientId' =>'backend\components\ClientKey'
+    ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'site/login',
+            'site/error',
+            'site/manifest'
+        ]],
+    'as clientId' => 'backend\components\ClientKey'
 ];

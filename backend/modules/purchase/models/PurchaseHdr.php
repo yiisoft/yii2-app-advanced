@@ -14,7 +14,6 @@ use backend\modules\master\models\Branch;
  * @property integer $id_supplier
  * @property integer $id_branch
  * @property string $purchase_date
- * @property string $due_date
  * @property string $purchase_value
  * @property string $payment_discount
  * @property integer $status
@@ -52,7 +51,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord {
             [['id_supplier'], 'filter', 'filter' => function($val) {
                 return empty($val) ? null : (int) $val;
             }],
-            [['id_supplier', 'id_branch', 'purchase_date', 'purchase_value', 'due_date', 'status'], 'required'],
+            [['id_supplier', 'id_branch', 'purchase_date', 'purchase_value', 'status'], 'required'],
             [['id_branch', 'status'], 'integer'],
             [['purchase_date', 'id_warehouse'], 'safe'],
         ];

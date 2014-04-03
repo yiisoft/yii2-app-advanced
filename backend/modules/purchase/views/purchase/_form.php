@@ -61,23 +61,6 @@ use yii\jui\AutoComplete;
                 ?>
             </div>
         </div>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Purchase Payment
-            </div>
-            <div class="panel-body">                
-                <?php
-                echo $form->field($model, 'due_date')
-                    ->widget('yii\jui\DatePicker', [
-                        'options' => ['class' => 'form-control', 'style' => 'width:50%'],
-                        'clientOptions' => [
-                            'dateFormat' => 'yy-mm-dd'
-                        ],
-                ]);
-                ?>
-                <?= $form->field($model, 'payment_discount')->textInput(); ?>
-            </div>
-        </div>
         <div class="form-group">
             <?php
             echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);

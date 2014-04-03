@@ -59,14 +59,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-method' => 'post',
                             'data-pjax' => '0',
                         ]) : '';
-                },
-                    'posting' => function ($url, $model) {
-                    return ($model->status == PurchaseHdr::STATUS_RECEIVE) ? Html::a('<span class="glyphicon glyphicon-usd"></span>', $url, [
-                            'title' => Yii::t('yii', 'Posting'),
-                            'data-confirm' => Yii::t('yii', 'Are you sure you want to Post this item?'),
-                            'data-method' => 'post',
-                            'data-pjax' => '0',
-                        ]) : '';
                 }
                 ]
             ],

@@ -20,6 +20,7 @@ use Yii;
  */
 class EntriSheet extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -71,12 +72,24 @@ class EntriSheet extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Coa::className(), ['id_coa' => 'id_coa'])->viaTable('entri_sheet_dtl', ['id_esheet' => 'id_esheet']);
     }
-    
-    	public function behaviors()
-	{
-		return [
-			'backend\components\AutoTimestamp',
-			'backend\components\AutoUser'
-		];
-	}
+
+    public function behaviors()
+    {
+        return [
+            'backend\components\AutoTimestamp',
+            'backend\components\AutoUser'
+        ];
+    }
+
+    public static function getEntri($nm_entrisheet)
+    {
+        $eSQL = 'SELECT es.id_esheet, es.cd_esheet, es.nm_esheet, esd.id_coa, c.cd_account,c.nm_account, esd.dk
+            FROM entri_sheet es
+            LEFT JOIN entri_sheet_dtl esd ON(es.id_esheet=esd.id_esheet)
+            LEFT JOIN coa c ON(c.id_coa=esd.id_coa)
+            WHERE lower(es.nm_esheet)= :nmEsheet';
+        $eCmd = \Yii::$app->db->createCommand($eSQL);
+        $eCmd->bindValue(':nmEsheet', $nm_entrisheet);
+        return $eCmd->queryAll();
+    }
 }

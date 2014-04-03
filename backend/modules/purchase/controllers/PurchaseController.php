@@ -15,13 +15,18 @@ use backend\modules\master\models\Cogs;
 use backend\modules\master\models\Price;
 use backend\modules\master\models\ProductUom;
 use yii\base\UserException;
+use backend\modules\accounting\models\InvoiceHdr;
+use backend\modules\accounting\models\GlHeader;
+use backend\modules\accounting\models\Coa;
 
 /**
  * PurchaseHdrController implements the CRUD actions for PurchaseHdr model.
  */
-class PurchaseController extends Controller {
+class PurchaseController extends Controller
+{
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -37,7 +42,8 @@ class PurchaseController extends Controller {
      * Lists all PurchaseHdr models.
      * @return mixed
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $searchModel = new PurchaseHdrSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
@@ -52,7 +58,8 @@ class PurchaseController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         return $this->render('view', [
                 'model' => $this->findModel($id),
         ]);
@@ -63,12 +70,12 @@ class PurchaseController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new PurchaseHdr;
         $model->status = PurchaseHdr::STATUS_DRAFT;
         $model->id_branch = Yii::$app->user->identity->id_branch;
         $model->purchase_date = date('Y-m-d');
-        $model->due_date = date('Y-m-d', strtotime('+1 month'));
 
         list($details, $success) = $this->savePurchase($model);
         if ($success) {
@@ -83,7 +90,8 @@ class PurchaseController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->findModel($id);
         if ($model->status != PurchaseHdr::STATUS_DRAFT) {
             throw new UserException('tidak bisa diedit');
@@ -101,7 +109,8 @@ class PurchaseController extends Controller {
      * @param PurchaseHdr $model
      * @return array
      */
-    protected function savePurchase($model) {
+    protected function savePurchase($model)
+    {
         $post = Yii::$app->request->post();
         $details = $model->purchaseDtls;
         $success = false;
@@ -184,12 +193,14 @@ class PurchaseController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 
-    public function actionReceive($id) {
+    public function actionReceive($id)
+    {
         $model = $this->findModel($id);
         if ($model->status === PurchaseHdr::STATUS_DRAFT) {
             $transaction = Yii::$app->db->beginTransaction();
@@ -200,11 +211,7 @@ class PurchaseController extends Controller {
                 }
                 $id_warehouse = $model->id_warehouse;
                 $id_branch = $model->id_branch;
-                $sukses = true;
                 foreach ($model->purchaseDtls as $detail) {
-                    if (!$sukses) {
-                        break;
-                    }
                     $qty_per_uom = ProductUom::getQtyProductUom($detail->id_product, $detail->id_uom);
                     $smallest_uom = ProductUom::getSmallestUom($detail->id_product);
                     $current_qty = ProductStock::currentStock($detail->id_warehouse, $detail->id_product);
@@ -240,11 +247,37 @@ class PurchaseController extends Controller {
                     ]);
                 }
 
-                if ($sukses) {
-                    $transaction->commit();
-                } else {
-                    $transaction->rollBack();
-                }
+
+                /*
+                 * AUTOMATIC INVOICE
+                 * 1.Invoice Create
+                 * 2.GL Create
+                 */
+                InvoiceHdr::createInvoice([
+                    'id_vendor' => $model->id_supplier,
+                    'type' => InvoiceHdr::TYPE_PURCHASE,
+                    'value' => $model->purchase_value - $model->payment_discount,
+                    'date' => $model->purchase_date,
+                    'id_ref' => $model->id_purchase,
+                ]);
+                
+                // GL *************
+                $glHdr = [
+                    'date'=>date('Y-m-d'),
+                    'type_reff'=>  GlHeader::TYPE_PURCHASE,
+                    'memo'=>null,
+                    'id_reff'=>$model->id_purchase,
+                    'id_branch'=>$model->id_branch,
+                    'description'=>'Pembelian barang kredit '.$model->purchase_num
+                ];
+                
+                $glDtls = [
+                    ['id_coa'=>Coa::getAccountByName('Persediaan barang dagang'), 'debit'=>$model->purchase_value],
+                    ['id_coa'=>Coa::getAccountByName('Hutang dagang'), 'credit'=>$model->purchase_value]
+                ];
+
+                GlHeader::createGL($glHdr, $glDtls);
+                $transaction->commit();
             } catch (Exception $exc) {
                 $transaction->rollBack();
                 throw new UserException($exc->getMessage());
@@ -262,7 +295,8 @@ class PurchaseController extends Controller {
      * @return PurchaseHdr the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id) {
+    protected function findModel($id)
+    {
         if ($id !== null && ($model = PurchaseHdr::find($id)) !== null) {
             return $model;
         } else {
@@ -270,7 +304,8 @@ class PurchaseController extends Controller {
         }
     }
 
-    public function actionJs() {
+    public function actionJs()
+    {
         $sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
 			u.id_uom, u.nm_uom, pu.isi
 			from product p

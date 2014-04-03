@@ -59,11 +59,4 @@ class EntriSheetDtl extends \yii\db\ActiveRecord {
         return $this->hasOne(Coa::className(), ['id_coa' => 'id_coa']);
     }
 
-    public function behaviors() {
-        return [
-            'backend\components\AutoTimestamp',
-            'backend\components\AutoUser'
-        ];
-    }
-
 }

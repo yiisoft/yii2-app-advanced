@@ -6,37 +6,34 @@ use yii\grid\GridView;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var backend\modules\accounting\models\CoaSearch $searchModel
+ * @var backend\modules\accounting\models\InvoiceHdrSearch $searchModel
  */
 
-$this->title = 'Coas';
+$this->title = 'Invoice Hdrs';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="coa-index">
+<div class="invoice-hdr-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Coa', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Invoice Hdr', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'tableOptions' => ['class' => 'table table-striped'],
-        'layout' => '{items}{pager}',
-        //'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'id_coa',
-            'cd_account',
-            'nm_account',
-            'coa_type',
-            'nmCoaType',
-            'normal_balance',
-            'id_coa_parent',
+            'id_invoice',
+            'inv_num',
+            'type',
+            'inv_date',
+            'id_vendor',
+            // 'inv_value',
             // 'create_date',
             // 'create_by',
             // 'update_date',
