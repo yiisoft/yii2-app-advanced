@@ -2,16 +2,13 @@
 
 namespace backend\modules\accounting\models;
 
-use Yii;
-
 /**
  * This is the model class for table "gl_detail".
  *
  * @property integer $id_gl_detail
  * @property integer $id_gl
  * @property integer $id_coa
- * @property string $debit
- * @property string $credit
+ * @property string $amount
  *
  * @property Coa $idCoa
  * @property GlHeader $idGl
@@ -32,9 +29,9 @@ class GlDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_gl', 'id_coa', 'debit', 'credit'], 'required'],
+            [['id_gl', 'id_coa', 'amount'], 'required'],
             [['id_gl', 'id_coa'], 'integer'],
-            [['debit', 'credit'], 'double']
+            [['amount'], 'double']
         ];
     }
 
@@ -47,8 +44,7 @@ class GlDetail extends \yii\db\ActiveRecord
             'id_gl_detail' => 'Id Gl Detail',
             'id_gl' => 'Id Gl',
             'id_coa' => 'Id Coa',
-            'debit' => 'Debit',
-            'credit' => 'Credit',
+            'amount' => 'Amount'
         ];
     }
 
