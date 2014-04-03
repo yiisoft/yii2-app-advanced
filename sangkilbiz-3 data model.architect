@@ -471,7 +471,7 @@
     <column id="COL139" populated="true" UUID="411ab473-37bc-407f-9c33-28dcec5e4a63" autoIncrement="false" autoIncrementSequenceName="purchase_invoice_purchase_value_seq" defaultValue="" name="purchase_value" nullable="0" physicalName="purchase_value" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="8" userDefinedTypeUUID="4fc90970-b2e5-41dd-911c-cc605d87e7a8" >
      <remarks></remarks>
     </column>
-    <column id="COL140" populated="true" UUID="c1b34f87-fae4-44c4-96a1-b35f3c014c3e" autoIncrement="false" autoIncrementSequenceName="purchase_invoice_payment_discount_seq" defaultValue="0" name="payment_discount" nullable="0" physicalName="payment_discount" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="8" userDefinedTypeUUID="4fc90970-b2e5-41dd-911c-cc605d87e7a8" >
+    <column id="COL140" populated="true" UUID="c1b34f87-fae4-44c4-96a1-b35f3c014c3e" autoIncrement="false" autoIncrementSequenceName="purchase_invoice_item_discount_seq" defaultValue="0" name="item_discount" nullable="0" physicalName="item_discount" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="8" userDefinedTypeUUID="4fc90970-b2e5-41dd-911c-cc605d87e7a8" >
      <remarks></remarks>
     </column>
     <column id="COL141" populated="true" UUID="3e6af46e-6511-4c39-a542-1ea76e7efee5" autoIncrement="false" autoIncrementSequenceName="purchase_hdr_status_seq" defaultValue="" name="status" nullable="0" physicalName="status" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
@@ -1751,7 +1751,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.8408964152537143" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.8408964152537143" viewportX="595" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="1002" y="478" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB12" x="374" y="261" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB26" x="88" y="108" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
@@ -1764,7 +1764,7 @@
   <table-pane table-ref="TAB113" x="514" y="494" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB123" x="774" y="38" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB133" x="1351" y="49" bgColor="0xb9bbf6" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB149" x="1349" y="343" bgColor="0xb9bbf6" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB149" x="1298" y="347" bgColor="0xb9bbf6" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB160" x="1554" y="532" bgColor="0xdfedce" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB172" x="616" y="1377" bgColor="0xdfedce" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB184" x="576" y="834" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
@@ -1772,7 +1772,7 @@
   <table-pane table-ref="TAB207" x="1786" y="748" bgColor="0xdfedce" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB216" x="41" y="1047" bgColor="0xf6bcbc" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB225" x="1004" y="702" bgColor="0xc7d0df" fgColor="0x000000" rounded="false" dashed="false"/>
-  <table-pane table-ref="TAB240" x="1260" y="950" bgColor="0xc7d0df" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB240" x="1259" y="943" bgColor="0xc7d0df" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB253" x="353" y="1095" bgColor="0xdfedce" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB270" x="639" y="1093" bgColor="0xdfedce" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB283" x="347" y="1379" bgColor="0xdfedce" fgColor="0x000000" rounded="false" dashed="false"/>
