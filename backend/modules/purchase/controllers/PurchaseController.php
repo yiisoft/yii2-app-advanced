@@ -268,14 +268,15 @@ class PurchaseController extends Controller
                     'memo'=>null,
                     'id_reff'=>$model->id_purchase,
                     'id_branch'=>$model->id_branch,
-                    'description'=>'Pembelian barang kredit '.$model->purchase_num
+                    'description'=>'Pembelian barang kredit '.$model->purchase_num,
+                    'type_tran'=>'PEMBELIAN_KREDIT'
                 ];
                 
-                $glDtls = [
-                    ['id_coa'=>Coa::getAccountByName('Persediaan barang dagang'), 'debit'=>$model->purchase_value],
-                    ['id_coa'=>Coa::getAccountByName('Hutang dagang'), 'credit'=>$model->purchase_value]
+                $dtls = [
+                    'PERSEDIAAN'=>$model->purchase_value,
+                    'HUTANG_DAGANG'=>$model->purchase_value
                 ];
-
+                
                 GlHeader::createGL($glHdr, $glDtls);
                 $transaction->commit();
             } catch (Exception $exc) {
