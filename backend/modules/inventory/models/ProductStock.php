@@ -104,7 +104,7 @@ class ProductStock extends \yii\db\ActiveRecord
 	public static function currentStockAll($id_product)
 	{
 		$sql = 'select sum(qty_stock) from product_stock where id_product = :id_product';
-		$stock = \Yii::$app->db->createCommand($sql, [':id_product'])->queryScalar();
+		$stock = \Yii::$app->db->createCommand($sql, [':id_product'=>$id_product])->queryScalar();
 		return $stock ? $stock : 0;
 	}
 

@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id_esheet
  * @property integer $id_coa
- * @property string $dk
+ * @property string $nm_esheet_dtl
  *
  * @property EntriSheet $idEsheet
  * @property Coa $idCoa
@@ -28,9 +28,9 @@ class EntriSheetDtl extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['id_esheet', 'id_coa', 'dk'], 'required'],
+            [['id_esheet', 'id_coa', 'nm_esheet_dtl'], 'required'],
             [['id_esheet', 'id_coa'], 'integer'],
-            [['dk'], 'string', 'max' => 1]
+            [['nm_esheet_dtl'], 'string', 'max' => 64]
         ];
     }
 

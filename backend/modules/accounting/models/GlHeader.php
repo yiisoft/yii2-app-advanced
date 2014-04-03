@@ -152,12 +152,11 @@ class GlHeader extends \yii\db\ActiveRecord
 
     public static function createGL($hdr, $dtls = [])
     {
-        $d = $c = 0.0;
+        $blc = 0.0;
         foreach ($dtls as $row) {
-            $d += empty($row['debit']) ? 0 : $row['debit'];
-            $c += empty($row['credit']) ? 0 : $row['credit'];
+            $blc += $row['ammount'];
         }
-        if ($d != $c) {
+        if ($blc != 0) {
             throw new UserException('GL Balance Failed');
         }
 
@@ -179,8 +178,7 @@ class GlHeader extends \yii\db\ActiveRecord
             $glDtl = new GlDetail();
             $glDtl->id_gl = $gl->id_gl;
             $glDtl->id_coa = $row['id_coa'];
-            $glDtl->debit = empty($row['debit']) ? 0 : $row['debit'];
-            $glDtl->credit = empty($row['credit']) ? 0 : $row['credit'];
+            $glDtl->amount = $row['ammount'];
             if (!$glDtl->save()) {
                 throw new UserException(implode("\n", $glDtl->getFirstErrors()));
             }

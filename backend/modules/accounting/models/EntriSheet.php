@@ -62,7 +62,7 @@ class EntriSheet extends \yii\db\ActiveRecord
      */
     public function getEntriSheetDtl()
     {
-        return $this->hasOne(EntriSheetDtl::className(), ['id_esheet' => 'id_esheet']);
+        return $this->hasMany(EntriSheetDtl::className(), ['id_esheet' => 'id_esheet']);
     }
 
     /**
@@ -81,15 +81,31 @@ class EntriSheet extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getEntri($nm_entrisheet)
+    public static function getGLMaps($nm_entrisheet, $values)
     {
-        $eSQL = 'SELECT es.id_esheet, es.cd_esheet, es.nm_esheet, esd.id_coa, c.cd_account,c.nm_account, esd.dk
-            FROM entri_sheet es
-            LEFT JOIN entri_sheet_dtl esd ON(es.id_esheet=esd.id_esheet)
-            LEFT JOIN coa c ON(c.id_coa=esd.id_coa)
-            WHERE lower(es.nm_esheet)= :nmEsheet';
-        $eCmd = \Yii::$app->db->createCommand($eSQL);
-        $eCmd->bindValue(':nmEsheet', $nm_entrisheet);
-        return $eCmd->queryAll();
+        $gl_dtls = [];
+        $esheet = self::find(['nm_esheet' => $nm_entrisheet]);
+        if ($esheet) {
+            foreach ($esheet->entriSheetDtl as $eDtl) {
+                $coa = $eDtl->id_coa;
+                $nm = $eDtl->nm_esheet_dtl;
+                
+                $dc = $eDtl->idCoa->normal_balance == 'D' ? 1 : -1;
+                
+                if(isset($values[$nm])){
+                    $ammount = $dc * $values[$nm];
+                }else{
+                    throw new \yii\base\UserException("Required account $nm ");
+                }
+               $gl_dtls[]=[
+                   'id_coa'=>$coa,
+                   'ammount'=>$ammount
+               ];
+            }
+        }  else {
+            throw new \yii\base\UserException("Entrysheet $nm_entrisheet not found");
+        }
+        return $gl_dtls;
     }
+
 }
