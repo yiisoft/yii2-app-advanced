@@ -22,17 +22,17 @@ use backend\modules\master\models\Product;
             ]);
             ?>
             <div class="pull-right">
-                Item Discount:
-                <?= Html::textInput('item-disc', '', ['style'=>'width:60px;']); ?> %
+                Item Discount:                
+                <?= Html::activeTextInput($model, 'item_discount',['style' => 'width:60px;']); ?>
             </div>
         </div>
         <div class="panel-body" style="text-align: right;">
             <?= Html::activeHiddenInput($model, 'purchase_value'); ?>
+            <h4 id="bfore" style="display: none;">Rp <span id="purchase-val">0</span>-<span id="disc-val">0</span></h4>
             <h2>Rp <span id="total-price"></span></h2>
         </div>
         <table id="detail-grid" class="table table-striped">
             <?php
-
             function renderRow($model, $index)
             {
                 ob_start();
@@ -55,7 +55,7 @@ use backend\modules\master\models\Product;
                                     'size' => 5, 'id' => false,
                                     'required' => true])
                                 ?>
-    <?= Html::activeDropDownList($model, "[$index]id_uom", Product::ListUoms($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
+                                <?= Html::activeDropDownList($model, "[$index]id_uom", Product::ListUoms($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
                             </li>
                             <li>
                                 Price Rp <?=

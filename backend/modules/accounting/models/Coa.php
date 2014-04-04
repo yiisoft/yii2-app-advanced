@@ -27,12 +27,14 @@ use Yii;
 class Coa extends \yii\db\ActiveRecord {
 
     private static $_acc_type = [
-        1000 => 'AKTIVA',
-        4000 => 'KEWAJIBAN',
-        5000 => 'MODAL',
-        6000 => 'BIAYA',
-        7000 => 'PENDAPATAN'
+        100000 => 'AKTIVA',
+        200000 => 'KEWAJIBAN',
+        300000 => 'MODAL',
+        400000 => 'PENDAPATAN',
+        500000 => 'HPP',
+        600000 => 'BIAYA'
     ];
+    
     private static $_balance_type = [
         ['normal_balance' => 'D', 'nm_balance' => 'DEBIT'],
         ['normal_balance' => 'K', 'nm_balance' => 'KREDIT'],

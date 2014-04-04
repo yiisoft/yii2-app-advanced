@@ -212,11 +212,11 @@ class PurchaseController extends Controller
                 }
                 $id_warehouse = $model->id_warehouse;
                 $id_branch = $model->id_branch;
-                 
+
                 foreach ($model->purchaseDtls as $detail) {
                     $qty_per_uom = ProductUom::getQtyProductUom($detail->id_product, $detail->id_uom);
                     $smallest_uom = ProductUom::getSmallestUom($detail->id_product);
-                    
+
                     ProductStock::UpdateStock([
                         'id_warehouse' => $detail->id_warehouse,
                         'id_product' => $detail->id_product,
@@ -228,15 +228,14 @@ class PurchaseController extends Controller
                         'id_ref' => $detail->id_purchase_dtl,
                     ]);
 
-					$current_qty_all = ProductStock::currentStockAll($detail->id_product);
-                  
-                    $disc = 0;
+                    $current_qty_all = ProductStock::currentStockAll($detail->id_product);
+
                     Cogs::UpdateCogs([
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,
                         'old_stock' => $current_qty_all,
                         'added_stock' => $detail->purch_qty * $qty_per_uom,
-                        'price' => ($detail->purch_price - $disc)/ $qty_per_uom,
+                        'price' => ($detail->purch_price * (1 - $model->item_discount * 0.01)) / $qty_per_uom,
                         ], [
                         'app' => 'purchase',
                         'id_ref' => $detail->id_purchase_dtl,
@@ -251,37 +250,36 @@ class PurchaseController extends Controller
                         'id_ref' => $detail->id_purchase_dtl,
                     ]);
                 }
-       
+
                 /*
                  * AUTOMATIC INVOICE
                  * 1.Invoice Create
                  * 2.GL Create
                  */
-                $val_disc = 0;
                 InvoiceHdr::createInvoice([
                     'id_vendor' => $model->id_supplier,
                     'type' => InvoiceHdr::TYPE_PURCHASE,
-                    'value' => ($model->purchase_value - $val_disc),
+                    'value' => $model->purchase_value * (1 - $model->item_discount * 0.01),
                     'date' => $model->purchase_date,
                     'id_ref' => $model->id_purchase,
                 ]);
-                
+
                 // GL *************
                 $glHdr = [
-                    'date'=>date('Y-m-d'),
-                    'type_reff'=>  GlHeader::TYPE_PURCHASE,
-                    'memo'=>null,
-                    'id_reff'=>$model->id_purchase,
-                    'id_branch'=>$model->id_branch,
-                    'description'=>'Pembelian barang kredit '.$model->purchase_num,
+                    'date' => date('Y-m-d'),
+                    'type_reff' => GlHeader::TYPE_PURCHASE,
+                    'memo' => null,
+                    'id_reff' => $model->id_purchase,
+                    'id_branch' => $model->id_branch,
+                    'description' => 'Pembelian barang kredit ' . $model->purchase_num,
                 ];
-                
+
                 $dtls = [
-                    'PERSEDIAAN'=>$model->purchase_value,
-                    'HUTANG_DAGANG'=>$model->purchase_value,
+                    'PERSEDIAAN' => $model->purchase_value * (1 - $model->item_discount * 0.01),
+                    'HUTANG_DAGANG' => $model->purchase_value * (1 - $model->item_discount * 0.01),
                 ];
-                
-                $glDtls = EntriSheet::getGLMaps('PEMBELIAN_KREDIT', $dtls);                
+
+                $glDtls = EntriSheet::getGLMaps('PEMBELIAN_KREDIT', $dtls);
                 GlHeader::createGL($glHdr, $glDtls);
                 $transaction->commit();
             } catch (Exception $exc) {

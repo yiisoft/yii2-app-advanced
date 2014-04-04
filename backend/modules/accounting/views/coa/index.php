@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_coa',
             'cd_account',
             'nm_account',
-            //'coa_type',
+            'coa_type',
             'nmCoaType',
             'normal_balance',
             //'id_coa_parent',
