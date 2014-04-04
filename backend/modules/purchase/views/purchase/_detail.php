@@ -21,15 +21,20 @@ use backend\modules\master\models\Product;
                 ]
             ]);
             ?>
+            <div class="pull-right">
+                Item Discount:
+                <?= Html::textInput('item-disc', '', ['style'=>'width:60px;']); ?> %
+            </div>
         </div>
         <div class="panel-body" style="text-align: right;">
-			<?= Html::activeHiddenInput($model, 'purchase_value'); ?>
+            <?= Html::activeHiddenInput($model, 'purchase_value'); ?>
             <h2>Rp <span id="total-price"></span></h2>
         </div>
         <table id="detail-grid" class="table table-striped">
             <?php
 
-            function renderRow($model, $index) {
+            function renderRow($model, $index)
+            {
                 ob_start();
                 ob_implicit_flush(false);
                 ?>
@@ -37,7 +42,7 @@ use backend\modules\master\models\Product;
                     <td style="width: 50px">
                         <a data-action="delete" title="Delete" href="#"><span class="glyphicon glyphicon-trash"></span></a>
                         <?= Html::activeHiddenInput($model, "[$index]id_product", ['data-field' => 'id_product', 'id' => false]) ?>
-                        <?= Html::activeHiddenInput($model, "[$index]id_purchase_dtl", ['data-field' => 'id_purchase_dtl', 'id' => false]) ?>
+    <?= Html::activeHiddenInput($model, "[$index]id_purchase_dtl", ['data-field' => 'id_purchase_dtl', 'id' => false]) ?>
                     </td>
                     <td class="items" style="width: 45%">
                         <ul class="nav nav-list">
@@ -50,7 +55,7 @@ use backend\modules\master\models\Product;
                                     'size' => 5, 'id' => false,
                                     'required' => true])
                                 ?>
-                                <?= Html::activeDropDownList($model, "[$index]id_uom", Product::ListUoms($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
+    <?= Html::activeDropDownList($model, "[$index]id_uom", Product::ListUoms($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
                             </li>
                             <li>
                                 Price Rp <?=
@@ -70,7 +75,7 @@ use backend\modules\master\models\Product;
                                 $purch_price = $model->purch_price;
                                 $selling_price = $model->selling_price;
                                 $markup = $selling_price > 0 ? 100 * ($selling_price - $purch_price) / $selling_price : 0;
-								$markup = round($markup, 2);
+                                $markup = round($markup, 2);
                                 ?>
                                 Markup <?=
                                 Html::textInput('', $markup, [
