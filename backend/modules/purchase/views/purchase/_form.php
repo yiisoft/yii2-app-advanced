@@ -24,8 +24,7 @@ use yii\jui\AutoComplete;
     $models[] = $model;
     echo $form->errorSummary($models)
     ?>
-    <?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
-    <div class="col-lg-3" style="padding-right: 0px;">
+    <div class="col-lg-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Purchase Header
@@ -66,7 +65,8 @@ use yii\jui\AutoComplete;
             echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
             ?>
         </div>
-    </div>
+    </div>    
+    <?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
     <?php ActiveForm::end(); ?>
 
 </div>

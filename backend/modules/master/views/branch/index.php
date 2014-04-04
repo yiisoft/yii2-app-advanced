@@ -18,14 +18,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
-	<p>
-		<?= Html::a('Create Branch', ['create'], ['class' => 'btn btn-success']) ?>
-	</p>
+	<div class="pull-right">
+        <?= Html::a('', ['create'], ['class' => 'btn btn-default glyphicon glyphicon-plus', 'title' => 'Create New', 'style' => 'width:100%;']) ?>
+    </div>
 
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
-		'columns'=>[
-			'id_branch',
+		'tableOptions' => ['class' => 'table table-striped'],
+        'layout' => '{items}{pager}',
+        'columns'=>[
+			['class' => 'yii\grid\SerialColumn'],
+            //'id_branch',
+			'cd_branch',
 			'nm_branch',
 			['class'=>'yii\grid\ActionColumn']
 		]

@@ -18,7 +18,7 @@ use yii\grid\GridView;
  */
 ?>
 <?php $form = ActiveForm::begin(); ?>
-<div class=" product col-lg-6" style="padding-left: 0px;">
+<div class=" product col-lg-6">
 
     <div class="panel panel-primary">
         <div class="panel-heading">

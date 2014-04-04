@@ -17,20 +17,21 @@ $this->params['breadcrumbs'][] = $this->title;
 	<h1><?= Html::encode($this->title) ?></h1>
 
 	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-	<?= microtime(true); ?>
-	<p>
-		<?= Html::a('Create Supplier', ['create'], ['class' => 'btn btn-success']) ?>
-	</p>
+	
+	<div class="pull-right">
+        <?= Html::a('', ['create'], ['class' => 'btn btn-default glyphicon glyphicon-plus', 'title' => 'Create New', 'style' => 'width:100%;']) ?>
+    </div>
 	<?php yii\widgets\Pjax::begin([
 		'enablePushState'=>false,
 	]) ?>
 	<?php echo GridView::widget([
 		'dataProvider' => $dataProvider,
-		'filterModel' => $searchModel,
+		'tableOptions' => ['class' => 'table table-striped'],
+        'layout' => '{items}{pager}',
+        //'filterModel' => $searchModel,
 		'columns' => [
 			['class' => 'yii\grid\SerialColumn'],
-
-			'id_supplier',
+			//'id_supplier',
 			'cd_supplier',
 			'nm_supplier',
 			'create_date',
