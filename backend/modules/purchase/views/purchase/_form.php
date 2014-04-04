@@ -59,11 +59,11 @@ use yii\jui\AutoComplete;
                 ]);
                 ?>
             </div>
-        </div>
-        <div class="form-group">
-            <?php
+            <div class="panel-footer" style="text-align: right;">
+                <?php
             echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
             ?>
+            </div>
         </div>
     </div>    
     <?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
