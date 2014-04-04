@@ -45,6 +45,7 @@ class PurchaseController extends Controller
     public function actionIndex()
     {
         $searchModel = new PurchaseHdrSearch;
+        $searchModel->status = '<2';
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
@@ -229,12 +230,13 @@ class PurchaseController extends Controller
 
 					$current_qty_all = ProductStock::currentStockAll($detail->id_product);
                   
+                    $disc = 0;
                     Cogs::UpdateCogs([
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,
                         'old_stock' => $current_qty_all,
                         'added_stock' => $detail->purch_qty * $qty_per_uom,
-                        'price' => $detail->purch_price / $qty_per_uom,
+                        'price' => ($detail->purch_price - $disc)/ $qty_per_uom,
                         ], [
                         'app' => 'purchase',
                         'id_ref' => $detail->id_purchase_dtl,
@@ -255,10 +257,11 @@ class PurchaseController extends Controller
                  * 1.Invoice Create
                  * 2.GL Create
                  */
+                $val_disc = 0;
                 InvoiceHdr::createInvoice([
                     'id_vendor' => $model->id_supplier,
                     'type' => InvoiceHdr::TYPE_PURCHASE,
-                    'value' => $model->purchase_value,
+                    'value' => ($model->purchase_value - $val_disc),
                     'date' => $model->purchase_date,
                     'id_ref' => $model->id_purchase,
                 ]);

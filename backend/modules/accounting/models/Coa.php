@@ -51,7 +51,7 @@ class Coa extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['cd_account', 'nm_account', 'coa_type', 'normal_balance'], 'required'],
-            [['id_coa_parent', 'coa_type'], 'integer'],
+            [['coa_type'], 'integer'],
             [['cd_account'], 'string', 'max' => 16],
             [['normal_balance'], 'string', 'max' => 1]
         ];
@@ -87,6 +87,13 @@ class Coa extends \yii\db\ActiveRecord {
      */
     public function getIdCoaParent() {
         return $this->hasOne(Coa::className(), ['id_coa' => 'id_coa_parent']);
+    }
+    
+        /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCoaChilds() {
+        return $this->hasMany(Coa::className(), ['id_coa_parent' => 'id_coa']);
     }
 
     /**

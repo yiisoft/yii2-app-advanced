@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php //echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <div class="pull-right">
-        <?= Html::a('', ['create'], ['class' => 'btn btn-link glyphicon glyphicon-plus', 'title' => 'Create New', 'style' => 'width:100%;']) ?>
+        <?= Html::a('', ['create'], ['class' => 'btn btn-default glyphicon glyphicon-plus', 'title' => 'Create New', 'style' => 'width:100%;']) ?>
     </div>
 
     <?=

@@ -42,7 +42,7 @@ use backend\modules\master\models\Product;
                     <td style="width: 50px">
                         <a data-action="delete" title="Delete" href="#"><span class="glyphicon glyphicon-trash"></span></a>
                         <?= Html::activeHiddenInput($model, "[$index]id_product", ['data-field' => 'id_product', 'id' => false]) ?>
-    <?= Html::activeHiddenInput($model, "[$index]id_purchase_dtl", ['data-field' => 'id_purchase_dtl', 'id' => false]) ?>
+                        <?= Html::activeHiddenInput($model, "[$index]id_purchase_dtl", ['data-field' => 'id_purchase_dtl', 'id' => false]) ?>
                     </td>
                     <td class="items" style="width: 45%">
                         <ul class="nav nav-list">
