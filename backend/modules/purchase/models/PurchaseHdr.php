@@ -15,7 +15,7 @@ use backend\modules\master\models\Branch;
  * @property integer $id_branch
  * @property string $purchase_date
  * @property string $purchase_value
- * @property string $payment_discount
+ * @property string $item_discount
  * @property integer $status
  * @property string $create_date
  * @property integer $create_by
@@ -45,7 +45,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['purchase_value', 'payment_discount'], 'filter', 'filter' => function($v) {
+            [['purchase_value', 'item_discount'], 'filter', 'filter' => function($v) {
                 return empty($v) ? 0 : (double) $v;
             }],
             [['id_supplier'], 'filter', 'filter' => function($val) {
@@ -68,7 +68,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord {
             'id_branch' => 'Id Branch',
             'purchase_date' => 'Purchase Date',
             'purchase_value' => 'Purchase Value',
-            'payment_discount' => 'Payment Discount',
+            'item_discount' => 'Item Discount',
             'status' => 'Status',
             'create_date' => 'Create Date',
             'create_by' => 'Create By',

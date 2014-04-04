@@ -249,8 +249,6 @@ class PurchaseController extends Controller
                         'id_ref' => $detail->id_purchase_dtl,
                     ]);
                 }
-
-
        
                 /*
                  * AUTOMATIC INVOICE
@@ -260,7 +258,7 @@ class PurchaseController extends Controller
                 InvoiceHdr::createInvoice([
                     'id_vendor' => $model->id_supplier,
                     'type' => InvoiceHdr::TYPE_PURCHASE,
-                    'value' => $model->purchase_value - $model->payment_discount,
+                    'value' => $model->purchase_value,
                     'date' => $model->purchase_date,
                     'id_ref' => $model->id_purchase,
                 ]);
