@@ -14,6 +14,7 @@ use yii\web\VerbFilter;
  */
 class CoaController extends Controller
 {
+
     public function behaviors()
     {
         return [
@@ -36,8 +37,8 @@ class CoaController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
         ]);
     }
 
@@ -49,7 +50,7 @@ class CoaController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                'model' => $this->findModel($id),
         ]);
     }
 
@@ -66,7 +67,7 @@ class CoaController extends Controller
             return $this->redirect(['view', 'id' => $model->id_coa]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -85,7 +86,7 @@ class CoaController extends Controller
             return $this->redirect(['view', 'id' => $model->id_coa]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -118,4 +119,20 @@ class CoaController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionCoaList()
+    {
+        $ncoa = (Yii::$app->request->get() !== null) ? Yii::$app->request->get()['term'] : '-1';
+        $mCoa = Coa::find()
+            ->where('lower(nm_account) LIKE :ncoa', [':ncoa' => '%' . strtolower($ncoa) . '%'])
+            ->orderBy('cd_account')
+            ->all();
+
+        $rCoa = [];
+        foreach ($mCoa as $row) {
+            $rCoa[] = ['id' => $row->id_coa, 'label' => $row->cd_account . ': ' . $row->nm_account];
+        }
+        echo json_encode($rCoa);
+    }
+
 }

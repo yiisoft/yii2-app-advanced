@@ -13,6 +13,7 @@ use yii\base\UserException;
  * @property string $inv_date
  * @property string $due_date
  * @property integer $id_vendor
+ * @property integer $status
  * @property string $inv_value
  * @property string $create_date
  * @property integer $create_by
@@ -23,7 +24,8 @@ use yii\base\UserException;
  * @property PaymentDtl $paymentDtl
  * @property Payment[] $idPayments
  */
-class InvoiceHdr extends \yii\db\ActiveRecord {
+class InvoiceHdr extends \yii\db\ActiveRecord
+{
 
     const TYPE_PURCHASE = 100;
     const TYPE_SALES = 200;
@@ -31,19 +33,21 @@ class InvoiceHdr extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'invoice_hdr';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
-            [['type', 'inv_date', 'due_date', 'id_vendor', 'inv_value'], 'required'],
+            [['type', 'inv_date', 'due_date', 'id_vendor', 'inv_value', 'status'], 'required'],
             [['due_date', 'inv_num'], 'string'],
             [['inv_value'], 'double'],
-            [['type', 'id_vendor'], 'integer'],
+            [['type', 'id_vendor', 'status'], 'integer'],
             [['inv_date'], 'safe']
         ];
     }
@@ -51,7 +55,8 @@ class InvoiceHdr extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id_invoice' => 'Id Invoice',
             'inv_num' => 'Inv Num',
@@ -59,6 +64,7 @@ class InvoiceHdr extends \yii\db\ActiveRecord {
             'inv_date' => 'Inv Date',
             'due_date' => 'Due Date',
             'id_vendor' => 'Id Vendor',
+            'status' => 'Inv Status',
             'inv_value' => 'Inv Value',
             'create_date' => 'Create Date',
             'create_by' => 'Create By',
@@ -70,25 +76,29 @@ class InvoiceHdr extends \yii\db\ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getInvoiceDtl() {
+    public function getInvoiceDtl()
+    {
         return $this->hasOne(InvoiceDtl::className(), ['id_invoice' => 'id_invoice']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPaymentDtl() {
+    public function getPaymentDtl()
+    {
         return $this->hasOne(PaymentDtl::className(), ['id_invoice' => 'id_invoice']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdPayments() {
+    public function getIdPayments()
+    {
         return $this->hasMany(Payment::className(), ['id_payment' => 'id_payment'])->viaTable('payment_dtl', ['id_invoice' => 'id_invoice']);
     }
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'backend\components\AutoTimestamp',
             'backend\components\AutoUser',
@@ -104,13 +114,15 @@ class InvoiceHdr extends \yii\db\ActiveRecord {
         ];
     }
 
-    public static function createInvoice($params) {
+    public static function createInvoice($params)
+    {
         $invoice = new self();
         $invoice->id_vendor = $params['id_vendor'];
         $invoice->inv_date = $params['date'];
         $invoice->inv_value = $params['value'];
         $invoice->type = $params['type'];
         $invoice->due_date = date('Y-m-d', strtotime('+1 month'));
+        $invoice->status = 0;
         if (!$invoice->save()) {
             throw new UserException(implode("\n", $invoice->getFirstErrors()));
         }
@@ -118,6 +130,7 @@ class InvoiceHdr extends \yii\db\ActiveRecord {
         $invDtl = new InvoiceDtl();
         $invDtl->id_invoice = $invoice->id_invoice;
         $invDtl->id_reff = $params['id_ref'];
+        $invDtl->trans_value = $params['value'];
         if (!$invDtl->save()) {
             throw new UserException(implode("\n", $invDtl->getFirstErrors()));
         }

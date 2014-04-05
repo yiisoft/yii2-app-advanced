@@ -40,8 +40,7 @@ class EntriSheetDtl extends \yii\db\ActiveRecord {
     public function attributeLabels() {
         return [
             'id_esheet' => 'Id Esheet',
-            'id_coa' => 'Id Coa',
-            'dk' => 'Dk',
+            'id_coa' => 'Id Coa'
         ];
     }
 

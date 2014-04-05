@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id_esheet',
             'id_coa',
-            'dk',
         ],
     ]) ?>
 

@@ -16,7 +16,7 @@ class PurchaseHdrSearch extends Model
 	public $id_supplier;
 	public $id_warehouse;
 	public $purchase_date;
-	public $id_status;
+	public $status;
 	public $update_date;
 	public $update_by;
 	public $create_by;
@@ -25,7 +25,7 @@ class PurchaseHdrSearch extends Model
 	public function rules()
 	{
 		return [
-			[['id_purchase_hdr', 'id_supplier', 'id_warehouse', 'id_status', 'update_by', 'create_by'], 'integer'],
+			[['id_purchase_hdr', 'id_supplier', 'id_warehouse', 'status', 'update_by', 'create_by'], 'integer'],
 			[['purchase_num', 'purchase_date', 'update_date', 'create_date'], 'safe'],
 		];
 	}
@@ -41,7 +41,7 @@ class PurchaseHdrSearch extends Model
 			'id_supplier' => 'Id Supplier',
 			'id_warehouse' => 'Id Warehouse',
 			'purchase_date' => 'Purchase Date',
-			'id_status' => 'Id Status',
+			'status' => 'Status',
 			'update_date' => 'Update Date',
 			'update_by' => 'Update By',
 			'create_by' => 'Create By',
@@ -65,7 +65,7 @@ class PurchaseHdrSearch extends Model
 		$this->addCondition($query, 'id_supplier');
 		$this->addCondition($query, 'id_warehouse');
 		$this->addCondition($query, 'purchase_date');
-		$this->addCondition($query, 'id_status');
+		$this->addCondition($query, 'status');
 		$this->addCondition($query, 'update_date', true);
 		$this->addCondition($query, 'update_by');
 		$this->addCondition($query, 'create_by');

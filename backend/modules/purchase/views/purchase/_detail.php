@@ -21,15 +21,20 @@ use backend\modules\master\models\Product;
                 ]
             ]);
             ?>
+            <div class="pull-right">
+                Item Discount:                
+                <?= Html::activeTextInput($model, 'item_discount',['style' => 'width:60px;']); ?>
+            </div>
         </div>
         <div class="panel-body" style="text-align: right;">
-			<?= Html::activeHiddenInput($model, 'purchase_value'); ?>
+            <?= Html::activeHiddenInput($model, 'purchase_value'); ?>
+            <h4 id="bfore" style="display: none;">Rp <span id="purchase-val">0</span>-<span id="disc-val">0</span></h4>
             <h2>Rp <span id="total-price"></span></h2>
         </div>
         <table id="detail-grid" class="table table-striped">
             <?php
-
-            function renderRow($model, $index) {
+            function renderRow($model, $index)
+            {
                 ob_start();
                 ob_implicit_flush(false);
                 ?>
@@ -70,7 +75,7 @@ use backend\modules\master\models\Product;
                                 $purch_price = $model->purch_price;
                                 $selling_price = $model->selling_price;
                                 $markup = $selling_price > 0 ? 100 * ($selling_price - $purch_price) / $selling_price : 0;
-								$markup = round($markup, 2);
+                                $markup = round($markup, 2);
                                 ?>
                                 Markup <?=
                                 Html::textInput('', $markup, [

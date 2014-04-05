@@ -18,9 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Coa', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="pull-right">
+        <?= Html::a('', ['create'], ['class' => 'btn btn-default glyphicon glyphicon-plus', 'title' => 'Create New', 'style' => 'width:100%;']) ?>
+    </div>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'coa_type',
             'nmCoaType',
             'normal_balance',
-            'id_coa_parent',
+            //'id_coa_parent',
             // 'create_date',
             // 'create_by',
             // 'update_date',
