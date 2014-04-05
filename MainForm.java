@@ -45,8 +45,14 @@ public class MainForm extends javax.swing.JFrame {
 			String response = _form.jTextArea2.getText();
 			t.sendResponseHeaders(200, response.getBytes().length);
 
-			InputStream is = t.getRequestBody();
-			_form.jTextArea1.setText(t.getRequestURI().getQuery() + "\n\r------\n\r");
+			BufferedReader in = new BufferedReader(new InputStreamReader(t.getRequestBody()));
+			
+			String s = "";
+			while (in.ready()) {				
+				s += (char)in.read();
+			}
+			
+			_form.jTextArea1.setText(t.getRequestURI().getQuery() + "\n\r------\n\r"+s);
 			OutputStream os = t.getResponseBody();
 			os.write(response.getBytes());
 			os.close();
