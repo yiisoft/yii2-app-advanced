@@ -1,0 +1,53 @@
+## Customize the test machine on CircleCi.com
+machine:
+
+  timezone:
+    America/Los_Angeles # Set the timezone
+
+  hosts:
+    localhost: 127.0.0.1
+
+  php:
+    version: 5.5.3
+
+
+#  environment:
+#    DATABASE_URL: mysql://ubuntu:@127.0.0.1:3306/circle_test
+
+dependencies:
+    pre:
+      - while [ 1 ]; do printf "\n"; done | pecl install imagick
+      - wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
+#      - wget http://selenium-release.storage.googleapis.com/2.39/selenium-server-standalone-2.39.0.jar
+    post:
+      - java -jar selenium-server-standalone-2.41.0.jar:
+          background: true
+      - cp ~/yimin/circle.conf /etc/apache2/sites-available
+      - a2ensite circle.conf
+      - sudo service apache2 restart
+
+checkout:
+  post:
+    - ./init --env=Development --overwrite=y
+    - chmod 0755 frontend/tests/unit/yii
+    #Check below the correct permissions. We know that frontend/web/assets needs to be writable by web process
+    - chmod 0777 frontend/web/assets
+    - chmod 0777 frontend/runtime
+    - mkdir frontend/runtime/mail
+    - chmod 0777 frontend/runtime/mail
+
+database:
+#  override:
+#    - mysql -u ubuntu yii2_advanced_unit < my-database-setup.sql
+  post:
+    - frontend/tests/unit/yii migrate 0 --interactive=0
+
+
+test:
+  pre:
+    - cd frontend && ../vendor/bin/codecept build
+
+  post:
+    - cd frontend && ../vendor/bin/codecept run unit
+    - cd frontend && ../vendor/bin/codecept run functional
+    - cd frontend && ../vendor/bin/codecept run acceptance
