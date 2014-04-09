@@ -1,28 +1,39 @@
 {
-	"name": "yiisoft/yii2-app-advanced",
+	"name": "coderedfour/yimin",
 	"description": "Yii 2 Advanced Application Template",
 	"keywords": ["yii2", "framework", "advanced", "application template"],
-	"homepage": "http://www.yiiframework.com/",
+	"homepage": "http://www.coderedfour.com/",
 	"type": "project",
 	"license": "BSD-3-Clause",
 	"support": {
-		"issues": "https://github.com/yiisoft/yii2/issues?state=open",
-		"forum": "http://www.yiiframework.com/forum/",
-		"wiki": "http://www.yiiframework.com/wiki/",
+		"issues": "https://github.com/coderedfour/yimin/issues?state=open",
+		"forum": "http://www.coderedfour.com/forum/",
+		"wiki": "http://coderedfour.wikispaces.com/",
 		"irc": "irc://irc.freenode.net/yii",
 		"source": "https://github.com/yiisoft/yii2"
 	},
 	"minimum-stability": "dev",
 	"require": {
 		"php": ">=5.4.0",
-		"yiisoft/yii2": "*",
+		"yiisoft/yii2": "dev-master#d7a21d1",
 		"yiisoft/yii2-bootstrap": "*",
 		"yiisoft/yii2-swiftmailer": "*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-codeception": "*",
 		"yiisoft/yii2-debug": "*",
-		"yiisoft/yii2-gii": "*"
+		"yiisoft/yii2-gii": "*",
+		"codeception/codeception": "1.8.*",
+		"codeception/specify" : "*",
+		"codeception/verify": "*",
+		"behat/mink-selenium2-driver":  "*@stable",
+		"kartik-v/yii2-markdown": "*",
+		"kartik-v/yii2-password": "*",		
+		"kartik-v/yii2-widgets": "dev-master",
+		"kop/yii2-conditional-validator": "*",
+		"zelenin/yii-sms_ru": "dev-master",
+		"zelenin/yii2-sms_ru": "dev-master"
+
 	},
 	"suggest": {
 		"codeception/codeception": "Codeception, 1.8.*@dev is currently works well with Yii.",
