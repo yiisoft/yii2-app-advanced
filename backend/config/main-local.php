@@ -21,5 +21,5 @@ return [
 //            'site/error',
 //            'site/manifest',
 //        ]],
-    'as clientId' => 'backend\components\ClientKey'
+    'as clientId' => 'app\tools\ClientKey'
 ];

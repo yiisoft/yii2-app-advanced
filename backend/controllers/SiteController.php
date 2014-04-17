@@ -36,7 +36,7 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-			'manifest' => 'backend\components\ManifestAction',
+			'manifest' => 'app\tools\ManifestAction',
         ];
     }
 

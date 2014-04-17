@@ -10,7 +10,7 @@ namespace biz\sales\components;
 class SalesAsset extends \yii\web\AssetBundle
 {
 
-	public $basePath = '@backend/modules/sales/assets';
+	public $basePath = '@biz/sales/assets';
 	public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',  
