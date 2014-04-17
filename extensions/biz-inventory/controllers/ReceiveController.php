@@ -8,7 +8,7 @@ use biz\inventory\models\TransferHdrSearch;
 use biz\inventory\models\TransferDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 use biz\inventory\models\ProductStock;
 use biz\master\models\ProductUom;
 use yii\base\UserException;

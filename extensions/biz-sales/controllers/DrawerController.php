@@ -7,7 +7,7 @@ use biz\sales\models\Cashdrawer;
 use biz\sales\models\CashdrawerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * DrawerController implements the CRUD actions for Cashdrawer model.

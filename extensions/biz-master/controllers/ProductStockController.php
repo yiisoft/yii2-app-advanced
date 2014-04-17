@@ -7,7 +7,7 @@ use biz\master\models\ProductStock;
 use biz\master\models\ProductStockSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * ProductStockController implements the CRUD actions for ProductStock model.

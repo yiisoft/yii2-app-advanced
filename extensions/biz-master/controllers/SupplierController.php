@@ -7,7 +7,7 @@ use biz\master\models\Supplier;
 use biz\master\models\SupplierSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * SupplierController implements the CRUD actions for Supplier model.

@@ -8,10 +8,10 @@ use biz\sales\models\SalesHdrSearch;
 use biz\sales\models\SalesDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
-use backend\components\AppCache;
+use app\tools\AppCache;
 use biz\sales\models\LogCashier;
 
 /**

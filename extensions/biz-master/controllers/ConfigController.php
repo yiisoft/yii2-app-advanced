@@ -7,7 +7,7 @@ use biz\master\models\GlobalConfig;
 use biz\master\models\GlobalConfigSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * ConfigController implements the CRUD actions for GlobalConfig model.

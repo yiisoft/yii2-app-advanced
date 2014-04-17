@@ -7,7 +7,7 @@ use biz\master\models\PriceCategory;
 use biz\master\models\PriceCategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * PriceCategoryController implements the CRUD actions for PriceCategory model.

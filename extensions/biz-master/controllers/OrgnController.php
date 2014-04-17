@@ -7,7 +7,7 @@ use biz\master\models\Orgn;
 use biz\master\models\OrgnSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * OrgnController implements the CRUD actions for Orgn model.

@@ -14,14 +14,13 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.4.0",
-        "yiisoft/yii2": "*",
-        "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*",
+        "yiisoft/yii2": "2.0.0-beta",
+        "yiisoft/yii2-bootstrap": "2.0.0-beta",
+        "yiisoft/yii2-swiftmailer": "2.0.0-beta",
         "mdmsoft/yii2-admin": "dev-master",
         "mdmsoft/yii2-autonumber": "dev-master",
-        "kartik-v/yii2-widgets": "*",
-        "yiisoft/yii2-jui": "*",
-        "yiisoft/yii2-mongodb": "*"
+        "yiisoft/yii2-jui": "2.0.0-beta",
+        "yiisoft/yii2-mongodb": "2.0.0-beta"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

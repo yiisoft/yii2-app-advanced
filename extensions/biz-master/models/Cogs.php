@@ -100,10 +100,10 @@ class Cogs extends \yii\db\ActiveRecord
 	public function behaviors()
 	{
 		return [
-			'backend\components\AutoTimestamp',
-			'backend\components\AutoUser',
+			'app\tools\AutoTimestamp',
+			'app\tools\AutoUser',
 			[
-				'class' => 'backend\components\Logger',
+				'class' => 'app\tools\Logger',
 				'collectionName' => self::COLLECTION_NAME,
 				'attributes' => ['id_product', 'id_uom', 'cogs'],
 			]

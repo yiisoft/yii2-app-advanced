@@ -7,7 +7,7 @@ use biz\master\models\Customer;
 use biz\master\models\CustomerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * CustomerController implements the CRUD actions for Customer model.

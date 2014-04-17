@@ -135,8 +135,8 @@ class SalesHdr extends \yii\db\ActiveRecord
 	public function behaviors()
 	{
 		return [
-			'backend\components\AutoTimestamp',
-			'backend\components\AutoUser',
+			'app\tools\AutoTimestamp',
+			'app\tools\AutoUser',
 			[
 				'class' => 'mdm\autonumber\Behavior',
 				'digit' => 4,

@@ -7,7 +7,7 @@ use biz\master\models\ProductGroups;
 use biz\master\models\SearchProductGroups;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * ProductGroupsController implements the CRUD actions for ProductGroups model.

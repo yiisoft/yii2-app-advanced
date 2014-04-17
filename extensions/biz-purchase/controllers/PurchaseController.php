@@ -7,7 +7,7 @@ use biz\purchase\models\PurchaseHdr;
 use biz\purchase\models\PurchaseHdrSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 use biz\purchase\models\PurchaseDtl;
 use \Exception;
 use biz\inventory\models\ProductStock;

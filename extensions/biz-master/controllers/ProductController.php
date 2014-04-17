@@ -7,7 +7,7 @@ use biz\master\models\Product;
 use biz\master\models\ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 use biz\master\models\ProductUom;
 
 /**

@@ -7,7 +7,7 @@ use biz\master\models\Warehouse;
 use biz\master\models\WarehouseSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * WarehouseController implements the CRUD actions for Warehouse model.

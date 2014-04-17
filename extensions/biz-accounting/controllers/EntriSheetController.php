@@ -7,13 +7,14 @@ use biz\accounting\models\EntriSheet;
 use biz\accounting\models\EntriSheetSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * EntriSheetController implements the CRUD actions for EntriSheet model.
  */
 class EntriSheetController extends Controller
 {
+
     public function behaviors()
     {
         return [
@@ -36,8 +37,8 @@ class EntriSheetController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
         ]);
     }
 
@@ -49,7 +50,7 @@ class EntriSheetController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                'model' => $this->findModel($id),
         ]);
     }
 
@@ -66,7 +67,7 @@ class EntriSheetController extends Controller
             return $this->redirect(['view', 'id' => $model->id_esheet]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -85,7 +86,7 @@ class EntriSheetController extends Controller
             return $this->redirect(['view', 'id' => $model->id_esheet]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -118,4 +119,5 @@ class EntriSheetController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

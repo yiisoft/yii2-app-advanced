@@ -7,7 +7,7 @@ use biz\master\models\ProductUom;
 use biz\master\models\ProductUomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * ProductUomController implements the CRUD actions for ProductUom model.

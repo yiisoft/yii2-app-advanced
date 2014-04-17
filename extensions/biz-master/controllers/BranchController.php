@@ -7,7 +7,7 @@ use biz\master\models\Branch;
 use biz\master\models\BranchSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * BranchController implements the CRUD actions for Branch model.

@@ -2,7 +2,7 @@
 
 $exts = dirname(dirname(__DIR__)) . '/extensions';
 return [
-    'preload' => [
+    'bootstrap' => [
     //'debug',
     ],
     'modules' => [
@@ -14,12 +14,12 @@ return [
         'purchase' => 'biz\purchase\Module',
         'sales' => 'biz\sales\Module',
     ],
-    'as access' => [
-        'class' => 'mdm\admin\components\AccessControl',
-        'allowActions' => [
-            'site/login',
-            'site/error',
-            'site/manifest'
-        ]],
+//    'as access' => [
+//        'class' => 'mdm\admin\components\AccessControl',
+//        'allowActions' => [
+//            'site/login',
+//            'site/error',
+//            'site/manifest',
+//        ]],
     'as clientId' => 'backend\components\ClientKey'
 ];

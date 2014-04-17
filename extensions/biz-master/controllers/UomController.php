@@ -7,7 +7,7 @@ use biz\master\models\Uom;
 use biz\master\models\UomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * UomController implements the CRUD actions for Uom model.

@@ -7,7 +7,7 @@ use biz\accounting\models\InvoiceHdr;
 use biz\accounting\models\InvoiceHdrSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * InvoiceHdrController implements the CRUD actions for InvoiceHdr model.

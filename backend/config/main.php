@@ -24,6 +24,11 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+				[
+					'class' => 'app\tools\MongoTarget',
+					'levels' => ['info'],
+					'categories'=>['application*'],
+				],
             ],
         ],
         'errorHandler' => [
@@ -31,33 +36,4 @@ return [
         ],
     ],
     'params' => $params,
-	'id' => 'app-backend',
-	'basePath' => dirname(__DIR__),
-	'preload' => ['log'],
-	'controllerNamespace' => 'backend\controllers',
-	'modules' => [],
-	'components' => [
-		'user' => [
-			'identityClass' => 'common\models\User',
-			'enableAutoLogin' => true,
-		],
-		'log' => [
-			'traceLevel' => YII_DEBUG ? 3 : 0,
-			'targets' => [
-				[
-					'class' => 'yii\log\FileTarget',
-					'levels' => ['error', 'warning'],
-				],
-				[
-					'class' => 'common\extensions\MongoTarget',
-					'levels' => ['info'],
-					'categories'=>['application*'],
-				],
-			],
-		],
-		'errorHandler' => [
-			'errorAction' => 'site/error',
-		],
-	],
-	'params' => $params,
 ];

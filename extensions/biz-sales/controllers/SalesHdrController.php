@@ -7,7 +7,7 @@ use biz\sales\models\SalesHdr;
 use biz\sales\models\SalesHdrSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * SalesHdrController implements the CRUD actions for SalesHdr model.

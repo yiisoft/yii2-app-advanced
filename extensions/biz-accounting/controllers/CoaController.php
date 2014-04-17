@@ -7,7 +7,7 @@ use biz\accounting\models\Coa;
 use biz\accounting\models\CoaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * CoaController implements the CRUD actions for Coa model.

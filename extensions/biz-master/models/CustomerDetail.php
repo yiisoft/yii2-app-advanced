@@ -86,10 +86,10 @@ class CustomerDetail extends \yii\db\ActiveRecord
 	{
 		return [
 			'timestamp' => [
-				'class' => 'backend\components\AutoTimestamp',
+				'class' => 'app\tools\AutoTimestamp',
 			],
 			'changeUser' => [
-				'class' => 'backend\components\AutoUser',
+				'class' => 'app\tools\AutoUser',
 			]
 		];
 	}

@@ -7,13 +7,14 @@ use biz\accounting\models\EntriSheetDtl;
 use biz\accounting\models\EntriSheetDtlSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\VerbFilter;
+use yii\filters\VerbFilter;
 
 /**
  * EntriSheetDtlController implements the CRUD actions for EntriSheetDtl model.
  */
 class EntriSheetDtlController extends Controller
 {
+
     public function behaviors()
     {
         return [
@@ -36,8 +37,8 @@ class EntriSheetDtlController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
         ]);
     }
 
@@ -50,7 +51,7 @@ class EntriSheetDtlController extends Controller
     public function actionView($id_esheet, $id_coa)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id_esheet, $id_coa),
+                'model' => $this->findModel($id_esheet, $id_coa),
         ]);
     }
 
@@ -67,7 +68,7 @@ class EntriSheetDtlController extends Controller
             return $this->redirect(['view', 'id_esheet' => $model->id_esheet, 'id_coa' => $model->id_coa]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -87,7 +88,7 @@ class EntriSheetDtlController extends Controller
             return $this->redirect(['view', 'id_esheet' => $model->id_esheet, 'id_coa' => $model->id_coa]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -122,4 +123,5 @@ class EntriSheetDtlController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }
