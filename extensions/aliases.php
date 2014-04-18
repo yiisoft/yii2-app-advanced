@@ -5,4 +5,3 @@ Yii::setAlias('biz/accounting', __DIR__.'/biz-accounting');
 Yii::setAlias('biz/purchase', __DIR__.'/biz-purchase');
 Yii::setAlias('biz/sales', __DIR__.'/biz-sales');
 Yii::setAlias('app/tools', __DIR__.'/app-tools');
-Yii::setAlias('mdm/tools', __DIR__.'/yii2-tools');
