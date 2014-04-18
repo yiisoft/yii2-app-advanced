@@ -11,7 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
-use app\tools\AppCache;
+use mdm\tools\AppCache;
 use biz\sales\models\LogCashier;
 
 /**

@@ -10,7 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\HttpCache;
-use app\tools\AppCache;
+use mdm\tools\AppCache;
 use biz\master\models\Cogs;
 use \Exception;
 use yii\base\UserException;

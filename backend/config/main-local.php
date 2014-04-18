@@ -21,5 +21,5 @@ return [
 //            'site/error',
 //            'site/manifest',
 //        ]],
-    'as clientId' => 'app\tools\ClientKey'
+    'as clientId' => 'mdm\tools\ClientKey'
 ];

@@ -25,7 +25,7 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
 				[
-					'class' => 'app\tools\MongoTarget',
+					'class' => 'mdm\tools\MongoTarget',
 					'levels' => ['info'],
 					'categories'=>['application*'],
 				],

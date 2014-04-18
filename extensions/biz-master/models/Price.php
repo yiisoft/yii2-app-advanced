@@ -132,7 +132,7 @@ class Price extends \yii\db\ActiveRecord
 			'app\tools\AutoTimestamp',
 			'app\tools\AutoUser',
 			[
-				'class' => 'app\tools\Logger',
+				'class' => 'mdm\tools\Logger',
 				'collectionName' => self::COLLECTION_NAME,
 				'attributes' => ['id_product', 'id_price_category', 'id_uom', 'price'],
 			]
