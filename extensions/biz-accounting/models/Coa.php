@@ -3,6 +3,7 @@
 namespace biz\accounting\models;
 
 use Yii;
+use yii\base\UserException;
 
 /**
  * This is the model class for table "coa".
@@ -117,28 +118,6 @@ class Coa extends \yii\db\ActiveRecord {
      */
     public function getNmCoaType() {
         return self::$_acc_type[$this->coa_type];
-    }
-    
-    /**
-     * @return integer
-     */
-    public static function getAccountByName($name) {
-        $coa = self::find(['lower(nm_account)'=>  strtolower($name)]);
-        if($coa){
-            return $coa->id_coa;
-        }
-        throw new \yii\base\UserException('Akun tidak ditemukan');
-    }
-    
-    /**
-     * @return integer
-     */
-    public static function getAccountByCode($code) {
-        $coa = self::find(['lower(cd_account)'=>  strtolower($code)]);
-        if($coa){
-            return $coa->id_coa;
-        }
-        throw new \yii\base\UserException('Akun tidak ditemukan');
     }
 
     /**

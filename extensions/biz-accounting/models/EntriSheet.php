@@ -89,20 +89,20 @@ class EntriSheet extends \yii\db\ActiveRecord
             foreach ($esheet->entriSheetDtl as $eDtl) {
                 $coa = $eDtl->id_coa;
                 $nm = $eDtl->nm_esheet_dtl;
-                
+
                 $dc = $eDtl->idCoa->normal_balance == 'D' ? 1 : -1;
-                
-                if(isset($values[$nm])){
+
+                if (isset($values[$nm])) {
                     $ammount = $dc * $values[$nm];
-                }else{
+                } else {
                     throw new \yii\base\UserException("Required account $nm ");
                 }
-               $gl_dtls[]=[
-                   'id_coa'=>$coa,
-                   'ammount'=>$ammount
-               ];
+                $gl_dtls[] = [
+                    'id_coa' => $coa,
+                    'ammount' => $ammount
+                ];
             }
-        }  else {
+        } else {
             throw new \yii\base\UserException("Entrysheet $nm_entrisheet not found");
         }
         return $gl_dtls;

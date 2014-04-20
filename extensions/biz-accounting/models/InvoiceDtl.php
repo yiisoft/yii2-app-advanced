@@ -16,6 +16,7 @@ use Yii;
  */
 class InvoiceDtl extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */

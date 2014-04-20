@@ -162,18 +162,6 @@ class Product extends \yii\db\ActiveRecord {
         return $this->hasOne(StockOpnameDtl::className(), ['id_product' => 'id_product']);
     }
 
-    public static function ListUoms($id) {
-        $sql = 'select u.id_uom,u.nm_uom
-                from uom u
-                join product_uom pu on(pu.id_uom=u.id_uom)
-                where pu.id_product=:id_product';
-        $result = [];
-        foreach (\Yii::$app->db->createCommand($sql, [':id_product' => $id])->queryAll() as $row) {
-            $result[$row['id_uom']] = $row['nm_uom'];
-        }
-        return $result;
-    }
-
     public function behaviors() {
         return [
             'app\tools\AutoTimestamp',

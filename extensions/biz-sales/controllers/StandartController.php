@@ -17,6 +17,7 @@ use yii\base\UserException;
 use biz\inventory\models\ProductStock;
 use biz\master\models\ProductUom;
 use biz\master\models\GlobalConfig;
+use app\tools\Helper;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -198,9 +199,9 @@ class StandartController extends Controller
                     throw new UserException(implode("\n", $model->getFirstErrors()));
                 }
                 foreach ($model->salesDtls as $detail) {
-                    $smallest_uom = ProductUom::getSmallestUom($detail->id_product);
-                    $qty_per_uom = ProductUom::getQtyProductUom($detail->id_product, $detail->id_uom);
-                    ProductStock::UpdateStock([
+                    $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
+                    $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
+                    Helper::UpdateStock([
                         'id_warehouse' => $detail->id_warehouse,
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,
@@ -222,7 +223,7 @@ class StandartController extends Controller
 
     public function actionJs()
     {
-        $p_ct = GlobalConfig::getConfigValue('sales_price', 'grosir_category', 1);
+        $p_ct = Helper::getConfigValue('sales_price', 'grosir_category', 1);
         $sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
 			u.id_uom, u.nm_uom, pu.isi,pc.price
 			from product p
@@ -231,7 +232,7 @@ class StandartController extends Controller
 			left join price pc on(pc.id_product=p.id_product and pc.id_price_category=$p_ct)
 			order by p.id_product,pu.isi";
         $result = [];
-        foreach (\Yii::$app->db->createCommand($sql)->queryAll() as $row) {
+        foreach (Yii::$app->db->createCommand($sql)->queryAll() as $row) {
             $id = $row['id'];
             if (!isset($result[$id])) {
                 $result[$id] = [
@@ -251,7 +252,7 @@ class StandartController extends Controller
         }
         $sql = 'select id_customer as id, nm_cust as label
 			from customer';
-        $cust = \Yii::$app->db->createCommand($sql)->queryAll();
+        $cust = Yii::$app->db->createCommand($sql)->queryAll();
         return $this->renderPartial('process.js.php', ['product' => $result, 'cust' => $cust]);
     }
 
@@ -307,5 +308,4 @@ class StandartController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

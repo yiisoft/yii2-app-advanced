@@ -1,6 +1,6 @@
 <?php
 
-namespace biz\accounting\models;
+namespace biz\accounting\controllers;
 
 use Yii;
 use biz\accounting\models\InvoiceHdr;
@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
  */
 class InvoiceHdrController extends Controller
 {
+
     public function behaviors()
     {
         return [
@@ -36,8 +37,8 @@ class InvoiceHdrController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
         ]);
     }
 
@@ -49,7 +50,7 @@ class InvoiceHdrController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                'model' => $this->findModel($id),
         ]);
     }
 
@@ -66,7 +67,7 @@ class InvoiceHdrController extends Controller
             return $this->redirect(['view', 'id' => $model->id_invoice]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -85,7 +86,7 @@ class InvoiceHdrController extends Controller
             return $this->redirect(['view', 'id' => $model->id_invoice]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -118,4 +119,5 @@ class InvoiceHdrController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

@@ -19,11 +19,8 @@ namespace biz\accounting\models;
  *
  * @property GlDetail[] $glDetails
  */
-use yii\base\UserException;
-
 class GlHeader extends \yii\db\ActiveRecord
 {
-
     const TYPE_PURCHASE = 100;
 
     /**
@@ -76,63 +73,6 @@ class GlHeader extends \yii\db\ActiveRecord
         return $this->hasMany(GlDetail::className(), ['id_gl' => 'id_gl']);
     }
 
-    public static function createDocument($header, $details, $in_transaction = false)
-    {
-        if ($in_transaction) {
-            $transaction = \Yii::$app->db->beginTransaction();
-        }
-        try {
-            $hdr = new self();
-            $hdr->load($header, '');
-            if (!$hdr->gl_date) {
-                $hdr->gl_date = new \yii\db\Expression('NOW()');
-            }
-            $err = [];
-            $success = $hdr->save();
-            if ($success) {
-                $total = 0.0;
-                $id_header = $hdr->id_gl;
-                foreach ($details as $detail) {
-                    $dtl = new GlDetail();
-                    $coa = Coa::find($detail['id_coa']);
-                    if ($coa->normal_position == Coa::POSITION_DEBET) {
-                        $amount = $detail['amount'];
-                    } else {
-                        $amount = -$detail['amount'];
-                    }
-                    $total += $amount;
-                    $dtl->id_gl = $id_header;
-                    $dtl->id_coa = $detail['id_coa'];
-                    $dtl->amount = $amount;
-                    $success = $success && $dtl->save();
-                    if (!$success) {
-                        $err = array_merge($err, $dtl->firstErrors);
-                        break;
-                    }
-                }
-                if ($success && $total != 0.0) {
-                    $err[] = 'Not balance...';
-                    $success = false;
-                }
-            }
-            if ($success) {
-                if ($in_transaction) {
-                    $transaction->commit();
-                }
-                return true;
-            } else {
-                throw new \yii\base\UserException(implode("\n", $err));
-            }
-        } catch (\Exception $exc) {
-            if ($in_transaction) {
-                $transaction->rollback();
-                return false;
-            } else {
-                throw $exc;
-            }
-        }
-    }
-
     public function behaviors()
     {
         return [
@@ -149,40 +89,4 @@ class GlHeader extends \yii\db\ActiveRecord
             ]
         ];
     }
-
-    public static function createGL($hdr, $dtls = [])
-    {
-        $blc = 0.0;
-        foreach ($dtls as $row) {
-            $blc += $row['ammount'];
-        }
-        if ($blc != 0) {
-            throw new UserException('GL Balance Failed');
-        }
-
-        $gl = new self();
-        $gl->gl_date = $hdr['date'];
-        $gl->id_reff = $hdr['id_reff'];
-        $gl->type_reff = $hdr['type_reff'];
-        $gl->gl_memo = $hdr['memo'];
-        $gl->description = $hdr['description'];
-        
-        $gl->id_branch = $hdr['id_branch'];
-        $gl->id_periode = 1;
-        $gl->status = 0;
-        if (!$gl->save()) {
-            throw new UserException(implode("\n", $gl->getFirstErrors()));
-        }
-
-        foreach ($dtls as $row) {
-            $glDtl = new GlDetail();
-            $glDtl->id_gl = $gl->id_gl;
-            $glDtl->id_coa = $row['id_coa'];
-            $glDtl->amount = $row['ammount'];
-            if (!$glDtl->save()) {
-                throw new UserException(implode("\n", $glDtl->getFirstErrors()));
-            }
-        }
-    }
-
 }

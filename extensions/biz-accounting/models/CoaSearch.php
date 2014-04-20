@@ -10,7 +10,8 @@ use biz\accounting\models\Coa;
 /**
  * CoaSearch represents the model behind the search form about `biz\accounting\models\Coa`.
  */
-class CoaSearch extends Model {
+class CoaSearch extends Model
+{
 
     public $id_coa;
     public $id_coa_parent;
@@ -22,7 +23,8 @@ class CoaSearch extends Model {
     public $update_date;
     public $update_by;
 
-    public function rules() {
+    public function rules()
+    {
         return [
             [['id_coa', 'id_coa_parent', 'coa_type', 'create_by', 'update_by'], 'integer'],
             [['cd_account', 'normal_balance', 'create_date', 'update_date'], 'safe'],
@@ -32,7 +34,8 @@ class CoaSearch extends Model {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id_coa' => 'Id Coa',
             'id_coa_parent' => 'Id Coa Parent',
@@ -46,13 +49,14 @@ class CoaSearch extends Model {
         ];
     }
 
-    public function search($params) {
+    public function search($params)
+    {
         $query = Coa::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
-        $dataProvider->getSort()->defaultOrder = ['cd_account'=>SORT_ASC];
+        $dataProvider->getSort()->defaultOrder = ['cd_account' => SORT_ASC];
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
@@ -70,7 +74,8 @@ class CoaSearch extends Model {
         return $dataProvider;
     }
 
-    protected function addCondition($query, $attribute, $partialMatch = false) {
+    protected function addCondition($query, $attribute, $partialMatch = false)
+    {
         if (($pos = strrpos($attribute, '.')) !== false) {
             $modelAttribute = substr($attribute, $pos + 1);
         } else {

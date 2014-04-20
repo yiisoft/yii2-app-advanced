@@ -25,14 +25,13 @@ use biz\master\models\Warehouse;
  */
 class TransferHdr extends \yii\db\ActiveRecord
 {
-
-	const STATUS_DRAFT = 1;
-	const STATUS_ISSUE = 2;
-	const STATUS_DRAFT_RECEIVE = 3;
-	const STATUS_CONFIRM = 4;
-	const STATUS_CONFIRM_REJECT = 5;
-	const STATUS_CONFIRM_APPROVE = 6;
-	const STATUS_RECEIVE = 7;
+    const STATUS_DRAFT = 1;
+    const STATUS_ISSUE = 2;
+    const STATUS_DRAFT_RECEIVE = 3;
+    const STATUS_CONFIRM = 4;
+    const STATUS_CONFIRM_REJECT = 5;
+    const STATUS_CONFIRM_APPROVE = 6;
+    const STATUS_RECEIVE = 7;
 
     /**
      * @inheritdoc
@@ -97,35 +96,34 @@ class TransferHdr extends \yii\db\ActiveRecord
         return $this->hasOne(Warehouse::className(), ['id_warehouse' => 'id_warehouse_dest']);
     }
 
-	public function getNmStatus()
-	{
-		$maps = [
-			self::STATUS_DRAFT => 'Draft',
-			self::STATUS_ISSUE => 'Release',
-			self::STATUS_DRAFT_RECEIVE => 'Draft Receive',
-			self::STATUS_CONFIRM => 'Confirm',
-			self::STATUS_CONFIRM_APPROVE => 'Approve',
-			self::STATUS_CONFIRM_REJECT => 'Reject',
-			self::STATUS_RECEIVE => 'Receive',
-		];
-		return $maps[$this->status];
-	}
+    public function getNmStatus()
+    {
+        $maps = [
+            self::STATUS_DRAFT => 'Draft',
+            self::STATUS_ISSUE => 'Release',
+            self::STATUS_DRAFT_RECEIVE => 'Draft Receive',
+            self::STATUS_CONFIRM => 'Confirm',
+            self::STATUS_CONFIRM_APPROVE => 'Approve',
+            self::STATUS_CONFIRM_REJECT => 'Reject',
+            self::STATUS_RECEIVE => 'Receive',
+        ];
+        return $maps[$this->status];
+    }
 
-	public function behaviors()
-	{
-		return [
-			'app\tools\AutoTimestamp',
-			'app\tools\AutoUser',
-			[
-				'class' => 'mdm\autonumber\Behavior',
-				'digit' => 4,
-				'group' => 'transfer',
-				'attribute' => 'transfer_num',
-				'value' => function($event) {
-					return date('ymd.?');
-				}
-			]
-		];
-	}
-
+    public function behaviors()
+    {
+        return [
+            'app\tools\AutoTimestamp',
+            'app\tools\AutoUser',
+            [
+                'class' => 'mdm\autonumber\Behavior',
+                'digit' => 4,
+                'group' => 'transfer',
+                'attribute' => 'transfer_num',
+                'value' => function($event) {
+                return date('ymd.?');
+            }
+            ]
+        ];
+    }
 }

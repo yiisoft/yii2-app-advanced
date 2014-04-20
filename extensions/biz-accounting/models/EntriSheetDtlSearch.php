@@ -12,6 +12,7 @@ use biz\accounting\models\EntriSheetDtl;
  */
 class EntriSheetDtlSearch extends Model
 {
+
     public $id_esheet;
     public $id_coa;
     public $dk;
@@ -71,4 +72,5 @@ class EntriSheetDtlSearch extends Model
             $query->andWhere([$attribute => $value]);
         }
     }
+
 }

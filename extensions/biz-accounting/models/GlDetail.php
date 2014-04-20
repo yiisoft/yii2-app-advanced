@@ -15,6 +15,7 @@ namespace biz\accounting\models;
  */
 class GlDetail extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */

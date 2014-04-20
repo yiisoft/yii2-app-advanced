@@ -18,6 +18,7 @@ use yii\base\UserException;
 use biz\accounting\models\InvoiceHdr;
 use biz\accounting\models\GlHeader;
 use biz\accounting\models\EntriSheet;
+use app\tools\Helper;
 
 /**
  * PurchaseHdrController implements the CRUD actions for PurchaseHdr model.
@@ -214,10 +215,10 @@ class PurchaseController extends Controller
                 $id_branch = $model->id_branch;
 
                 foreach ($model->purchaseDtls as $detail) {
-                    $qty_per_uom = ProductUom::getQtyProductUom($detail->id_product, $detail->id_uom);
-                    $smallest_uom = ProductUom::getSmallestUom($detail->id_product);
+                    $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
+                    $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
 
-                    ProductStock::UpdateStock([
+                    Helper::UpdateStock([
                         'id_warehouse' => $detail->id_warehouse,
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,
@@ -228,9 +229,9 @@ class PurchaseController extends Controller
                         'id_ref' => $detail->id_purchase_dtl,
                     ]);
 
-                    $current_qty_all = ProductStock::currentStockAll($detail->id_product);
+                    $current_qty_all = Helper::currentStockAll($detail->id_product);
 
-                    Cogs::UpdateCogs([
+                    Helper::UpdateCogs([
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,
                         'old_stock' => $current_qty_all,
@@ -241,7 +242,7 @@ class PurchaseController extends Controller
                         'id_ref' => $detail->id_purchase_dtl,
                     ]);
 
-                    Price::UpdatePrice([
+                    Helper::UpdatePrice([
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,
                         'price' => $detail->selling_price,
@@ -256,7 +257,7 @@ class PurchaseController extends Controller
                  * 1.Invoice Create
                  * 2.GL Create
                  */
-                InvoiceHdr::createInvoice([
+                Helper::createInvoice([
                     'id_vendor' => $model->id_supplier,
                     'type' => InvoiceHdr::TYPE_PURCHASE,
                     'value' => $model->purchase_value * (1 - $model->item_discount * 0.01),
@@ -279,8 +280,8 @@ class PurchaseController extends Controller
                     'HUTANG_DAGANG' => $model->purchase_value * (1 - $model->item_discount * 0.01),
                 ];
 
-                $glDtls = EntriSheet::getGLMaps('PEMBELIAN_KREDIT', $dtls);
-                GlHeader::createGL($glHdr, $glDtls);
+                $glDtls = Helper::EntriSheetToGlMaps('PEMBELIAN_KREDIT', $dtls);
+                Helper::createGL($glHdr, $glDtls);
                 $transaction->commit();
             } catch (Exception $exc) {
                 $transaction->rollBack();
@@ -317,7 +318,7 @@ class PurchaseController extends Controller
 			join uom u on(u.id_uom=pu.id_uom)
 			order by p.id_product,pu.isi";
         $product = [];
-        foreach (\Yii::$app->db->createCommand($sql)->query() as $row) {
+        foreach (Yii::$app->db->createCommand($sql)->query() as $row) {
             $id = $row['id'];
             if (!isset($product[$id])) {
                 $product[$id] = [
@@ -338,12 +339,12 @@ class PurchaseController extends Controller
         $sql = "select id_supplier,id_product
 			from product_supplier";
         $ps = [];
-        foreach (\Yii::$app->db->createCommand($sql)->queryAll() as $row) {
+        foreach (Yii::$app->db->createCommand($sql)->queryAll() as $row) {
             $ps[$row['id_supplier']][] = $row['id_product'];
         }
 
         $sql = "select id_supplier as id, nm_supplier as label from supplier";
-        $supp = \Yii::$app->db->createCommand($sql)->queryAll();
+        $supp = Yii::$app->db->createCommand($sql)->queryAll();
         return $this->renderPartial('process.js.php', [
                 'product' => $product,
                 'ps' => $ps,

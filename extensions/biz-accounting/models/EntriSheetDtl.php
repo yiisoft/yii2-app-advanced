@@ -14,19 +14,22 @@ use Yii;
  * @property EntriSheet $idEsheet
  * @property Coa $idCoa
  */
-class EntriSheetDtl extends \yii\db\ActiveRecord {
+class EntriSheetDtl extends \yii\db\ActiveRecord
+{
 
     /**
      * @inheritdoc
      */
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'entri_sheet_dtl';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             [['id_esheet', 'id_coa', 'nm_esheet_dtl'], 'required'],
             [['id_esheet', 'id_coa'], 'integer'],
@@ -37,7 +40,8 @@ class EntriSheetDtl extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id_esheet' => 'Id Esheet',
             'id_coa' => 'Id Coa'
@@ -47,14 +51,16 @@ class EntriSheetDtl extends \yii\db\ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdEsheet() {
+    public function getIdEsheet()
+    {
         return $this->hasOne(EntriSheet::className(), ['id_esheet' => 'id_esheet']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdCoa() {
+    public function getIdCoa()
+    {
         return $this->hasOne(Coa::className(), ['id_coa' => 'id_coa']);
     }
 

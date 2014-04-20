@@ -19,19 +19,22 @@ use Yii;
  * @property PaymentDtl $paymentDtl
  * @property InvoiceHdr[] $idInvoices
  */
-class Payment extends \yii\db\ActiveRecord {
+class Payment extends \yii\db\ActiveRecord
+{
 
     /**
      * @inheritdoc
      */
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'payment';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             [['payment_num', 'payment_type', 'payment_date'], 'required'],
             [['payment_num'], 'string'],
@@ -43,7 +46,8 @@ class Payment extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id_payment' => 'Id Payment',
             'payment_num' => 'Payment Num',
@@ -59,22 +63,24 @@ class Payment extends \yii\db\ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPaymentDtl() {
+    public function getPaymentDtl()
+    {
         return $this->hasOne(PaymentDtl::className(), ['id_payment' => 'id_payment']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdInvoices() {
+    public function getIdInvoices()
+    {
         return $this->hasMany(InvoiceHdr::className(), ['id_invoice' => 'id_invoice'])->viaTable('payment_dtl', ['id_payment' => 'id_payment']);
     }
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'app\tools\AutoTimestamp',
             'app\tools\AutoUser'
         ];
     }
-
 }

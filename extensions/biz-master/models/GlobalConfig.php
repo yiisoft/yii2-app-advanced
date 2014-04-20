@@ -64,13 +64,4 @@ class GlobalConfig extends \yii\db\ActiveRecord
 			'app\tools\AutoUser',
 		];
 	}
-	
-	public static function getConfigValue($group,$name,$default=null)
-	{
-		$model = self::find(['config_group' => $group, 'config_name' => $name]);
-		if($model){
-			return $model->config_value;
-		}
-		return $default;
-	}
 }

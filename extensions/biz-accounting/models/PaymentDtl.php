@@ -16,6 +16,7 @@ use Yii;
  */
 class PaymentDtl extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */

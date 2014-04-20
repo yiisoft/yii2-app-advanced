@@ -12,6 +12,7 @@ use biz\accounting\models\EntriSheet;
  */
 class EntriSheetSearch extends Model
 {
+
     public $id_esheet;
     public $cd_esheet;
     public $nm_esheet;
@@ -83,4 +84,5 @@ class EntriSheetSearch extends Model
             $query->andWhere([$attribute => $value]);
         }
     }
+
 }

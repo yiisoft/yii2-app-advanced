@@ -26,7 +26,6 @@ use yii\base\UserException;
  */
 class InvoiceHdr extends \yii\db\ActiveRecord
 {
-
     const TYPE_PURCHASE = 100;
     const TYPE_SALES = 200;
 
@@ -113,27 +112,4 @@ class InvoiceHdr extends \yii\db\ActiveRecord
             ]
         ];
     }
-
-    public static function createInvoice($params)
-    {
-        $invoice = new self();
-        $invoice->id_vendor = $params['id_vendor'];
-        $invoice->inv_date = $params['date'];
-        $invoice->inv_value = $params['value'];
-        $invoice->type = $params['type'];
-        $invoice->due_date = date('Y-m-d', strtotime('+1 month'));
-        $invoice->status = 0;
-        if (!$invoice->save()) {
-            throw new UserException(implode("\n", $invoice->getFirstErrors()));
-        }
-
-        $invDtl = new InvoiceDtl();
-        $invDtl->id_invoice = $invoice->id_invoice;
-        $invDtl->id_reff = $params['id_ref'];
-        $invDtl->trans_value = $params['value'];
-        if (!$invDtl->save()) {
-            throw new UserException(implode("\n", $invDtl->getFirstErrors()));
-        }
-    }
-
 }
