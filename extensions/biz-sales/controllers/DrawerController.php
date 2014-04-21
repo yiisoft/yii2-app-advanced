@@ -74,7 +74,7 @@ class DrawerController extends Controller
 
 	public function actionOpen()
 	{
-		$model = Cashdrawer::find([
+		$model = Cashdrawer::findOne([
 				'client_machine' => Yii::$app->clientUniqueid,
 				'id_user' => Yii::$app->user->getId(),
 				'status' => Cashdrawer::STATUS_OPEN,
@@ -137,7 +137,7 @@ class DrawerController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if (($model = Cashdrawer::find($id)) !== null) {
+		if (($model = Cashdrawer::findOne($id)) !== null) {
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');

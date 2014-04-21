@@ -116,7 +116,7 @@ class PriceController extends Controller
      */
     protected function findModel($id_product, $id_price_category)
     {
-        if (($model = Price::find(['id_product' => $id_product, 'id_price_category' => $id_price_category])) !== null) {
+        if (($model = Price::findOne(['id_product' => $id_product, 'id_price_category' => $id_price_category])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

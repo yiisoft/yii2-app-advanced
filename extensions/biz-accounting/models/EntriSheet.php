@@ -80,32 +80,4 @@ class EntriSheet extends \yii\db\ActiveRecord
             'app\tools\AutoUser'
         ];
     }
-
-    public static function getGLMaps($nm_entrisheet, $values)
-    {
-        $gl_dtls = [];
-        $esheet = self::find(['nm_esheet' => $nm_entrisheet]);
-        if ($esheet) {
-            foreach ($esheet->entriSheetDtl as $eDtl) {
-                $coa = $eDtl->id_coa;
-                $nm = $eDtl->nm_esheet_dtl;
-
-                $dc = $eDtl->idCoa->normal_balance == 'D' ? 1 : -1;
-
-                if (isset($values[$nm])) {
-                    $ammount = $dc * $values[$nm];
-                } else {
-                    throw new \yii\base\UserException("Required account $nm ");
-                }
-                $gl_dtls[] = [
-                    'id_coa' => $coa,
-                    'ammount' => $ammount
-                ];
-            }
-        } else {
-            throw new \yii\base\UserException("Entrysheet $nm_entrisheet not found");
-        }
-        return $gl_dtls;
-    }
-
 }

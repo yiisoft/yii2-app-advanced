@@ -290,7 +290,7 @@ class TransferController extends Controller
      */
     protected function findModel($id)
     {
-        if ($id !== null && ($model = TransferHdr::find($id)) !== null) {
+        if (($model = TransferHdr::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

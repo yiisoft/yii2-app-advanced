@@ -116,7 +116,7 @@ class ConfigController extends Controller
      */
     protected function findModel($config_group, $config_name)
     {
-        if (($model = GlobalConfig::find(['config_group' => $config_group, 'config_name' => $config_name])) !== null) {
+        if (($model = GlobalConfig::findOne(['config_group' => $config_group, 'config_name' => $config_name])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

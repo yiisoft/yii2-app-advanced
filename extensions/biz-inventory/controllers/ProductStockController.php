@@ -116,7 +116,7 @@ class ProductStockController extends Controller
      */
     protected function findModel($id_warehouse, $id_product)
     {
-        if (($model = ProductStock::find(['id_warehouse' => $id_warehouse, 'id_product' => $id_product])) !== null) {
+        if (($model = ProductStock::findOne(['id_warehouse' => $id_warehouse, 'id_product' => $id_product])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -8,6 +8,7 @@ use biz\accounting\models\CoaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * CoaController implements the CRUD actions for Coa model.
@@ -113,26 +114,25 @@ class CoaController extends Controller
      */
     protected function findModel($id)
     {
-        if ($id !== null && ($model = Coa::find($id)) !== null) {
+        if (($model = Coa::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 
-    public function actionCoaList()
+    public function actionCoaList($term = '')
     {
-        $ncoa = (Yii::$app->request->get() !== null) ? Yii::$app->request->get()['term'] : '-1';
-        $mCoa = Coa::find()
-            ->where('lower(nm_account) LIKE :ncoa', [':ncoa' => '%' . strtolower($ncoa) . '%'])
-            ->orderBy('cd_account')
-            ->all();
+        $query = Coa::find()->orderBy('cd_account');
+        if (!empty($term)) {
+            $query->where(['LIKE', 'lower(nm_account)', strtolower($term)]);
+        }
 
         $rCoa = [];
-        foreach ($mCoa as $row) {
+        foreach ($query->all() as $row) {
             $rCoa[] = ['id' => $row->id_coa, 'label' => $row->cd_account . ': ' . $row->nm_account];
         }
-        echo json_encode($rCoa);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $rCoa;
     }
-
 }

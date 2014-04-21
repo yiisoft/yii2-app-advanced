@@ -144,7 +144,7 @@ class StandartController extends Controller
                     if ($id_hdr !== false) {
                         $detail->id_sales = $id_hdr;
                         $detail->id_warehouse = $id_whse;
-                        $cogs = Cogs::find(['id_product' => $detail->id_product]);
+                        $cogs = Cogs::findOne(['id_product' => $detail->id_product]);
                         if ($cogs) {
                             $detail->cogs = $cogs->cogs;
                         } else {
@@ -302,7 +302,7 @@ class StandartController extends Controller
      */
     protected function findModel($id)
     {
-        if ($id !== null && ($model = SalesHdr::find($id)) !== null) {
+        if (($model = SalesHdr::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

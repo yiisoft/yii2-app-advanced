@@ -117,7 +117,7 @@ class EntriSheetDtlController extends Controller
      */
     protected function findModel($id_esheet, $id_coa)
     {
-        if (($model = EntriSheetDtl::find(['id_esheet' => $id_esheet, 'id_coa' => $id_coa])) !== null) {
+        if (($model = EntriSheetDtl::findOne(['id_esheet' => $id_esheet, 'id_coa' => $id_coa])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

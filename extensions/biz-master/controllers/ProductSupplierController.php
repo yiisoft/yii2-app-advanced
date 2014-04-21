@@ -116,7 +116,7 @@ class ProductSupplierController extends Controller
 	 */
 	protected function findModel($id_product, $id_supplier)
 	{
-		if (($model = ProductSupplier::find(['id_product' => $id_product, 'id_supplier' => $id_supplier])) !== null) {
+		if (($model = ProductSupplier::findOne(['id_product' => $id_product, 'id_supplier' => $id_supplier])) !== null) {
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');

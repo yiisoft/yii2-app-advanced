@@ -19,7 +19,6 @@ namespace biz\accounting\models;
  */
 class AccPeriode extends \yii\db\ActiveRecord
 {
-
     const STATUS_CLOSE = 0;
     const STATUS_OPEN = 1;
 
@@ -75,21 +74,14 @@ class AccPeriode extends \yii\db\ActiveRecord
      */
     public static function getCurrentPeriode()
     {
-        return self::find([
-                'status' => self::STATUS_OPEN,
-        ]);
+        return self::findOne(['status' => self::STATUS_OPEN]);
     }
 
     public function behaviors()
     {
         return [
-            'timestamp' => [
-                'class' => 'app\tools\AutoTimestamp',
-            ],
-            'changeUser' => [
-                'class' => 'app\tools\AutoUser',
-            ]
+            'app\tools\AutoTimestamp',
+            'app\tools\AutoUser',
         ];
     }
-
 }

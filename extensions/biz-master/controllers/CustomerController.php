@@ -112,7 +112,7 @@ class CustomerController extends Controller
      */
     protected function findModel($id)
     {
-        if ($id !== null && ($model = Customer::find($id)) !== null) {
+        if (($model = Customer::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

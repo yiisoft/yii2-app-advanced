@@ -116,7 +116,7 @@ class ProductUomController extends Controller
      */
     protected function findModel($id_product, $id_uom)
     {
-        if (($model = ProductUom::find(['id_product' => $id_product, 'id_uom' => $id_uom])) !== null) {
+        if (($model = ProductUom::findOne(['id_product' => $id_product, 'id_uom' => $id_uom])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

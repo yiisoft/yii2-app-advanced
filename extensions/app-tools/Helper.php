@@ -53,7 +53,7 @@ class Helper
                 ];
             }
         } else {
-            throw new UserException("Entrysheet $nm_entrisheet not found");
+            throw new UserException("Entrysheet $name not found");
         }
         return $gl_dtls;
     }
@@ -158,7 +158,7 @@ class Helper
     public static function UpdateStock($params, $logs = [])
     {
         $result = [];
-        $stock = ProductStock::find([
+        $stock = ProductStock::findOne([
                 'id_warehouse' => $params['id_warehouse'],
                 'id_product' => $params['id_product'],
         ]);
@@ -287,7 +287,7 @@ class Helper
 	
 	public static function getConfigValue($group,$name,$default=null)
 	{
-		$model = GlobalConfig::find(['config_group' => $group, 'config_name' => $name]);
+		$model = GlobalConfig::findOne(['config_group' => $group, 'config_name' => $name]);
 		if($model){
 			return $model->config_value;
 		}

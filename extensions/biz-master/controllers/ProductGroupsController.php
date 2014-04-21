@@ -112,7 +112,7 @@ class ProductGroupsController extends Controller
      */
     protected function findModel($id)
     {
-        if ($id !== null && ($model = ProductGroups::find($id)) !== null) {
+        if (($model = ProductGroups::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

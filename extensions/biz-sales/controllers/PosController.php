@@ -165,7 +165,7 @@ class PosController extends Controller
 	 */
 	protected function findModel($id)
 	{
-		if ($id !== null && ($model = SalesHdr::find($id)) !== null) {
+		if (($model = SalesHdr::findOne($id)) !== null) {
 			return $model;
 		} else {
 			throw new NotFoundHttpException('The requested page does not exist.');

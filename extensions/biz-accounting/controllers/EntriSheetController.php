@@ -113,11 +113,10 @@ class EntriSheetController extends Controller
      */
     protected function findModel($id)
     {
-        if ($id !== null && ($model = EntriSheet::find($id)) !== null) {
+        if (($model = EntriSheet::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }
