@@ -133,6 +133,19 @@ class Product extends \yii\db\ActiveRecord {
     public function getProductUoms() {
         return $this->hasMany(ProductUom::className(), ['id_product' => 'id_product']);
     }
+    
+    public static function ListUoms($id){
+        $sql = 'SELECT u.id_uom, u.nm_uom '
+            . 'FROM uom u '
+            . 'INNER JOIN product_uom pu ON(u.id_uom=pu.id_uom) '
+            . 'WHERE pu.id_product=:id_product';
+        $result = [];
+        $cmd = \Yii::$app->db->createCommand($sql,[':id_product'=>$id]);
+        foreach ($cmd->queryAll() as $row) {
+            $result[$row['id_uom']]=$row['nm_uom'];
+        }
+        return $result;
+    }
 
     /**
      * @return \yii\db\ActiveQuery
