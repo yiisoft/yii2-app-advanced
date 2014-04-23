@@ -5,6 +5,7 @@ use yii\jui\AutoComplete;
 use yii\helpers\Html;
 use biz\purchase\models\PurchaseDtl;
 use biz\master\models\Product;
+use app\tools\Helper;
 ?>
 <div class="col-lg-9">
     <div class="panel panel-info">
@@ -55,7 +56,7 @@ use biz\master\models\Product;
                                     'size' => 5, 'id' => false,
                                     'required' => true])
                                 ?>
-                                <?= Html::activeDropDownList($model, "[$index]id_uom", Product::ListUoms($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
+                                <?= Html::activeDropDownList($model, "[$index]id_uom", Helper::ListProductUoms($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
                             </li>
                             <li>
                                 Price Rp <?=

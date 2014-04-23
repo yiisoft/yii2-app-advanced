@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
 use biz\master\models\Warehouse;
 use yii\jui\AutoComplete;
+use app\tools\Helper;
 
 /**
  * @var yii\web\View $this
@@ -48,7 +49,7 @@ use yii\jui\AutoComplete;
                 ]);
                 echo $field;
                 ?>
-                <?= $form->field($model, 'id_warehouse')->dropDownList(Warehouse::WarehouseList()); ?>
+                <?= $form->field($model, 'id_warehouse')->dropDownList(Helper::getWarehouseList()); ?>
                 <?php
                 echo $form->field($model, 'purchase_date')
                     ->widget('yii\jui\DatePicker', [

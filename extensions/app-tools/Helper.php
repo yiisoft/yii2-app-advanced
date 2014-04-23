@@ -15,6 +15,8 @@ use biz\master\models\Cogs;
 use biz\master\models\Price;
 use biz\master\models\PriceCategory;
 use biz\master\models\GlobalConfig;
+use biz\master\models\Warehouse;
+use yii\helpers\ArrayHelper;
 
 /**
  * Description of Helper
@@ -293,4 +295,13 @@ class Helper
 		}
 		return $default;
 	}
+    
+    public static function getWarehouseList($branch=false)
+    {
+        $query = Warehouse::find();
+		if($branch !== false){
+			$query->andWhere(['id_branch'=>  $branch]);
+		}
+        return ArrayHelper::map($query->all(), 'id_warehouse', 'nm_whse');
+    }
 }

@@ -63,17 +63,4 @@ class Warehouse extends \yii\db\ActiveRecord
 			]
 		];
 	}
-	
-	public static function WarehouseList($its_branch=false)
-	{
-		$query = self::find();
-		if($its_branch){
-			$query->andWhere(['id_branch'=>  \Yii::$app->user->identity->id_branch]);
-		}
-		$result = [];
-		foreach ($query->all() as $row) {
-			$result[$row->id_warehouse] = $row->nm_whse;
-		}
-		return $result;
-	}
 }
