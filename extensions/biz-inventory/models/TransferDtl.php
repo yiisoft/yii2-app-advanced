@@ -51,7 +51,7 @@ class TransferDtl extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_transfer_dtl' => 'Id Transfer Dtl',
+            //'id_transfer_dtl' => 'Id Transfer Dtl',
             'id_transfer' => 'Id Transfer',
             'id_product' => 'Id Product',
             'transfer_qty_send' => 'Transfer Qty Send',
