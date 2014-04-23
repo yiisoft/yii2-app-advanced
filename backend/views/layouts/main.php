@@ -115,8 +115,8 @@ AppAsset::register($this);
                     [
                         'label' => 'Accounting',
                         'items' => [
-                            ['label' => 'COA', 'url' => ['#']],
-                            ['label' => 'Entry Sheet', 'url' => ['#']],
+                            ['label' => 'COA', 'url' => ['/accounting/coa']],
+                            ['label' => 'Entry Sheet', 'url' => ['/accounting/entri-sheet']],
                             '<li class="divider"></li>',
                             ['label' => 'Entri Journal', 'url' => '#'],
                             ['label' => 'Pembayaran Hutang', 'url' => '#'],
