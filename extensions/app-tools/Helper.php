@@ -279,6 +279,10 @@ class Helper
         return ArrayHelper::map($query->asArray()->all(), 'id_warehouse', 'nm_whse');
     }
 
+    /**
+     * get Active Accounting Perode
+     * @return integer
+     */
     public static function getActiveAccPeriode()
     {
         $query = new \yii\db\Query;
