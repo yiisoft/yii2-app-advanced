@@ -103,7 +103,9 @@ class Helper
         $gl->description = $hdr['description'];
 
         $gl->id_branch = $hdr['id_branch'];
-        $gl->id_periode = $this->getActiveAccPeriode();
+        
+        $active_periode = AccPeriode::getCurrentPeriode();
+        $gl->id_periode = $active_periode['id_periode'];
         $gl->status = 0;
         if (!$gl->save()) {
             throw new UserException(implode("\n", $gl->getFirstErrors()));
@@ -277,20 +279,6 @@ class Helper
             $query->where(['id_branch' => $branch]);
         }
         return ArrayHelper::map($query->asArray()->all(), 'id_warehouse', 'nm_whse');
-    }
-
-    /**
-     * get Active Accounting Perode
-     * @return integer
-     */
-    public static function getActiveAccPeriode()
-    {
-        $query = new \yii\db\Query;
-        $query->select('id_periode')
-            ->from('acc_periode')
-            ->where(['status' => 0]);
-        $cmdr = $query->createCommand();
-        return $cmdr->queryScalar();
     }
 
 }
