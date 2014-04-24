@@ -201,7 +201,7 @@ class StandartController extends Controller
                 foreach ($model->salesDtls as $detail) {
                     $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
                     $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
-                    Helper::UpdateStock([
+                    Helper::updateStock([
                         'id_warehouse' => $detail->id_warehouse,
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,

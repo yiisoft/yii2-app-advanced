@@ -2,7 +2,6 @@
 
 namespace app\tools;
 
-use Yii;
 use yii\base\UserException;
 use biz\accounting\models\EntriSheet;
 use biz\accounting\models\Coa;
@@ -16,6 +15,7 @@ use biz\master\models\Price;
 use biz\master\models\PriceCategory;
 use biz\master\models\GlobalConfig;
 use biz\master\models\Warehouse;
+use biz\master\models\ProductUom;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -33,7 +33,7 @@ class Helper
      * @return array
      * @throws UserException
      */
-    public static function EntriSheetToGlMaps($name, $values)
+    public static function entriSheetToGlMaps($name, $values)
     {
         $gl_dtls = [];
         $esheet = EntriSheet::findOne(['nm_esheet' => $name]);
@@ -141,25 +141,19 @@ class Helper
         }
     }
 
-    public static function currentStock($id_whse, $id_product)
+    public static function getCurrentStock($id_whse, $id_product)
     {
-        $stock = ProductStock::findOne([
-                'id_warehouse' => $id_whse,
-                'id_product' => $id_product,
-        ]);
+        $stock = ProductStock::findOne(['id_warehouse' => $id_whse, 'id_product' => $id_product]);
         return $stock ? $stock->qty_stock : 0;
     }
 
-    public static function currentStockAll($id_product)
+    public static function getCurrentStockAll($id_product)
     {
-        $sql = 'select sum(qty_stock) from product_stock where id_product = :id_product';
-        $stock = Yii::$app->db->createCommand($sql, [':id_product' => $id_product])->queryScalar();
-        return $stock ? $stock : 0;
+        return ProductStock::find()->where(['id_product' => $id_product])->sum('qty_stock');
     }
 
-    public static function UpdateStock($params, $logs = [])
+    public static function updateStock($params, $logs = [])
     {
-        $result = [];
         $stock = ProductStock::findOne([
                 'id_warehouse' => $params['id_warehouse'],
                 'id_product' => $params['id_product'],
@@ -186,10 +180,9 @@ class Helper
         return true;
     }
 
-    public static function UpdateCogs($params, $logs = [])
+    public static function updateCogs($params, $logs = [])
     {
-        $cogs = Cogs::findOne(['id_product' => $params['id_product'],]);
-
+        $cogs = Cogs::findOne(['id_product' => $params['id_product']]);
         if (!$cogs) {
             $cogs = new Cogs();
             $cogs->setAttributes([
@@ -217,7 +210,7 @@ class Helper
         return empty($_formula_) ? $price : eval("return $_formula_;");
     }
 
-    public static function UpdatePrice($params, $logs = [])
+    public static function updatePrice($params, $logs = [])
     {
         $categories = PriceCategory::find()->all();
         foreach ($categories as $category) {
@@ -248,29 +241,17 @@ class Helper
         return true;
     }
 
-    public static function ListProductUoms($product_id)
+    public static function getProductUomList($id_product)
     {
-        $sql = 'select u.id_uom,u.nm_uom
-                from uom u
-                join product_uom pu on(pu.id_uom=u.id_uom)
-                where pu.id_product=:id_product';
-        $result = [];
-        foreach (Yii::$app->db->createCommand($sql, [':id_product' => $product_id])->queryAll() as $row) {
-            $result[$row['id_uom']] = $row['nm_uom'];
-        }
-        return $result;
+        return ArrayHelper::map(ProductUom::find()->where(['id_product' => $id_product])->asArray()->all(), 'id_uom', 'nm_uom');
     }
 
     /**
      * @return integer
      */
-    public static function getSmallestProductUom($product_id)
+    public static function getSmallestProductUom($id_product)
     {
-        $sql = 'select pu.id_uom
-            from product_uom pu
-            where pu.id_product=:id
-            order by pu.isi ASC';
-        return Yii::$app->db->createCommand($sql, [':id' => $product_id])->queryScalar();
+        return ProductUom::find()->where(['id_product' => $id_product])->min('isi');
     }
 
     /**
@@ -278,30 +259,22 @@ class Helper
      */
     public static function getQtyProductUom($id_product, $id_uom)
     {
-        $sql = 'select pu.isi
-            from product_uom pu
-            where pu.id_product=:id_product and pu.id_uom=:id_uom';
-        return Yii::$app->db->createCommand($sql, [
-                ':id_product' => $id_product,
-                ':id_uom' => $id_uom]
-            )->queryScalar();
+        $pu = ProductUom::findOne(['id_product' => $id_product, 'id_uom' => $id_uom]);
+        return $pu ? $pu->isi : false;
     }
-	
-	public static function getConfigValue($group,$name,$default=null)
-	{
-		$model = GlobalConfig::findOne(['config_group' => $group, 'config_name' => $name]);
-		if($model){
-			return $model->config_value;
-		}
-		return $default;
-	}
-    
-    public static function getWarehouseList($branch=false)
+
+    public static function getConfigValue($group, $name, $default = null)
+    {
+        $model = GlobalConfig::findOne(['config_group' => $group, 'config_name' => $name]);
+        return $model ? $model->config_value : $default;
+    }
+
+    public static function getWarehouseList($branch = false)
     {
         $query = Warehouse::find();
-		if($branch !== false){
-			$query->andWhere(['id_branch'=>  $branch]);
-		}
-        return ArrayHelper::map($query->all(), 'id_warehouse', 'nm_whse');
+        if ($branch !== false) {
+            $query->where(['id_branch' => $branch]);
+        }
+        return ArrayHelper::map($query->asArray()->all(), 'id_warehouse', 'nm_whse');
     }
 }

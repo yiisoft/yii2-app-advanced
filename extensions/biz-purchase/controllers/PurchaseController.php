@@ -10,14 +10,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use biz\purchase\models\PurchaseDtl;
 use \Exception;
-use biz\inventory\models\ProductStock;
-use biz\master\models\Cogs;
-use biz\master\models\Price;
-use biz\master\models\ProductUom;
 use yii\base\UserException;
 use biz\accounting\models\InvoiceHdr;
 use biz\accounting\models\GlHeader;
-use biz\accounting\models\EntriSheet;
 use app\tools\Helper;
 
 /**
@@ -211,14 +206,12 @@ class PurchaseController extends Controller
                 if (!$model->save()) {
                     throw new UserException(implode(",\n", $model->firstErrors));
                 }
-                $id_warehouse = $model->id_warehouse;
-                $id_branch = $model->id_branch;
 
                 foreach ($model->purchaseDtls as $detail) {
                     $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
                     $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
 
-                    Helper::UpdateStock([
+                    Helper::updateStock([
                         'id_warehouse' => $detail->id_warehouse,
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,
@@ -229,9 +222,9 @@ class PurchaseController extends Controller
                         'id_ref' => $detail->id_purchase_dtl,
                     ]);
 
-                    $current_qty_all = Helper::currentStockAll($detail->id_product);
+                    $current_qty_all = Helper::getCurrentStockAll($detail->id_product);
 
-                    Helper::UpdateCogs([
+                    Helper::updateCogs([
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,
                         'old_stock' => $current_qty_all,
@@ -242,7 +235,7 @@ class PurchaseController extends Controller
                         'id_ref' => $detail->id_purchase_dtl,
                     ]);
 
-                    Helper::UpdatePrice([
+                    Helper::updatePrice([
                         'id_product' => $detail->id_product,
                         'id_uom' => $smallest_uom,
                         'price' => $detail->selling_price,
@@ -280,7 +273,7 @@ class PurchaseController extends Controller
                     'HUTANG_DAGANG' => $model->purchase_value * (1 - $model->item_discount * 0.01),
                 ];
 
-                $glDtls = Helper::EntriSheetToGlMaps('PEMBELIAN_KREDIT', $dtls);
+                $glDtls = Helper::entriSheetToGlMaps('PEMBELIAN_KREDIT', $dtls);
                 Helper::createGL($glHdr, $glDtls);
                 $transaction->commit();
             } catch (Exception $exc) {
@@ -302,7 +295,7 @@ class PurchaseController extends Controller
      */
     protected function findModel($id)
     {
-        if ($id !== null && ($model = PurchaseHdr::find($id)) !== null) {
+        if (($model = PurchaseHdr::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

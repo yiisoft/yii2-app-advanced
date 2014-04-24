@@ -2,7 +2,6 @@
 
 namespace biz\purchase\models;
 
-use Yii;
 use biz\master\models\Supplier;
 use biz\master\models\Branch;
 
@@ -115,9 +114,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord {
                 'digit' => 4,
                 'group' => 'purchase',
                 'attribute' => 'purchase_num',
-                'value' => function($event) {
-                    return 'PU'.date('y.?');
-                }
+                'value' => 'PU'.date('y.?')
             ]
         ];
     }

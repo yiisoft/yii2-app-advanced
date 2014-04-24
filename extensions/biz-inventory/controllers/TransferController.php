@@ -250,13 +250,12 @@ class TransferController extends Controller
             $success = $model->save();
             if ($confirm == TransferHdr::STATUS_CONFIRM_APPROVE) {
                 $id_warehouse = $model->id_warehouse_source;
-                $details = $model->transferDtls;
                 foreach ($model->transferDtls as $detail) {
                     $qty = $detail->transfer_qty_send - $detail->transfer_qty_receive;
                     if ($qty != 0) {
                         $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
                         $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
-                        Helper::UpdateStock([
+                        Helper::updateStock([
                             'id_warehouse' => $id_warehouse,
                             'id_product' => $detail->id_product,
                             'id_uom' => $smallest_uom,

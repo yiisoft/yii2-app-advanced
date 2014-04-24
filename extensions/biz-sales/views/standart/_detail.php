@@ -4,7 +4,6 @@ use yii\web\JsExpression;
 use yii\jui\AutoComplete;
 use yii\helpers\Html;
 use biz\sales\models\SalesDtl;
-use biz\master\models\Product;
 use app\tools\Helper;
 
 ?>
@@ -51,7 +50,7 @@ use app\tools\Helper;
                                     'size' => 5, 'id' => false,
                                     'required' => true])
                                 ?>
-                                <?= Html::activeDropDownList($model, "[$index]id_uom", Helper::ListProductUoms($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
+                                <?= Html::activeDropDownList($model, "[$index]id_uom", Helper::getProductUomList($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
                             </li>
                             <li>
 								<?= Html::activeHiddenInput($model, "[$index]sales_price", ['data-field' => 'sales_price','id' => false]) ?>
