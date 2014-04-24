@@ -82,14 +82,20 @@ class CoaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_coa]);
-        } else {
-            return $this->render('update', [
-                    'model' => $model,
-            ]);
+        $dpost = Yii::$app->request->post();
+        if ($model->load($dpost)) {
+            $model->id_coa_parent = $dpost['Coa']['id_coa_parent'];
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->id_coa]);
+            }
+//        } else {
+//            return $this->render('update', [
+//                    'model' => $model,
+//            ]);
         }
+        return $this->render('update', [
+                'model' => $model,
+        ]);
     }
 
     /**
@@ -135,4 +141,5 @@ class CoaController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         return $rCoa;
     }
+
 }

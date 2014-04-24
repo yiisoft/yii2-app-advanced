@@ -37,7 +37,7 @@ use yii\web\JsExpression;
                     'options' => ['class' => 'form-control', 'id' => $el_id],
                     'clientOptions' => [
                         'source' => yii\helpers\Url::toRoute(['coa-list']),
-                        'select' => new JsExpression('function(event,ui){$(\'#id_coa_parent\').val(ui.item.did)}'),
+                        'select' => new JsExpression('function(event,ui){$(\'#id_coa_parent\').val(ui.item.id)}'),
                         'open' => new JsExpression('function(event,ui){$(\'#id_coa_parent\').val(\'\')}'),
                     ]
             ]);

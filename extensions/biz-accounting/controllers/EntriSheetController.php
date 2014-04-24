@@ -64,7 +64,7 @@ class EntriSheetController extends Controller
         $model = new EntriSheet;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_esheet]);
+            return $this->redirect(['update', 'id' => $model->id_esheet]);
         } else {
             return $this->render('create', [
                     'model' => $model,
@@ -81,8 +81,17 @@ class EntriSheetController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $dval = Yii::$app->request->post();
+       
+        if(isset($dval['EntriSheetDtl'])):
+            $modelDtl = new \biz\accounting\models\EntriSheetDtl;
+            $modelDtl->load($dval);
+            if(!$modelDtl->save()){
+                print_r($modelDtl->errors);
+            }
+        endif;
+        
+        if (isset($dval['EntriSheet']) && $model->load($dval) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_esheet]);
         } else {
             return $this->render('update', [

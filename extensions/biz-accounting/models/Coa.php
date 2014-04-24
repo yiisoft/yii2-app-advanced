@@ -25,7 +25,8 @@ use yii\base\UserException;
  * @property EntriSheetDtl $entriSheetDtl
  * @property EntriSheet[] $idEsheets
  */
-class Coa extends \yii\db\ActiveRecord {
+class Coa extends \yii\db\ActiveRecord
+{
 
     private static $_acc_type = [
         100000 => 'AKTIVA',
@@ -35,7 +36,6 @@ class Coa extends \yii\db\ActiveRecord {
         500000 => 'HPP',
         600000 => 'BIAYA'
     ];
-    
     private static $_balance_type = [
         ['normal_balance' => 'D', 'nm_balance' => 'DEBIT'],
         ['normal_balance' => 'K', 'nm_balance' => 'KREDIT'],
@@ -44,14 +44,16 @@ class Coa extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'coa';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             [['cd_account', 'nm_account', 'coa_type', 'normal_balance'], 'required'],
             [['coa_type'], 'integer'],
@@ -63,7 +65,8 @@ class Coa extends \yii\db\ActiveRecord {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id_coa' => 'Id Coa',
             'id_coa_parent' => 'Id Coa Parent',
@@ -81,67 +84,106 @@ class Coa extends \yii\db\ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getGlDetails() {
+    public function getGlDetails()
+    {
         return $this->hasMany(GlDetail::className(), ['id_coa' => 'id_coa']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdCoaParent() {
+    public function getIdCoaParent()
+    {
         return $this->hasOne(Coa::className(), ['id_coa' => 'id_coa_parent']);
     }
-    
-        /**
+
+    /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCoaChilds() {
+    public function getCoaChilds()
+    {
         return $this->hasMany(Coa::className(), ['id_coa_parent' => 'id_coa']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCoas() {
+    public function getCoas()
+    {
         return $this->hasMany(Coa::className(), ['id_coa_parent' => 'id_coa']);
     }
 
     /**
      * @return array()
      */
-    public static function getCoaType() {
+    public static function getCoaType()
+    {
         return self::$_acc_type;
     }
 
     /**
      * @return string
      */
-    public function getNmCoaType() {
+    public function getNmCoaType()
+    {
         return self::$_acc_type[$this->coa_type];
     }
 
     /**
      * @return array()
      */
-    public static function getBalanceType() {
+    public static function getBalanceType()
+    {
         return self::$_balance_type;
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEntriSheetDtl() {
+    public function getEntriSheetDtl()
+    {
         return $this->hasOne(EntriSheetDtl::className(), ['id_coa' => 'id_coa']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdEsheets() {
+    public function getIdEsheets()
+    {
         return $this->hasMany(EntriSheet::className(), ['id_esheet' => 'id_esheet'])->viaTable('entri_sheet_dtl', ['id_coa' => 'id_coa']);
     }
 
-    public function behaviors() {
+    public static function ListGCoas()
+    {
+        $sqli = 'SELECT id_coa, cd_account, nm_account FROM coa '
+            . 'WHERE (cd_account::INT % 10000) = 0 ORDER BY cd_account ASC';
+        $cmdi = \Yii::$app->db->createCommand($sqli);
+        $dcol0 = $cmdi->queryColumn();
+        $dval0 = $cmdi->queryAll();
+
+        $query = new \yii\db\Query;
+        $query->select('id_coa, cd_account, nm_account, id_coa_parent')
+            ->from('coa')
+            ->where(['in', 'id_coa_parent', $dcol0])
+            ->orderBy('id_coa_parent,cd_account');
+
+        $cmdr = $query->createCommand();
+        $dvalr = $cmdr->queryAll();
+
+        $result = [];
+        foreach ($dval0 as $row) {
+            $result[$row['nm_account']] = [];
+            foreach ($dvalr as $rowd) {
+                if ($row['id_coa'] == $rowd['id_coa_parent']) {
+                    $result[$row['nm_account']][$rowd['id_coa']] = '[' . $rowd['cd_account'] . '] ' . $rowd['nm_account'];
+                }
+            }
+        }
+        return $result;
+    }
+
+    public function behaviors()
+    {
         return [
             'app\tools\AutoTimestamp',
             'app\tools\AutoUser'
