@@ -191,7 +191,7 @@ class Helper
         $cogs = Cogs::findOne(['id_product' => $params['id_product'],]);
 
         if (!$cogs) {
-            $cogs = new self();
+            $cogs = new Cogs();
             $cogs->setAttributes([
                 'id_product' => $params['id_product'],
                 'id_uom' => $params['id_uom'],
