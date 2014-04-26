@@ -52,7 +52,7 @@ use yii\bootstrap\Modal;
 //            if ($model->isNewRecord):
 //                echo 'Save header first..';
 //            else:
-            echo (!$model->isNewRecord) ? '<a class=" pull-right" data-toggle="modal" data-target="#myModal"><span class="btn btn-default glyphicon glyphicon-plus"></span></a>' : '';
+            echo (!$model->isNewRecord) ? '<a class=" pull-right" data-toggle="modal" data-target="#myModal"><span class="btn glyphicon glyphicon-plus"></span></a>' : '';
             $dESheetD = new ActiveDataProvider([
                 'query' => $model->getEntriSheetDtl(),
                 'pagination' => [
