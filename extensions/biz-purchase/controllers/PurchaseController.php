@@ -270,7 +270,7 @@ class PurchaseController extends Controller
 
                 $dtls = [
                     'PERSEDIAAN' => $model->purchase_value * (1 - $model->item_discount * 0.01),
-                    'HUTANG_DAGANG' => $model->purchase_value * (1 - $model->item_discount * 0.01),
+                    'HUTANG' => $model->purchase_value * (1 - $model->item_discount * 0.01),
                 ];
 
                 $glDtls = Helper::entriSheetToGlMaps('PEMBELIAN_KREDIT', $dtls);
