@@ -5,14 +5,14 @@ namespace app\tools\hooks;
 use app\tools\Hooks;
 use app\tools\Helper;
 use biz\master\models\PriceCategory;
-use biz\master\models\Price as MPrice;
+use biz\master\models\Price;
 
 /**
  * Description of Price
  *
  * @author MDMunir
  */
-class Price extends \yii\base\Behavior
+class UpdatePrice extends \yii\base\Behavior
 {
 
     public function events()
@@ -35,13 +35,13 @@ class Price extends \yii\base\Behavior
     {
         $categories = PriceCategory::find()->all();
         foreach ($categories as $category) {
-            $price = MPrice::findOne([
+            $price = Price::findOne([
                     'id_product' => $params['id_product'],
                     'id_price_category' => $category->id_price_category
             ]);
 
             if (!$price) {
-                $price = new MPrice();
+                $price = new Price();
                 $price->setAttributes([
                     'id_product' => $params['id_product'],
                     'id_price_category' => $category->id_price_category,

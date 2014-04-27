@@ -11,7 +11,7 @@ use biz\accounting\models\InvoiceHdr;
  *
  * @author MDMunir
  */
-class Invoice extends \yii\base\Behavior
+class CreateInvoice extends \yii\base\Behavior
 {
 
     public function events()
@@ -25,7 +25,7 @@ class Invoice extends \yii\base\Behavior
      * 
      * @param Event $event
      */
-    public function purchaseReceiveEnd($event,$model)
+    public function purchaseReceiveEnd($event, $model)
     {
         /*
          * AUTOMATIC INVOICE

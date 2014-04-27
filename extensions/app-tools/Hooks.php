@@ -77,11 +77,11 @@ class Hooks extends \yii\base\Component
     public function behaviors()
     {
         return[
-            'app\tools\hooks\Stock',
-            'app\tools\hooks\Cogs',
-            'app\tools\hooks\Price',
-            'app\tools\hooks\Invoice',
-            'app\tools\hooks\Gl',
+            'app\tools\hooks\UpdateStock',
+            'app\tools\hooks\UpdateCogs',
+            'app\tools\hooks\UpdatePrice',
+            'app\tools\hooks\CreateInvoice',
+            'app\tools\hooks\CreateGl',
         ];
     }
 }

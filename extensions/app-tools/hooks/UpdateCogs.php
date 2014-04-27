@@ -4,14 +4,14 @@ namespace app\tools\hooks;
 
 use app\tools\Hooks;
 use app\tools\Helper;
-use biz\master\models\Cogs as MCogs;
+use biz\master\models\Cogs;
 
 /**
  * Description of Cogs
  *
  * @author MDMunir
  */
-class Cogs extends \yii\base\Behavior
+class UpdateCogs extends \yii\base\Behavior
 {
 
     public function events()
@@ -23,9 +23,9 @@ class Cogs extends \yii\base\Behavior
 
     protected function updateCogs($params)
     {
-        $cogs = MCogs::findOne(['id_product' => $params['id_product']]);
+        $cogs = Cogs::findOne(['id_product' => $params['id_product']]);
         if (!$cogs) {
-            $cogs = new MCogs();
+            $cogs = new Cogs();
             $cogs->setAttributes([
                 'id_product' => $params['id_product'],
                 'id_uom' => $params['id_uom'],
@@ -45,7 +45,7 @@ class Cogs extends \yii\base\Behavior
         return true;
     }
 
-    public function purchaseReceiveBody($event,$model,$detail)
+    public function purchaseReceiveBody($event, $model, $detail)
     {
         $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
         $smallest_uom = Helper::getSmallestProductUom($detail->id_product);

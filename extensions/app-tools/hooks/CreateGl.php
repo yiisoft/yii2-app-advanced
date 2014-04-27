@@ -11,7 +11,7 @@ use biz\accounting\models\GlHeader;
  *
  * @author MDMunir
  */
-class Gl extends \yii\base\Behavior
+class CreateGl extends \yii\base\Behavior
 {
 
     public function events()

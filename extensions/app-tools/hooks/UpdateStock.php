@@ -6,13 +6,12 @@ use app\tools\Hooks;
 use app\tools\Helper;
 use biz\inventory\models\ProductStock;
 
-
 /**
  * Description of Stock
  *
  * @author MDMunir
  */
-class Stock extends \yii\base\Behavior
+class UpdateStock extends \yii\base\Behavior
 {
 
     public function events()
@@ -60,7 +59,7 @@ class Stock extends \yii\base\Behavior
      * @param \biz\purchase\models\PurchaseHdr $model
      * @param \biz\purchase\models\PurchaseDtl $detail
      */
-    public function purchaseReceiveBody($event,$model,$detail)
+    public function purchaseReceiveBody($event, $model, $detail)
     {
         $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
         $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
@@ -81,7 +80,7 @@ class Stock extends \yii\base\Behavior
      * @param \biz\inventory\models\TransferHdr $model
      * @param \biz\inventory\models\TransferDtl $detail
      */
-    public function transferIssueBody($event,$model,$detail)
+    public function transferIssueBody($event, $model, $detail)
     {
         $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
         $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
