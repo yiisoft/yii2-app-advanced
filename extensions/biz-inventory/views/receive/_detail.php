@@ -7,6 +7,15 @@ use biz\master\models\Product;
 <div class="col-lg-9" style="padding-left: 0px;">
     <div class="panel panel-info">
         <table id="detail-grid" class="table table-striped">
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <?= Html::a(Html::tag('span', '', ['class'=>'glyphicon glyphicon-plus']), '', [
+                            'title'=>'Add','id'=>'add-product','class'=>'pull-right'
+                        ]) ?>
+                    </td>
+                </tr>
+            </tfoot>
 			<?php
 
 			function renderRow($model, $index)
@@ -18,7 +27,6 @@ use biz\master\models\Product;
 					<td style="width: 50px">
 						<?= $index + 1; ?>
 						<?= Html::activeHiddenInput($model, "[$index]id_product", ['data-field' => 'id_product', 'id' => false]) ?>
-						<?= Html::activeHiddenInput($model, "[$index]id_transfer_dtl", ['data-field' => 'id_transfer_dtl', 'id' => false]) ?>
 					</td>
 					<td class="items" style="width: 45%">
 						<ul class="nav nav-list">

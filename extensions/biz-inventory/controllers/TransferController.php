@@ -118,66 +118,61 @@ class TransferController extends Controller
 
         if ($model->load($post)) {
             $transaction = Yii::$app->db->beginTransaction();
-            $objs = [];
-            foreach ($details as $detail) {
-                $objs[$detail->id_transfer_dtl] = [false, $detail];
-            }
             try {
-                $success = $model->save();
+                $formName = (new TransferDtl)->formName();
+                $postDetails = empty($post[$formName]) ? [] : $post[$formName];
+                if ($postDetails === []) {
+                    throw new Exception('Detail tidak boleh kosong');
+                }
+                $objs = [];
+                foreach ($details as $detail) {
+                    $objs[$detail->id_product] = $detail;
+                }
+                if ($model->save()) {
+                    $success = true;
+                    $id_hdr = $model->id_transfer;
+                    $details = [];
+                    foreach ($postDetails as $dataDetail) {
+                        $id_dtl = $dataDetail['id_product'];
+                        if (isset($objs[$id_dtl])) {
+                            $detail = $objs[$id_dtl];
+                            unset($objs[$id_dtl]);
+                        } else {
+                            $detail = new TransferDtl;
+                        }
+
+                        $detail->setAttributes($dataDetail);
+                        $detail->id_transfer = $id_hdr;
+                        if (!$detail->save()) {
+                            $success = false;
+                            break;
+                        }
+                        $details[] = $detail;
+                    }
+                    if ($success) {
+                        $deleted = array_keys($objs);
+                        if (count($deleted) > 0) {
+                            $success = TransferDtl::deleteAll(['id_transfer' => $id_hdr, 'id_product' => $deleted]);
+                        }
+                    }
+                }
+                if ($success) {
+                    $transaction->commit();
+                } else {
+                    $transaction->rollBack();
+                }
             } catch (Exception $exc) {
                 $model->addError('', $exc->getMessage());
+                $transaction->rollBack();
                 $success = false;
             }
-
-            $formName = (new TransferDtl)->formName();
-
-            $id_hdr = $success ? $model->id_transfer : false;
-            $details = [];
-            if (!empty($post[$formName])) {
-                foreach ($post[$formName] as $dataDetail) {
-                    $id_dtl = $dataDetail['id_transfer_dtl'];
-                    if ($id_dtl != '' && isset($objs[$id_dtl])) {
-                        $detail = $objs[$id_dtl][1];
-                        $objs[$id_dtl][0] = true;
-                    } else {
-                        $detail = new TransferDtl;
-                    }
-
-                    $detail->setAttributes($dataDetail);
-                    if ($id_hdr !== false) {
-                        $detail->id_transfer = $id_hdr;
-                        try {
-                            $success = $success && $detail->save();
-                        } catch (Exception $exc) {
-                            $detail->addError('', $exc->getMessage());
-                        }
-                    }
+            if (!$success) {
+                $details = [];
+                foreach ($postDetails as $value) {
+                    $detail = new TransferDtl();
+                    $detail->setAttributes($value);
                     $details[] = $detail;
                 }
-            } else {
-                $success = false;
-                $model->addError('', 'Detail tidak boleh kosong');
-            }
-            if ($success) {
-                try {
-                    $deleted = [];
-                    foreach ($objs as $id_dtl => $value) {
-                        if ($value[0] == false) {
-                            $deleted[] = $id_dtl;
-                        }
-                    }
-                    if (count($deleted) > 0) {
-                        $success = TransferDtl::deleteAll(['id_transfer_dtl' => $deleted]);
-                    }
-                } catch (Exception $exc) {
-                    $success = false;
-                    $model->addError('', $exc->getMessage());
-                }
-            }
-            if ($success) {
-                $transaction->commit();
-            } else {
-                $transaction->rollBack();
             }
         }
         return [$details, $success];

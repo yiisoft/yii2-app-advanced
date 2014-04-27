@@ -41,7 +41,6 @@ class ReceiveController extends Controller
     {
         $searchModel = new TransferHdrSearch;
         $params = Yii::$app->request->getQueryParams();
-        $params['TransferHdr']['id_branch'] = \Yii::$app->user->identity->id_branch;
         $dataProvider = $searchModel->search($params);
         $dataProvider->query->andWhere('status > 1');
 
@@ -58,9 +57,7 @@ class ReceiveController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-                'model' => $this->findModel($id),
-        ]);
+        return $this->render('view', ['model' => $this->findModel($id)]);
     }
 
     /**
@@ -76,7 +73,6 @@ class ReceiveController extends Controller
         if (!in_array($model->status, $allowStatus)) {
             throw new UserException('tidak bisa diedit');
         }
-
         list($details, $success) = $this->saveReceive($model);
         if ($success) {
             return $this->redirect(['view', 'id' => $model->id_transfer]);
@@ -96,45 +92,62 @@ class ReceiveController extends Controller
         $success = false;
 
         if ($model->load($post)) {
-            $success = true;
             $transaction = Yii::$app->db->beginTransaction();
-            $formName = (new TransferDtl)->formName();
-
-            $qty_receive = [];
-            foreach ($post[$formName] as $dataDetail) {
-                $id_dtl = $dataDetail['id_transfer_dtl'];
-                $qty_receive[$id_dtl] = $dataDetail['transfer_qty_receive'];
-            }
-
-            $selisih = false;
-            foreach ($details as $detail) {
-                $detail->transfer_qty_receive = $qty_receive[$detail->id_transfer_dtl];
-                if ($detail->transfer_qty_receive != $detail->transfer_qty_send) {
-                    $selisih = true;
-                }
-                try {
-                    $success = $success && $detail->save();
-                } catch (Exception $exc) {
-                    $detail->addError('', $exc->getMessage());
-                    $success = false;
-                }
-            }
-
-            $model->status = $selisih ? TransferHdr::STATUS_CONFIRM : TransferHdr::STATUS_RECEIVE;
             try {
-                $success = $success && $model->save();
-                if ($success && $model->status == TransferHdr::STATUS_RECEIVE) {
-                    $success = $this->updateStock($model);
+                $formName = (new TransferDtl)->formName();
+                $postDetails = empty($post[$formName]) ? [] : $post[$formName];
+                if ($postDetails === []) {
+                    throw new Exception('Detail tidak boleh kosong');
+                }
+                $objs = [];
+                foreach ($details as $detail) {
+                    $objs[$detail->id_product] = $detail;
+                }
+                if ($model->save()) {
+                    $success = true;
+                    $id_hdr = $model->id_transfer;
+                    $details = [];
+                    foreach ($postDetails as $dataDetail) {
+                        $id_dtl = $dataDetail['id_product'];
+                        if (isset($objs[$id_dtl])) {
+                            $detail = $objs[$id_dtl];
+                            unset($objs[$id_dtl]);
+                        } else {
+                            $detail = new TransferDtl;
+                        }
+
+                        $detail->setAttributes($dataDetail);
+                        $detail->id_transfer = $id_hdr;
+                        if (!$detail->save()) {
+                            $success = false;
+                            break;
+                        }
+                        $details[] = $detail;
+                    }
+                    if ($success) {
+                        $deleted = array_keys($objs);
+                        if (count($deleted) > 0) {
+                            $success = TransferDtl::deleteAll(['id_transfer' => $id_hdr, 'id_product' => $deleted]);
+                        }
+                    }
+                }
+                if ($success) {
+                    $transaction->commit();
+                } else {
+                    $transaction->rollBack();
                 }
             } catch (Exception $exc) {
                 $model->addError('', $exc->getMessage());
+                $transaction->rollBack();
                 $success = false;
             }
-
-            if ($success) {
-                $transaction->commit();
-            } else {
-                $transaction->rollBack();
+            if (!$success) {
+                $details = [];
+                foreach ($postDetails as $value) {
+                    $detail = new TransferDtl();
+                    $detail->setAttributes($value);
+                    $details[] = $detail;
+                }
             }
         }
         return [$details, $success];

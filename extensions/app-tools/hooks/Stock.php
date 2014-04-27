@@ -5,8 +5,7 @@ namespace app\tools\hooks;
 use app\tools\Hooks;
 use app\tools\Helper;
 use biz\inventory\models\ProductStock;
-use biz\purchase\models\PurchaseHdr;
-use biz\purchase\models\PurchaseDtl;
+
 
 /**
  * Description of Stock
@@ -58,8 +57,8 @@ class Stock extends \yii\base\Behavior
     /**
      * 
      * @param \app\tools\Event $event
-     * @param PurchaseHdr $model
-     * @param PurchaseDtl $detail
+     * @param \biz\purchase\models\PurchaseHdr $model
+     * @param \biz\purchase\models\PurchaseDtl $detail
      */
     public function purchaseReceiveBody($event,$model,$detail)
     {
@@ -79,8 +78,8 @@ class Stock extends \yii\base\Behavior
     /**
      * 
      * @param \app\tools\Event $event
-     * @param PurchaseHdr $model
-     * @param PurchaseDtl $detail
+     * @param \biz\inventory\models\TransferHdr $model
+     * @param \biz\inventory\models\TransferDtl $detail
      */
     public function transferIssueBody($event,$model,$detail)
     {
@@ -92,7 +91,7 @@ class Stock extends \yii\base\Behavior
             'id_uom' => $smallest_uom,
             'qty' => -$detail->transfer_qty_send * $qty_per_uom,
             'app' => 'transfer',
-            'id_ref' => $detail->id_transfer_dtl,
+            'id_ref' => $model->id_transfer,
         ]);
     }
 }

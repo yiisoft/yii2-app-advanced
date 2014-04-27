@@ -112,71 +112,66 @@ class PurchaseController extends Controller
 
         if ($model->load($post)) {
             $transaction = Yii::$app->db->beginTransaction();
-            $objs = [];
-            foreach ($details as $detail) {
-                $objs[$detail->id_purchase_dtl] = [false, $detail];
-            }
-            if (empty($model->id_warehouse) && count($details)) {
-                $model->id_warehouse = $details[0]->id_warehouse;
-            }
             try {
-                $success = $model->save();
-            } catch (Exception $exc) {
-                $model->addError('', $exc->getMessage());
-                $success = false;
-            }
+                $formName = (new PurchaseDtl)->formName();
+                $postDetails = empty($post[$formName]) ? [] : $post[$formName];
+                if ($postDetails === []) {
+                    throw new Exception('Detail tidak boleh kosong');
+                }
+                $objs = [];
+                foreach ($details as $detail) {
+                    $objs[$detail->id_purchase_dtl] = $detail;
+                }
+                if (empty($model->id_warehouse) && count($details)) {
+                    $model->id_warehouse = $details[0]->id_warehouse;
+                }
+                if ($model->save()) {
+                    $success = true;
+                    $id_hdr = $model->id_purchase;
+                    $id_whse = $model->id_warehouse;
+                    $details = [];
+                    foreach ($postDetails as $dataDetail) {
+                        $id_dtl = $dataDetail['id_purchase_dtl'];
+                        if (isset($objs[$id_dtl])) {
+                            $detail = $objs[$id_dtl];
+                            unset($objs[$id_dtl]);
+                        } else {
+                            $detail = new PurchaseDtl;
+                        }
 
-            $formName = (new PurchaseDtl)->formName();
-            $id_hdr = $success ? $model->id_purchase : false;
-            $id_whse = $model->id_warehouse;
-            $details = [];
-            if (!empty($post[$formName])) {
-                foreach ($post[$formName] as $dataDetail) {
-                    $id_dtl = $dataDetail['id_purchase_dtl'];
-                    if ($id_dtl != '' && isset($objs[$id_dtl])) {
-                        $detail = $objs[$id_dtl][1];
-                        $objs[$id_dtl][0] = true;
-                    } else {
-                        $detail = new PurchaseDtl;
-                    }
-
-                    $detail->setAttributes($dataDetail);
-                    if ($id_hdr !== false) {
+                        $detail->setAttributes($dataDetail);
                         $detail->id_purchase = $id_hdr;
                         $detail->id_warehouse = $id_whse;
-                        try {
-                            $success = $success && $detail->save();
-                        } catch (Exception $exc) {
+                        if (!$detail->save()) {
                             $success = false;
-                            $detail->addError('', $exc->getMessage());
+                            break;
+                        }
+                        $details[] = $detail;
+                    }
+                    if ($success) {
+                        $deleted = array_keys($objs);
+                        if (count($deleted) > 0) {
+                            $success = PurchaseDtl::deleteAll(['id_purchase_dtl' => $deleted]);
                         }
                     }
+                    if ($success) {
+                        $transaction->commit();
+                    } else {
+                        $transaction->rollBack();
+                    }
+                }
+            } catch (Exception $exc) {
+                $model->addError('', $exc->getMessage());
+                $transaction->rollBack();
+                $success = false;
+            }
+            if (!$success) {
+                $details = [];
+                foreach ($postDetails as $value) {
+                    $detail = new PurchaseDtl();
+                    $detail->setAttributes($value);
                     $details[] = $detail;
                 }
-            } else {
-                $success = false;
-                $model->addError('', 'Detail tidak boleh kosong');
-            }
-            if ($success) {
-                try {
-                    $deleted = [];
-                    foreach ($objs as $id_dtl => $value) {
-                        if ($value[0] == false) {
-                            $deleted[] = $id_dtl;
-                        }
-                    }
-                    if (count($deleted) > 0) {
-                        $success = PurchaseDtl::deleteAll(['id_purchase_dtl' => $deleted]);
-                    }
-                } catch (Exception $exc) {
-                    $success = false;
-                    $model->addError('', $exc->getMessage());
-                }
-            }
-            if ($success) {
-                $transaction->commit();
-            } else {
-                $transaction->rollBack();
             }
         }
         return [$details, $success];
