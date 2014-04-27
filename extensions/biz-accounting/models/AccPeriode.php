@@ -18,10 +18,10 @@ namespace biz\accounting\models;
  * @property ProductStock[] $productStocks
  */
 class AccPeriode extends \yii\db\ActiveRecord
-{
-    const STATUS_CLOSE = 0;
-    const STATUS_OPEN = 1;
-
+{    
+    const STATUS_OPEN = 0;
+    const STATUS_CLOSE = 1;
+    
     /**
      * @inheritdoc
      */

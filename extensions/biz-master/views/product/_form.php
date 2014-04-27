@@ -17,6 +17,19 @@ use yii\grid\GridView;
  * @var yii\widgets\ActiveForm $form
  */
 ?>
+<style>
+    .tab-content {
+        border: 1px #e0e0e0 solid;
+        border-top: none;
+        padding: 20px;
+    }
+
+    .modal-header {
+        background-color: #428BCA;
+        border-color: #428BCA;
+        color: #FFFFFF;
+    }
+</style>
 <?php $form = ActiveForm::begin(); ?>
 <div class=" product col-lg-6">
 
@@ -60,31 +73,25 @@ use yii\grid\GridView;
     <div class="tab-content">
         <div class="tab-pane active" id="uoms">
             <?php
-            if ($model->isNewRecord):
-                echo $form->field($model, 'productUoms[id_uom]')->dropDownList(ArrayHelper::map(Uom::find()->all(), 'id_uom', 'nm_uom'), ['style' => 'width:200px;']);
-                echo $form->field($model, 'productUoms[isi]')->textInput(['style' => 'width:120px;']);
-            else:
-                echo '<a class=" pull-right" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span></a>';
-                $dPro = new ActiveDataProvider([
-                    'query' => $model->getProductUoms(),
-                    'pagination' => [
-                        'pageSize' => 10,
-                    ],
-                ]);
+            echo (!$model->isNewRecord) ? '<a class=" pull-right" data-toggle="modal" data-target="#myModal"><span class="btn glyphicon glyphicon-plus"></span></a>' : '';
+            $dPro = new ActiveDataProvider([
+                'query' => $model->getProductUoms(),
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+            ]);
 
-                echo GridView::widget([
-                    'dataProvider' => $dPro,
-                    'tableOptions' => ['class' => 'table table-striped'],
-                    'layout' => '{items}',
-                    'columns' => [
-                        ['class' => 'yii\grid\SerialColumn'],
-                        'idUom.nm_uom',
-                        'idUom.cd_uom',
-                        'isi'
-                    ],
-                ]);
-
-            endif;
+            echo GridView::widget([
+                'dataProvider' => $dPro,
+                'tableOptions' => ['class' => 'table table-striped'],
+                'layout' => '{items}',
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    'idUom.nm_uom',
+                    'idUom.cd_uom',
+                    'isi'
+                ],
+            ]);
             ?>
         </div>
         <div class="tab-pane" id="cogs">
@@ -127,11 +134,12 @@ ActiveForm::end();
 Modal::begin([
     'id' => 'myModal',
     'header' => '<h4 class="modal-title">Product Uoms</h4>@' . $model->nm_product
-    ]);
+]);
 $umodel = new ProductUom;
 ?>
 <?php $form2 = ActiveForm::begin(); ?>
 <div class="modal-body">
+    <?= $form2->field($umodel, 'id_product')->hiddenInput(['value' => $model->id_product])->label(false) ?>    
     <?= $form2->field($umodel, 'id_uom')->dropDownList(ArrayHelper::map(Uom::find()->all(), 'id_uom', 'nm_uom'), ['style' => 'width:200px;']); ?>
     <?= $form2->field($umodel, 'isi')->textInput(['style' => 'width:120px;']) ?>
 </div>    

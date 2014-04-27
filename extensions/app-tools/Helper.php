@@ -9,6 +9,7 @@ use biz\accounting\models\GlHeader;
 use biz\accounting\models\GlDetail;
 use biz\accounting\models\InvoiceHdr;
 use biz\accounting\models\InvoiceDtl;
+use biz\accounting\models\AccPeriode;
 use biz\inventory\models\ProductStock;
 use biz\master\models\Cogs;
 use biz\master\models\Price;
@@ -102,7 +103,9 @@ class Helper
         $gl->description = $hdr['description'];
 
         $gl->id_branch = $hdr['id_branch'];
-        $gl->id_periode = 1;
+        
+        $active_periode = AccPeriode::getCurrentPeriode();
+        $gl->id_periode = $active_periode['id_periode'];
         $gl->status = 0;
         if (!$gl->save()) {
             throw new UserException(implode("\n", $gl->getFirstErrors()));
@@ -278,4 +281,5 @@ class Helper
         }
         return ArrayHelper::map($query->asArray()->all(), 'id_warehouse', 'nm_whse');
     }
+
 }
