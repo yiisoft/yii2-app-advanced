@@ -251,7 +251,8 @@ class Helper
      */
     public static function getSmallestProductUom($id_product)
     {
-        return ProductUom::find()->where(['id_product' => $id_product])->min('isi');
+        $uom = ProductUom::findOne(['id_product' => $id_product,'isi'=>1]);
+        return $uom ? $uom->id_uom : false;
     }
 
     /**

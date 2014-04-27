@@ -14,12 +14,27 @@ return [
         'purchase' => 'biz\purchase\Module',
         'sales' => 'biz\sales\Module',
     ],
-//    'as access' => [
-//        'class' => 'mdm\admin\components\AccessControl',
-//        'allowActions' => [
-//            'site/login',
-//            'site/error',
-//            'site/manifest',
-//        ]],
-    'as clientId' => 'mdm\tools\ClientKey'
+    'components' => [
+        'user' => [
+            'as info' => 'app\tools\UserInfo',
+        ],
+        'log' => [
+            'targets' => [
+                [
+                    'class' => 'mdm\tools\MongoTarget',
+                    'levels' => ['info'],
+                    'categories' => ['application*'],
+                ],
+            ],
+        ],
+        'hooks' => 'app\tools\Hooks',
+    ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'site/login',
+            'site/error',
+            'site/manifest',
+        ]],
+    'as clientId' => 'mdm\tools\ClientKey',
 ];

@@ -11,9 +11,7 @@ use yii\filters\VerbFilter;
 use biz\purchase\models\PurchaseDtl;
 use \Exception;
 use yii\base\UserException;
-use biz\accounting\models\InvoiceHdr;
-use biz\accounting\models\GlHeader;
-use app\tools\Helper;
+use app\tools\Hooks;
 
 /**
  * PurchaseHdrController implements the CRUD actions for PurchaseHdr model.
@@ -206,75 +204,11 @@ class PurchaseController extends Controller
                 if (!$model->save()) {
                     throw new UserException(implode(",\n", $model->firstErrors));
                 }
-
+                Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_BEGIN, [$model]);
                 foreach ($model->purchaseDtls as $detail) {
-                    $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
-                    $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
-
-                    Helper::updateStock([
-                        'id_warehouse' => $detail->id_warehouse,
-                        'id_product' => $detail->id_product,
-                        'id_uom' => $smallest_uom,
-                        'qty' => $detail->purch_qty * $qty_per_uom,
-                        ], [
-                        'mv_qty' => $detail->purch_qty * $qty_per_uom,
-                        'app' => 'purchase',
-                        'id_ref' => $detail->id_purchase_dtl,
-                    ]);
-
-                    $current_qty_all = Helper::getCurrentStockAll($detail->id_product);
-
-                    Helper::updateCogs([
-                        'id_product' => $detail->id_product,
-                        'id_uom' => $smallest_uom,
-                        'old_stock' => $current_qty_all,
-                        'added_stock' => $detail->purch_qty * $qty_per_uom,
-                        'price' => ($detail->purch_price * (1 - $model->item_discount * 0.01)) / $qty_per_uom,
-                        ], [
-                        'app' => 'purchase',
-                        'id_ref' => $detail->id_purchase_dtl,
-                    ]);
-
-                    Helper::updatePrice([
-                        'id_product' => $detail->id_product,
-                        'id_uom' => $smallest_uom,
-                        'price' => $detail->selling_price,
-                        ], [
-                        'app' => 'purchase',
-                        'id_ref' => $detail->id_purchase_dtl,
-                    ]);
+                    Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_BODY, [$model, $detail]);
                 }
-
-                /*
-                 * AUTOMATIC INVOICE
-                 * 1.Invoice Create
-                 * 2.GL Create
-                 */
-                Helper::createInvoice([
-                    'id_vendor' => $model->id_supplier,
-                    'type' => InvoiceHdr::TYPE_PURCHASE,
-                    'value' => $model->purchase_value * (1 - $model->item_discount * 0.01),
-                    'date' => $model->purchase_date,
-                    'id_ref' => $model->id_purchase,
-                ]);
-
-                // GL *************
-                $glHdr = [
-                    'date' => date('Y-m-d'),
-                    'type_reff' => GlHeader::TYPE_PURCHASE,
-                    'memo' => null,
-                    'id_reff' => $model->id_purchase,
-                    'id_branch' => $model->id_branch,
-                    'description' => 'Pembelian barang kredit ' . $model->purchase_num,
-                ];
-
-                $dtls = [
-                    'PERSEDIAAN' => $model->purchase_value * (1 - $model->item_discount * 0.01),
-                    'HUTANG_DAGANG' => $model->purchase_value * (1 - $model->item_discount * 0.01),
-                ];
-
-                $glDtls = Helper::entriSheetToGlMaps('PEMBELIAN_KREDIT', $dtls);
-                Helper::createGL($glHdr, $glDtls);
+                Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_END, [$model]);
                 $transaction->commit();
             } catch (Exception $exc) {
                 $transaction->rollBack();
@@ -343,5 +277,4 @@ class PurchaseController extends Controller
                 'ps' => $ps,
                 'supp' => $supp]);
     }
-
 }

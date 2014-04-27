@@ -24,11 +24,6 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
-				[
-					'class' => 'mdm\tools\MongoTarget',
-					'levels' => ['info'],
-					'categories'=>['application*'],
-				],
             ],
         ],
         'errorHandler' => [

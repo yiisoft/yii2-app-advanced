@@ -9,11 +9,10 @@ use biz\inventory\models\TransferDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use biz\inventory\models\ProductStock;
 use \Exception;
-use biz\master\models\ProductUom;
 use yii\base\UserException;
 use app\tools\Helper;
+use app\tools\Hooks;
 
 /**
  * TransferController implements the CRUD actions for TransferHdr model.
@@ -43,7 +42,7 @@ class TransferController extends Controller
     {
         $searchModel = new TransferHdrSearch;
         $params = Yii::$app->request->getQueryParams();
-        $params['TransferHdr']['id_branch'] = \Yii::$app->user->identity->id_branch;
+        $params['TransferHdr']['id_branch'] = Yii::$app->user->branch;
         $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
@@ -207,32 +206,12 @@ class TransferController extends Controller
                 if (!$model->save()) {
                     throw new UserException(implode(",\n", $model->firstErrors));
                 }
-                $id_warehouse = $model->id_warehouse_source;
-                $id_branch = $model->idWarehouseSource->id_branch;
-                $sukses = true;
+                Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_BEGIN, [$model]);
                 foreach ($model->transferDtls as $detail) {
-                    if (!$sukses) {
-                        break;
-                    }
-                    $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
-                    $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
-                    Helper::UpdateStock([
-                        'id_warehouse' => $id_warehouse,
-                        'id_product' => $detail->id_product,
-                        'id_uom' => $smallest_uom,
-                        'qty' => -$detail->transfer_qty_send * $qty_per_uom,
-                        ], [
-                        'mv_qty' => -$detail->transfer_qty_send * $qty_per_uom,
-                        'app' => 'transfer',
-                        'id_ref' => $detail->id_transfer_dtl,
-                    ]);
+                    Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_BODY, [$model, $detail]);
                 }
-
-                if ($sukses) {
-                    $transaction->commit();
-                } else {
-                    $transaction->rollBack();
-                }
+                Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_END, [$model]);
+                $transaction->commit();
             } catch (Exception $exc) {
                 $transaction->rollBack();
                 throw new UserException($exc->getMessage());
@@ -247,7 +226,9 @@ class TransferController extends Controller
         $model->status = $confirm;
         try {
             $transaction = Yii::$app->db->beginTransaction();
-            $success = $model->save();
+            if ($model->save()) {
+                throw new UserException(implode(",\n", $model->firstErrors));
+            }
             if ($confirm == TransferHdr::STATUS_CONFIRM_APPROVE) {
                 $id_warehouse = $model->id_warehouse_source;
                 foreach ($model->transferDtls as $detail) {
@@ -268,11 +249,7 @@ class TransferController extends Controller
                     }
                 }
             }
-            if ($success) {
-                $transaction->commit();
-            } else {
-                $transaction->rollBack();
-            }
+            $transaction->commit();
         } catch (Exception $exc) {
             $transaction->rollBack();
             throw new UserException($exc->getMessage());
