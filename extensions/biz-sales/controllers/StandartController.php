@@ -18,6 +18,7 @@ use biz\inventory\models\ProductStock;
 use biz\master\models\ProductUom;
 use biz\master\models\GlobalConfig;
 use app\tools\Helper;
+use app\tools\Hooks;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -115,33 +116,31 @@ class StandartController extends Controller
 
         if ($model->load($post)) {
             $transaction = Yii::$app->db->beginTransaction();
-            $objs = [];
-            foreach ($details as $detail) {
-                $objs[$detail->id_sales_dtl] = [false, $detail];
-            }
             try {
-                $success = $model->save();
-            } catch (Exception $exc) {
-                $model->addError('', $exc->getMessage());
-                $success = false;
-            }
+                $formName = (new SalesDtl)->formName();
+                $postDetails = empty($post[$formName]) ? [] : $post[$formName];
+                if ($postDetails === []) {
+                    throw new Exception('Detail tidak boleh kosong');
+                }
+                $objs = [];
+                foreach ($details as $detail) {
+                    $objs[$detail->id_sales_dtl] = $detail;
+                }
+                if ($model->save()) {
+                    $success = true;
+                    $id_hdr = $model->id_sales;
+                    $id_whse = $model->id_warehouse;
+                    $details = [];
+                    foreach ($postDetails as $dataDetail) {
+                        $id_dtl = $dataDetail['id_sales_dtl'];
+                        if (isset($objs[$id_dtl])) {
+                            $detail = $objs[$id_dtl];
+                            unset($objs[$id_dtl]);
+                        } else {
+                            $detail = new SalesDtl;
+                        }
 
-            $formName = (new SalesDtl)->formName();
-            $id_hdr = $success ? $model->id_sales : false;
-            $id_whse = $model->id_warehouse;
-            $details = [];
-            if (!empty($post[$formName])) {
-                foreach ($post[$formName] as $dataDetail) {
-                    $id_dtl = $dataDetail['id_sales_dtl'];
-                    if ($id_dtl != '' && isset($objs[$id_dtl])) {
-                        $detail = $objs[$id_dtl][1];
-                        $objs[$id_dtl][0] = true;
-                    } else {
-                        $detail = new SalesDtl;
-                    }
-
-                    $detail->setAttributes($dataDetail);
-                    if ($id_hdr !== false) {
+                        $detail->setAttributes($dataDetail);
                         $detail->id_sales = $id_hdr;
                         $detail->id_warehouse = $id_whse;
                         $cogs = Cogs::findOne(['id_product' => $detail->id_product]);
@@ -150,39 +149,34 @@ class StandartController extends Controller
                         } else {
                             $detail->cogs = 0;
                         }
-                        try {
-                            $success = $success && $detail->save();
-                        } catch (Exception $exc) {
+                        if (!$detail->save()) {
                             $success = false;
-                            $detail->addError('', $exc->getMessage());
+                            break;
                         }
+
+                        $details[] = $detail;
                     }
+                    if ($success && count($objs) > 0) {
+                        $success = SalesDtl::deleteAll(['id_sales_dtl' => array_keys($objs)]);
+                    }
+                }
+                if ($success) {
+                    $transaction->commit();
+                } else {
+                    $transaction->rollBack();
+                }
+            } catch (Exception $exc) {
+                $success = false;
+                $model->addError('', $exc->getMessage());
+                $transaction->rollBack();
+            }
+            if (!$success) {
+                $details = [];
+                foreach ($postDetails as $value) {
+                    $detail = new SalesDtl();
+                    $detail->setAttributes($value);
                     $details[] = $detail;
                 }
-            } else {
-                $success = false;
-                $model->addError('', 'Detail harus diisi');
-            }
-            if ($success) {
-                try {
-                    $deleted = [];
-                    foreach ($objs as $id_dtl => $value) {
-                        if ($value[0] == false) {
-                            $deleted[] = $id_dtl;
-                        }
-                    }
-                    if (count($deleted) > 0) {
-                        $success = SalesDtl::deleteAll(['id_sales_dtl' => $deleted]);
-                    }
-                } catch (Exception $exc) {
-                    $success = false;
-                    $model->addError('', $exc->getMessage());
-                }
-            }
-            if ($success) {
-                $transaction->commit();
-            } else {
-                $transaction->rollBack();
             }
         }
         return [$details, $success];
@@ -192,26 +186,18 @@ class StandartController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->status == SalesHdr::STATUS_DRAFT) {
+            $transaction = Yii::$app->db->beginTransaction();
             try {
-                $transaction = Yii::$app->db->beginTransaction();
                 $model->status = SalesHdr::STATUS_RELEASE;
                 if (!$model->save()) {
                     throw new UserException(implode("\n", $model->getFirstErrors()));
                 }
+                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_BEGIN, [$model]);
                 foreach ($model->salesDtls as $detail) {
-                    $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
-                    $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
-                    Helper::updateStock([
-                        'id_warehouse' => $detail->id_warehouse,
-                        'id_product' => $detail->id_product,
-                        'id_uom' => $smallest_uom,
-                        'qty' => -1 * $detail->sales_qty * $qty_per_uom,
-                        ], [
-                        'mv_qty' => -1 * $detail->sales_qty * $qty_per_uom,
-                        'app' => 'sales-standart',
-                        'id_ref' => $detail->id_sales_dtl,
-                    ]);
+                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_BODY, [$model,$detail]);
+                    
                 }
+                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_END, [$model]);
                 $transaction->commit();
             } catch (Exception $exc) {
                 $transaction->rollBack();

@@ -149,11 +149,8 @@ class TransferController extends Controller
                         }
                         $details[] = $detail;
                     }
-                    if ($success) {
-                        $deleted = array_keys($objs);
-                        if (count($deleted) > 0) {
-                            $success = TransferDtl::deleteAll(['id_transfer' => $id_hdr, 'id_product' => $deleted]);
-                        }
+                    if ($success && count($objs)) {
+                        $success = TransferDtl::deleteAll(['id_transfer' => $id_hdr, 'id_product' => array_keys($objs)]);
                     }
                 }
                 if ($success) {

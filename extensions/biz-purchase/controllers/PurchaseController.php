@@ -148,22 +148,19 @@ class PurchaseController extends Controller
                         }
                         $details[] = $detail;
                     }
-                    if ($success) {
-                        $deleted = array_keys($objs);
-                        if (count($deleted) > 0) {
-                            $success = PurchaseDtl::deleteAll(['id_purchase_dtl' => $deleted]);
-                        }
-                    }
-                    if ($success) {
-                        $transaction->commit();
-                    } else {
-                        $transaction->rollBack();
+                    if ($success && count($objs) > 0) {
+                        $success = PurchaseDtl::deleteAll(['id_purchase_dtl' => array_keys($objs)]);
                     }
                 }
+                if ($success) {
+                    $transaction->commit();
+                } else {
+                    $transaction->rollBack();
+                }
             } catch (Exception $exc) {
+                $success = false;
                 $model->addError('', $exc->getMessage());
                 $transaction->rollBack();
-                $success = false;
             }
             if (!$success) {
                 $details = [];

@@ -7,6 +7,40 @@
 		var local = {
 			delay: 1000,
 			limit: 20,
+			addItem: function(item) {
+				var has = false;
+				$('#detail-grid > tbody > tr').each(function() {
+					var $row = $(this);
+					if ($row.find('input[data-field="id_product"]').val() == item.id) {
+						has = true;
+						var $qty = $row.find('input[data-field="transfer_qty_send"]');
+						if ($qty.val() == '') {
+							$qty.val('2');
+						} else {
+							$qty.val($qty.val() * 1 + 1);
+						}
+					}
+				});
+				if (!has) {
+					var $row = $(template.replace(/_index_/g, counter++));
+
+					$row.find('span.cd_product').text(item.cd);
+					$row.find('span.nm_product').text(item.text);
+					$row.find('input[data-field="id_product"]').val(item.id);
+
+					$row.find('input[data-field="transfer_qty_send"]').val('1');
+					var $select = $row.find('select[data-field="id_uom"]').html('');
+					$.each(item.uoms, function() {
+						$select.append($('<option>').val(this.id).text(this.nm).attr('data-isi',this.isi));
+					});
+
+					$grid.find('tbody > tr').removeClass('selected');
+					$row.addClass('selected');
+					$grid.children('tbody').append($row);
+					$row.find('input[data-field="transfer_qty_send"]').focus();
+				}
+				//local.normalizeItem();
+			},
 			format: function(n) {
 				return $.number(n, 0);
 			},

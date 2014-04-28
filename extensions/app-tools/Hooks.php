@@ -15,6 +15,12 @@ class Hooks extends \yii\base\Component
     const EVENT_TRANSFER_ISSUE_BEGIN = 'transferIssueBegin';
     const EVENT_TRANSFER_ISSUE_BODY = 'transferIssueBody';
     const EVENT_TRANSFER_ISSUE_END = 'transferIssueEnd';
+    const EVENT_RECEIVE_RECEIVE_BEGIN = 'receiveReceiveBegin';
+    const EVENT_RECEIVE_RECEIVE_BODY = 'receiveReceiveBody';
+    const EVENT_RECEIVE_RECEIVE_END = 'receiveReceiveEnd';
+    const EVENT_SALES_STDR_RELEASE_BEGIN = 'salesStdrReleaseBegin';
+    const EVENT_SALES_STDR_RELEASE_BODY = 'salesStdrReleaseBody';
+    const EVENT_SALES_STDR_RELEASE_END = 'salesStdrReleaseEnd';
 
     public function init()
     {
