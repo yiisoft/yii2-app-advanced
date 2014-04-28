@@ -84,8 +84,10 @@ class Hooks extends \yii\base\Component
      * @param string|Event $event
      * @param array $params
      */
-    public function fire($event, $params = [])
+    public function fire($event)
     {
+        $params = func_get_args();
+        array_shift($params);
         if (is_string($event)) {
             $name = $event;
             $event = new Event($name, $params);

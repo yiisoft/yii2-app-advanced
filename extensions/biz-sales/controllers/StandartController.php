@@ -192,12 +192,12 @@ class StandartController extends Controller
                 if (!$model->save()) {
                     throw new UserException(implode("\n", $model->getFirstErrors()));
                 }
-                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_BEGIN, [$model]);
+                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_BEGIN, $model);
                 foreach ($model->salesDtls as $detail) {
-                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_BODY, [$model,$detail]);
+                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_BODY, $model,$detail);
                     
                 }
-                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_END, [$model]);
+                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_END, $model);
                 $transaction->commit();
             } catch (Exception $exc) {
                 $transaction->rollBack();

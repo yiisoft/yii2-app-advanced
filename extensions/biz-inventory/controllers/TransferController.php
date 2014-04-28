@@ -198,11 +198,11 @@ class TransferController extends Controller
                 if (!$model->save()) {
                     throw new UserException(implode(",\n", $model->firstErrors));
                 }
-                Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_BEGIN, [$model]);
+                Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_BEGIN, $model);
                 foreach ($model->transferDtls as $detail) {
-                    Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_BODY, [$model, $detail]);
+                    Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_BODY, $model, $detail);
                 }
-                Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_END, [$model]);
+                Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_END, $model);
                 $transaction->commit();
             } catch (Exception $exc) {
                 $transaction->rollBack();

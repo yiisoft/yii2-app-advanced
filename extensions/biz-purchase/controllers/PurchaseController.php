@@ -196,11 +196,11 @@ class PurchaseController extends Controller
                 if (!$model->save()) {
                     throw new UserException(implode(",\n", $model->firstErrors));
                 }
-                Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_BEGIN, [$model]);
+                Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_BEGIN, $model);
                 foreach ($model->purchaseDtls as $detail) {
-                    Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_BODY, [$model, $detail]);
+                    Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_BODY, $model, $detail);
                 }
-                Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_END, [$model]);
+                Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_END, $model);
                 $transaction->commit();
             } catch (Exception $exc) {
                 $transaction->rollBack();

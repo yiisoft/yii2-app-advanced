@@ -102,7 +102,7 @@ class ReceiveController extends Controller
                 foreach ($details as $detail) {
                     $objs[$detail->id_product] = $detail;
                 }
-                Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_BEGIN, [$model]);
+                Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_BEGIN, $model);
                 if ($model->save()) {
                     $success = true;
                     $id_hdr = $model->id_transfer;
@@ -122,7 +122,7 @@ class ReceiveController extends Controller
                             $success = false;
                             break;
                         }
-                        Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_BODY, [$model, $detail]);
+                        Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_BODY, $model, $detail);
                         $details[] = $detail;
                     }
                     if ($success) {
@@ -131,7 +131,7 @@ class ReceiveController extends Controller
                             $success = TransferDtl::deleteAll(['id_transfer' => $id_hdr, 'id_product' => $deleted]);
                         }
                     }
-                    Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_END, [$model]);
+                    Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_END, $model);
                 }
                 if ($success) {
                     $transaction->commit();

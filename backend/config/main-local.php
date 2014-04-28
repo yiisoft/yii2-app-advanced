@@ -4,6 +4,7 @@ $exts = dirname(dirname(__DIR__)) . '/extensions';
 return [
     'bootstrap' => [
     //'debug',
+    //'gii',
     ],
     'modules' => [
         'debug' => 'yii\debug\Module',
@@ -28,6 +29,10 @@ return [
             ],
         ],
         'hooks' => 'app\tools\Hooks',
+        'urlManager' => [
+        //'enablePrettyUrl' => true,
+        //'showScriptName' => false,
+        ],
     ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
