@@ -4,7 +4,7 @@ use yii\web\JsExpression;
 use yii\jui\AutoComplete;
 use yii\helpers\Html;
 use biz\inventory\models\TransferDtl;
-use biz\master\models\Product;
+use app\tools\Helper;
 ?>
 <div class="col-lg-9" style="padding-left: 0px;">
     <div class="panel panel-info">
@@ -45,7 +45,7 @@ use biz\master\models\Product;
                                     'size' => 5, 'id' => false,
                                     'required' => true])
                                 ?>
-                                <?= Html::activeDropDownList($model, "[$index]id_uom", Product::ListUoms($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
+                                <?= Html::activeDropDownList($model, "[$index]id_uom", Helper::getProductUomList($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
                             </li>
                             <li>
                             </li>
