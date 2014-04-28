@@ -169,4 +169,9 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+    
+    public function actionPage($view='index')
+    {
+        return $this->render('pages/'.$view);
+    }
 }

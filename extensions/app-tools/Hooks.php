@@ -9,6 +9,8 @@ namespace app\tools;
  */
 class Hooks extends \yii\base\Component
 {
+    const BASE_HANDLER = '_internalHandler_';
+    
     const EVENT_PURCHASE_RECEIVE_BEGIN = 'purchaseReceiveBegin';
     const EVENT_PURCHASE_RECEIVE_BODY = 'purchaseReceiveBody';
     const EVENT_PURCHASE_RECEIVE_END = 'purchaseReceiveEnd';
@@ -33,10 +35,48 @@ class Hooks extends \yii\base\Component
             $this->on($event, is_string($handler) ? [$this, $handler] : $handler, null, false);
         }
     }
+    private $_counter = 0;
+    private $_handlers = [];
+
+    public function __call($name, $params)
+    {
+        if (strpos($name, static::BASE_HANDLER) === 0 && isset($params[0]) && $params[0] instanceof \yii\base\Event) {
+            $event = $params[0];
+            $handler = $this->_handlers[$event->name][$name];
+            if ($event instanceof Event) {
+                $extraParams = $event->params;
+                array_unshift($extraParams, $event);
+                $event->result = call_user_func_array($handler, $extraParams);
+            } else {
+                call_user_func($handler, $event);
+            }
+        } else {
+            return parent::__call($name, $params);
+        }
+    }
 
     public function on($name, $handler, $data = null, $append = true)
     {
-        parent::on($name, [$this, 'baseHandler'], [$handler, $data], $append);
+        $internalHandler = static::BASE_HANDLER . ($this->_counter++);
+        $this->_handlers[$name][$internalHandler] = $handler;
+        parent::on($name, [$this, $internalHandler], $data, $append);
+    }
+
+    public function off($name, $handler = null)
+    {
+        if ($handler === null) {
+            unset($this->_handlers[$name]);
+            return parent::off($name, $handler);
+        } else {
+            $removed = false;
+            foreach ($this->_handlers[$name] as $i => $value) {
+                if ($value === $handler) {
+                    $removed = parent::off($name, [$this, $i]) || $removed;
+                    unset($this->_handlers[$name][$i]);
+                }
+            }
+            return $removed;
+        }
     }
 
     /**
@@ -56,23 +96,6 @@ class Hooks extends \yii\base\Component
             }
         }
         parent::trigger($name, $event);
-    }
-
-    /**
-     * 
-     * @param \yii\base\Event $event
-     */
-    public function baseHandler($event)
-    {
-        list($handler, $data) = $event->data;
-        $event->data = $data;
-        if ($event instanceof Event) {
-            $params = $event->params;
-            array_unshift($params, $event);
-            $event->result = call_user_func_array($handler, $params);
-        } else {
-            call_user_func($handler, $event);
-        }
     }
 
     public function events()
