@@ -5,7 +5,6 @@ use yii\jui\AutoComplete;
 use yii\helpers\Html;
 use biz\sales\models\SalesDtl;
 use app\tools\Helper;
-
 ?>
 <div class="col-lg-9" style="padding-left: 0px;">
     <div class="panel panel-info">
@@ -16,8 +15,8 @@ use app\tools\Helper;
                 'name' => 'product',
                 'id' => 'product',
                 'clientOptions' => [
-                    'source' => new JsExpression('yii.sales.sourceProduct'),
-                    'select' => new JsExpression('yii.sales.onProductSelect'),
+                    'source' => new JsExpression('yii.process.sourceProduct'),
+                    'select' => new JsExpression('yii.process.onProductSelect'),
                     'delay' => 100,
                 ]
             ]);
@@ -29,7 +28,8 @@ use app\tools\Helper;
         <table id="detail-grid" class="table table-striped">
             <?php
 
-            function renderRow($model, $index) {
+            function renderRow($model, $index)
+            {
                 ob_start();
                 ob_implicit_flush(false);
                 ?>
@@ -53,7 +53,7 @@ use app\tools\Helper;
                                 <?= Html::activeDropDownList($model, "[$index]id_uom", Helper::getProductUomList($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
                             </li>
                             <li>
-								<?= Html::activeHiddenInput($model, "[$index]sales_price", ['data-field' => 'sales_price','id' => false]) ?>
+                                <?= Html::activeHiddenInput($model, "[$index]sales_price", ['data-field' => 'sales_price', 'id' => false]) ?>
                                 Price Rp <span class="sales_price"><?= Html::getAttributeValue($model, 'sales_price') ?></span> 
                             </li>
                         </ul>
@@ -65,8 +65,8 @@ use app\tools\Helper;
                                 <?php
                                 $sales_price = $model->sales_price;
                                 $discon = $model->discount;
-                                $discon_percen = $sales_price > 0 ? 100 * $discon/ $sales_price : 0;
-								$discon_percen = round($discon_percen, 2);
+                                $discon_percen = $sales_price > 0 ? 100 * $discon / $sales_price : 0;
+                                $discon_percen = round($discon_percen, 2);
                                 ?>
                                 Percen <?=
                                 Html::textInput('', $discon_percen, [

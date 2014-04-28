@@ -5,7 +5,7 @@ use yii\helpers\Url;
 <?php if (false): ?>
     <script type="text/javascript">
 <?php endif; ?>
-    yii.pos = (function($) {
+    yii.process = (function($) {
         var $grid, $form, $template, runing = false, $list_session, $list_template;
 
         var product = <?= json_encode($product); ?>,

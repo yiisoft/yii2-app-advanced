@@ -42,9 +42,9 @@ use app\tools\Helper;
                         'attribute' => 'idSupplier[nm_supplier]',
                         'options' => ['class' => 'form-control', 'id' => $el_id],
                         'clientOptions' => [
-                            'source' => new JsExpression("yii.purchase.sourceSupplier"),
-                            'select' => new JsExpression("yii.purchase.onSupplierSelect"),
-                            'open' => new JsExpression("yii.purchase.onSupplierOpen"),
+                            'source' => new JsExpression("yii.process.sourceSupplier"),
+                            'select' => new JsExpression("yii.process.onSupplierSelect"),
+                            'open' => new JsExpression("yii.process.onSupplierOpen"),
                         ]
                 ]);
                 echo $field;

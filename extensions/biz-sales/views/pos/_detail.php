@@ -11,8 +11,8 @@ use yii\jui\AutoComplete;
             'name' => 'product',
             'id' => 'product',
             'clientOptions' => [
-                'source' => new JsExpression('yii.pos.sourceProduct'),
-                'select' => new JsExpression('yii.pos.onSelectProduct'),
+                'source' => new JsExpression('yii.process.sourceProduct'),
+                'select' => new JsExpression('yii.process.onSelectProduct'),
                 'delay' => 500
             ]
         ]);

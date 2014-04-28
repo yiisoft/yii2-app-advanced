@@ -15,8 +15,8 @@ use biz\master\models\Product;
                 'name' => 'product',
                 'id' => 'product',
                 'clientOptions' => [
-                    'source' => new JsExpression('yii.transfer.sourceProduct'),
-                    'select' => new JsExpression('yii.transfer.onProductSelect'),
+                    'source' => new JsExpression('yii.process.sourceProduct'),
+                    'select' => new JsExpression('yii.process.onProductSelect'),
                     'delay' => 100,
                 ]
             ]);

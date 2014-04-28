@@ -19,15 +19,15 @@ use app\tools\Helper;
                 'name' => 'product',
                 'id' => 'product',
                 'clientOptions' => [
-                    'source' => new JsExpression('yii.purchase.sourceProduct'),
-                    'select' => new JsExpression('yii.purchase.onProductSelect'),
+                    'source' => new JsExpression('yii.process.sourceProduct'),
+                    'select' => new JsExpression('yii.process.onProductSelect'),
                     'delay' => 100,
                 ]
             ]);
             ?>
             <div class="pull-right">
                 Item Discount:                
-                <?= Html::activeTextInput($model, 'item_discount',['style' => 'width:60px;']); ?>
+                <?= Html::activeTextInput($model, 'item_discount', ['style' => 'width:60px;']); ?>
             </div>
         </div>
         <div class="panel-body" style="text-align: right;">
@@ -37,6 +37,7 @@ use app\tools\Helper;
         </div>
         <table id="detail-grid" class="table table-striped">
             <?php
+
             function renderRow($model, $index)
             {
                 ob_start();
