@@ -13,6 +13,8 @@ use yii\base\UserException;
 use \Exception;
 use app\tools\Helper;
 use app\tools\Hooks;
+use biz\inventory\models\TransferNotice;
+use biz\inventory\models\NoticeDtl;
 
 /**
  * TransferController implements the CRUD actions for TransferHdr model.
@@ -102,7 +104,9 @@ class ReceiveController extends Controller
                 foreach ($details as $detail) {
                     $objs[$detail->id_product] = $detail;
                 }
-                Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_BEGIN, $model);
+
+                $model->status = TransferHdr::STATUS_RECEIVE;
+                $notice = false;
                 if ($model->save()) {
                     $success = true;
                     $id_hdr = $model->id_transfer;
@@ -122,7 +126,7 @@ class ReceiveController extends Controller
                             $success = false;
                             break;
                         }
-                        Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_BODY, $model, $detail);
+                        $notice = $notice || $detail->transfer_qty_send != $detail->transfer_qty_receive;
                         $details[] = $detail;
                     }
                     if ($success) {
@@ -131,9 +135,27 @@ class ReceiveController extends Controller
                             $success = TransferDtl::deleteAll(['id_transfer' => $id_hdr, 'id_product' => $deleted]);
                         }
                     }
-                    Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_END, $model);
                 }
                 if ($success) {
+                    Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_BEGIN, $model);
+                    if ($notice) {
+                        $noticeHdr = new TransferNotice;
+                        $noticeHdr->id_transfer = $model->id_transfer;
+                        $noticeHdr->status = TransferNotice::STATUS_CREATE;
+                        $noticeHdr->save();
+                    }
+                    foreach ($model->transferDtls as $detail) {
+                        Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_BODY, $model, $detail);
+                        if($notice && $detail->transfer_qty_send != $detail->transfer_qty_receive){
+                            $noticeDtl = new NoticeDtl;
+                            $noticeDtl->id_transfer = $noticeHdr->id_transfer;
+                            $noticeDtl->id_product = $detail->id_product;
+                            $noticeDtl->id_uom = $detail->id_uom;
+                            $noticeDtl->qty_notice = $detail->transfer_qty_send - $detail->transfer_qty_receive;
+                            $noticeDtl->save();
+                        }
+                    }
+                    Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_END, $model);
                     $transaction->commit();
                 } else {
                     $transaction->rollBack();
@@ -153,53 +175,6 @@ class ReceiveController extends Controller
             }
         }
         return [$details, $success];
-    }
-
-    public function actionReceiveConfirm($id)
-    {
-        $model = $this->findModel($id);
-        $allowStatus = [TransferHdr::STATUS_CONFIRM_APPROVE];
-        if (!in_array($model->status, $allowStatus)) {
-            throw new UserException('tidak bisa diedit');
-        }
-        try {
-            $transaction = Yii::$app->db->beginTransaction();
-            $model->status = TransferHdr::STATUS_RECEIVE;
-            if ($model->save()) {
-                $this->updateStock($model);
-                $transaction->commit();
-            } else {
-                $transaction->rollBack();
-            }
-        } catch (Exception $exc) {
-            $transaction->rollBack();
-            throw new UserException($exc->getMessage());
-        }
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * 
-     * @param TransferHdr $model
-     */
-    protected function updateStock($model)
-    {
-        $id_warehouse = $model->id_warehouse_dest;
-        foreach ($model->transferDtls as $detail) {
-            $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
-            $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
-            Helper::updateStock([
-                'id_warehouse' => $id_warehouse,
-                'id_product' => $detail->id_product,
-                'id_uom' => $smallest_uom,
-                'qty' => $detail->transfer_qty_receive * $qty_per_uom,
-                ], [
-                'mv_qty' => $detail->transfer_qty_receive * $qty_per_uom,
-                'app' => 'receive',
-                'id_ref' => $detail->id_transfer_dtl,
-            ]);
-        }
-        return true;
     }
 
     /**

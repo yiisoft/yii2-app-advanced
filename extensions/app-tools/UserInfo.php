@@ -10,16 +10,28 @@ namespace app\tools;
  */
 class UserInfo extends \yii\base\Behavior
 {
-    public $branch;
-    
-    public function attach($owner)
+    private $_properties;
+
+    protected function initProperties()
     {
-        parent::attach($owner);
-        $this->initUser($owner->getIdentity());
+        if ($this->_properties === null) {
+            $this->_properties = [];
+            $this->_properties['branch'] = 1;
+        }
     }
-    
-    protected function initUser($identity)
+
+    public function canGetProperty($name, $checkVars = true)
     {
-        $this->branch = 1;
+        $this->initProperties();
+        return isset($this->_properties[$name]) || array_key_exists($name, $this->_properties) || parent::canGetProperty($name, $checkVars);
+    }
+
+    public function __get($name)
+    {
+        $this->initProperties();
+        if (isset($this->_properties[$name]) || array_key_exists($name, $this->_properties)) {
+            return $this->_properties[$name];
+        }
+        return parent::__get($name);
     }
 }

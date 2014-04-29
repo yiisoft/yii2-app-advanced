@@ -212,43 +212,6 @@ class TransferController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionConfirm($id, $confirm)
-    {
-        $model = $this->findModel($id);
-        $model->status = $confirm;
-        try {
-            $transaction = Yii::$app->db->beginTransaction();
-            if ($model->save()) {
-                throw new UserException(implode(",\n", $model->firstErrors));
-            }
-            if ($confirm == TransferHdr::STATUS_CONFIRM_APPROVE) {
-                $id_warehouse = $model->id_warehouse_source;
-                foreach ($model->transferDtls as $detail) {
-                    $qty = $detail->transfer_qty_send - $detail->transfer_qty_receive;
-                    if ($qty != 0) {
-                        $smallest_uom = Helper::getSmallestProductUom($detail->id_product);
-                        $qty_per_uom = Helper::getQtyProductUom($detail->id_product, $detail->id_uom);
-                        Helper::updateStock([
-                            'id_warehouse' => $id_warehouse,
-                            'id_product' => $detail->id_product,
-                            'id_uom' => $smallest_uom,
-                            'qty' => $qty * $qty_per_uom,
-                            ], [
-                            'mv_qty' => $qty * $qty_per_uom,
-                            'app' => 'confirm-transfer',
-                            'id_ref' => $detail->id_transfer_dtl,
-                        ]);
-                    }
-                }
-            }
-            $transaction->commit();
-        } catch (Exception $exc) {
-            $transaction->rollBack();
-            throw new UserException($exc->getMessage());
-        }
-        return $this->redirect(['index']);
-    }
-
     /**
      * Finds the TransferHdr model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
