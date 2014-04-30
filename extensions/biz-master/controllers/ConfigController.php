@@ -3,8 +3,8 @@
 namespace biz\master\controllers;
 
 use Yii;
-use biz\master\models\GlobalConfig;
-use biz\master\models\GlobalConfigSearch;
+use biz\models\GlobalConfig;
+use biz\models\searchs\GlobalConfig as GlobalConfigSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

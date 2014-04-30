@@ -5,7 +5,7 @@ use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\PriceCategory $model
+ * @var biz\models\PriceCategory $model
  */
 
 $this->title = $model->id_price_category;

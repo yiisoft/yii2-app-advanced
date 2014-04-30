@@ -3,8 +3,8 @@
 namespace biz\master\controllers;
 
 use Yii;
-use biz\master\models\ProductUom;
-use biz\master\models\ProductUomSearch;
+use biz\models\ProductUom;
+use biz\models\searchs\ProductUom as ProductUomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -43,14 +43,13 @@ class ProductUomController extends Controller
 
     /**
      * Displays a single ProductUom model.
-     * @param integer $id_product
-     * @param integer $id_uom
+     * @param integer $id
      * @return mixed
      */
-    public function actionView($id_product, $id_uom)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id_product, $id_uom),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -64,7 +63,7 @@ class ProductUomController extends Controller
         $model = new ProductUom;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_product' => $model->id_product, 'id_uom' => $model->id_uom]);
+            return $this->redirect(['view', 'id' => $model->id_puom]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -75,16 +74,15 @@ class ProductUomController extends Controller
     /**
      * Updates an existing ProductUom model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id_product
-     * @param integer $id_uom
+     * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id_product, $id_uom)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($id_product, $id_uom);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id_product' => $model->id_product, 'id_uom' => $model->id_uom]);
+            return $this->redirect(['view', 'id' => $model->id_puom]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -95,13 +93,12 @@ class ProductUomController extends Controller
     /**
      * Deletes an existing ProductUom model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id_product
-     * @param integer $id_uom
+     * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id_product, $id_uom)
+    public function actionDelete($id)
     {
-        $this->findModel($id_product, $id_uom)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -109,14 +106,13 @@ class ProductUomController extends Controller
     /**
      * Finds the ProductUom model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id_product
-     * @param integer $id_uom
+     * @param integer $id
      * @return ProductUom the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id_product, $id_uom)
+    protected function findModel($id)
     {
-        if (($model = ProductUom::findOne(['id_product' => $id_product, 'id_uom' => $id_uom])) !== null) {
+        if (($model = ProductUom::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\ProductUom $model
+ * @var biz\models\ProductUom $model
  */
 
 $this->title = 'Create Product Uom';

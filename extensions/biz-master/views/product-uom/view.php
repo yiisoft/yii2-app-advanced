@@ -5,10 +5,10 @@ use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\ProductUom $model
+ * @var biz\models\ProductUom $model
  */
 
-$this->title = $model->id_product;
+$this->title = $model->id_puom;
 $this->params['breadcrumbs'][] = ['label' => 'Product Uoms', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -17,8 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id_product' => $model->id_product, 'id_uom' => $model->id_uom], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id_product' => $model->id_product, 'id_uom' => $model->id_uom], [
+        <?= Html::a('Update', ['update', 'id' => $model->id_puom], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->id_puom], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -30,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'id_puom',
             'id_product',
             'id_uom',
             'isi',

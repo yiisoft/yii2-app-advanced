@@ -5,37 +5,39 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\WarehouseSearch $model
+ * @var biz\models\searchs\Warehouse $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
 
 <div class="warehouse-search">
 
-	<?php $form = ActiveForm::begin([
-		'action' => ['index'],
-		'method' => 'get',
-	]); ?>
+    <?php $form = ActiveForm::begin([
+        'action' => ['index'],
+        'method' => 'get',
+    ]); ?>
 
-		<?= $form->field($model, 'id_warehouse') ?>
+    <?= $form->field($model, 'id_warehouse') ?>
 
-		<?= $form->field($model, 'cd_whse') ?>
+    <?= $form->field($model, 'id_branch') ?>
 
-		<?= $form->field($model, 'nm_whse') ?>
+    <?= $form->field($model, 'cd_whse') ?>
 
-		<?= $form->field($model, 'create_date') ?>
+    <?= $form->field($model, 'nm_whse') ?>
 
-		<?= $form->field($model, 'create_by') ?>
+    <?= $form->field($model, 'create_date') ?>
 
-		<?php // echo $form->field($model, 'update_date') ?>
+    <?php // echo $form->field($model, 'create_by') ?>
 
-		<?php // echo $form->field($model, 'update_by') ?>
+    <?php // echo $form->field($model, 'update_date') ?>
 
-		<div class="form-group">
-			<?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-			<?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
-		</div>
+    <?php // echo $form->field($model, 'update_by') ?>
 
-	<?php ActiveForm::end(); ?>
+    <div class="form-group">
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
 
 </div>

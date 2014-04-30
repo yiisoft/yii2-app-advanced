@@ -3,16 +3,15 @@
 namespace biz\inventory\controllers;
 
 use Yii;
-use biz\inventory\models\TransferHdr;
-use biz\inventory\models\TransferHdrSearch;
-use biz\inventory\models\TransferDtl;
+use biz\models\TransferHdr;
+use biz\models\searchs\TransferHdr as TransferHdrSearch;
+use biz\models\TransferDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \Exception;
 use yii\base\UserException;
-use app\tools\Helper;
-use app\tools\Hooks;
+use biz\tools\Hooks;
 
 /**
  * TransferController implements the CRUD actions for TransferHdr model.
@@ -42,7 +41,6 @@ class TransferController extends Controller
     {
         $searchModel = new TransferHdrSearch;
         $params = Yii::$app->request->getQueryParams();
-        $params['TransferHdr']['id_branch'] = Yii::$app->user->branch;
         $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
@@ -95,6 +93,7 @@ class TransferController extends Controller
         if ($model->status != TransferHdr::STATUS_DRAFT) {
             throw new UserException('tidak bisa diedit');
         }
+        Yii::$app->hooks->fire(Hooks::E_ITUPD,$model);
         list($details, $success) = $this->saveTransfer($model);
         if ($success) {
             return $this->redirect(['view', 'id' => $model->id_transfer]);

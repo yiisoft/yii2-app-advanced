@@ -3,8 +3,8 @@
 use yii\web\JsExpression;
 use yii\jui\AutoComplete;
 use yii\helpers\Html;
-use biz\sales\models\SalesDtl;
-use app\tools\Helper;
+use biz\models\SalesDtl;
+use biz\tools\Helper;
 ?>
 <div class="col-lg-9" style="padding-left: 0px;">
     <div class="panel panel-info">

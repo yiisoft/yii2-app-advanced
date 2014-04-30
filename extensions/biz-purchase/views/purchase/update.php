@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var biz\purchase\models\PurchaseHdr $model
+ * @var biz\models\PurchaseHdr $model
  */
 
 $this->title = 'Update Purchase: ' . $model->purchase_num;

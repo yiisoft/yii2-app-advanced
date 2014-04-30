@@ -3,8 +3,8 @@
 namespace biz\master\controllers;
 
 use Yii;
-use biz\master\models\Customer;
-use biz\master\models\CustomerSearch;
+use biz\models\Customer;
+use biz\models\searchs\Customer as CustomerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -61,7 +61,7 @@ class CustomerController extends Controller
     public function actionCreate()
     {
         $model = new Customer;
-        $model->status = 1;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_customer]);
         } else {

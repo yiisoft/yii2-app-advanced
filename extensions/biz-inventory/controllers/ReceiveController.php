@@ -3,18 +3,17 @@
 namespace biz\inventory\controllers;
 
 use Yii;
-use biz\inventory\models\TransferHdr;
-use biz\inventory\models\TransferHdrSearch;
-use biz\inventory\models\TransferDtl;
+use biz\models\TransferHdr;
+use biz\models\searchs\TransferHdr as TransferHdrSearch;
+use biz\models\TransferDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\base\UserException;
 use \Exception;
-use app\tools\Helper;
-use app\tools\Hooks;
-use biz\inventory\models\TransferNotice;
-use biz\inventory\models\NoticeDtl;
+use biz\tools\Hooks;
+use biz\models\TransferNotice;
+use biz\models\NoticeDtl;
 
 /**
  * TransferController implements the CRUD actions for TransferHdr model.

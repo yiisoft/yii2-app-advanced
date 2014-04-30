@@ -5,11 +5,11 @@ use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
 use biz\master\models\Warehouse;
 use yii\jui\AutoComplete;
-use app\tools\Helper;
+use biz\tools\Helper;
 
 /**
  * @var yii\web\View $this
- * @var biz\purchase\models\PurchaseHdr $model
+ * @var biz\models\PurchaseHdr $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

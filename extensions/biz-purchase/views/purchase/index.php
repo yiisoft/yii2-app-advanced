@@ -2,12 +2,12 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use biz\purchase\models\PurchaseHdr;
+use biz\models\PurchaseHdr;
 
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var biz\purchase\models\PurchaseHdrSearch $searchModel
+ * @var biz\models\PurchaseHdrSearch $searchModel
  */
 $this->title = 'Purchase Hdrs';
 $this->params['breadcrumbs'][] = $this->title;

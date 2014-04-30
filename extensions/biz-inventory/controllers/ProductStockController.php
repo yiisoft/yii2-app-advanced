@@ -3,8 +3,8 @@
 namespace biz\inventory\controllers;
 
 use Yii;
-use biz\inventory\models\ProductStock;
-use biz\inventory\models\ProductStockSearch;
+use biz\models\ProductStock;
+use biz\models\searchs\ProductStock as ProductStockSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

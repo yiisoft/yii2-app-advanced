@@ -4,7 +4,7 @@ use yii\web\JsExpression;
 use yii\jui\AutoComplete;
 use yii\helpers\Html;
 use biz\inventory\models\TransferDtl;
-use app\tools\Helper;
+use biz\tools\Helper;
 ?>
 <div class="col-lg-9" style="padding-left: 0px;">
     <div class="panel panel-info">

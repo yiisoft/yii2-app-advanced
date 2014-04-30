@@ -3,15 +3,15 @@
 namespace biz\purchase\controllers;
 
 use Yii;
-use biz\purchase\models\PurchaseHdr;
-use biz\purchase\models\PurchaseHdrSearch;
+use biz\models\PurchaseHdr;
+use biz\models\searchs\PurchaseHdr as PurchaseHdrSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use biz\purchase\models\PurchaseDtl;
+use biz\models\PurchaseDtl;
 use \Exception;
 use yii\base\UserException;
-use app\tools\Hooks;
+use biz\tools\Hooks;
 
 /**
  * PurchaseHdrController implements the CRUD actions for PurchaseHdr model.
@@ -39,8 +39,8 @@ class PurchaseController extends Controller
     public function actionIndex()
     {
         $searchModel = new PurchaseHdrSearch;
-        $searchModel->status = '<2';
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+        $dataProvider->query->andWhere(['status'=>[1]]);
 
         return $this->render('index', [
                 'dataProvider' => $dataProvider,
@@ -69,7 +69,7 @@ class PurchaseController extends Controller
     {
         $model = new PurchaseHdr;
         $model->status = PurchaseHdr::STATUS_DRAFT;
-        $model->id_branch = Yii::$app->user->identity->id_branch;
+        $model->id_branch = Yii::$app->user->branch;
         $model->purchase_date = date('Y-m-d');
 
         list($details, $success) = $this->savePurchase($model);
@@ -88,8 +88,9 @@ class PurchaseController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if ($model->status != PurchaseHdr::STATUS_DRAFT) {
-            throw new UserException('tidak bisa diedit');
+        Yii::$app->hooks->fire(Hooks::E_PPUPD_1, $model);
+        if(count($model->purchaseDtls)){
+            $model->id_warehouse = $model->purchaseDtls[0]->id_warehouse;
         }
         list($details, $success) = $this->savePurchase($model);
         if ($success) {
@@ -182,34 +183,33 @@ class PurchaseController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        Yii::$app->hooks->fire(Hooks::E_PPDEL_1, $model);
+        $model->delete();
         return $this->redirect(['index']);
     }
 
     public function actionReceive($id)
     {
         $model = $this->findModel($id);
-        if ($model->status === PurchaseHdr::STATUS_DRAFT) {
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                $model->status = PurchaseHdr::STATUS_RECEIVE;
-                if (!$model->save()) {
-                    throw new UserException(implode(",\n", $model->firstErrors));
-                }
-                Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_BEGIN, $model);
-                foreach ($model->purchaseDtls as $detail) {
-                    Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_BODY, $model, $detail);
-                }
-                Yii::$app->hooks->fire(Hooks::EVENT_PURCHASE_RECEIVE_END, $model);
-                $transaction->commit();
-            } catch (Exception $exc) {
-                $transaction->rollBack();
-                throw new UserException($exc->getMessage());
+        Yii::$app->hooks->fire(Hooks::E_PPREC_1, $model);
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $model->status = PurchaseHdr::STATUS_RECEIVE;
+            if (!$model->save()) {
+                throw new UserException(implode(",\n", $model->firstErrors));
             }
-            return $this->redirect(['index']);
-        } else {
-            throw new UserException('Dokument tidak boleh direlese');
+            Yii::$app->hooks->fire(Hooks::E_PPREC_21, $model);
+            foreach ($model->purchaseDtls as $detail) {
+                Yii::$app->hooks->fire(Hooks::E_PPREC_22, $model, $detail);
+            }
+            Yii::$app->hooks->fire(Hooks::E_PPREC_23, $model);
+            $transaction->commit();
+        } catch (Exception $exc) {
+            $transaction->rollBack();
+            throw new UserException($exc->getMessage());
         }
+        return $this->redirect(['index']);
     }
 
     /**

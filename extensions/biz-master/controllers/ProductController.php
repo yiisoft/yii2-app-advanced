@@ -3,12 +3,12 @@
 namespace biz\master\controllers;
 
 use Yii;
-use biz\master\models\Product;
-use biz\master\models\ProductSearch;
+use biz\models\Product;
+use biz\models\searchs\Product as ProductSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use biz\master\models\ProductUom;
+use biz\models\ProductUom;
 
 /**
  * ProductController implements the CRUD actions for Product model.

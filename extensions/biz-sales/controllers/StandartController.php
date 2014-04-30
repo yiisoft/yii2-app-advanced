@@ -3,22 +3,17 @@
 namespace biz\sales\controllers;
 
 use Yii;
-use biz\sales\models\SalesHdr;
-use biz\sales\models\SalesHdrSearch;
-use biz\sales\models\SalesDtl;
+use biz\models\SalesHdr;
+use biz\models\searchs\SalesHdr as SalesHdrSearch;
+use biz\models\SalesDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\HttpCache;
-use mdm\tools\AppCache;
-use biz\master\models\Cogs;
+use biz\models\Cogs;
 use \Exception;
 use yii\base\UserException;
-use biz\inventory\models\ProductStock;
-use biz\master\models\ProductUom;
-use biz\master\models\GlobalConfig;
-use app\tools\Helper;
-use app\tools\Hooks;
+use biz\tools\Helper;
+use biz\tools\Hooks;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -35,17 +30,7 @@ class StandartController extends Controller
                     'delete' => ['post'],
                     'release' => ['post']
                 ],
-            ],
-            'httpCache' => [
-                'class' => HttpCache::className(),
-                'only' => ['js'],
-                'lastModified' => function ($action, $params) {
-                return 50000 * ((int) (time() / 50000)) - 36000;
-            },
-                'etagSeed' => function($action, $params) {
-                return 1;
-            }
-            ],
+            ]
         ];
     }
 
@@ -88,7 +73,7 @@ class StandartController extends Controller
             2 => 'Bank',
         ];
         $model = new SalesHdr;
-        $model->id_branch = Yii::$app->user->identity->id_branch;
+        $model->id_branch = Yii::$app->user->branch;
         $model->status = 1;
         $model->id_customer = 1;
         $model->sales_date = date('Y-m-d');
@@ -185,24 +170,22 @@ class StandartController extends Controller
     public function actionRelease($id)
     {
         $model = $this->findModel($id);
-        if ($model->status == SalesHdr::STATUS_DRAFT) {
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                $model->status = SalesHdr::STATUS_RELEASE;
-                if (!$model->save()) {
-                    throw new UserException(implode("\n", $model->getFirstErrors()));
-                }
-                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_BEGIN, $model);
-                foreach ($model->salesDtls as $detail) {
-                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_BODY, $model,$detail);
-                    
-                }
-                Yii::$app->hooks->fire(Hooks::EVENT_SALES_STDR_RELEASE_END, $model);
-                $transaction->commit();
-            } catch (Exception $exc) {
-                $transaction->rollBack();
-                throw new UserException($exc->getMessage());
+        Yii::$app->hooks->fire(Hooks::E_SSREL_1, $model);
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $model->status = SalesHdr::STATUS_RELEASE;
+            if (!$model->save()) {
+                throw new UserException(implode("\n", $model->getFirstErrors()));
             }
+            Yii::$app->hooks->fire(Hooks::E_SSREL_21, $model);
+            foreach ($model->salesDtls as $detail) {
+                Yii::$app->hooks->fire(Hooks::E_SSREL_22, $model, $detail);
+            }
+            Yii::$app->hooks->fire(Hooks::E_SSREL_23, $model);
+            $transaction->commit();
+        } catch (Exception $exc) {
+            $transaction->rollBack();
+            throw new UserException($exc->getMessage());
         }
         return $this->redirect(['view', 'id' => $id]);
     }

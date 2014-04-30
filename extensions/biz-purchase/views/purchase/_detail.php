@@ -3,8 +3,8 @@
 use yii\web\JsExpression;
 use yii\jui\AutoComplete;
 use yii\helpers\Html;
-use biz\purchase\models\PurchaseDtl;
-use app\tools\Helper;
+use biz\models\PurchaseDtl;
+use biz\tools\Helper;
 
 /**
  * @var PurchaseDtl $model

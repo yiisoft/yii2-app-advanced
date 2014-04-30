@@ -3,12 +3,17 @@
 $exts = dirname(dirname(__DIR__)) . '/extensions';
 return [
     'bootstrap' => [
-    //'debug',
-    //'gii',
+//        'debug',
+//        'gii',
     ],
     'modules' => [
         'debug' => 'yii\debug\Module',
-        'gii' => 'yii\gii\Module',
+        'gii' => [
+            'class' => 'yii\gii\Module',
+            'generators' => [
+                'bizmodel' => ['class' => 'biz\gii\generators\model\Generator']
+            ]
+        ],
         'master' => 'biz\master\Module',
         'inventory' => 'biz\inventory\Module',
         'accounting' => 'biz\accounting\Module',
@@ -17,7 +22,7 @@ return [
     ],
     'components' => [
         'user' => [
-            'as info' => 'app\tools\UserInfo',
+            'as info' => 'biz\behaviors\UserBehavior',
         ],
         'log' => [
             'targets' => [
@@ -28,10 +33,10 @@ return [
                 ],
             ],
         ],
-        'hooks' => 'app\tools\Hooks',
+        'hooks' => 'biz\tools\Hooks',
         'urlManager' => [
-        //'enablePrettyUrl' => true,
-        //'showScriptName' => false,
+//            'enablePrettyUrl' => true,
+//            'showScriptName' => false,
         ],
     ],
     'as access' => [
