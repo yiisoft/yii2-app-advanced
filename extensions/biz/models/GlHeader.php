@@ -28,6 +28,9 @@ use Yii;
  */
 class GlHeader extends \yii\db\ActiveRecord
 {
+    const TYPE_PURCHASE = 100;
+    const TYPE_SALES = 200;
+
     /**
      * @inheritdoc
      */
@@ -109,7 +112,7 @@ class GlHeader extends \yii\db\ActiveRecord
                 'digit' => 4,
                 'group' => 'gl',
                 'attribute' => 'gl_num',
-                'value' => date('ymd.?')
+                'value' => 'GL'.date('ymd.?')
             ]
         ];
     }

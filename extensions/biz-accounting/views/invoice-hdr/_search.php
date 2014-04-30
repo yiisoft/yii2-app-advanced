@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\InvoiceHdrSearch $model
+ * @var biz\models\searchs\InvoiceHdr $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
@@ -25,9 +25,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'inv_date') ?>
 
-    <?= $form->field($model, 'id_vendor') ?>
+    <?= $form->field($model, 'due_date') ?>
+
+    <?php // echo $form->field($model, 'id_vendor') ?>
 
     <?php // echo $form->field($model, 'inv_value') ?>
+
+    <?php // echo $form->field($model, 'status') ?>
 
     <?php // echo $form->field($model, 'create_date') ?>
 

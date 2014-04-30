@@ -15,7 +15,7 @@ use Yii;
  * @property string $update_date
  * @property integer $update_by
  *
- * @property EntriSheetDtl $entriSheetDtl
+ * @property EntriSheetDtl[] $entriSheetDtls
  */
 class EntriSheet extends \yii\db\ActiveRecord
 {
@@ -58,9 +58,9 @@ class EntriSheet extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getEntriSheetDtl()
+    public function getEntriSheetDtls()
     {
-        return $this->hasOne(EntriSheetDtl::className(), ['id_esheet' => 'id_esheet']);
+        return $this->hasMany(EntriSheetDtl::className(), ['id_esheet' => 'id_esheet']);
     }
 
     /**

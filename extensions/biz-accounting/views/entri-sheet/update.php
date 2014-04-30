@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\EntriSheet $model
+ * @var biz\models\EntriSheet $model
  */
 
-$this->title = 'Update Entri Sheet: ' . $model->id_esheet;
+$this->title = 'Update Entri Sheet: ' . ' ' . $model->id_esheet;
 $this->params['breadcrumbs'][] = ['label' => 'Entri Sheets', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_esheet, 'url' => ['view', 'id' => $model->id_esheet]];
 $this->params['breadcrumbs'][] = 'Update';

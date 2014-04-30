@@ -16,6 +16,7 @@ use Yii;
  */
 class InvoiceDtl extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -32,7 +33,8 @@ class InvoiceDtl extends \yii\db\ActiveRecord
         return [
             [['id_invoice', 'id_reff', 'trans_value'], 'required'],
             [['id_invoice', 'id_reff'], 'integer'],
-            [['description', 'trans_value'], 'string']
+            [['description'], 'string'],
+            [['trans_value'], 'number']
         ];
     }
 

@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\InvoiceHdr $model
+ * @var biz\models\InvoiceHdr $model
  */
 
-$this->title = 'Update Invoice Hdr: ' . $model->id_invoice;
+$this->title = 'Update Invoice Hdr: ' . ' ' . $model->id_invoice;
 $this->params['breadcrumbs'][] = ['label' => 'Invoice Hdrs', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id_invoice, 'url' => ['view', 'id' => $model->id_invoice]];
 $this->params['breadcrumbs'][] = 'Update';

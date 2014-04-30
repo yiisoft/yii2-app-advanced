@@ -39,7 +39,7 @@ class Helper
         $gl_dtls = [];
         $esheet = EntriSheet::findOne(['nm_esheet' => $name]);
         if ($esheet) {
-            foreach ($esheet->entriSheetDtl as $eDtl) {
+            foreach ($esheet->entriSheetDtls as $eDtl) {
                 $coa = $eDtl->id_coa;
                 $nm = $eDtl->nm_esheet_dtl;
 
@@ -59,6 +59,18 @@ class Helper
             throw new UserException("Entrysheet $name not found");
         }
         return $gl_dtls;
+    }
+    
+    /**
+     * @return integer Current accounting periode
+     */
+    public static function getCurrentIdAccPeriode()
+    {
+        $acc = AccPeriode::findOne(['status' => AccPeriode::STATUS_OPEN]);
+        if($acc){
+            return $acc->id_periode;
+        }
+        throw new UserException('Periode tidak ditemukan');
     }
 
     /**

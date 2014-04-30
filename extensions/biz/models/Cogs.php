@@ -36,7 +36,7 @@ class Cogs extends \yii\db\ActiveRecord
         return [
             [['id_product', 'id_uom', 'cogs'], 'required'],
             [['id_product', 'id_uom'], 'integer'],
-            [['cogs'], 'string']
+            [['cogs'], 'number']
         ];
     }
 

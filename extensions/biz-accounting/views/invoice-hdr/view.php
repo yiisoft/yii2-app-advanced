@@ -5,7 +5,7 @@ use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\InvoiceHdr $model
+ * @var biz\models\InvoiceHdr $model
  */
 
 $this->title = $model->id_invoice;
@@ -34,8 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'inv_num',
             'type',
             'inv_date',
+            'due_date',
             'id_vendor',
             'inv_value',
+            'status',
             'create_date',
             'create_by',
             'update_date',

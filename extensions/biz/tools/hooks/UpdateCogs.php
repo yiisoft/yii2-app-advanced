@@ -5,6 +5,7 @@ namespace biz\tools\hooks;
 use biz\tools\Hooks;
 use biz\tools\Helper;
 use biz\models\Cogs;
+use yii\base\UserException;
 
 /**
  * Description of Cogs

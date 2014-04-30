@@ -4,13 +4,14 @@ namespace biz\tools\hooks;
 
 use biz\tools\Hooks;
 use biz\models\PurchaseHdr;
+use yii\base\UserException;
 
 /**
  * Description of CheckAccess
  *
  * @author MDMunir
  */
-class CheckAccess extends \biz\base\Behavior
+class CheckStatus extends \biz\base\Behavior
 {
 
     public function events()

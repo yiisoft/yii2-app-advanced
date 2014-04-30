@@ -21,6 +21,9 @@ use Yii;
  */
 class AccPeriode extends \yii\db\ActiveRecord
 {
+    const STATUS_OPEN = 0;
+    const STATUS_CLOSE = 1;
+    
     /**
      * @inheritdoc
      */

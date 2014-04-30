@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\CoaSearch $model
+ * @var biz\models\searchs\Coa $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
@@ -23,9 +23,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'cd_account') ?>
 
+    <?= $form->field($model, 'nm_account') ?>
+
     <?= $form->field($model, 'coa_type') ?>
 
-    <?= $form->field($model, 'normal_balance') ?>
+    <?php // echo $form->field($model, 'normal_balance') ?>
 
     <?php // echo $form->field($model, 'create_date') ?>
 

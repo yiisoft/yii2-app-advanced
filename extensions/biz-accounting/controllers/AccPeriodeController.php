@@ -3,8 +3,8 @@
 namespace biz\accounting\controllers;
 
 use Yii;
-use biz\accounting\models\AccPeriode;
-use biz\accounting\models\AccPeriodeSearch;
+use biz\models\AccPeriode;
+use biz\models\searchs\AccPeriode as AccPeriodeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,7 +14,6 @@ use yii\filters\VerbFilter;
  */
 class AccPeriodeController extends Controller
 {
-
     public function behaviors()
     {
         return [
@@ -37,8 +36,8 @@ class AccPeriodeController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-                'dataProvider' => $dataProvider,
-                'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ]);
     }
 
@@ -50,7 +49,7 @@ class AccPeriodeController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-                'model' => $this->findModel($id),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -67,7 +66,7 @@ class AccPeriodeController extends Controller
             return $this->redirect(['view', 'id' => $model->id_periode]);
         } else {
             return $this->render('create', [
-                    'model' => $model,
+                'model' => $model,
             ]);
         }
     }
@@ -86,7 +85,7 @@ class AccPeriodeController extends Controller
             return $this->redirect(['view', 'id' => $model->id_periode]);
         } else {
             return $this->render('update', [
-                    'model' => $model,
+                'model' => $model,
             ]);
         }
     }
@@ -100,6 +99,7 @@ class AccPeriodeController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
         return $this->redirect(['index']);
     }
 

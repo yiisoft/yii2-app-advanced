@@ -5,6 +5,8 @@ namespace biz\tools\hooks;
 use biz\tools\Hooks;
 use biz\tools\Helper;
 use biz\models\GlHeader;
+use biz\models\GlDetail;
+use yii\base\UserException;
 
 /**
  * Description of Gl
@@ -21,6 +23,42 @@ class CreateGl extends \yii\base\Behavior
         ];
     }
 
+    protected function createGL($hdr, $dtls = [])
+    {
+        $blc = 0.0;
+        foreach ($dtls as $row) {
+            $blc += $row['ammount'];
+        }
+        if ($blc != 0) {
+            throw new UserException('GL Balance Failed');
+        }
+
+        $gl = new GlHeader();
+        $gl->gl_date = $hdr['date'];
+        $gl->id_reff = $hdr['id_reff'];
+        $gl->type_reff = $hdr['type_reff'];
+        $gl->gl_memo = $hdr['memo'];
+        $gl->description = $hdr['description'];
+
+        $gl->id_branch = $hdr['id_branch'];
+        
+        $active_periode = Helper::getCurrentIdAccPeriode();
+        $gl->id_periode = $active_periode;
+        $gl->status = 0;
+        if (!$gl->save()) {
+            throw new UserException(implode("\n", $gl->getFirstErrors()));
+        }
+
+        foreach ($dtls as $row) {
+            $glDtl = new GlDetail();
+            $glDtl->id_gl = $gl->id_gl;
+            $glDtl->id_coa = $row['id_coa'];
+            $glDtl->amount = $row['ammount'];
+            if (!$glDtl->save()) {
+                throw new UserException(implode("\n", $glDtl->getFirstErrors()));
+            }
+        }
+    }
     /**
      * 
      * @param Event $event
@@ -43,6 +81,6 @@ class CreateGl extends \yii\base\Behavior
         ];
 
         $glDtls = Helper::entriSheetToGlMaps('PEMBELIAN_KREDIT', $dtls);
-        Helper::createGL($glHdr, $glDtls);
+        $this->createGL($glHdr, $glDtls);
     }
 }

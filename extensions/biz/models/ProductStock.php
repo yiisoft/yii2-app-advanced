@@ -39,7 +39,7 @@ class ProductStock extends \yii\db\ActiveRecord
         return [
             [['id_warehouse', 'id_product', 'id_uom', 'qty_stock'], 'required'],
             [['id_warehouse', 'id_product', 'id_uom'], 'integer'],
-            [['qty_stock'], 'string']
+            [['qty_stock'], 'number']
         ];
     }
 

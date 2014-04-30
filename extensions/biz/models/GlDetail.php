@@ -33,7 +33,7 @@ class GlDetail extends \yii\db\ActiveRecord
         return [
             [['id_gl', 'id_coa', 'amount'], 'required'],
             [['id_gl', 'id_coa'], 'integer'],
-            [['amount'], 'string']
+            [['amount'], 'number']
         ];
     }
 

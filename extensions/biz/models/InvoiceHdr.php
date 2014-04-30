@@ -26,6 +26,9 @@ use Yii;
  */
 class InvoiceHdr extends \yii\db\ActiveRecord
 {
+    const TYPE_PURCHASE = 100;
+    const TYPE_SALES = 200;
+
     /**
      * @inheritdoc
      */
@@ -43,7 +46,7 @@ class InvoiceHdr extends \yii\db\ActiveRecord
             [['type', 'inv_date', 'due_date', 'id_vendor', 'inv_value', 'status'], 'required'],
             [['type', 'id_vendor', 'status'], 'integer'],
             [['inv_date', 'due_date'], 'safe'],
-            [['inv_value'], 'string']
+            [['inv_value'], 'number']
         ];
     }
 

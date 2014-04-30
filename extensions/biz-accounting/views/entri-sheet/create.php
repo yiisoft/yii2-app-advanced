@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\EntriSheet $model
+ * @var biz\models\EntriSheet $model
  */
 
 $this->title = 'Create Entri Sheet';

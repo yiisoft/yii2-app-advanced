@@ -5,8 +5,9 @@ use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\Coa $model
+ * @var biz\models\Coa $model
  */
+
 $this->title = $model->id_coa;
 $this->params['breadcrumbs'][] = ['label' => 'Coas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -17,29 +18,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id_coa], ['class' => 'btn btn-primary']) ?>
-        <?=
-        Html::a('Delete', ['delete', 'id' => $model->id_coa], [
+        <?= Html::a('Delete', ['delete', 'id' => $model->id_coa], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
-        ])
-        ?>
+        ]) ?>
     </p>
 
-    <?=
-    DetailView::widget([
+    <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id_coa',
-            //'id_coa_parent',
+            'id_coa_parent',
             'cd_account',
             'nm_account',
-            [                    // the owner name of the model
-                'label' => 'Parent Account',
-                'value' => $model->idCoaParent['nm_account'],
-            ],
             'coa_type',
             'normal_balance',
             'create_date',
@@ -47,7 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'update_date',
             'update_by',
         ],
-    ])
-    ?>
+    ]) ?>
 
 </div>

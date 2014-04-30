@@ -6,6 +6,7 @@ use biz\tools\Hooks;
 use biz\tools\Helper;
 use biz\models\PriceCategory;
 use biz\models\Price;
+use yii\base\UserException;
 
 /**
  * Description of Price

@@ -36,7 +36,7 @@ class Hooks extends \biz\base\Hooks
             'biz\tools\hooks\UpdatePrice',
             'biz\tools\hooks\CreateInvoice',
             'biz\tools\hooks\CreateGl',
-            'biz\tools\hooks\CheckAccess',
+            'biz\tools\hooks\CheckStatus',
         ];
     }
 }
