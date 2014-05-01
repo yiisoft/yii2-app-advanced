@@ -45,8 +45,8 @@ class PurchaseHdr extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['purchase_value', 'item_discount'], 'biz\validators\DoubleFilter'],
-            [['id_supplier'], 'biz\validators\IntFilter'],
+            [['purchase_value', 'item_discount'], 'doubleFilter'],
+            [['id_supplier'], 'linkFilter'],
             [['id_supplier', 'id_branch', 'purchase_date', 'purchase_value', 'status'], 'required'],
             [['id_branch', 'status'], 'integer'],
             [['purchase_date', 'id_warehouse'], 'safe']

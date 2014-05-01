@@ -26,21 +26,10 @@ use Yii;
  */
 class Coa extends \yii\db\ActiveRecord
 {
-
-    private static $_acc_type = [
-        100000 => 'AKTIVA',
-        200000 => 'KEWAJIBAN',
-        300000 => 'MODAL',
-        400000 => 'PENDAPATAN',
-        500000 => 'HPP',
-        600000 => 'BIAYA'
-    ];
-    private static $_balance_type = [
-        'D' => 'DEBIT', 
-        'K' => 'KREDIT',
-    ];    /**
+    /**
      * @inheritdoc
      */
+
     public static function tableName()
     {
         return 'coa';
@@ -52,14 +41,22 @@ class Coa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_coa_parent', 'coa_type'], 'integer'],
+            [['id_coa_parent', 'coa_type'], 'linkFilter'],
             [['cd_account', 'nm_account', 'coa_type', 'normal_balance'], 'required'],
             [['cd_account'], 'string', 'max' => 16],
+            [['cd_account'], 'checkCoaCode'],
             [['nm_account'], 'string', 'max' => 64],
             [['normal_balance'], 'string', 'max' => 1]
         ];
     }
 
+    public function checkCoaCode($attribute)
+    {
+        $coa = $this->idCoaParent;
+        if($coa && strpos($this->$attribute, rtrim($coa->cd_account,'0'))!==0){
+            $this->addError($attribute, 'Code Account prefix invalid');
+        }
+    }
     /**
      * @inheritdoc
      */
@@ -116,23 +113,7 @@ class Coa extends \yii\db\ActiveRecord
      */
     public function getNmCoaType()
     {
-        return self::$_acc_type[$this->coa_type];
-    }
-
-    /**
-     * @return array()
-     */
-    public static function getCoaType()
-    {
-        return self::$_acc_type;
-    }
-
-    /**
-     * @return array()
-     */
-    public static function getBalanceType()
-    {
-        return self::$_balance_type;
+        return \biz\tools\Helper::getCoaType()[$this->coa_type];
     }
 
     /**

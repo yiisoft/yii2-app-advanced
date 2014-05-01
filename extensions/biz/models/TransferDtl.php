@@ -33,7 +33,7 @@ class TransferDtl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['transfer_qty_send', 'transfer_qty_receive'], 'biz\validators\DoubleFilter','valueWhenEmpty'=>null],
+            [['transfer_qty_send', 'transfer_qty_receive'], 'doubleFilter'],
             [['id_transfer', 'id_product', 'transfer_qty_send', 'id_uom'], 'required'],
             [['id_transfer', 'id_product', 'id_uom'], 'integer'],
             [['transfer_qty_send', 'transfer_qty_receive'], 'number']

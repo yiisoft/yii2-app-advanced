@@ -61,36 +61,75 @@ class Helper
         return $gl_dtls;
     }
 
-    private static function getCoaChild(&$result,$addSelf,$parent=null)
+    private static function getCoaChild(&$result, $parent, $prefix, $tab)
     {
-        foreach (Coa::findAll(['id_coa_parent'=>$parent]) as $row){
-            $_result = [];
-            static::getCoaChild($_result, $addSelf, $row['id_coa']);
-            if($_result === [] && $parent !== null){
-                $result[$row['id_coa']] = "[{$row['cd_account']}] {$row['nm_account']}";
-            }  else {
-                if($addSelf){
-                    $_result = ArrayHelper::merge([$row['id_coa'] => "[{$row['cd_account']}] {$row['nm_account']}"],$_result);
-                }
-                $result[$row['nm_account']] = $_result;
-            }
+        foreach (Coa::find()->where(['id_coa_parent' => $parent])->orderBy(['cd_account' => SORT_ASC])->all() as $row) {
+            $result[$row['id_coa']] = $prefix . "[{$row['cd_account']}] {$row['nm_account']}";
+            static::getCoaChild($result, $row['id_coa'], $prefix . $tab, $tab);
         }
     }
 
-    public static function getGroupedCoaList($addSelf=false)
+    public static function getGroupedCoaList($addSelf = false, $tab = 4)
     {
         $result = [];
-        static::getCoaChild($result,$addSelf);
+        $tab = str_pad('', $tab);
+        foreach (Coa::find()->where(['id_coa_parent' => null])->orderBy(['cd_account' => SORT_ASC])->all() as $row) {
+            if ($addSelf) {
+                $result[$row['nm_account']][$row['id_coa']] = "[{$row['cd_account']}] {$row['nm_account']}";
+            } else {
+                $result[$row['nm_account']] = [];
+            }
+            static::getCoaChild($result[$row['nm_account']], $row['id_coa'], $addSelf ? $tab : '', $tab);
+        }
         return $result;
     }
-    
+
+    /**
+     * @return array()
+     */
+    public static function getCoaType()
+    {
+        return [
+            100000 => 'AKTIVA',
+            200000 => 'KEWAJIBAN',
+            300000 => 'MODAL',
+            400000 => 'PENDAPATAN',
+            500000 => 'HPP',
+            600000 => 'BIAYA'
+        ];
+    }
+
+    /**
+     * @return array()
+     */
+    public static function getBalanceType()
+    {
+        return [
+            'D' => 'DEBIT',
+            'K' => 'KREDIT',
+        ];
+    }
+
+    public static function getNormalBalanceOfType($coa_type)
+    {
+        $maps = [
+            100000 => 'D',
+            200000 => 'K',
+            300000 => 'K',
+            400000 => 'K',
+            500000 => 'D',
+            600000 => 'D'
+        ];
+        return $maps[(int) $coa_type];
+    }
+
     /**
      * @return integer Current accounting periode
      */
     public static function getCurrentIdAccPeriode()
     {
         $acc = AccPeriode::findOne(['status' => AccPeriode::STATUS_OPEN]);
-        if($acc){
+        if ($acc) {
             return $acc->id_periode;
         }
         throw new UserException('Periode tidak ditemukan');
@@ -138,7 +177,7 @@ class Helper
         $gl->description = $hdr['description'];
 
         $gl->id_branch = $hdr['id_branch'];
-        
+
         $active_periode = AccPeriode::getCurrentPeriode();
         $gl->id_periode = $active_periode['id_periode'];
         $gl->status = 0;
@@ -290,7 +329,7 @@ class Helper
      */
     public static function getSmallestProductUom($id_product)
     {
-        $uom = ProductUom::findOne(['id_product' => $id_product,'isi'=>1]);
+        $uom = ProductUom::findOne(['id_product' => $id_product, 'isi' => 1]);
         return $uom ? $uom->id_uom : false;
     }
 
@@ -317,5 +356,4 @@ class Helper
         }
         return ArrayHelper::map($query->asArray()->all(), 'id_warehouse', 'nm_whse');
     }
-
 }

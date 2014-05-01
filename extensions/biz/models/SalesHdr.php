@@ -47,7 +47,7 @@ class SalesHdr extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_customer'], 'biz\validators\IntFilter'],
+            [['id_customer'], 'linkFilter'],
             [['id_branch', 'id_customer', 'sales_date', 'status'], 'required'],
             [['id_branch', 'id_cashdrawer', 'status', 'id_warehouse'], 'integer'],
             [['discount'], 'string'],

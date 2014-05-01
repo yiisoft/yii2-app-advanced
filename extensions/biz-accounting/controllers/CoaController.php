@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use biz\tools\Helper;
 
 /**
  * CoaController implements the CRUD actions for Coa model.
@@ -56,6 +57,17 @@ class CoaController extends Controller
     }
 
     /**
+     * 
+     * @param Coa $model
+     */
+    protected function fillAttributes($model)
+    {
+        $model->coa_type = $model->cd_account[0] . '00000';
+        $model->normal_balance = Helper::getNormalBalanceOfType($model->coa_type);
+        return true;
+    }
+
+    /**
      * Creates a new Coa model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -64,7 +76,7 @@ class CoaController extends Controller
     {
         $model = new Coa;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $this->fillAttributes($model) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_coa]);
         } else {
             return $this->render('create', [
@@ -82,16 +94,8 @@ class CoaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $dpost = Yii::$app->request->post();
-        if ($model->load($dpost)) {
-            $model->id_coa_parent = $dpost['Coa']['id_coa_parent'];
-            if($model->save()){
-                return $this->redirect(['view', 'id' => $model->id_coa]);
-            }
-//        } else {
-//            return $this->render('update', [
-//                    'model' => $model,
-//            ]);
+        if ($model->load(Yii::$app->request->post()) && $this->fillAttributes($model) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id_coa]);
         }
         return $this->render('update', [
                 'model' => $model,
@@ -141,5 +145,4 @@ class CoaController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         return $rCoa;
     }
-
 }
