@@ -8,7 +8,6 @@ use yii\grid\GridView;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var biz\models\\CoaSearch $searchModel
  */
-
 $this->title = 'Coas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,20 +15,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <div class="pull-right">
         <?= Html::a('', ['create'], ['class' => 'btn btn-default glyphicon glyphicon-plus', 'title' => 'Create New', 'style' => 'width:100%;']) ?>
     </div>
 
-    <?= GridView::widget([
+
+    <?php
+    \yii\widgets\Pjax::begin(['enablePushState' => false]);
+    echo GridView::widget([
         'dataProvider' => $dataProvider,
         'tableOptions' => ['class' => 'table table-striped'],
         'layout' => '{items}{pager}',
         //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             //'id_coa',
             'cd_account',
             'nm_account',
@@ -41,9 +42,10 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'create_by',
             // 'update_date',
             // 'update_by',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);
+    \yii\widgets\Pjax::end();
+    ?>
 
 </div>

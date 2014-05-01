@@ -37,7 +37,7 @@ class CoaController extends Controller
     {
         $searchModel = new CoaSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-
+        $dataProvider->getSort()->defaultOrder = ['cd_account'=>SORT_ASC];
         return $this->render('index', [
                 'dataProvider' => $dataProvider,
                 'searchModel' => $searchModel,
