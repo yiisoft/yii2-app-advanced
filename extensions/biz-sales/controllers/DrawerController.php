@@ -3,8 +3,8 @@
 namespace biz\sales\controllers;
 
 use Yii;
-use biz\sales\models\Cashdrawer;
-use biz\sales\models\CashdrawerSearch;
+use biz\models\Cashdrawer;
+use biz\models\CashdrawerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use biz\inventory\models\TransferHdr;
+use biz\models\TransferHdr;
 
 /**
  * @var yii\web\View $this

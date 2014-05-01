@@ -3,8 +3,8 @@
 namespace biz\accounting\controllers;
 
 use Yii;
-use biz\accounting\models\EntriSheetDtl;
-use biz\accounting\models\EntriSheetDtlSearch;
+use biz\models\EntriSheetDtl;
+use biz\models\EntriSheetDtlSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

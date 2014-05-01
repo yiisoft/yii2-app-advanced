@@ -4,12 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
+use biz\models\EntriSheet;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\EntriSheet $model
+ * @var EntriSheet $model
  */
-$this->title = $model->id_esheet;
+$this->title = $model->cd_esheet;
 $this->params['breadcrumbs'][] = ['label' => 'Entri Sheets', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -66,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php
 //            echo '<a class=" pull-right" data-toggle="modal" data-target="#myModal"><span class="btn btn-default glyphicon glyphicon-plus"></span></a>';
             $dESheetD = new ActiveDataProvider([
-                'query' => $model->getEntriSheetDtl(),
+                'query' => $model->getEntriSheetDtls(),
                 'pagination' => [
                     'pageSize' => 10,
                 ],

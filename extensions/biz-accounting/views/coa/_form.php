@@ -2,14 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use biz\accounting\models\Coa;
+use biz\models\Coa;
 use yii\helpers\ArrayHelper;
 use yii\jui\AutoComplete;
 use yii\web\JsExpression;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\Coa $model
+ * @var biz\models\\Coa $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
@@ -23,7 +23,7 @@ use yii\web\JsExpression;
             <?= $form->field($model, 'coa_type')->dropDownList(Coa::getCoaType(), ['style' => 'width:180px;']) ?>
 
             <?= $form->field($model, 'cd_account')->textInput(['maxlength' => 16, 'style' => 'width:180px;']) ?>
-
+            
             <?= $form->field($model, 'nm_account')->textInput(['maxlength' => 64]) ?>
 
             <?php
@@ -41,10 +41,11 @@ use yii\web\JsExpression;
                         'open' => new JsExpression('function(event,ui){$(\'#id_coa_parent\').val(\'\')}'),
                     ]
             ]);
-            echo $field;
+            //echo $field;
+            echo $form->field($model, 'id_coa_parent')->dropDownList(biz\tools\Helper::getGroupedCoaList(true));
             ?>
 
-            <?= $form->field($model, 'normal_balance')->radioList(ArrayHelper::map(Coa::getBalanceType(), 'normal_balance', 'nm_balance')) ?>
+            <?= $form->field($model, 'normal_balance')->radioList(Coa::getBalanceType()) ?>
 
         </div>
 

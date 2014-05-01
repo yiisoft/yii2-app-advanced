@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var biz\accounting\models\EntriSheetDtlSearch $searchModel
+ * @var biz\models\\EntriSheetDtlSearch $searchModel
  */
 $this->title = 'Entri Sheet Dtls';
 $this->params['breadcrumbs'][] = $this->title;

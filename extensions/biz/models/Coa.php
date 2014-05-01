@@ -17,6 +17,7 @@ use Yii;
  * @property integer $create_by
  * @property string $update_date
  * @property integer $update_by
+ * @property string $nmCoaType
  *
  * @property GlDetail[] $glDetails
  * @property EntriSheetDtl[] $entriSheetDtls
@@ -25,7 +26,19 @@ use Yii;
  */
 class Coa extends \yii\db\ActiveRecord
 {
-    /**
+
+    private static $_acc_type = [
+        100000 => 'AKTIVA',
+        200000 => 'KEWAJIBAN',
+        300000 => 'MODAL',
+        400000 => 'PENDAPATAN',
+        500000 => 'HPP',
+        600000 => 'BIAYA'
+    ];
+    private static $_balance_type = [
+        'D' => 'DEBIT', 
+        'K' => 'KREDIT',
+    ];    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -96,6 +109,30 @@ class Coa extends \yii\db\ActiveRecord
     public function getCoas()
     {
         return $this->hasMany(Coa::className(), ['id_coa_parent' => 'id_coa']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getNmCoaType()
+    {
+        return self::$_acc_type[$this->coa_type];
+    }
+
+    /**
+     * @return array()
+     */
+    public static function getCoaType()
+    {
+        return self::$_acc_type;
+    }
+
+    /**
+     * @return array()
+     */
+    public static function getBalanceType()
+    {
+        return self::$_balance_type;
     }
 
     /**

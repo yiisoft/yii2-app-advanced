@@ -3,16 +3,16 @@
 namespace biz\sales\controllers;
 
 use Yii;
-use biz\sales\models\SalesHdr;
-use biz\sales\models\SalesHdrSearch;
-use biz\sales\models\SalesDtl;
+use biz\models\SalesHdr;
+use biz\models\SalesHdrSearch;
+use biz\models\SalesDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
 use mdm\tools\AppCache;
-use biz\sales\models\LogCashier;
+use biz\models\LogCashier;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.

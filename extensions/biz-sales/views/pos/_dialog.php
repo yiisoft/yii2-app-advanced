@@ -3,7 +3,7 @@
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use biz\sales\models\Cashdrawer;
+use biz\models\Cashdrawer;
 ?>
 <?php
 Modal::begin([

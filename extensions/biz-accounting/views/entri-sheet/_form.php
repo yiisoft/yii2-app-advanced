@@ -4,13 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
-use biz\accounting\models\Coa;
-use biz\accounting\models\EntriSheetDtl;
+use biz\models\Coa;
+use biz\models\EntriSheetDtl;
 use yii\bootstrap\Modal;
+use biz\tools\Helper;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\EntriSheet $model
+ * @var biz\models\\EntriSheet $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
@@ -54,7 +55,7 @@ use yii\bootstrap\Modal;
 //            else:
             echo (!$model->isNewRecord) ? '<a class=" pull-right" data-toggle="modal" data-target="#myModal"><span class="btn glyphicon glyphicon-plus"></span></a>' : '';
             $dESheetD = new ActiveDataProvider([
-                'query' => $model->getEntriSheetDtl(),
+                'query' => $model->getEntriSheetDtls(),
                 'pagination' => [
                     'pageSize' => 10,
                 ],
@@ -93,8 +94,8 @@ $esd_model = new EntriSheetDtl;
 <div class="modal-body">
     <?= $form->field($esd_model, 'id_esheet')->hiddenInput(['value' => $model->id_esheet])->label(false) ?>
     <?php
-    $dcoa = new Coa;
-    $list = $dcoa->ListGCoas();
+    //$dcoa = new Coa;
+    $list = Helper::getGroupedCoaList();
     //$list = ['Swedish Cars' => ['1' => 'volvo', '2' => 'Saab'], 'German Cars' => ['3' => 'Mercedes']]; 
     //$list = ArrayHelper::map(Coa::find()->orderBy('cd_account ASC')->all(), 'id_coa', 'nm_account');
     ?>
@@ -107,5 +108,3 @@ $esd_model = new EntriSheetDtl;
 <?php
 ActiveForm::end();
 Modal::end();
-
-

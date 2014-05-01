@@ -5,6 +5,7 @@ namespace biz\accounting\controllers;
 use Yii;
 use biz\models\EntriSheet;
 use biz\models\searchs\EntriSheet as EntriSheetSearch;
+use biz\models\EntriSheetDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -84,7 +85,7 @@ class EntriSheetController extends Controller
         $dval = Yii::$app->request->post();
        
         if(isset($dval['EntriSheetDtl'])):
-            $modelDtl = new \biz\accounting\models\EntriSheetDtl;
+            $modelDtl = new EntriSheetDtl;
             $modelDtl->load($dval);
             if(!$modelDtl->save()){
                 print_r($modelDtl->errors);
@@ -108,8 +109,16 @@ class EntriSheetController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        try {
+            $transaction = \Yii::$app->db->beginTransaction();
+            EntriSheetDtl::deleteAll(['id_esheet'=>$model->id_esheet]);
+            $model->delete();            
+            $transaction->commit();
+        } catch (\Exception $exc) {
+            $transaction->rollBack();
+            throw $exc;
+        }
         return $this->redirect(['index']);
     }
 

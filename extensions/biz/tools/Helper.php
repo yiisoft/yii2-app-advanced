@@ -60,6 +60,29 @@ class Helper
         }
         return $gl_dtls;
     }
+
+    private static function getCoaChild(&$result,$addSelf,$parent=null)
+    {
+        foreach (Coa::findAll(['id_coa_parent'=>$parent]) as $row){
+            $_result = [];
+            static::getCoaChild($_result, $addSelf, $row['id_coa']);
+            if($_result === [] && $parent !== null){
+                $result[$row['id_coa']] = "[{$row['cd_account']}] {$row['nm_account']}";
+            }  else {
+                if($addSelf){
+                    $_result = ArrayHelper::merge([$row['id_coa'] => "[{$row['cd_account']}] {$row['nm_account']}"],$_result);
+                }
+                $result[$row['nm_account']] = $_result;
+            }
+        }
+    }
+
+    public static function getGroupedCoaList($addSelf=false)
+    {
+        $result = [];
+        static::getCoaChild($result,$addSelf);
+        return $result;
+    }
     
     /**
      * @return integer Current accounting periode

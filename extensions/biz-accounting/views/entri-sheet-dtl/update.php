@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var biz\accounting\models\EntriSheetDtl $model
+ * @var biz\models\\EntriSheetDtl $model
  */
 
 $this->title = 'Update Entri Sheet Dtl: ' . $model->id_esheet;

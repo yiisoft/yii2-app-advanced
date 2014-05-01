@@ -6,7 +6,7 @@ use yii\helpers\ArrayHelper;
 use biz\master\models\Branch;
 /**
  * @var yii\web\View $this
- * @var biz\sales\models\Cashdrawer $model
+ * @var biz\models\Cashdrawer $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

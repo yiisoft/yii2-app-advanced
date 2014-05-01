@@ -9,7 +9,6 @@ use biz\models\TransferDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\base\UserException;
 use \Exception;
 use biz\tools\Hooks;
 use biz\models\TransferNotice;

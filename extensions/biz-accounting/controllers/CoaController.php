@@ -3,8 +3,8 @@
 namespace biz\accounting\controllers;
 
 use Yii;
-use biz\accounting\models\Coa;
-use biz\accounting\models\CoaSearch;
+use biz\models\Coa;
+use biz\models\searchs\Coa as CoaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

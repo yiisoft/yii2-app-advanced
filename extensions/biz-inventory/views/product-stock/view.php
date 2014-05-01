@@ -5,7 +5,7 @@ use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View $this
- * @var biz\inventory\models\ProductStock $model
+ * @var biz\models\ProductStock $model
  */
 
 $this->title = $model->id_warehouse;

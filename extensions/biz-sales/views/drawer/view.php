@@ -5,7 +5,7 @@ use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View $this
- * @var biz\sales\models\Cashdrawer $model
+ * @var biz\models\Cashdrawer $model
  */
 
 $this->title = $model->id_cashdrawer;

@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use biz\inventory\models\TransferHdr;
+use biz\models\TransferHdr;
 use yii\widgets\Pjax;
 
 /**

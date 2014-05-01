@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var biz\sales\models\CashDrawer $model
+ * @var biz\models\CashDrawer $model
  */
 
 $this->title = 'Close Drawer';
