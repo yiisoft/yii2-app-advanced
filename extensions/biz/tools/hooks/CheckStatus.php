@@ -4,6 +4,7 @@ namespace biz\tools\hooks;
 
 use biz\tools\Hooks;
 use biz\models\PurchaseHdr;
+use biz\models\TransferHdr;
 use yii\base\UserException;
 
 /**
@@ -18,14 +19,16 @@ class CheckStatus extends \biz\base\Behavior
     {
         return[
             Hooks::E_PPUPD_1 => 'purchaseUpdate',
-            Hooks::E_PPREC_1 => 'PurchaseReceive',
+            Hooks::E_PPREC_1 => 'purchaseReceive',
+            Hooks::E_ITUPD_1 => 'transferUpdate',
+            Hooks::E_ITISS_1 => 'transferIssue',
         ];
     }
 
     public function purchaseUpdate($event, $model)
     {
         if ($model->status != PurchaseHdr::STATUS_DRAFT) {
-            throw new UserException('tidak bisa diedit');
+            throw new UserException('tidak boleh diedit');
         }
     }
 
@@ -33,6 +36,20 @@ class CheckStatus extends \biz\base\Behavior
     {
         if ($model->status != PurchaseHdr::STATUS_DRAFT) {
             throw new UserException('Dokument tidak boleh direlese');
+        }
+    }
+
+    public function transferUpdate($event, $model)
+    {
+        if ($model->status != TransferHdr::STATUS_DRAFT) {
+            throw new UserException('tidak boleh diedit');
+        }
+    }
+
+    public function transferIssue($event, $model)
+    {
+        if ($model->status != TransferHdr::STATUS_DRAFT) {
+            throw new UserException('tidak boleh diissue');
         }
     }
 }

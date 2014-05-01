@@ -20,7 +20,10 @@ use biz\tools\Helper;
                 'id' => 'transfer-form',
     ]);
     ?>
-    <?php echo $form->errorSummary($model) ?>
+    <?php 
+    $models = $details;
+    array_unshift($models, $model);
+    echo $form->errorSummary($models) ?>
     <?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
     <div class="col-lg-3" style="padding-right: 0px;">
         <div class="panel panel-primary">

@@ -75,6 +75,7 @@ class TransferController extends Controller
         if ($success) {
             return $this->redirect(['view', 'id' => $model->id_transfer]);
         }
+        $model->setIsNewRecord(true);
         return $this->render('create', [
                 'model' => $model,
                 'details' => $details,
@@ -93,7 +94,7 @@ class TransferController extends Controller
         if ($model->status != TransferHdr::STATUS_DRAFT) {
             throw new UserException('tidak bisa diedit');
         }
-        Yii::$app->hooks->fire(Hooks::E_ITUPD,$model);
+        Yii::$app->hooks->fire(Hooks::E_ITUPD_1, $model);
         list($details, $success) = $this->saveTransfer($model);
         if ($success) {
             return $this->redirect(['view', 'id' => $model->id_transfer]);
@@ -182,32 +183,33 @@ class TransferController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        Yii::$app->hooks->fire(Hooks::E_ITDEL_1);
+        $model->delete();
         return $this->redirect(['index']);
     }
 
     public function actionIssue($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->status === TransferHdr::STATUS_DRAFT) {
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
-                $model->status = TransferHdr::STATUS_ISSUE;
-                if (!$model->save()) {
-                    throw new UserException(implode(",\n", $model->firstErrors));
-                }
-                Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_BEGIN, $model);
-                foreach ($model->transferDtls as $detail) {
-                    Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_BODY, $model, $detail);
-                }
-                Yii::$app->hooks->fire(Hooks::EVENT_TRANSFER_ISSUE_END, $model);
-                $transaction->commit();
-            } catch (Exception $exc) {
-                $transaction->rollBack();
-                throw new UserException($exc->getMessage());
+        Yii::$app->hooks->fire(Hooks::E_ITISS_1, $model);
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $model->status = TransferHdr::STATUS_ISSUE;
+            if (!$model->save()) {
+                throw new UserException(implode(",\n", $model->firstErrors));
             }
+            Yii::$app->hooks->fire(Hooks::E_ITISS_21, $model);
+            foreach ($model->transferDtls as $detail) {
+                Yii::$app->hooks->fire(Hooks::E_ITISS_22, $model, $detail);
+            }
+            Yii::$app->hooks->fire(Hooks::E_ITISS_23, $model);
+            $transaction->commit();
+        } catch (Exception $exc) {
+            $transaction->rollBack();
+            throw new UserException($exc->getMessage());
         }
+
         return $this->redirect(['index']);
     }
 

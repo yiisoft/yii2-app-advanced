@@ -128,7 +128,7 @@ class TransferHdr extends \yii\db\ActiveRecord
                 'digit' => 4,
                 'group' => 'transfer',
                 'attribute' => 'transfer_num',
-                'value' => date('ymd.?')
+                'value' => 'IN'.date('y.?')
             ]
         ];
     }

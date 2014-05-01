@@ -26,6 +26,8 @@ class Hooks extends \biz\base\Hooks
     const E_PPUPD_1 = 'ePPUpd1';
     const E_PPREC_1 = 'ePPRec1';
     const E_ITUPD_1 = 'eITUpd1';
+    const E_ITISS_1 = 'eITIss1';
+    const E_ITDEL_1 = 'eITDel1';
     const E_SSREL_1 = 'eSSRel1';
 
     public function behaviors()

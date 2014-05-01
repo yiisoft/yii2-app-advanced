@@ -258,7 +258,8 @@ class Helper
 
     public static function getProductUomList($id_product)
     {
-        return ArrayHelper::map(ProductUom::find()->where(['id_product' => $id_product])->asArray()->all(), 'id_uom', 'nm_uom');
+        $uoms = ProductUom::find()->with('idUom')->where(['id_product' => $id_product])->all();
+        return ArrayHelper::map($uoms, 'id_uom', 'idUom.nm_uom');
     }
 
     /**
