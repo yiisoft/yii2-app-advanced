@@ -22,6 +22,7 @@ class CheckStatus extends \biz\base\Behavior
             Hooks::E_PPREC_1 => 'purchaseReceive',
             Hooks::E_ITUPD_1 => 'transferUpdate',
             Hooks::E_ITISS_1 => 'transferIssue',
+            Hooks::E_IRUPD_1 => 'receiveUpdate',
         ];
     }
 
@@ -51,5 +52,14 @@ class CheckStatus extends \biz\base\Behavior
         if ($model->status != TransferHdr::STATUS_DRAFT) {
             throw new UserException('tidak boleh diissue');
         }
+    }
+
+    public function receiveUpdate($event, $model)
+    {
+        $allowStatus = [TransferHdr::STATUS_ISSUE, TransferHdr::STATUS_CONFIRM_REJECT];
+        if (!in_array($model->status, $allowStatus)) {
+            throw new UserException('tidak bisa diedit');
+        }
+        
     }
 }

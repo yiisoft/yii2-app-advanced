@@ -3,7 +3,7 @@
 use yii\web\JsExpression;
 use yii\jui\AutoComplete;
 use yii\helpers\Html;
-use biz\inventory\models\TransferDtl;
+use biz\models\TransferDtl;
 use biz\tools\Helper;
 ?>
 <div class="col-lg-9" style="padding-left: 0px;">
@@ -25,7 +25,14 @@ use biz\tools\Helper;
         <table id="detail-grid" class="table table-striped">
             <?php
 
-            function renderRow($model, $index) {
+            /**
+             * 
+             * @param TransferDtl $model
+             * @param integer $index
+             * @return string
+             */
+            function renderRow($model, $index)
+            {
                 ob_start();
                 ob_implicit_flush(false);
                 ?>
@@ -64,7 +71,7 @@ use biz\tools\Helper;
                             </li>
                             <li>
                                 Selisih <?php
-								$selisih = $model->transfer_qty_receive - $model->transfer_qty_send;
+                                $selisih = $model->transfer_qty_receive - $model->transfer_qty_send;
                                 echo Html::textInput('', $selisih, [
                                     'data-field' => 'transfer_selisih',
                                     'size' => 5, 'id' => false,

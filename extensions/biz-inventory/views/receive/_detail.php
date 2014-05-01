@@ -1,10 +1,14 @@
 <?php
 
 use yii\helpers\Html;
-use biz\inventory\models\TransferDtl;
+use biz\models\TransferDtl;
 use biz\tools\Helper;
 use yii\jui\AutoComplete;
 use yii\web\JsExpression;
+
+/**
+ * @var TransferDtl[] $model
+ */
 ?>
 <div class="col-lg-9" style="padding-left: 0px;">
     <div class="panel panel-info">
@@ -29,6 +33,12 @@ use yii\web\JsExpression;
             </tfoot>
             <?php
 
+            /**
+             * 
+             * @param TransferDtl $model
+             * @param integer $index
+             * @return string
+             */
             function renderRow($model, $index)
             {
                 ob_start();
@@ -65,6 +75,7 @@ use yii\web\JsExpression;
                                 Html::activeTextInput($model, "[$index]transfer_qty_receive", [
                                     'data-field' => 'transfer_qty_receive',
                                     'size' => 5, 'id' => false,
+                                    'value' => is_null($model->transfer_qty_receive) ? $model->transfer_qty_send : $model->transfer_qty_receive,
                                     'required' => true])
                                 ?>
                             </li>

@@ -69,10 +69,7 @@ class ReceiveController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $allowStatus = [TransferHdr::STATUS_ISSUE, TransferHdr::STATUS_CONFIRM_REJECT];
-        if (!in_array($model->status, $allowStatus)) {
-            throw new UserException('tidak bisa diedit');
-        }
+        Yii::$app->hooks->fire(Hooks::E_IRUPD_1, $model);
         list($details, $success) = $this->saveReceive($model);
         if ($success) {
             return $this->redirect(['view', 'id' => $model->id_transfer]);
@@ -136,7 +133,7 @@ class ReceiveController extends Controller
                     }
                 }
                 if ($success) {
-                    Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_BEGIN, $model);
+                    Yii::$app->hooks->fire(Hooks::E_IRREC_21, $model);
                     if ($notice) {
                         $noticeHdr = new TransferNotice;
                         $noticeHdr->id_transfer = $model->id_transfer;
@@ -144,7 +141,7 @@ class ReceiveController extends Controller
                         $noticeHdr->save();
                     }
                     foreach ($model->transferDtls as $detail) {
-                        Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_BODY, $model, $detail);
+                        Yii::$app->hooks->fire(Hooks::E_IRREC_23, $model, $detail);
                         if($notice && $detail->transfer_qty_send != $detail->transfer_qty_receive){
                             $noticeDtl = new NoticeDtl;
                             $noticeDtl->id_transfer = $noticeHdr->id_transfer;
@@ -154,7 +151,7 @@ class ReceiveController extends Controller
                             $noticeDtl->save();
                         }
                     }
-                    Yii::$app->hooks->fire(Hooks::EVENT_RECEIVE_RECEIVE_END, $model);
+                    Yii::$app->hooks->fire(Hooks::E_IRREC_23, $model);
                     $transaction->commit();
                 } else {
                     $transaction->rollBack();
