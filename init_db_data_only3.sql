@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.1.9
 -- Dumped by pg_dump version 9.1.9
--- Started on 2014-05-02 06:04:21 WIT
+-- Started on 2014-05-02 07:55:06 WIT
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -15,8 +15,8 @@ SET client_min_messages = warning;
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2157 (class 0 OID 38625)
--- Dependencies: 188 2181
+-- TOC entry 2160 (class 0 OID 38625)
+-- Dependencies: 188 2184
 -- Data for Name: acc_periode; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -24,7 +24,7 @@ INSERT INTO acc_periode VALUES (1, 'Januari 2014', '2014-01-01', '2014-01-31', 0
 
 
 --
--- TOC entry 2185 (class 0 OID 0)
+-- TOC entry 2188 (class 0 OID 0)
 -- Dependencies: 187
 -- Name: acc_periode_id_periode_seq_1; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -33,8 +33,8 @@ SELECT pg_catalog.setval('acc_periode_id_periode_seq_1', 1, true);
 
 
 --
--- TOC entry 2159 (class 0 OID 38634)
--- Dependencies: 190 2181
+-- TOC entry 2162 (class 0 OID 38634)
+-- Dependencies: 190 2184
 -- Data for Name: orgn; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -42,8 +42,8 @@ INSERT INTO orgn VALUES (1, 'ZMB', 'DZomb', '2014-04-04 08:03:46.098', 1, '2014-
 
 
 --
--- TOC entry 2168 (class 0 OID 38675)
--- Dependencies: 199 2159 2181
+-- TOC entry 2171 (class 0 OID 38675)
+-- Dependencies: 199 2162 2184
 -- Data for Name: branch; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -54,7 +54,7 @@ INSERT INTO branch VALUES (4, 1, '04', 'Pdg BlackID-PA', '2014-04-04 08:21:29.08
 
 
 --
--- TOC entry 2186 (class 0 OID 0)
+-- TOC entry 2189 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: branch_id_branch_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -63,15 +63,15 @@ SELECT pg_catalog.setval('branch_id_branch_seq', 4, true);
 
 
 --
--- TOC entry 2170 (class 0 OID 38703)
--- Dependencies: 205 2168 2181
+-- TOC entry 2173 (class 0 OID 38703)
+-- Dependencies: 205 2171 2184
 -- Data for Name: cashdrawer; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
 
 
 --
--- TOC entry 2187 (class 0 OID 0)
+-- TOC entry 2190 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: cashdrawer_id_cashdrawer_seq_1; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -80,8 +80,8 @@ SELECT pg_catalog.setval('cashdrawer_id_cashdrawer_seq_1', 1, false);
 
 
 --
--- TOC entry 2172 (class 0 OID 38731)
--- Dependencies: 211 2181
+-- TOC entry 2175 (class 0 OID 38731)
+-- Dependencies: 211 2184
 -- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -89,7 +89,7 @@ INSERT INTO category VALUES (1, '01', 'Kaos', '2014-04-03 22:37:58.469', 1, '201
 
 
 --
--- TOC entry 2188 (class 0 OID 0)
+-- TOC entry 2191 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: category_id_category_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -98,8 +98,8 @@ SELECT pg_catalog.setval('category_id_category_seq', 1, true);
 
 
 --
--- TOC entry 2154 (class 0 OID 38598)
--- Dependencies: 184 2181
+-- TOC entry 2157 (class 0 OID 38598)
+-- Dependencies: 184 2184
 -- Data for Name: coa; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -130,32 +130,33 @@ INSERT INTO coa VALUES (24, 6, '620001', 'Beban Adm & Umum', 600000, 'D', '2014-
 
 
 --
--- TOC entry 2189 (class 0 OID 0)
+-- TOC entry 2192 (class 0 OID 0)
 -- Dependencies: 183
 -- Name: coa_id_coa_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
 
-SELECT pg_catalog.setval('coa_id_coa_seq', 30, true);
+SELECT pg_catalog.setval('coa_id_coa_seq', 24, true);
 
 
 --
--- TOC entry 2165 (class 0 OID 38660)
--- Dependencies: 196 2181
+-- TOC entry 2168 (class 0 OID 38660)
+-- Dependencies: 196 2184
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
+INSERT INTO customer VALUES (1, '0000', 'Umum', '', '', 1, 1, 1, '2014-05-02 07:48:49.91967', '2014-05-02 07:48:49.91967');
 
 
 --
--- TOC entry 2166 (class 0 OID 38668)
--- Dependencies: 197 2165 2181
+-- TOC entry 2169 (class 0 OID 38668)
+-- Dependencies: 197 2168 2184
 -- Data for Name: customer_detail; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
 
 
 --
--- TOC entry 2190 (class 0 OID 0)
+-- TOC entry 2193 (class 0 OID 0)
 -- Dependencies: 195
 -- Name: customer_id_customer_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -164,35 +165,43 @@ SELECT pg_catalog.setval('customer_id_customer_seq', 1, true);
 
 
 --
--- TOC entry 2150 (class 0 OID 38582)
--- Dependencies: 180 2181
+-- TOC entry 2153 (class 0 OID 38582)
+-- Dependencies: 180 2184
 -- Data for Name: entri_sheet; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
-INSERT INTO entri_sheet VALUES (8, 'PKRE', 'PEMBELIAN_KREDIT', '2014-05-02 05:48:36.027541', 1, '2014-05-02 05:48:36.027541', 1);
+INSERT INTO entri_sheet VALUES (1, 'PKRE', 'PEMBELIAN_KREDIT', '2014-05-02 05:48:36.027541', 1, '2014-05-02 05:48:36.027541', 1);
 
 
 --
--- TOC entry 2155 (class 0 OID 38605)
--- Dependencies: 185 2150 2154 2181
+-- TOC entry 2158 (class 0 OID 38605)
+-- Dependencies: 185 2153 2157 2184
 -- Data for Name: entri_sheet_dtl; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
-INSERT INTO entri_sheet_dtl VALUES (8, 'PERSEDIAAN', 12);
-INSERT INTO entri_sheet_dtl VALUES (8, 'HUTANG', 18);
+INSERT INTO entri_sheet_dtl VALUES (1, 'PERSEDIAAN', 12);
+INSERT INTO entri_sheet_dtl VALUES (1, 'HUTANG', 18);
 
 
 --
--- TOC entry 2191 (class 0 OID 0)
+-- TOC entry 2194 (class 0 OID 0)
 -- Dependencies: 179
 -- Name: entri_sheet_id_esheet_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
 
-SELECT pg_catalog.setval('entri_sheet_id_esheet_seq', 8, true);
+SELECT pg_catalog.setval('entri_sheet_id_esheet_seq', 1, true);
 
 
 --
--- TOC entry 2192 (class 0 OID 0)
+-- TOC entry 2149 (class 0 OID 38526)
+-- Dependencies: 170 2184
+-- Data for Name: global_config; Type: TABLE DATA; Schema: public; Owner: mdmunir
+--
+
+
+
+--
+-- TOC entry 2195 (class 0 OID 0)
 -- Dependencies: 189
 -- Name: orgn_id_orgn_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -201,15 +210,15 @@ SELECT pg_catalog.setval('orgn_id_orgn_seq', 1, true);
 
 
 --
--- TOC entry 2148 (class 0 OID 38536)
--- Dependencies: 172 2181
+-- TOC entry 2151 (class 0 OID 38536)
+-- Dependencies: 172 2184
 -- Data for Name: price_category; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
 
 
 --
--- TOC entry 2193 (class 0 OID 0)
+-- TOC entry 2196 (class 0 OID 0)
 -- Dependencies: 171
 -- Name: price_category_id_price_category_seq_1; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -218,8 +227,8 @@ SELECT pg_catalog.setval('price_category_id_price_category_seq_1', 1, false);
 
 
 --
--- TOC entry 2152 (class 0 OID 38590)
--- Dependencies: 182 2181
+-- TOC entry 2155 (class 0 OID 38590)
+-- Dependencies: 182 2184
 -- Data for Name: product_group; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -227,8 +236,8 @@ INSERT INTO product_group VALUES (1, 'wrn', 'Warning', '2014-04-03 22:35:40.436'
 
 
 --
--- TOC entry 2174 (class 0 OID 38740)
--- Dependencies: 213 2152 2172 2181
+-- TOC entry 2177 (class 0 OID 38740)
+-- Dependencies: 213 2155 2175 2184
 -- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -237,15 +246,15 @@ INSERT INTO product VALUES (2, '8890989099123', 'Kaos Polo', 1, 1, '2014-04-22 1
 
 
 --
--- TOC entry 2175 (class 0 OID 38747)
--- Dependencies: 214 2174 2181
+-- TOC entry 2178 (class 0 OID 38747)
+-- Dependencies: 214 2177 2184
 -- Data for Name: product_child; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
 
 
 --
--- TOC entry 2194 (class 0 OID 0)
+-- TOC entry 2197 (class 0 OID 0)
 -- Dependencies: 181
 -- Name: product_group_id_group_seq_1; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -254,7 +263,7 @@ SELECT pg_catalog.setval('product_group_id_group_seq_1', 1, true);
 
 
 --
--- TOC entry 2195 (class 0 OID 0)
+-- TOC entry 2198 (class 0 OID 0)
 -- Dependencies: 212
 -- Name: product_id_product_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -263,8 +272,8 @@ SELECT pg_catalog.setval('product_id_product_seq', 2, true);
 
 
 --
--- TOC entry 2163 (class 0 OID 38651)
--- Dependencies: 194 2181
+-- TOC entry 2166 (class 0 OID 38651)
+-- Dependencies: 194 2184
 -- Data for Name: supplier; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -272,16 +281,16 @@ INSERT INTO supplier VALUES (1, 'Wrn', 'Warning Corp.', '2014-04-03 22:32:47.96'
 
 
 --
--- TOC entry 2176 (class 0 OID 38762)
--- Dependencies: 217 2163 2174 2181
+-- TOC entry 2179 (class 0 OID 38762)
+-- Dependencies: 217 2166 2177 2184
 -- Data for Name: product_supplier; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
 
 
 --
--- TOC entry 2161 (class 0 OID 38642)
--- Dependencies: 192 2181
+-- TOC entry 2164 (class 0 OID 38642)
+-- Dependencies: 192 2184
 -- Data for Name: uom; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -290,8 +299,8 @@ INSERT INTO uom VALUES (2, 'Dzn', 'Dozen', '2014-04-03 22:34:19.881', 1, '2014-0
 
 
 --
--- TOC entry 2178 (class 0 OID 38769)
--- Dependencies: 219 2161 2174 2181
+-- TOC entry 2181 (class 0 OID 38769)
+-- Dependencies: 219 2164 2177 2184
 -- Data for Name: product_uom; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -301,7 +310,7 @@ INSERT INTO product_uom VALUES (3, 2, 1, 1, '2014-04-22 11:37:02.323', 1, '2014-
 
 
 --
--- TOC entry 2196 (class 0 OID 0)
+-- TOC entry 2199 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: product_uom_id_puom_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -310,7 +319,7 @@ SELECT pg_catalog.setval('product_uom_id_puom_seq', 3, true);
 
 
 --
--- TOC entry 2197 (class 0 OID 0)
+-- TOC entry 2200 (class 0 OID 0)
 -- Dependencies: 193
 -- Name: supplier_id_supplier_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -319,7 +328,7 @@ SELECT pg_catalog.setval('supplier_id_supplier_seq', 1, true);
 
 
 --
--- TOC entry 2198 (class 0 OID 0)
+-- TOC entry 2201 (class 0 OID 0)
 -- Dependencies: 191
 -- Name: uom_id_uom_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -328,8 +337,8 @@ SELECT pg_catalog.setval('uom_id_uom_seq', 2, true);
 
 
 --
--- TOC entry 2180 (class 0 OID 38777)
--- Dependencies: 221 2168 2181
+-- TOC entry 2183 (class 0 OID 38777)
+-- Dependencies: 221 2171 2184
 -- Data for Name: warehouse; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
@@ -339,7 +348,7 @@ INSERT INTO warehouse VALUES (3, 2, 'Pdg1', 'Display BlackID-GP', '2014-04-04 08
 
 
 --
--- TOC entry 2199 (class 0 OID 0)
+-- TOC entry 2202 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: warehouse_id_warehouse_seq; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
 --
@@ -347,7 +356,25 @@ INSERT INTO warehouse VALUES (3, 2, 'Pdg1', 'Display BlackID-GP', '2014-04-04 08
 SELECT pg_catalog.setval('warehouse_id_warehouse_seq', 3, true);
 
 
--- Completed on 2014-05-02 06:04:21 WIT
+--
+-- TOC entry 2071 (class 0 OID 38536)
+-- Dependencies: 172 2072
+-- Data for Name: price_category; Type: TABLE DATA; Schema: public; Owner: mdmunir
+--
+
+INSERT INTO price_category (id_price_category, nm_price_category, formula, create_by, update_date, update_by, create_date) VALUES (1, 'Eceran Tertinggi', '1*price', 1, '2014-05-02 07:58:46.399077', 1, '2014-05-02 07:58:46.399077');
+
+
+--
+-- TOC entry 2076 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: price_category_id_price_category_seq_1; Type: SEQUENCE SET; Schema: public; Owner: mdmunir
+--
+
+SELECT pg_catalog.setval('price_category_id_price_category_seq_1', 1, true);
+
+
+-- Completed on 2014-05-02 07:55:06 WIT
 
 --
 -- PostgreSQL database dump complete

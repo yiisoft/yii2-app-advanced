@@ -2,12 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use biz\master\models\Customer;
-use yii\helpers\ArrayHelper;
+use biz\models\Customer;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\Customer $model
+ * @var biz\models\Customer $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>
@@ -28,7 +27,7 @@ use yii\helpers\ArrayHelper;
 
             <?= $form->field($model, 'contact_number')->textInput(['maxlength' => 64]) ?>
 
-            <?= $form->field($model, 'status')->dropDownList($model->getStatus(), ['style' => 'width:200px;']); ?>
+            <?= $form->field($model, 'status')->dropDownList(Customer::getStatus(), ['style' => 'width:200px;']); ?>
 
         </div>
     </div>

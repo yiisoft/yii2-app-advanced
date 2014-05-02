@@ -17,12 +17,17 @@ use Yii;
  * @property integer $create_by
  * @property string $update_date
  * @property string $create_date
+ * @property string $nmStatus
  *
  * @property CustomerDetail $customerDetail
  * @property SalesHdr[] $salesHdrs
  */
 class Customer extends \yii\db\ActiveRecord
 {
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_BLOCKED = 2;
+
     /**
      * @inheritdoc
      */
@@ -78,6 +83,20 @@ class Customer extends \yii\db\ActiveRecord
     public function getSalesHdrs()
     {
         return $this->hasMany(SalesHdr::className(), ['id_customer' => 'id_customer']);
+    }
+
+    public function getNmStatus()
+    {
+        return static::getStatus()[$this->status];
+    }
+    public static function getStatus()
+    {
+        $maps = [
+            static::STATUS_INACTIVE => 'InActive',
+            static::STATUS_ACTIVE => 'Active',
+            static::STATUS_BLOCKED => 'Blocked'
+        ];
+        return $maps;
     }
 
     /**
