@@ -47,4 +47,5 @@ return [
             'site/manifest',
         ]],
     'as clientId' => 'mdm\tools\ClientKey',
+    'as appcache' => 'mdm\tools\AppCache',
 ];

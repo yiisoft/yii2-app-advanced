@@ -89,6 +89,7 @@ class Customer extends \yii\db\ActiveRecord
     {
         return static::getStatus()[$this->status];
     }
+
     public static function getStatus()
     {
         $maps = [

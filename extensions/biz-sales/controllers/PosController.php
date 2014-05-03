@@ -5,14 +5,10 @@ namespace biz\sales\controllers;
 use Yii;
 use biz\models\SalesHdr;
 use biz\models\SalesHdrSearch;
-use biz\models\SalesDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\data\ArrayDataProvider;
-use yii\helpers\Url;
 use mdm\tools\AppCache;
-use biz\models\LogCashier;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -68,11 +64,7 @@ class PosController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$extra = [];
-		$this->getView()->attachBehavior('appcache', [
-			'class' => AppCache::className(),
-			'id' => self::MANIFEST_ID,
-		]);
+//		\Yii::$app->cacheApp();
 		$payment_methods = [
 			1 => 'Cash',
 			2 => 'Bank',
@@ -122,6 +114,8 @@ class PosController extends Controller
 				'isi' => $row['isi']
 			];
 		}
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->set('Content-Type', 'application/javascript');
 		return $this->renderPartial('process.js.php', ['product' => $result]);
 	}
 
@@ -174,7 +168,7 @@ class PosController extends Controller
 
 	public function actionUpdateManifest()
 	{
-		return AppCache::forceUpdateManifest(self::MANIFEST_NAME);
+		return AppCache::forceUpdateManifest(static::MANIFEST_ID);
 	}
 
 }
