@@ -31,26 +31,6 @@ class User extends ActiveRecord implements IdentityInterface
 	public $id_branch = 1;
 
     /**
-     * Creates a new user
-     *
-     * @param  array       $attributes the attributes given by field => value
-     * @return static|null the newly created model, or null on failure
-     */
-    public static function create($attributes)
-    {
-        /** @var User $user */
-        $user = new static();
-        $user->setAttributes($attributes);
-        $user->setPassword($attributes['password']);
-        $user->generateAuthKey();
-        if ($user->save()) {
-            return $user;
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * @inheritdoc
      */
     public function behaviors()
@@ -67,6 +47,20 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+      * @inheritdoc
+      */
+     public function rules()
+     {
+         return [
+             ['status', 'default', 'value' => self::STATUS_ACTIVE],
+             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+
+             ['role', 'default', 'value' => self::ROLE_USER],
+             ['role', 'in', 'range' => [self::ROLE_USER]],
+         ];
+     }
+
+    /**
      * @inheritdoc
      */
     public static function findIdentity($id)
@@ -77,7 +71,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token)
+    public static function findIdentityByAccessToken($token, $type = null)
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
@@ -182,29 +176,5 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-
-            ['role', 'default', 'value' => self::ROLE_USER],
-            ['role', 'in', 'range' => [self::ROLE_USER]],
-
-            ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
-            ['username', 'unique'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
-
-            ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'unique'],
-        ];
     }
 }

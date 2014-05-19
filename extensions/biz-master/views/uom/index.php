@@ -6,7 +6,7 @@ use yii\grid\GridView;
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
- * @var biz\master\models\UomSearch $searchModel
+ * @var biz\models\UomSearch $searchModel
  */
 
 $this->title = 'Uoms';

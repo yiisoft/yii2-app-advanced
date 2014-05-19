@@ -15,7 +15,7 @@ use Yii;
  * @property integer $update_by
  * @property string $create_date
  *
- * @property Price $price
+ * @property Price[] $prices
  * @property Product[] $idProducts
  */
 class PriceCategory extends \yii\db\ActiveRecord
@@ -34,7 +34,8 @@ class PriceCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nm_price_category', 'formula'], 'required'],
+            [['squence_price'],'linkFilter'],
+            [['nm_price_category'], 'required'],
             [['nm_price_category', 'formula'], 'string']
         ];
     }
@@ -58,9 +59,9 @@ class PriceCategory extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPrice()
+    public function getPrices()
     {
-        return $this->hasOne(Price::className(), ['id_price_category' => 'id_price_category']);
+        return $this->hasMany(Price::className(), ['id_price_category' => 'id_price_category']);
     }
 
     /**

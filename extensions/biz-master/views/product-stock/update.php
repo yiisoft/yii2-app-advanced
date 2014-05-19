@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\ProductStock $model
+ * @var biz\models\ProductStock $model
  */
 
 $this->title = 'Update Product Stock: ' . $model->id_stock;

@@ -3,11 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use biz\master\models\Branch;
+use biz\models\Branch;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\Warehouse $model
+ * @var biz\models\Warehouse $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

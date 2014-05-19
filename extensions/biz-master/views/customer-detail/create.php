@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\CustomerDetail $model
+ * @var biz\models\CustomerDetail $model
  */
 
 $this->title = 'Create Customer Detail';
@@ -13,10 +13,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-detail-create">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-	<?php echo $this->render('_form', [
-		'model' => $model,
-	]); ?>
+    <?= $this->render('_form', [
+        'model' => $model,
+    ]) ?>
 
 </div>

@@ -6,11 +6,11 @@ use yii\jui\AutoComplete;
 use yii\web\JsExpression;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
-use biz\master\models\Uom;
+use biz\models\Uom;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\ProductUom $model
+ * @var biz\models\ProductUom $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

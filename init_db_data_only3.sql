@@ -362,7 +362,7 @@ SELECT pg_catalog.setval('warehouse_id_warehouse_seq', 3, true);
 -- Data for Name: price_category; Type: TABLE DATA; Schema: public; Owner: mdmunir
 --
 
-INSERT INTO price_category (id_price_category, nm_price_category, formula, create_by, update_date, update_by, create_date) VALUES (1, 'Eceran Tertinggi', '1*price', 1, '2014-05-02 07:58:46.399077', 1, '2014-05-02 07:58:46.399077');
+INSERT INTO price_category VALUES (1, null, 'PRICE STANDART', null, '2014-05-02 07:58:46.399077', 1, '2014-05-02 07:58:46.399077', 1);
 
 
 --

@@ -2,12 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\jui\AutoComplete;
-use biz\master\models\GlobalConfig;
+use biz\models\GlobalConfig;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\GlobalConfig $model
+ * @var biz\models\GlobalConfig $model
  * @var yii\widgets\ActiveForm $form
  */
 ?>

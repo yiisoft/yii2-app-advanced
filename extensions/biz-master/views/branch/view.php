@@ -5,7 +5,7 @@ use yii\widgets\DetailView;
 
 /**
  * @var yii\web\View $this
- * @var biz\master\models\Branch $model
+ * @var biz\models\Branch $model
  */
 
 $this->title = $model->id_branch;
