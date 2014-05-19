@@ -5,25 +5,25 @@ namespace biz\models;
 use Yii;
 
 /**
- * This is the model class for table "notice_dtl".
+ * This is the model class for table "transfer_notice_dtl".
  *
  * @property integer $id_transfer
  * @property integer $id_product
- * @property string $qty_notice
+ * @property double $qty_notice
  * @property integer $id_uom
  *
  * @property Uom $idUom
  * @property Product $idProduct
  * @property TransferNotice $idTransfer
  */
-class NoticeDtl extends \yii\db\ActiveRecord
+class TransferNoticeDtl extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'notice_dtl';
+        return 'transfer_notice_dtl';
     }
 
     /**
@@ -34,7 +34,7 @@ class NoticeDtl extends \yii\db\ActiveRecord
         return [
             [['id_transfer', 'id_product', 'qty_notice', 'id_uom'], 'required'],
             [['id_transfer', 'id_product', 'id_uom'], 'integer'],
-            [['qty_notice'], 'string']
+            [['qty_notice'], 'double']
         ];
     }
 

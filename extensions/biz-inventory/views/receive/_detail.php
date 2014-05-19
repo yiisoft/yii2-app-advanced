@@ -58,7 +58,7 @@ use yii\web\JsExpression;
                                 Html::activeTextInput($model, "[$index]transfer_qty_send", [
                                     'data-field' => 'transfer_qty_send',
                                     'size' => 5, 'id' => false,
-                                    'readonly' => true, 'disabled' => true])
+                                    'readonly' => true])
                                 ?>
                                 <span > &nbsp; <?= Html::getAttributeValue($model, 'idUom[nm_uom]') ?></span>
                                 <?php Html::activeDropDownList($model, "[$index]id_uom", Helper::getProductUomList($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>

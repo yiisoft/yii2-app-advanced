@@ -136,18 +136,24 @@ class ReceiveController extends Controller
                     if ($notice) {
                         $noticeHdr = new TransferNotice;
                         $noticeHdr->id_transfer = $model->id_transfer;
+                        $noticeHdr->notice_date = date('Y-m-d');
+                        $noticeHdr->description = 'Qty transfer tidak sama dg qty terima';
                         $noticeHdr->status = TransferNotice::STATUS_CREATE;
-                        $noticeHdr->save();
+                        if(!$noticeHdr->save()){
+                            throw new Exception(implode("\n", $noticeHdr->firstErrors));
+                        }
                     }
                     foreach ($model->transferDtls as $detail) {
-                        Yii::$app->hooks->fire(Hooks::E_IRREC_23, $model, $detail);
+                        Yii::$app->hooks->fire(Hooks::E_IRREC_22, $model, $detail);
                         if($notice && $detail->transfer_qty_send != $detail->transfer_qty_receive){
                             $noticeDtl = new NoticeDtl;
                             $noticeDtl->id_transfer = $noticeHdr->id_transfer;
                             $noticeDtl->id_product = $detail->id_product;
                             $noticeDtl->id_uom = $detail->id_uom;
                             $noticeDtl->qty_notice = $detail->transfer_qty_send - $detail->transfer_qty_receive;
-                            $noticeDtl->save();
+                           if(!$noticeDtl->save()){
+                            throw new Exception(implode("\n", $noticeDtl->firstErrors));
+                        }
                         }
                     }
                     Yii::$app->hooks->fire(Hooks::E_IRREC_23, $model);

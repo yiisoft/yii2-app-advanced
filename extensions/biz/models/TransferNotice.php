@@ -22,6 +22,8 @@ use Yii;
  */
 class TransferNotice extends \yii\db\ActiveRecord
 {
+    const STATUS_CREATE = 1;
+
     /**
      * @inheritdoc
      */

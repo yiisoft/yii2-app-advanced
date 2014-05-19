@@ -21,6 +21,7 @@ class UpdateStock extends \yii\base\Behavior
             Hooks::E_PPREC_22 => 'purchaseReceiveBody',
             Hooks::E_ITISS_22 => 'transferIssueBody',
             Hooks::E_SSREL_22 => 'salesStdrReleaseBody',
+            Hooks::E_IRREC_22 => 'receiveReceiveBody',
         ];
     }
 
@@ -95,7 +96,7 @@ class UpdateStock extends \yii\base\Behavior
 
     public function salesStdrReleaseBody($event, $model, $detail)
     {
-        Helper::updateStock([
+        $this->updateStock([
             'id_warehouse' => $detail->id_warehouse,
             'id_product' => $detail->id_product,
             'id_uom' => $detail->id_uom,
@@ -104,4 +105,24 @@ class UpdateStock extends \yii\base\Behavior
             'id_ref' => $detail->id_sales_dtl,
         ]);
     }
+    
+    /**
+     * 
+     * @param \biz\base\Event $event
+     * @param \biz\models\TransferHdr $model
+     * @param \biz\models\TransferDtl $detail
+     */
+    public function receiveReceiveBody($event, $model, $detail)
+    {
+        $this->UpdateStock([
+            'id_warehouse' => $model->id_warehouse_dest,
+            'id_product' => $detail->id_product,
+            'id_uom' => $detail->id_uom,
+            'qty' => $detail->transfer_qty_receive,
+            'app' => 'receive',
+            'id_ref' => $model->id_transfer,
+        ]);
+    }
+
+    
 }

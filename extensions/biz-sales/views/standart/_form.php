@@ -67,7 +67,6 @@ use biz\tools\Helper;
         <div class="form-group">
             <?php
             echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
-            echo Html::a('X', '', ['id' => 'click-me']);
             ?>
         </div>
     </div>
