@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'purchase_num',
             'idSupplier.nm_supplier',
             'idBranch.nm_branch',
-            'purchase_date',
+            'purchaseDate',
             'nmStatus',
             [
                 'class' => 'yii\grid\ActionColumn',

@@ -47,9 +47,9 @@ class PurchaseHdr extends \yii\db\ActiveRecord
         return [
             [['purchase_value', 'item_discount'], 'doubleFilter'],
             [['id_supplier'], 'linkFilter'],
-            [['id_supplier', 'id_branch', 'purchase_date', 'purchase_value', 'status'], 'required'],
+            [['id_supplier', 'id_branch', 'purchaseDate', 'purchase_value', 'status'], 'required'],
             [['id_branch', 'status'], 'integer'],
-            [['purchase_date', 'id_warehouse'], 'safe']
+            [['purchaseDate', 'id_warehouse'], 'safe']
         ];
     }
 
@@ -112,6 +112,12 @@ class PurchaseHdr extends \yii\db\ActiveRecord
                 'group' => 'purchase',
                 'attribute' => 'purchase_num',
                 'value' => 'PU' . date('y.?')
+            ],
+            [
+                'class'=>'biz\behaviors\DateConverter',
+                'attributeMaps'=>[
+                    'purchaseDate' => 'purchase_date',
+                ]
             ]
         ];
     }

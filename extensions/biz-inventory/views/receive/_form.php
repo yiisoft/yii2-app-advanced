@@ -31,7 +31,7 @@ use biz\master\models\Warehouse;
                 <?= $form->field($model, 'transfer_num')->textInput(['readonly' => true]); ?>
                 <?= $form->field($model, 'idWarehouseSource[nm_whse]')->textInput(['readonly' => true]); ?>
                 <?= $form->field($model, 'idWarehouseDest[nm_whse]')->textInput(['readonly' => true]); ?>
-                <?= $form->field($model, 'transfer_date')->textInput(['readonly' => true]); ?>
+                <?= $form->field($model, 'transferDate')->textInput(['readonly' => true]); ?>
                 
             </div>
         </div>

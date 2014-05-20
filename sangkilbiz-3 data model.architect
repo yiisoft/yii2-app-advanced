@@ -4,8 +4,8 @@
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
+   <property key="Logical" value="postgre" />
    <property key="Connection Type" value="PostgreSQL" />
-   <property key="Logical" value="PlayPen Database" />
    <property key="JDBC URL" value="jdbc:postgresql://localhost:5432/sangkilbiz" />
    <property key="UID" value="mdmunir" />
    <property key="PWD" value="123456789" />
@@ -1656,7 +1656,7 @@
     <folder id="FOLTAB4882" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB4884" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX493" populated="true" UUID="b5b7488e-eaec-496a-bcef-66e74948cb68" clustered="false" name="transfer_notice_dtl_pk" physicalName="notice_dtl_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX493" populated="true" UUID="b5b7488e-eaec-496a-bcef-66e74948cb68" clustered="false" name="transfer_notice_dtl_pk" physicalName="transfer_notice_dtl_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC494" populated="true" UUID="34d43e1f-4fad-41e3-8f90-7e08b9fa0a60" ascendingOrDescending="UNSPECIFIED" column-ref="COL489" name="id_transfer" physicalName="id_transfer" />
      <index-column id="IDC495" populated="true" UUID="907a541f-145e-4114-970f-0d0ad6e91bd2" ascendingOrDescending="UNSPECIFIED" column-ref="COL490" name="id_product" physicalName="id_product" />
     </index>
@@ -1845,10 +1845,10 @@
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.7071067811865474" viewportX="608" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.7071067811865474" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="1015" y="478" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB12" x="387" y="261" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB26" x="101" y="108" bgColor="0xeec994" fgColor="0x000000" rounded="false" dashed="false"/>

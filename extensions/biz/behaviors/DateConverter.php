@@ -36,13 +36,13 @@ class DateConverter extends \yii\base\Behavior
     private function convertToPhysical($value)
     {
         $date = DateTime::createFromFormat($this->logicalFormat, $value);
-        return date($this->physicalFormat, $date->getTimestamp());
+        return $date->format($this->physicalFormat);
     }
 
     private function convertToLogical($value)
     {
         $date = DateTime::createFromFormat($this->physicalFormat, $value);
-        return date($this->logicalFormat, $date->getTimestamp());
+        return $date->format($this->logicalFormat);
     }
 
     public function canGetProperty($name, $checkVars = true)
