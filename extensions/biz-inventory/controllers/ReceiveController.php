@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 use \Exception;
 use biz\tools\Hooks;
 use biz\models\TransferNotice;
-use biz\models\NoticeDtl;
+use biz\models\TransferNoticeDtl;
 
 /**
  * TransferController implements the CRUD actions for TransferHdr model.
@@ -137,7 +137,7 @@ class ReceiveController extends Controller
                         $noticeHdr = new TransferNotice;
                         $noticeHdr->id_transfer = $model->id_transfer;
                         $noticeHdr->notice_date = date('Y-m-d');
-                        $noticeHdr->description = 'Qty transfer tidak sama dg qty terima';
+                        $noticeHdr->description = 'Qty kirim tidak sama dg qty terima';
                         $noticeHdr->status = TransferNotice::STATUS_CREATE;
                         if(!$noticeHdr->save()){
                             throw new Exception(implode("\n", $noticeHdr->firstErrors));
@@ -146,7 +146,7 @@ class ReceiveController extends Controller
                     foreach ($model->transferDtls as $detail) {
                         Yii::$app->hooks->fire(Hooks::E_IRREC_22, $model, $detail);
                         if($notice && $detail->transfer_qty_send != $detail->transfer_qty_receive){
-                            $noticeDtl = new NoticeDtl;
+                            $noticeDtl = new TransferNoticeDtl;
                             $noticeDtl->id_transfer = $noticeHdr->id_transfer;
                             $noticeDtl->id_product = $detail->id_product;
                             $noticeDtl->id_uom = $detail->id_uom;

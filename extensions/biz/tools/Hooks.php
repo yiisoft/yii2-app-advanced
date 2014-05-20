@@ -2,6 +2,9 @@
 
 namespace biz\tools;
 
+use Yii;
+use yii\helpers\ArrayHelper;
+
 /**
  * Description of Hooks
  *
@@ -21,7 +24,6 @@ class Hooks extends \biz\base\Hooks
     const E_SSREL_21 = 'eSSRel21';
     const E_SSREL_22 = 'eSSRel22';
     const E_SSREL_23 = 'eSSRel23';
-
     const E_PPDEL_1 = 'ePPDel1';
     const E_PPUPD_1 = 'ePPUpd1';
     const E_PPREC_1 = 'ePPRec1';
@@ -31,15 +33,25 @@ class Hooks extends \biz\base\Hooks
     const E_IRUPD_1 = 'eIRUpd1';
     const E_SSREL_1 = 'eSSRel1';
 
+    public $hooksNamespace = 'biz\tools\hooks';
+    public $extras = [];
+
     public function behaviors()
     {
-        return[
-            'biz\tools\hooks\UpdateStock',
-            'biz\tools\hooks\UpdateCogs',
-            'biz\tools\hooks\UpdatePrice',
-            'biz\tools\hooks\CreateInvoice',
-            'biz\tools\hooks\CreateGl',
-            'biz\tools\hooks\CheckStatus',
-        ];
+        $path = Yii::getAlias('@' . str_replace('\\', '/', $this->hooksNamespace));
+        $result = [];
+        foreach (scandir($path) as $file) {
+            if ($file == '.' || $file == '..' || is_dir($path . '/' . $file)) {
+                continue;
+            }
+            if (strcmp(substr($file, -4), '.php') === 0) {
+                include $path . '/' . $file;
+                $classname = trim($this->hooksNamespace, '\\') . '\\' . substr($file, 0, -4);
+                if ($classname instanceof \yii\base\Behavior) {
+                    $result[$classname] = $classname;
+                }
+            }
+        }
+        return ArrayHelper::merge($result, $this->extras);
     }
 }

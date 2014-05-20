@@ -16,7 +16,7 @@ use Yii;
  * @property string $create_date
  * @property string $update_date
  *
- * @property NoticeDtl $noticeDtl
+ * @property TransferNoticeDtl[] $transferNoticeDtls
  * @property Product[] $idProducts
  * @property TransferHdr $idTransfer
  */
@@ -65,9 +65,9 @@ class TransferNotice extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getNoticeDtl()
+    public function getTransferNoticeDtls()
     {
-        return $this->hasOne(NoticeDtl::className(), ['id_transfer' => 'id_transfer']);
+        return $this->hasMany(TransferNoticeDtl::className(), ['id_transfer' => 'id_transfer']);
     }
 
     /**

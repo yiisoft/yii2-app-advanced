@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'transfer_num',
                 'idWarehouseSource.nm_whse',
                 'idWarehouseDest.nm_whse',
-                'transfer_date',
+                'transferDate',
                 'nmStatus',
             ],
         ]);

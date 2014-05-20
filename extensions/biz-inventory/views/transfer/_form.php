@@ -35,11 +35,11 @@ use biz\tools\Helper;
                 <?= $form->field($model, 'id_warehouse_source')->dropDownList(Helper::getWarehouseList()); ?>
                 <?= $form->field($model, 'id_warehouse_dest')->dropDownList(Helper::getWarehouseList()); ?>
                 <?php
-                echo $form->field($model, 'transfer_date')
+                echo $form->field($model, 'transferDate')
                         ->widget('yii\jui\DatePicker', [
                             'options' => ['class' => 'form-control', 'style' => 'width:50%'],
                             'clientOptions' => [
-                                'dateFormat' => 'yy-mm-dd'
+                                'dateFormat' => 'dd-mm-yy'
                             ],
                 ]);
                 ?>

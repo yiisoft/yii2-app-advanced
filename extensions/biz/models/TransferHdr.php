@@ -18,6 +18,7 @@ use Yii;
  * @property integer $create_by
  * @property string $update_date
  * @property integer $update_by
+ * 
  *
  * @property Warehouse $idWarehouseSource
  * @property Warehouse $idWarehouseDest
@@ -49,9 +50,9 @@ class TransferHdr extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_warehouse_source', 'id_warehouse_dest', 'transfer_date', 'status'], 'required'],
+            [['id_warehouse_source', 'id_warehouse_dest', 'transferDate', 'status'], 'required'],
             [['id_warehouse_source', 'id_warehouse_dest', 'status'], 'integer'],
-            [['transfer_date', 'receive_date'], 'safe']
+            [['transferDate', 'receiveDate'], 'safe']
         ];
     }
 
@@ -129,6 +130,13 @@ class TransferHdr extends \yii\db\ActiveRecord
                 'group' => 'transfer',
                 'attribute' => 'transfer_num',
                 'value' => 'IN'.date('y.?')
+            ],
+            [
+                'class'=>'biz\behaviors\DateConverter',
+                'attributeMaps'=>[
+                    'transferDate' => 'transfer_date',
+                    'receiveDate' => 'receive_date'
+                ]
             ]
         ];
     }
