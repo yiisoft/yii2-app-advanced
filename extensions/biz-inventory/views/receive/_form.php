@@ -32,12 +32,21 @@ use biz\master\models\Warehouse;
                 <?= $form->field($model, 'idWarehouseSource[nm_whse]')->textInput(['readonly' => true]); ?>
                 <?= $form->field($model, 'idWarehouseDest[nm_whse]')->textInput(['readonly' => true]); ?>
                 <?= $form->field($model, 'transferDate')->textInput(['readonly' => true]); ?>
+                <?php
+                echo $form->field($model, 'receiveDate')
+                        ->widget('yii\jui\DatePicker', [
+                            'options' => ['class' => 'form-control', 'style' => 'width:50%'],
+                            'clientOptions' => [
+                                'dateFormat' => 'dd-mm-yy'
+                            ],
+                ]);
+                ?>
                 
             </div>
         </div>
         <div class="form-group">
             <?php
-            echo Html::submitButton('Receive', ['class' => 'btn btn-primary']);
+            echo Html::submitButton('Update', ['class' => 'btn btn-primary']);
             ?>
         </div>
     </div>

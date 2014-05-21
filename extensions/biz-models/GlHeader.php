@@ -45,8 +45,9 @@ class GlHeader extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['gl_date', 'id_branch', 'id_periode', 'description', 'status'], 'required'],
-            [['gl_date', 'description'], 'string'],
+            [['glDate', 'id_branch', 'id_periode', 'description', 'status'], 'required'],
+            [['description'], 'string'],
+            [['gl_date'],'safe'],
             [['id_branch', 'id_periode', 'type_reff', 'id_reff', 'status'], 'integer'],
             [['gl_memo'], 'string', 'max' => 128]
         ];
@@ -113,7 +114,13 @@ class GlHeader extends \yii\db\ActiveRecord
                 'group' => 'gl',
                 'attribute' => 'gl_num',
                 'value' => 'GL'.date('ymd.?')
-            ]
+            ],
+            [
+                'class'=>'biz\behaviors\DateConverter',
+                'attributeMaps'=>[
+                    'glDate' => 'gl_date',
+                ]
+            ],
         ];
     }
 }

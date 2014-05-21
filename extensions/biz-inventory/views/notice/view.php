@@ -2,35 +2,35 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use biz\models\TransferHdr;
+use yii\grid\GridView;
+use biz\models\TransferNotice;
 
 /**
  * @var yii\web\View $this
- * @var biz\models\TransferHdr $model
+ * @var TransferNotice $model
  */
-$this->title = $model->transfer_num;
-$this->params['breadcrumbs'][] = ['label' => 'Receive', 'url' => ['index']];
+$this->title = $model->idTransfer->transfer_num;
+$this->params['breadcrumbs'][] = ['label' => 'Transfer Notices', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
+
 <div class="purchase-hdr-view col-lg-9">
     <?php
-    echo yii\grid\GridView::widget([
+    echo GridView::widget([
         'tableOptions' => ['class' => 'table table-striped'],
         'layout' => '{items}{pager}',
         'dataProvider' => new \yii\data\ActiveDataProvider([
-            'query' => $model->getTransferDtls(),
+            'query' => $model->getTransferNoticeDtls(),
             'sort' => false,
             'pagination' => false,
             ]),
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'idProduct.nm_product',
-            'transfer_qty_send',
-            'transfer_qty_receive',
-            ['header' => 'Selisih', 'value' => function($model) {
-                return $model->transfer_qty_receive - $model->transfer_qty_send;
-            }],
+            'transferDtl.transfer_qty_send',
+            'transferDtl.transfer_qty_receive',
+            'qty_notice',
             'idUom.nm_uom',
         ]
     ]);
@@ -46,29 +46,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'options' => ['class' => 'table table-striped detail-view', 'style' => 'padding:0px;'],
             'model' => $model,
             'attributes' => [
-                'transfer_num',
-                'idWarehouseSource.nm_whse',
-                'idWarehouseDest.nm_whse',
-                'transferDate',
-                'nmStatus',
+                'idTransfer.transfer_num',
+                'idTransfer.idWarehouseSource.nm_whse',
+                'idTransfer.idWarehouseDest.nm_whse',
+                'noticeDate',
             ],
         ]);
         ?>
     </div>
     <?php
-    if ($model->status == TransferHdr::STATUS_ISSUE or $model->status == TransferHdr::STATUS_DRAFT_RECEIVE) {
+    if ($model->status == TransferNotice::STATUS_CREATE) {
         echo Html::a('Update', ['update', 'id' => $model->id_transfer], ['class' => 'btn btn-primary']) . ' ';
-    }
-    if ($model->status == TransferHdr::STATUS_DRAFT_RECEIVE) {
-        echo Html::a('Receive', ['receive', 'id' => $model->id_transfer], [
-            'class' => 'btn btn-primary',
-            'data-confirm' => Yii::t('app', 'Are you sure to receive this item?'),
+        echo Html::a('Delete', ['delete', 'id' => $model->id_transfer], [
+            'class' => 'btn btn-danger',
+            'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
             'data-method' => 'post',
         ]);
     }
     ?>
 </div>
-
-
-
-

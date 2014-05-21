@@ -2,6 +2,9 @@
 
 namespace biz\base;
 
+use Yii;
+use yii\helpers\ArrayHelper;
+
 /**
  * Description of BaseHooks
  *
@@ -11,19 +14,13 @@ class Hooks extends \yii\base\Component
 {
     const INTERNAL_HANDLER = '_internal_';
 
-    public function init()
-    {
-        $this->initEvent();
-    }
-
-    private function initEvent()
-    {
-        foreach ($this->events() as $event => $handler) {
-            $this->on($event, is_string($handler) ? [$this, $handler] : $handler, null, false);
-        }
-    }
+    public $hooksPath;
+    public $hooksNamespace;
+    public $extraBehaviors = [];
+    public $maxLevel = 0;
     private $_counter = 0;
     private $_handlers = [];
+    private $_eventStates = [];
 
     public function __call($name, $params)
     {
@@ -84,11 +81,32 @@ class Hooks extends \yii\base\Component
                 $event->params = $params;
             }
         }
-        parent::trigger($name, $event);
+        if (!in_array($name, $this->_eventStates) && ($this->maxLevel === 0 || count($this->_eventStates) < $this->maxLevel)) {
+            array_push($this->_eventStates, $name);
+            parent::trigger($name, $event);
+            array_pop($this->_eventStates);
+        }
     }
 
-    public function events()
+    public function behaviors()
     {
-        return [];
+        $result = [];
+        if ($this->hooksPath) {
+            $path = Yii::getAlias($this->hooksPath);
+            $namespace = empty($this->hooksNamespace) ? '' : trim($this->hooksNamespace, '\\') . '\\';
+            foreach (scandir($path) as $file) {
+                if ($file == '.' || $file == '..' || is_dir($path . '/' . $file)) {
+                    continue;
+                }
+                if (strcmp(substr($file, -4), '.php') === 0) {
+                    include $path . '/' . $file;
+                    $classname = $namespace . substr($file, 0, -4);
+                    if (class_exists($classname, false) && is_subclass_of($classname, 'yii\base\Behavior')) {
+                        $result[$classname] = $classname;
+                    }
+                }
+            }
+        }
+        return ArrayHelper::merge($result, $this->extraBehaviors);
     }
 }

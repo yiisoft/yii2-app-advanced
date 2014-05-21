@@ -263,7 +263,9 @@ class TransferController extends Controller
             $ps[$row['id_warehouse']][] = ['id' => $row['id_product'], 'qty' => $row['qty_stock']];
         }
 
-        return $this->renderPartial('process.js.php', [
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->set('Content-Type', 'application/javascript');
+		return $this->renderPartial('process.js.php', [
                 'product' => $product,
                 'ps' => $ps]);
     }

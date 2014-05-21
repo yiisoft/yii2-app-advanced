@@ -5,26 +5,26 @@ namespace biz\models;
 use Yii;
 
 /**
- * This is the model class for table "transfer_dtl".
+ * This is the model class for table "transfer_notice_dtl".
  *
  * @property integer $id_transfer
  * @property integer $id_product
- * @property string $transfer_qty_send
- * @property string $transfer_qty_receive
+ * @property double $qty_notice
  * @property integer $id_uom
  *
  * @property Uom $idUom
  * @property Product $idProduct
- * @property TransferHdr $idTransfer
+ * @property TransferNotice $idTransfer
+ * @property TransferDtl $transferDtl Description
  */
-class TransferDtl extends \yii\db\ActiveRecord
+class TransferNoticeDtl extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'transfer_dtl';
+        return 'transfer_notice_dtl';
     }
 
     /**
@@ -33,10 +33,9 @@ class TransferDtl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['transfer_qty_send', 'transfer_qty_receive'], 'doubleFilter'],
-            [['id_transfer', 'id_product', 'transfer_qty_send', 'id_uom'], 'required'],
+            [['id_transfer', 'id_product', 'qty_notice', 'id_uom'], 'required'],
             [['id_transfer', 'id_product', 'id_uom'], 'integer'],
-            [['transfer_qty_send', 'transfer_qty_receive'], 'number']
+            [['qty_notice'], 'double']
         ];
     }
 
@@ -48,8 +47,7 @@ class TransferDtl extends \yii\db\ActiveRecord
         return [
             'id_transfer' => 'Id Transfer',
             'id_product' => 'Id Product',
-            'transfer_qty_send' => 'Transfer Qty Send',
-            'transfer_qty_receive' => 'Transfer Qty Receive',
+            'qty_notice' => 'Qty Notice',
             'id_uom' => 'Id Uom',
         ];
     }
@@ -75,6 +73,14 @@ class TransferDtl extends \yii\db\ActiveRecord
      */
     public function getIdTransfer()
     {
-        return $this->hasOne(TransferHdr::className(), ['id_transfer' => 'id_transfer']);
+        return $this->hasOne(TransferNotice::className(), ['id_transfer' => 'id_transfer']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransferDtl()
+    {
+        return $this->hasOne(TransferDtl::className(), ['id_transfer' => 'id_transfer', 'id_product' => 'id_product']);
     }
 }

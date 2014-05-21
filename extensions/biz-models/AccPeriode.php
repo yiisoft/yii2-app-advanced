@@ -38,7 +38,7 @@ class AccPeriode extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nm_periode', 'date_from', 'date_to'], 'required'],
+            [['nm_periode', 'dateFrom', 'dateTo'], 'required'],
             [['date_from', 'date_to'], 'safe'],
             [['status'], 'integer'],
             [['nm_periode'], 'string', 'max' => 32]
@@ -79,6 +79,13 @@ class AccPeriode extends \yii\db\ActiveRecord
         return [
             'biz\behaviors\AutoTimestamp',
             'biz\behaviors\AutoUser',
+            [
+                'class'=>'biz\behaviors\DateConverter',
+                'attributeMaps'=>[
+                    'dateFrom' => 'date_from',
+                    'dateTo' => 'date_to',
+                ]
+            ],
         ];
     }
 }

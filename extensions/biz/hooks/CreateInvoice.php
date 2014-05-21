@@ -1,6 +1,6 @@
 <?php
 
-namespace biz\tools\hooks;
+namespace biz\hooks;
 
 use biz\tools\Hooks;
 use biz\models\InvoiceHdr;
@@ -21,7 +21,7 @@ class CreateInvoice extends \yii\base\Behavior
             Hooks::E_PPREC_23 => 'purchaseReceiveEnd'
         ];
     }
-    
+
     protected function createInvoice($params)
     {
         $invoice = new InvoiceHdr();

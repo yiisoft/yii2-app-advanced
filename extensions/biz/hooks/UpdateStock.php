@@ -1,6 +1,6 @@
 <?php
 
-namespace biz\tools\hooks;
+namespace biz\hooks;
 
 use biz\tools\Hooks;
 use biz\tools\Helper;
@@ -22,10 +22,20 @@ class UpdateStock extends \yii\base\Behavior
             Hooks::E_ITISS_22 => 'transferIssueBody',
             Hooks::E_SSREL_22 => 'salesStdrReleaseBody',
             Hooks::E_IRREC_22 => 'receiveReceiveBody',
+            
+            Hooks::E_TNCRE_22 => 'transferNoticeCreateBody'
         ];
     }
 
-    protected function updateStock($params)
+    /**
+     * 
+     * @param array $params
+     * Required field id_warehouse, id_product, id_uom, qty
+     * Optional field app, id_ref
+     * @return boolean
+     * @throws UserException
+     */
+    public function updateStock($params)
     {
         $stock = ProductStock::findOne([
                 'id_warehouse' => $params['id_warehouse'],
@@ -45,16 +55,17 @@ class UpdateStock extends \yii\base\Behavior
 
         $stock->qty_stock = $stock->qty_stock + $params['qty'] * $qty_per_uom;
         if ($stock->canSetProperty('logParams')) {
-            $stock->logParams = [
-                'mv_qty' => $params['qty'] * $qty_per_uom,
-                'app' => $params['app'],
-                'id_ref' => $params['id_ref'],
-            ];
+            $logParams = ['mv_qty' => $params['qty'] * $qty_per_uom];
+            foreach (['app', 'id_ref'] as $key) {
+                if (isset($params[$key]) || array_key_exists($key, $params)) {
+                    $logParams[$key] = $params[$key];
+                }
+            }
+            $stock->logParams = $logParams;
         }
         if (!$stock->save()) {
             throw new UserException(implode(",\n", $stock->firstErrors));
         }
-
         return true;
     }
 
@@ -105,7 +116,7 @@ class UpdateStock extends \yii\base\Behavior
             'id_ref' => $detail->id_sales_dtl,
         ]);
     }
-    
+
     /**
      * 
      * @param \biz\base\Event $event
@@ -124,5 +135,21 @@ class UpdateStock extends \yii\base\Behavior
         ]);
     }
 
-    
+    /**
+     * 
+     * @param \biz\base\Event $event
+     * @param \biz\models\TransferNotice $model
+     * @param \biz\models\TransferNoticeDtl $detail
+     */
+    public function transferNoticeCreateBody($event, $model, $detail)
+    {
+        $this->UpdateStock([
+            'id_warehouse' => $model->idTransfer->id_warehouse_source,
+            'id_product' => $detail->id_product,
+            'id_uom' => $detail->id_uom,
+            'qty' => -$detail->qty_notice,
+            'app' => 'create notice',
+            'id_ref' => $model->id_transfer,
+        ]);
+    }
 }

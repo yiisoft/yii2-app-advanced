@@ -41,7 +41,7 @@ class Coa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_coa_parent', 'coa_type'], 'linkFilter'],
+            [['id_coa_parent', 'coa_type'], 'default'],
             [['cd_account', 'nm_account', 'coa_type', 'normal_balance'], 'required'],
             [['cd_account'], 'string', 'max' => 16],
             [['cd_account'], 'checkCoaCode'],

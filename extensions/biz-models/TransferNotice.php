@@ -38,7 +38,7 @@ class TransferNotice extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_transfer', 'notice_date', 'description', 'status'], 'required'],
+            [['id_transfer', 'noticeDate', 'description', 'status'], 'required'],
             [['id_transfer', 'status'], 'integer'],
             [['notice_date'], 'safe'],
             [['description'], 'string']
@@ -94,6 +94,12 @@ class TransferNotice extends \yii\db\ActiveRecord
         return [
             'biz\behaviors\AutoTimestamp',
             'biz\behaviors\AutoUser',
+            [
+                'class'=>'biz\behaviors\DateConverter',
+                'attributeMaps'=>[
+                    'noticeDate' => 'notice_date',
+                ]
+            ],
         ];
     }
 }

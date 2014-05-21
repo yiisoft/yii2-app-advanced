@@ -1,6 +1,6 @@
 <?php
 
-namespace biz\tools\hooks;
+namespace biz\hooks;
 
 use biz\tools\Hooks;
 use biz\models\PurchaseHdr;
@@ -12,7 +12,7 @@ use yii\base\UserException;
  *
  * @author MDMunir
  */
-class CheckStatus extends \biz\base\Behavior
+class CheckStatus extends \yii\base\Behavior
 {
 
     public function events()
@@ -56,10 +56,9 @@ class CheckStatus extends \biz\base\Behavior
 
     public function receiveUpdate($event, $model)
     {
-        $allowStatus = [TransferHdr::STATUS_ISSUE, TransferHdr::STATUS_CONFIRM_REJECT];
+        $allowStatus = [TransferHdr::STATUS_ISSUE, TransferHdr::STATUS_DRAFT_RECEIVE];
         if (!in_array($model->status, $allowStatus)) {
             throw new UserException('tidak bisa diedit');
         }
-        
     }
 }

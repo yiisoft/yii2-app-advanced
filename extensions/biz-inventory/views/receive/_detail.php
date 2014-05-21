@@ -46,7 +46,14 @@ use yii\web\JsExpression;
                 ?>
                 <tr>
                     <td style="width: 50px">
-                        <?= $index + 1; ?>
+                        <div class="serial">
+                            <?php if ($index === '_index_' || $model->transfer_qty_send == 0): ?>
+                                <a data-action="delete" title="Delete" href="#" class="pull-right">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                            <?php endif; ?>
+                            <span><?= $index + 1; ?></span>
+                        </div>
                         <?= Html::activeHiddenInput($model, "[$index]id_product", ['data-field' => 'id_product', 'id' => false]) ?>
                     </td>
                     <td class="items" style="width: 45%">
@@ -59,9 +66,13 @@ use yii\web\JsExpression;
                                     'data-field' => 'transfer_qty_send',
                                     'size' => 5, 'id' => false,
                                     'readonly' => true])
-                                ?>
-                                <span > &nbsp; <?= Html::getAttributeValue($model, 'idUom[nm_uom]') ?></span>
-                                <?php Html::activeDropDownList($model, "[$index]id_uom", Helper::getProductUomList($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
+                                ?> &nbsp;
+                                <?php if ($index === '_index_' || $model->transfer_qty_send == 0): ?>
+                                    <?= Html::activeDropDownList($model, "[$index]id_uom", Helper::getProductUomList($model->id_product), ['data-field' => 'id_uom', 'id' => false]) ?>
+                                <?php else: ?>
+                                    <?= Html::activeHiddenInput($model, "[$index]id_uom"); ?>
+                                    <span ><?= Html::getAttributeValue($model, 'idUom[nm_uom]') ?></span>
+                                <?php endif; ?>
                             </li>
                             <li>
                             </li>

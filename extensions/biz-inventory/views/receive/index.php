@@ -37,15 +37,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{view} {update} {receive}',
                 'buttons' => [
                     'update' => function ($url, $model) {
-                    $allowUpdate = [TransferHdr::STATUS_ISSUE, TransferHdr::STATUS_CONFIRM_REJECT];
+                    $allowUpdate = [TransferHdr::STATUS_ISSUE, TransferHdr::STATUS_DRAFT_RECEIVE];
                     return in_array($model->status, $allowUpdate) ? Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
                             'title' => Yii::t('yii', 'Update'),
                             'data-pjax' => '0',
                         ]) : '';
                 },
                     'receive' => function ($url, $model) {
-                    $url = ['receive-confirm', 'id' => $model->id_transfer];
-                    return $model->status == TransferHdr::STATUS_CONFIRM_APPROVE ? Html::a('<span class="glyphicon glyphicon-save"></span>', $url, [
+                    $url = ['receive', 'id' => $model->id_transfer];
+                    return $model->status == TransferHdr::STATUS_DRAFT_RECEIVE ? Html::a('<span class="glyphicon glyphicon-save"></span>', $url, [
                             'title' => Yii::t('yii', 'Receive'),
                             'data-confirm' => Yii::t('yii', 'Are you sure you want to receive this item?'),
                             'data-method' => 'post',

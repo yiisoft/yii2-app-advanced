@@ -47,8 +47,8 @@ class SalesHdr extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_customer'], 'linkFilter'],
-            [['id_branch', 'id_customer', 'sales_date', 'status'], 'required'],
+            [['id_customer'], 'default'],
+            [['id_branch', 'id_customer', 'salesDate', 'status'], 'required'],
             [['id_branch', 'id_cashdrawer', 'status', 'id_warehouse'], 'integer'],
             [['discount'], 'string'],
             [['sales_date'], 'safe']
@@ -122,7 +122,13 @@ class SalesHdr extends \yii\db\ActiveRecord
                 'group' => 'sales',
                 'attribute' => 'sales_num',
                 'value' => 'SA' . date('ymd.?')
-            ]
+            ],
+            [
+                'class'=>'biz\behaviors\DateConverter',
+                'attributeMaps'=>[
+                    'salesDate' => 'sales_date',
+                ]
+            ],
         ];
     }
 }

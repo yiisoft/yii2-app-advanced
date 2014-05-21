@@ -38,7 +38,7 @@ class StockAdjustment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_warehouse', 'adjusment_date', 'status', 'id_reff'], 'required'],
+            [['id_warehouse', 'adjusmentDate', 'status', 'id_reff'], 'required'],
             [['id_warehouse', 'status'], 'integer'],
             [['adjusment_date'], 'safe'],
             [['id_reff', 'description'], 'string']
@@ -95,7 +95,13 @@ class StockAdjustment extends \yii\db\ActiveRecord
                 'group' => 'adjusment',
                 'attribute' => 'adjusment_num',
                 'value' => date('ymd.?')
-            ]
+            ],
+            [
+                'class'=>'biz\behaviors\DateConverter',
+                'attributeMaps'=>[
+                    'adjusmentDate' => 'adjusment_date',
+                ]
+            ],
         ];
     }
 }

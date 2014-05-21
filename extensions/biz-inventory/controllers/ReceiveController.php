@@ -11,8 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \Exception;
 use biz\tools\Hooks;
-use biz\models\TransferNotice;
-use biz\models\TransferNoticeDtl;
+use yii\base\UserException;
 
 /**
  * TransferController implements the CRUD actions for TransferHdr model.
@@ -68,6 +67,7 @@ class ReceiveController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = TransferHdrSearch::SCENARIO_RECEIVE;
         Yii::$app->hooks->fire(Hooks::E_IRUPD_1, $model);
         list($details, $success) = $this->saveReceive($model);
         if ($success) {
@@ -100,8 +100,7 @@ class ReceiveController extends Controller
                     $objs[$detail->id_product] = $detail;
                 }
 
-                $model->status = TransferHdr::STATUS_RECEIVE;
-                $notice = false;
+                $model->status = TransferHdr::STATUS_DRAFT_RECEIVE;
                 if ($model->save()) {
                     $success = true;
                     $id_hdr = $model->id_transfer;
@@ -119,44 +118,16 @@ class ReceiveController extends Controller
                         $detail->id_transfer = $id_hdr;
                         if (!$detail->save()) {
                             $success = false;
+                            $model->addError('', implode("\n", $detail->firstErrors));
                             break;
                         }
-                        $notice = $notice || $detail->transfer_qty_send != $detail->transfer_qty_receive;
                         $details[] = $detail;
                     }
-                    if ($success) {
-                        $deleted = array_keys($objs);
-                        if (count($deleted) > 0) {
-                            $success = TransferDtl::deleteAll(['id_transfer' => $id_hdr, 'id_product' => $deleted]);
-                        }
+                    if ($success && count($objs)) {
+                        $success = TransferDtl::deleteAll(['id_transfer' => $id_hdr, 'id_product' => array_keys($objs)]);
                     }
                 }
                 if ($success) {
-                    Yii::$app->hooks->fire(Hooks::E_IRREC_21, $model);
-                    if ($notice) {
-                        $noticeHdr = new TransferNotice;
-                        $noticeHdr->id_transfer = $model->id_transfer;
-                        $noticeHdr->notice_date = date('Y-m-d');
-                        $noticeHdr->description = 'Qty kirim tidak sama dg qty terima';
-                        $noticeHdr->status = TransferNotice::STATUS_CREATE;
-                        if(!$noticeHdr->save()){
-                            throw new Exception(implode("\n", $noticeHdr->firstErrors));
-                        }
-                    }
-                    foreach ($model->transferDtls as $detail) {
-                        Yii::$app->hooks->fire(Hooks::E_IRREC_22, $model, $detail);
-                        if($notice && $detail->transfer_qty_send != $detail->transfer_qty_receive){
-                            $noticeDtl = new TransferNoticeDtl;
-                            $noticeDtl->id_transfer = $noticeHdr->id_transfer;
-                            $noticeDtl->id_product = $detail->id_product;
-                            $noticeDtl->id_uom = $detail->id_uom;
-                            $noticeDtl->qty_notice = $detail->transfer_qty_send - $detail->transfer_qty_receive;
-                           if(!$noticeDtl->save()){
-                            throw new Exception(implode("\n", $noticeDtl->firstErrors));
-                        }
-                        }
-                    }
-                    Yii::$app->hooks->fire(Hooks::E_IRREC_23, $model);
                     $transaction->commit();
                 } else {
                     $transaction->rollBack();
@@ -178,6 +149,29 @@ class ReceiveController extends Controller
         return [$details, $success];
     }
 
+    public function actionReceive($id)
+    {
+        $model = $this->findModel($id);
+        Yii::$app->hooks->fire(Hooks::E_IRREC_1, $model);
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $model->status = TransferHdr::STATUS_RECEIVE;
+            if (!$model->save()) {
+                throw new UserException(implode(",\n", $model->firstErrors));
+            }
+            Yii::$app->hooks->fire(Hooks::E_IRREC_21, $model);
+            foreach ($model->transferDtls as $detail) {
+                Yii::$app->hooks->fire(Hooks::E_IRREC_22, $model, $detail);
+            }
+            Yii::$app->hooks->fire(Hooks::E_IRREC_23, $model);
+            $transaction->commit();
+        } catch (Exception $exc) {
+            $transaction->rollBack();
+            throw new UserException($exc->getMessage());
+        }
+
+        return $this->redirect(['index']);
+    }
     /**
      * Finds the TransferHdr model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -196,6 +190,42 @@ class ReceiveController extends Controller
 
     public function actionJs()
     {
-        return $this->renderPartial('process.js.php');
+        $sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
+			u.id_uom, u.nm_uom, pu.isi
+			from product p
+			join product_uom pu on(pu.id_product=p.id_product)
+			join uom u on(u.id_uom=pu.id_uom)
+			order by p.id_product,pu.isi";
+        $product = [];
+        foreach (Yii::$app->db->createCommand($sql)->query() as $row) {
+            $id = $row['id'];
+            if (!isset($product[$id])) {
+                $product[$id] = [
+                    'id' => $row['id'],
+                    'cd' => $row['cd'],
+                    'text' => $row['nm'],
+                    'id_uom' => $row['id_uom'],
+                    'nm_uom' => $row['nm_uom'],
+                ];
+            }
+            $product[$id]['uoms'][$row['id_uom']] = [
+                'id' => $row['id_uom'],
+                'nm' => $row['nm_uom'],
+                'isi' => $row['isi']
+            ];
+        }
+
+        $sql = "select id_warehouse,id_product,qty_stock
+			from product_stock";
+        $ps = [];
+        foreach (Yii::$app->db->createCommand($sql)->queryAll() as $row) {
+            $ps[$row['id_warehouse']][] = ['id' => $row['id_product'], 'qty' => $row['qty_stock']];
+        }
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->set('Content-Type', 'application/javascript');
+		return $this->renderPartial('process.js.php', [
+                'product' => $product,
+                'ps' => $ps]);
     }
 }

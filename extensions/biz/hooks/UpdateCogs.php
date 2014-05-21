@@ -1,6 +1,6 @@
 <?php
 
-namespace biz\tools\hooks;
+namespace biz\hooks;
 
 use biz\tools\Hooks;
 use biz\tools\Helper;

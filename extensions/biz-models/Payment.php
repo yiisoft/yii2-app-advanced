@@ -35,7 +35,7 @@ class Payment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['payment_type', 'payment_date'], 'required'],
+            [['payment_type', 'paymentDate'], 'required'],
             [['payment_type'], 'integer'],
             [['payment_date'], 'safe']
         ];
@@ -88,7 +88,13 @@ class Payment extends \yii\db\ActiveRecord
                 'group' => 'payment',
                 'attribute' => 'payment_num',
                 'value' => date('ymd.?')
-            ]
+            ],
+            [
+                'class'=>'biz\behaviors\DateConverter',
+                'attributeMaps'=>[
+                    'paymentDate' => 'payment_date',
+                ]
+            ],
         ];
     }
 }

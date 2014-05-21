@@ -40,7 +40,7 @@ class StockOpname extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_warehouse', 'opname_date', 'status', 'operator1'], 'required'],
+            [['id_warehouse', 'opnameDate', 'status', 'operator1'], 'required'],
             [['id_warehouse', 'status'], 'integer'],
             [['opname_date'], 'safe'],
             [['description', 'operator1', 'operator2', 'operator3'], 'string']
@@ -99,7 +99,13 @@ class StockOpname extends \yii\db\ActiveRecord
                 'group' => 'opname',
                 'attribute' => 'opname_num',
                 'value' => date('ymd.?')
-            ]
+            ],
+            [
+                'class'=>'biz\behaviors\DateConverter',
+                'attributeMaps'=>[
+                    'opnameDate' => 'opname_date',
+                ]
+            ],
         ];
     }
 }

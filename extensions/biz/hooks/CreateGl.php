@@ -1,6 +1,6 @@
 <?php
 
-namespace biz\tools\hooks;
+namespace biz\hooks;
 
 use biz\tools\Hooks;
 use biz\tools\Helper;
@@ -41,7 +41,7 @@ class CreateGl extends \yii\base\Behavior
         $gl->description = $hdr['description'];
 
         $gl->id_branch = $hdr['id_branch'];
-        
+
         $active_periode = Helper::getCurrentIdAccPeriode();
         $gl->id_periode = $active_periode;
         $gl->status = 0;
@@ -59,11 +59,12 @@ class CreateGl extends \yii\base\Behavior
             }
         }
     }
+
     /**
      * 
      * @param Event $event
      */
-    public function purchaseReceiveEnd($event,$model)
+    public function purchaseReceiveEnd($event, $model)
     {
         // GL *************
         $glHdr = [

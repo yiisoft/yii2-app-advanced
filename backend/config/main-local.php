@@ -3,7 +3,7 @@
 $exts = dirname(dirname(__DIR__)) . '/extensions';
 return [
     'bootstrap' => [
-//        'debug',
+        'debug',
 //        'gii',
     ],
     'modules' => [
@@ -33,7 +33,11 @@ return [
                 ],
             ],
         ],
-        'hooks' => 'biz\tools\Hooks',
+        'hooks' => [
+            'class' => 'biz\base\Hooks',
+            'hooksPath' => '@biz/hooks',
+            'hooksNamespace' => 'biz\hooks',
+        ],
         'urlManager' => [
 //            'enablePrettyUrl' => true,
 //            'showScriptName' => false,

@@ -43,7 +43,7 @@ class InvoiceHdr extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'inv_date', 'due_date', 'id_vendor', 'inv_value', 'status'], 'required'],
+            [['type', 'invDate', 'dueDate', 'id_vendor', 'inv_value', 'status'], 'required'],
             [['type', 'id_vendor', 'status'], 'integer'],
             [['inv_date', 'due_date'], 'safe'],
             [['inv_value'], 'number']
@@ -109,7 +109,14 @@ class InvoiceHdr extends \yii\db\ActiveRecord
                 'group' => 'inv',
                 'attribute' => 'inv_num',
                 'value' => date('ymd.?')
-            ]
+            ],
+            [
+                'class'=>'biz\behaviors\DateConverter',
+                'attributeMaps'=>[
+                    'invDate' => 'inv_date',
+                    'dueDate' => 'due_date',
+                ]
+            ],
         ];
     }
 }

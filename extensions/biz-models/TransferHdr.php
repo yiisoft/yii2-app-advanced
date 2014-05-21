@@ -23,6 +23,7 @@ use Yii;
  * @property Warehouse $idWarehouseSource
  * @property Warehouse $idWarehouseDest
  * @property TransferDtl[] $transferDtls
+ * @property TransferNoticeDtl[] $transferNoticeDtls
  * @property Product[] $idProducts
  * @property TransferNotice $transferNotice
  */
@@ -35,6 +36,8 @@ class TransferHdr extends \yii\db\ActiveRecord
     const STATUS_CONFIRM_REJECT = 5;
     const STATUS_CONFIRM_APPROVE = 6;
     const STATUS_RECEIVE = 7;
+    
+    const SCENARIO_RECEIVE = 'receive';
 
     /**
      * @inheritdoc
@@ -51,8 +54,9 @@ class TransferHdr extends \yii\db\ActiveRecord
     {
         return [
             [['id_warehouse_source', 'id_warehouse_dest', 'transferDate', 'status'], 'required'],
+            [['receiveDate'], 'required', 'on' => [static::SCENARIO_RECEIVE]],
             [['id_warehouse_source', 'id_warehouse_dest', 'status'], 'integer'],
-            [['transferDate', 'receiveDate'], 'safe']
+            [['transfer_date', 'receive_date'], 'safe']
         ];
     }
 
@@ -97,7 +101,8 @@ class TransferHdr extends \yii\db\ActiveRecord
      */
     public function getTransferDtls()
     {
-        return $this->hasMany(TransferDtl::className(), ['id_transfer' => 'id_transfer']);
+        return $this->hasMany(TransferDtl::className(), ['id_transfer' => 'id_transfer'])
+        ->orderBy([new \yii\db\Expression('transfer_qty_send=0 ASC')]);
     }
 
     /**
@@ -117,6 +122,14 @@ class TransferHdr extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransferNoticeDtls()
+    {
+        return $this->hasMany(TransferNoticeDtl::className(), ['id_transfer' => 'id_transfer'])->viaTable('transfer_notice', ['id_transfer' => 'id_transfer']);
+    }
+
+    /**
      * @inheritdoc
      */
     public function behaviors()
@@ -129,11 +142,11 @@ class TransferHdr extends \yii\db\ActiveRecord
                 'digit' => 4,
                 'group' => 'transfer',
                 'attribute' => 'transfer_num',
-                'value' => 'IN'.date('y.?')
+                'value' => 'IN' . date('y.?')
             ],
             [
-                'class'=>'biz\behaviors\DateConverter',
-                'attributeMaps'=>[
+                'class' => 'biz\behaviors\DateConverter',
+                'attributeMaps' => [
                     'transferDate' => 'transfer_date',
                     'receiveDate' => 'receive_date'
                 ]

@@ -35,12 +35,18 @@ class DateConverter extends \yii\base\Behavior
 
     private function convertToPhysical($value)
     {
+        if (empty($value)) {
+            return null;
+        }
         $date = DateTime::createFromFormat($this->logicalFormat, $value);
         return $date->format($this->physicalFormat);
     }
 
     private function convertToLogical($value)
     {
+        if (empty($value)) {
+            return null;
+        }
         $date = DateTime::createFromFormat($this->physicalFormat, $value);
         return $date->format($this->logicalFormat);
     }
