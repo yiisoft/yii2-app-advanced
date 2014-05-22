@@ -80,6 +80,11 @@ class Cogs extends \yii\db\ActiveRecord
         return [
             'biz\behaviors\AutoTimestamp',
             'biz\behaviors\AutoUser',
+            [
+                'class'=>'mdm\tools\Logger',
+                'collectionName'=>'log_cogs',
+                'attributes'=>['log_by','log_time1','log_time2','id_product','id_uom','cogs','app','id_ref']
+            ]
         ];
     }
 }

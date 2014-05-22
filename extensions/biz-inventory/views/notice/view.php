@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use biz\models\TransferNotice;
+use yii\data\ActiveDataProvider;
 
 /**
  * @var yii\web\View $this
@@ -20,17 +21,18 @@ $this->params['breadcrumbs'][] = $this->title;
     echo GridView::widget([
         'tableOptions' => ['class' => 'table table-striped'],
         'layout' => '{items}{pager}',
-        'dataProvider' => new \yii\data\ActiveDataProvider([
-            'query' => $model->getTransferNoticeDtls(),
+        'dataProvider' => new ActiveDataProvider([
+            'query' => $model->getTransferNoticeDtls()->with('transferDtl'),
             'sort' => false,
             'pagination' => false,
             ]),
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'idProduct.nm_product',
-            'transferDtl.transfer_qty_send',
-            'transferDtl.transfer_qty_receive',
-            'qty_notice',
+            'transferDtl.transfer_qty_send:text:Qty Send',
+            'transferDtl.transfer_qty_receive:text:Qty Receive',
+            'qty_selisih',
+            'qty_approve',
             'idUom.nm_uom',
         ]
     ]);
@@ -39,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="col-lg-3" style="padding-left: 0px;">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            Receive Header
+            Notice Header
         </div>
         <?php
         echo DetailView::widget([

@@ -91,6 +91,11 @@ class Price extends \yii\db\ActiveRecord
         return [
             'biz\behaviors\AutoTimestamp',
             'biz\behaviors\AutoUser',
+            [
+                'class'=>'mdm\tools\Logger',
+                'collectionName'=>'log_price',
+                'attributes'=>['log_by','log_time1','log_time2','id_product','id_price_category', 'id_uom','price','app','id_ref']
+            ],
         ];
     }
 }

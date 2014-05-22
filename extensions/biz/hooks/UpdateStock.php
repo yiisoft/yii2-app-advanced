@@ -23,7 +23,7 @@ class UpdateStock extends \yii\base\Behavior
             Hooks::E_SSREL_22 => 'salesStdrReleaseBody',
             Hooks::E_IRREC_22 => 'receiveReceiveBody',
             
-            Hooks::E_TNCRE_22 => 'transferNoticeCreateBody'
+            //Hooks::E_TNCRE_22 => 'transferNoticeCreateBody'
         ];
     }
 
@@ -147,7 +147,7 @@ class UpdateStock extends \yii\base\Behavior
             'id_warehouse' => $model->idTransfer->id_warehouse_source,
             'id_product' => $detail->id_product,
             'id_uom' => $detail->id_uom,
-            'qty' => -$detail->qty_notice,
+            'qty' => -$detail->qty_selisih,
             'app' => 'create notice',
             'id_ref' => $model->id_transfer,
         ]);

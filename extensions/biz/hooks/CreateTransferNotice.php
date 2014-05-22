@@ -34,7 +34,7 @@ class CreateTransferNotice extends \yii\base\Behavior
             if ($detail->transfer_qty_send != $detail->transfer_qty_receive) {
                 $noticeDtl = new TransferNoticeDtl;
                 $noticeDtl->id_product = $detail->id_product;
-                $noticeDtl->qty_notice = $detail->transfer_qty_receive - $detail->transfer_qty_send;
+                $noticeDtl->qty_selisih = $detail->transfer_qty_receive - $detail->transfer_qty_send;
                 $noticeDtl->id_uom = $detail->id_uom;
                 $noticeDtls[] = $noticeDtl;
             }

@@ -8,12 +8,14 @@ use biz\models\searchs\TransferNotice as TransferNoticeSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\base\Model;
 
 /**
  * NoticeController implements the CRUD actions for TransferNotice model.
  */
 class NoticeController extends Controller
 {
+
     public function behaviors()
     {
         return [
@@ -36,8 +38,8 @@ class NoticeController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
         ]);
     }
 
@@ -49,7 +51,7 @@ class NoticeController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                'model' => $this->findModel($id),
         ]);
     }
 
@@ -66,7 +68,7 @@ class NoticeController extends Controller
             return $this->redirect(['view', 'id' => $model->id_transfer]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                    'model' => $model,
             ]);
         }
     }
@@ -80,14 +82,23 @@ class NoticeController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_transfer]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $details = $model->getTransferNoticeDtls()->with('transferDtl')->indexBy('id_product')->all();
+        if ($post = Yii::$app->request->post()) {
+            $transaction=Yii::$app->db->beginTransaction();
+            $model->status = TransferNotice::STATUS_UPDATE;
+            if ($model->save() && Model::loadMultiple($details, $post) && Model::validateMultiple($details)) {
+                foreach ($details as $detail) {
+                    $detail->save();
+                }
+                $transaction->commit();
+                return $this->redirect(['view', 'id' => $model->id_transfer]);
+            }
+            $transaction->rollBack();
         }
+        return $this->render('update', [
+                'model' => $model,
+                'details' => $details
+        ]);
     }
 
     /**

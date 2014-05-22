@@ -9,7 +9,8 @@ use Yii;
  *
  * @property integer $id_transfer
  * @property integer $id_product
- * @property double $qty_notice
+ * @property double $qty_selisih
+ * @property double $qty_approve
  * @property integer $id_uom
  *
  * @property Uom $idUom
@@ -33,9 +34,9 @@ class TransferNoticeDtl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_transfer', 'id_product', 'qty_notice', 'id_uom'], 'required'],
+            [['id_transfer', 'id_product', 'qty_selisih', 'id_uom'], 'required'],
             [['id_transfer', 'id_product', 'id_uom'], 'integer'],
-            [['qty_notice'], 'double']
+            [['qty_selisih','qty_approve'], 'double']
         ];
     }
 
@@ -47,7 +48,8 @@ class TransferNoticeDtl extends \yii\db\ActiveRecord
         return [
             'id_transfer' => 'Id Transfer',
             'id_product' => 'Id Product',
-            'qty_notice' => 'Qty Notice',
+            'qty_selisih' => 'Qty Selisih',
+            'qty_approve' => 'Qty Approve',
             'id_uom' => 'Id Uom',
         ];
     }

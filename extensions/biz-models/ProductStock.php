@@ -93,6 +93,11 @@ class ProductStock extends \yii\db\ActiveRecord
         return [
             'biz\behaviors\AutoTimestamp',
             'biz\behaviors\AutoUser',
+            [
+                'class'=>'mdm\tools\Logger',
+                'collectionName'=>'log_stock',
+                'attributes'=>['log_by','log_time1','log_time2','id_warehouse','id_product','id_uom','mv_qty','qty_stock','app','id_ref']
+            ]
         ];
     }
 }
