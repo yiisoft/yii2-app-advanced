@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use biz\models\Category;
-use biz\models\ProductGroups;
+use biz\models\ProductGroup;
 use yii\bootstrap\Modal;
 use biz\models\Uom;
 use biz\models\ProductUom;
@@ -45,7 +45,7 @@ use yii\grid\GridView;
 
             <?= $form->field($model, 'id_category')->dropDownList(ArrayHelper::map(Category::find()->all(), 'id_category', 'nm_category'), ['style' => 'width:200px;']); ?>
 
-            <?= $form->field($model, 'id_group')->dropDownList(ArrayHelper::map(ProductGroups::find()->all(), 'id_group', 'nm_group'), ['style' => 'width:200px;']); ?>
+            <?= $form->field($model, 'id_group')->dropDownList(ArrayHelper::map(ProductGroup::find()->all(), 'id_group', 'nm_group'), ['style' => 'width:200px;']); ?>
 
         </div>   
 
