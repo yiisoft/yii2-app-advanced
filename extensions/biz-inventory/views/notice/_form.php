@@ -69,8 +69,8 @@ $renderField = function ($model) use($form)
         ?>
     </div>
     <?php
-    if ($model->status == TransferNotice::STATUS_CREATE) {
-        echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+    if ($model->status == TransferNotice::STATUS_CREATE || $model->status==TransferNotice::STATUS_UPDATE) {
+        echo Html::submitButton('Update', ['class' => 'btn btn-success']);
     }
     ?>
 </div>

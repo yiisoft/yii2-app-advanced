@@ -5,6 +5,7 @@ namespace biz\hooks;
 use biz\tools\Hooks;
 use biz\models\PurchaseHdr;
 use biz\models\TransferHdr;
+use biz\models\TransferNotice;
 use yii\base\UserException;
 
 /**
@@ -23,6 +24,7 @@ class CheckStatus extends \yii\base\Behavior
             Hooks::E_ITUPD_1 => 'transferUpdate',
             Hooks::E_ITISS_1 => 'transferIssue',
             Hooks::E_IRUPD_1 => 'receiveUpdate',
+            Hooks::E_INAPP_1 => 'noticeApprove',
         ];
     }
 
@@ -61,4 +63,13 @@ class CheckStatus extends \yii\base\Behavior
             throw new UserException('tidak bisa diedit');
         }
     }
+    
+    public function noticeApprove($event, $model)
+    {
+        if ($model->status != TransferNotice::STATUS_UPDATE) {
+            throw new UserException('tidak boleh diapprove');
+        }
+    }
+
+    
 }

@@ -57,11 +57,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </div>
     <?php
-    if ($model->status == TransferNotice::STATUS_CREATE) {
-        echo Html::a('Update', ['update', 'id' => $model->id_transfer], ['class' => 'btn btn-primary']) . ' ';
-        echo Html::a('Delete', ['delete', 'id' => $model->id_transfer], [
-            'class' => 'btn btn-danger',
-            'data-confirm' => Yii::t('app', 'Are you sure to delete this item?'),
+    if ($model->status == TransferNotice::STATUS_CREATE || $model->status == TransferNotice::STATUS_UPDATE) {
+        echo Html::a('Update', ['update', 'id' => $model->id_transfer], ['class' => 'btn btn-success']);
+    }?>
+    <?php
+    if ($model->status == TransferNotice::STATUS_UPDATE) {
+        echo Html::a('Approve', ['approve', 'id' => $model->id_transfer], [
+            'class' => 'btn btn-primary',
+            'data-confirm' => Yii::t('app', 'Are you sure to approve this item?'),
             'data-method' => 'post',
         ]);
     }

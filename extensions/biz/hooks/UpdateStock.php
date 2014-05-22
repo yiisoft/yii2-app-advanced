@@ -22,8 +22,7 @@ class UpdateStock extends \yii\base\Behavior
             Hooks::E_ITISS_22 => 'transferIssueBody',
             Hooks::E_SSREL_22 => 'salesStdrReleaseBody',
             Hooks::E_IRREC_22 => 'receiveReceiveBody',
-            
-            //Hooks::E_TNCRE_22 => 'transferNoticeCreateBody'
+            Hooks::E_INAPP_22 => 'transferNoticeApproveBody'
         ];
     }
 
@@ -95,7 +94,7 @@ class UpdateStock extends \yii\base\Behavior
      */
     public function transferIssueBody($event, $model, $detail)
     {
-        $this->UpdateStock([
+        $this->updateStock([
             'id_warehouse' => $model->id_warehouse_source,
             'id_product' => $detail->id_product,
             'id_uom' => $detail->id_uom,
@@ -125,7 +124,7 @@ class UpdateStock extends \yii\base\Behavior
      */
     public function receiveReceiveBody($event, $model, $detail)
     {
-        $this->UpdateStock([
+        $this->updateStock([
             'id_warehouse' => $model->id_warehouse_dest,
             'id_product' => $detail->id_product,
             'id_uom' => $detail->id_uom,
@@ -141,15 +140,28 @@ class UpdateStock extends \yii\base\Behavior
      * @param \biz\models\TransferNotice $model
      * @param \biz\models\TransferNoticeDtl $detail
      */
-    public function transferNoticeCreateBody($event, $model, $detail)
+    public function transferNoticeApproveBody($event, $model, $detail)
     {
-        $this->UpdateStock([
-            'id_warehouse' => $model->idTransfer->id_warehouse_source,
+        $params = [
             'id_product' => $detail->id_product,
             'id_uom' => $detail->id_uom,
-            'qty' => -$detail->qty_selisih,
-            'app' => 'create notice',
+            'app' => 'notice approve',
             'id_ref' => $model->id_transfer,
-        ]);
+        ];
+        // source
+        if (($qty = $detail->qty_approve) != 0) {
+            $this->updateStock(array_merge($params, [
+                'id_warehouse' => $model->idTransfer->id_warehouse_source,
+                'qty' => -$qty
+            ]));
+        }
+
+        // dest
+        if (($qty = $detail->qty_approve - $detail->qty_selisih) != 0) {
+            $this->updateStock(array_merge($params, [
+                'id_warehouse' => $model->idTransfer->id_warehouse_dest,
+                'qty' => $qty
+            ]));
+        }
     }
 }

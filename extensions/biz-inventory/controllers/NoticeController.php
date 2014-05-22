@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\base\Model;
+use biz\tools\Hooks;
+use yii\base\UserException;
 
 /**
  * NoticeController implements the CRUD actions for TransferNotice model.
@@ -23,6 +25,7 @@ class NoticeController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
+                    'approve' => ['post'],
                 ],
             ],
         ];
@@ -84,21 +87,49 @@ class NoticeController extends Controller
         $model = $this->findModel($id);
         $details = $model->getTransferNoticeDtls()->with('transferDtl')->indexBy('id_product')->all();
         if ($post = Yii::$app->request->post()) {
-            $transaction=Yii::$app->db->beginTransaction();
-            $model->status = TransferNotice::STATUS_UPDATE;
-            if ($model->save() && Model::loadMultiple($details, $post) && Model::validateMultiple($details)) {
-                foreach ($details as $detail) {
-                    $detail->save();
+            try {
+                $transaction = Yii::$app->db->beginTransaction();
+                $model->status = TransferNotice::STATUS_UPDATE;
+                if ($model->save() && Model::loadMultiple($details, $post) && Model::validateMultiple($details)) {
+                    foreach ($details as $detail) {
+                        $detail->save();
+                    }
+                    $transaction->commit();
+                    return $this->redirect(['view', 'id' => $model->id_transfer]);
                 }
-                $transaction->commit();
-                return $this->redirect(['view', 'id' => $model->id_transfer]);
+                $transaction->rollBack();
+            } catch (\Exception $exc) {
+                $model->addError('', $exc->getMessage());
+                $transaction->rollBack();
             }
-            $transaction->rollBack();
         }
         return $this->render('update', [
                 'model' => $model,
                 'details' => $details
         ]);
+    }
+    
+    public function actionApprove($id)
+    {
+        $model = $this->findModel($id);
+        Yii::$app->hooks->fire(Hooks::E_INAPP_1, $model);
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $model->status = TransferNotice::STATUS_APPROVE;
+            if (!$model->save()) {
+                throw new UserException(implode(",\n", $model->firstErrors));
+            }
+            Yii::$app->hooks->fire(Hooks::E_INAPP_21, $model);
+            foreach ($model->transferNoticeDtls as $detail) {
+                Yii::$app->hooks->fire(Hooks::E_INAPP_22, $model, $detail);
+            }
+            Yii::$app->hooks->fire(Hooks::E_INAPP_23, $model);
+            $transaction->commit();
+        } catch (Exception $exc) {
+            $transaction->rollBack();
+            throw new UserException($exc->getMessage());
+        }
+        return $this->redirect(['index']);
     }
 
     /**
