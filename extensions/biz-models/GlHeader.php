@@ -117,8 +117,9 @@ class GlHeader extends \yii\db\ActiveRecord
             ],
             [
                 'class'=>'biz\behaviors\DateConverter',
+                'physicalFormat'=>'Y-m-d H:i:s',
                 'attributeMaps'=>[
-                    'glDate' => 'gl_date',
+                    'glDate' => 'gl_date'
                 ]
             ],
         ];
