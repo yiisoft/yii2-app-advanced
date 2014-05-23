@@ -99,7 +99,7 @@ class Hooks extends \yii\base\Component
                     continue;
                 }
                 if (strcmp(substr($file, -4), '.php') === 0) {
-                    include $path . '/' . $file;
+                    include_once $path . '/' . $file;
                     $classname = $namespace . substr($file, 0, -4);
                     if (class_exists($classname, false) && is_subclass_of($classname, 'yii\base\Behavior')) {
                         $result[$classname] = $classname;
