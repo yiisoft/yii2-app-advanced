@@ -6,6 +6,7 @@
 
         var local = {
             product: <?= json_encode($product); ?>,
+            barcodes: <?= json_encode($barcodes); ?>,
             cust: <?= json_encode($cust) ?>,
             delay: 1000,
             limit: 20,
@@ -167,7 +168,7 @@
                 var c = local.limit;
                 var term = request.term.toLowerCase();
                 $.each(local.product, function() {
-                    if (this.text.toLowerCase().indexOf(term) >= 0 || this.cd == term) {
+                    if (this.text.toLowerCase().indexOf(term) >= 0) {
                         result.push(this);
                         c--;
                         if (c <= 0) {
@@ -179,6 +180,23 @@
             },
             onProductSelect: function(event, ui) {
                 local.addItem(ui.item);
+            },
+            searchProductByCode: function(cd) {
+                if (local.barcodes[cd]) {
+                    var id = local.barcodes[cd] + '';
+                    if (local.product[id]) {
+                        return local.product[id];
+                    }
+                }
+                return false;
+            },
+            onProductChange: function() {
+                var item = pub.searchProductByCode(this.value);
+                if (item !== false) {
+                    local.addItem(item);
+                }
+                this.value = '';
+                $(this).autocomplete("close");
             },
             onCustomerSelect: function(event, ui) {
                 $('#id_customer').val(ui.item.id);

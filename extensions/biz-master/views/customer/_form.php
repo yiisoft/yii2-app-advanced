@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use biz\models\Customer;
+use biz\behaviors\StatusBehavior;
 
 /**
  * @var yii\web\View $this
@@ -27,7 +28,7 @@ use biz\models\Customer;
 
             <?= $form->field($model, 'contact_number')->textInput(['maxlength' => 64]) ?>
 
-            <?= $form->field($model, 'status')->dropDownList(Customer::getStatus(), ['style' => 'width:200px;']); ?>
+            <?= $form->field($model, 'status')->dropDownList(StatusBehavior::statusList(Customer::className()), ['style' => 'width:200px;']); ?>
 
         </div>
     </div>

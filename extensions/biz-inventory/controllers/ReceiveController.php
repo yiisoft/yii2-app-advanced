@@ -190,6 +190,7 @@ class ReceiveController extends Controller
 
     public function actionJs()
     {
+        $db = Yii::$app->db;
         $sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
 			u.id_uom, u.nm_uom, pu.isi
 			from product p
@@ -197,7 +198,7 @@ class ReceiveController extends Controller
 			join uom u on(u.id_uom=pu.id_uom)
 			order by p.id_product,pu.isi";
         $product = [];
-        foreach (Yii::$app->db->createCommand($sql)->query() as $row) {
+        foreach ($db->createCommand($sql)->query() as $row) {
             $id = $row['id'];
             if (!isset($product[$id])) {
                 $product[$id] = [
@@ -215,11 +216,21 @@ class ReceiveController extends Controller
             ];
         }
 
-        $sql = "select id_warehouse,id_product,qty_stock
-			from product_stock";
+        // barcodes
+        $barcodes = [];
+        $sql_barcode = "select lower(barcode) as barcode,id_product as id"
+            . " from product_child"
+            . " union"
+            . " select lower(cd_product), id_product"
+            . " from product";
+        foreach ($db->createCommand($sql_barcode)->queryAll() as $row) {
+            $barcodes[$row['barcode']] = $row['id'];
+        }
+
+        $sql = "select id_warehouse,id_product,qty_stock from product_stock";
         $ps = [];
-        foreach (Yii::$app->db->createCommand($sql)->queryAll() as $row) {
-            $ps[$row['id_warehouse']][] = ['id' => $row['id_product'], 'qty' => $row['qty_stock']];
+        foreach ($db->createCommand($sql)->queryAll() as $row) {
+            $ps[$row['id_warehouse']][$row['id_product']] = $row['qty_stock'];
         }
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;

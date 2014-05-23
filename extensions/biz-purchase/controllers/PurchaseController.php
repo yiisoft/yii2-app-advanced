@@ -40,7 +40,7 @@ class PurchaseController extends Controller
     {
         $searchModel = new PurchaseHdrSearch;
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-        $dataProvider->query->andWhere(['status'=>[1]]);
+        $dataProvider->query->andWhere(['status' => [1]]);
 
         return $this->render('index', [
                 'dataProvider' => $dataProvider,
@@ -89,7 +89,7 @@ class PurchaseController extends Controller
     {
         $model = $this->findModel($id);
         Yii::$app->hooks->fire(Hooks::E_PPUPD_1, $model);
-        if(count($model->purchaseDtls)){
+        if (count($model->purchaseDtls)) {
             $model->id_warehouse = $model->purchaseDtls[0]->id_warehouse;
         }
         list($details, $success) = $this->savePurchase($model);
@@ -230,6 +230,7 @@ class PurchaseController extends Controller
 
     public function actionJs()
     {
+        $db = Yii::$app->db;
         $sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
 			u.id_uom, u.nm_uom, pu.isi
 			from product p
@@ -237,7 +238,7 @@ class PurchaseController extends Controller
 			join uom u on(u.id_uom=pu.id_uom)
 			order by p.id_product,pu.isi";
         $product = [];
-        foreach (Yii::$app->db->createCommand($sql)->query() as $row) {
+        foreach ($db->createCommand($sql)->query() as $row) {
             $id = $row['id'];
             if (!isset($product[$id])) {
                 $product[$id] = [
@@ -255,18 +256,32 @@ class PurchaseController extends Controller
             ];
         }
 
-        $sql = "select id_supplier,id_product
-			from product_supplier";
+        // barcodes
+        $barcodes = [];
+        $sql_barcode = "select lower(barcode) as barcode,id_product as id"
+            . " from product_child"
+            . " union"
+            . " select lower(cd_product), id_product"
+            . " from product";
+        foreach ($db->createCommand($sql_barcode)->queryAll() as $row) {
+            $barcodes[$row['barcode']] = $row['id'];
+        }
+
+        $sql = "select id_supplier,id_product from product_supplier";
         $ps = [];
-        foreach (Yii::$app->db->createCommand($sql)->queryAll() as $row) {
+        foreach ($db->createCommand($sql)->queryAll() as $row) {
             $ps[$row['id_supplier']][] = $row['id_product'];
         }
 
         $sql = "select id_supplier as id, nm_supplier as label from supplier";
-        $supp = Yii::$app->db->createCommand($sql)->queryAll();
+        $supp = $db->createCommand($sql)->queryAll();
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->set('Content-Type', 'application/javascript');
+        
         return $this->renderPartial('process.js.php', [
                 'product' => $product,
                 'ps' => $ps,
+                'barcodes' => $barcodes,
                 'supp' => $supp]);
     }
 }

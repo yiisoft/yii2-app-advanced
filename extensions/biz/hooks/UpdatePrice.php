@@ -52,10 +52,13 @@ class UpdatePrice extends \yii\base\Behavior
             }
 
             if ($price->canSetProperty('logParams')) {
-                $price->logParams = [
-                    'app' => $params['app'],
-                    'id_ref' => $params['id_ref'],
-                ];
+                $logParams = [];
+                foreach (['app','id_ref'] as $key) {
+                    if(isset($params[$key]) || array_key_exists($key, $params)){
+                        $logParams[$key] = $params[$key];
+                    }
+                }
+                $price->logParams = $logParams;
             }
             $price->price = $this->executePriceFormula($category->formula, $params['price']);
             if (!$price->save()) {

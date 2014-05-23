@@ -75,14 +75,19 @@ use yii\helpers\Url;
 		return $("<li>").append($a).appendTo(ul);
 	};
 
-	$('#product').focus();
+	$('#product').change(yii.process.onProductChange);
+    $('#product').focus();
 
-	$(window).keydown(function(event) {
-		if (event.keyCode == 13) {
-			event.preventDefault();
-			return false;
-		}
-	});
+    $(window).keydown(function(event) {
+        if (event.keyCode == 13) {
+            if ($(event.target).is('#product')) {
+                $('#product').change();
+            } else {
+                event.preventDefault();
+            }
+            return false;
+        }
+    });
 	
 <?php $this->endBlock(); ?>
 </script>

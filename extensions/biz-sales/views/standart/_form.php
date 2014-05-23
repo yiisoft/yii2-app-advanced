@@ -35,11 +35,11 @@ use biz\tools\Helper;
                 <?= $form->field($model, 'sales_num')->textInput(['readonly' => true]); ?>
                 <?= $form->field($model, 'id_warehouse')->dropDownList(Helper::getWarehouseList()); ?>
                 <?php
-                echo $form->field($model, 'sales_date')
+                echo $form->field($model, 'salesDate')
                     ->widget('yii\jui\DatePicker', [
                         'options' => ['class' => 'form-control', 'style' => 'width:50%'],
                         'clientOptions' => [
-                            'dateFormat' => 'yy-mm-dd'
+                            'dateFormat' => 'dd-mm-yy'
                         ],
                 ]);
                 ?>

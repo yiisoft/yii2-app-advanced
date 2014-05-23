@@ -21,6 +21,7 @@ use Yii;
  * @property Uom $idUom
  * @property SalesHdr $idSales
  * @property Product $idProduct
+ * @property Cogs $idCogs
  * @property Warehouse $idWarehouse
  */
 class SalesDtl extends \yii\db\ActiveRecord
@@ -39,6 +40,7 @@ class SalesDtl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['discount'],'default'],
             [['id_sales', 'id_product', 'id_uom', 'id_warehouse', 'sales_price', 'sales_qty', 'cogs'], 'required'],
             [['id_sales', 'id_product', 'id_uom', 'id_warehouse'], 'integer'],
             [['sales_price', 'sales_qty', 'discount', 'cogs', 'tax'], 'string']
@@ -78,6 +80,14 @@ class SalesDtl extends \yii\db\ActiveRecord
     public function getIdSales()
     {
         return $this->hasOne(SalesHdr::className(), ['id_sales' => 'id_sales']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIdCogs()
+    {
+        return $this->hasOne(Cogs::className(), ['id_product' => 'id_product']);
     }
 
     /**

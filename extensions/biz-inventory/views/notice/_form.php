@@ -14,15 +14,16 @@ use biz\models\TransferNotice;
  */
 ?>
 
-<?php $form = ActiveForm::begin([
-    'fieldConfig'=>[
-        'template'=>"{input}"
-    ]
-]) ?>
-<?php 
-$renderField = function ($model) use($form)
-{
-    return $form->field($model, "[{$model->id_product}]qty_approve")->textInput(['style'=>'width:80px;']);
+<?php
+$form = ActiveForm::begin([
+        'fieldConfig' => [
+            'template' => "{input}"
+        ]
+    ])
+?>
+<?php
+$renderField = function ($model, $key) use($form) {
+    return $form->field($model, "[$key]qty_approve")->textInput(['style' => 'width:80px;']);
 }
 ?>
 <div class="purchase-hdr-view col-lg-9">
@@ -44,7 +45,8 @@ $renderField = function ($model) use($form)
             [
                 'label' => 'Qty Approve',
                 'format' => 'raw',
-                'value' => $renderField],
+                'content' => $renderField
+            ],
             'idUom.nm_uom',
         ]
     ]);
@@ -69,7 +71,7 @@ $renderField = function ($model) use($form)
         ?>
     </div>
     <?php
-    if ($model->status == TransferNotice::STATUS_CREATE || $model->status==TransferNotice::STATUS_UPDATE) {
+    if ($model->status == TransferNotice::STATUS_CREATE || $model->status == TransferNotice::STATUS_UPDATE) {
         echo Html::submitButton('Update', ['class' => 'btn btn-success']);
     }
     ?>

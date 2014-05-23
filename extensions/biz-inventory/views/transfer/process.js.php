@@ -6,9 +6,11 @@
 
         var local = {
             product: <?= json_encode($product); ?>,
+            barcodes: <?= json_encode($barcodes); ?>,
             ps:<?= json_encode($ps) ?>,
             delay: 1000,
             limit: 20,
+            checkStock: true,
             addItem: function(item) {
                 var has = false;
                 $('#detail-grid > tbody > tr').each(function() {
@@ -158,15 +160,19 @@
                 var limit = local.limit;
                 var term = request.term.toLowerCase();
                 var whse = $('#transferhdr-id_warehouse_source').val();
-                if (whse == '' || local.ps[whse] == undefined) {
+                if (local.checkStock && (whse == '' || local.ps[whse] == undefined)) {
                     callback([]);
                     return;
                 }
 
-                $.each(local.ps[whse], function() {
-                    var prod = local.product[this.id + ''];
-                    if (prod.text.toLowerCase().indexOf(term) >= 0 || prod.cd == term) {
-                        result.push(prod);
+                $.each(local.product, function() {
+                    if (this.text.toLowerCase().indexOf(term) >= 0) {
+                        var id = this.id + '';
+                        if (local.checkStock && (local.ps[whse][id] == undefined || local.ps[whse][id] <= 0)) {
+                            callback([]);
+                            return;
+                        }
+                        result.push(this);
                         limit--;
                         if (limit <= 0) {
                             return false;
@@ -177,6 +183,28 @@
             },
             onProductSelect: function(event, ui) {
                 local.addItem(ui.item);
+            },
+            searchProductByCode: function(cd) {
+                var whse = $('#transferhdr-id_warehouse_source').val();
+                if (local.checkStock && (whse == '' || local.ps[whse] == undefined)) {
+                    return false;
+                }
+                var id = local.barcodes[cd] + '';
+                if (id && local.product[id]) {
+                    if (local.checkStock && (local.ps[whse][id] == undefined || local.ps[whse][id] <= 0)) {
+                        return false;
+                    }
+                    return local.product[id];
+                }
+                return false;
+            },
+            onProductChange: function() {
+                var item = pub.searchProductByCode(this.value);
+                if (item !== false) {
+                    local.addItem(item);
+                }
+                this.value = '';
+                $(this).autocomplete("close");
             },
         };
         return pub;

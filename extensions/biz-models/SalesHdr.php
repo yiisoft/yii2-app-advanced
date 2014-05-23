@@ -19,6 +19,9 @@ use Yii;
  * @property integer $create_by
  * @property string $update_date
  * @property integer $update_by
+ * 
+ * @property string $nmStatus
+ * @property string $salesDate
  *
  * @property Customer $idCustomer
  * @property Branch $idBranch
@@ -47,7 +50,7 @@ class SalesHdr extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_customer'], 'default'],
+            [['id_customer','discount'], 'default'],
             [['id_branch', 'id_customer', 'salesDate', 'status'], 'required'],
             [['id_branch', 'id_cashdrawer', 'status', 'id_warehouse'], 'integer'],
             [['discount'], 'string'],
@@ -105,9 +108,9 @@ class SalesHdr extends \yii\db\ActiveRecord
      */
     public function getSalesDtls()
     {
-        return $this->hasMany(SalesDtl::className(), ['id_sales' => 'id_sales']);
+        return $this->hasMany(SalesDtl::className(), ['id_sales' => 'id_sales'])->with('idCogs');
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -121,7 +124,7 @@ class SalesHdr extends \yii\db\ActiveRecord
                 'digit' => 4,
                 'group' => 'sales',
                 'attribute' => 'sales_num',
-                'value' => 'SA' . date('ymd.?')
+                'value' => 'SA.' . date('ymd.?')
             ],
             [
                 'class'=>'biz\behaviors\DateConverter',
@@ -129,6 +132,9 @@ class SalesHdr extends \yii\db\ActiveRecord
                     'salesDate' => 'sales_date',
                 ]
             ],
+            [
+                'class'=>'biz\behaviors\StatusBehavior'
+            ]
         ];
     }
 }

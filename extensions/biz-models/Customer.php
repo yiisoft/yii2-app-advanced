@@ -12,7 +12,7 @@ use Yii;
  * @property string $nm_cust
  * @property string $contact_name
  * @property string $contact_number
- * @property string $status
+ * @property integer $status
  * @property integer $update_by
  * @property integer $create_by
  * @property string $update_date
@@ -43,7 +43,7 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             [['cd_cust', 'nm_cust'], 'required'],
-            [['status'], 'string'],
+            [['status'], 'integer'],
             [['cd_cust'], 'string', 'max' => 13],
             [['nm_cust', 'contact_name', 'contact_number'], 'string', 'max' => 64],
             [['cd_cust'], 'unique']
@@ -85,21 +85,6 @@ class Customer extends \yii\db\ActiveRecord
         return $this->hasMany(SalesHdr::className(), ['id_customer' => 'id_customer']);
     }
 
-    public function getNmStatus()
-    {
-        return static::getStatus()[$this->status];
-    }
-
-    public static function getStatus()
-    {
-        $maps = [
-            static::STATUS_INACTIVE => 'InActive',
-            static::STATUS_ACTIVE => 'Active',
-            static::STATUS_BLOCKED => 'Blocked'
-        ];
-        return $maps;
-    }
-
     /**
      * @inheritdoc
      */
@@ -108,6 +93,9 @@ class Customer extends \yii\db\ActiveRecord
         return [
             'biz\behaviors\AutoTimestamp',
             'biz\behaviors\AutoUser',
+            [
+                'class'=>'biz\behaviors\StatusBehavior'
+            ]
         ];
     }
 }

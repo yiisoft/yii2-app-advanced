@@ -16,6 +16,7 @@ use Yii;
  * @property integer $create_by
  * @property string $update_date
  * @property integer $update_by
+ * @property string $nmStatus
  *
  * @property GlHeader[] $glHeaders
  */
@@ -86,6 +87,9 @@ class AccPeriode extends \yii\db\ActiveRecord
                     'dateTo' => 'date_to',
                 ]
             ],
+            [
+                'class'=>'biz\behaviors\StatusBehavior'
+            ]
         ];
     }
 }

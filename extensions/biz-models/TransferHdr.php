@@ -19,7 +19,10 @@ use Yii;
  * @property string $update_date
  * @property integer $update_by
  * 
- *
+ * @property string $nmStatus
+ * @property string $transferDate
+ * @property string $receiveDate
+ * 
  * @property Warehouse $idWarehouseSource
  * @property Warehouse $idWarehouseDest
  * @property TransferDtl[] $transferDtls
@@ -150,21 +153,10 @@ class TransferHdr extends \yii\db\ActiveRecord
                     'transferDate' => 'transfer_date',
                     'receiveDate' => 'receive_date'
                 ]
+            ],
+            [
+                'class'=>'biz\behaviors\StatusBehavior'
             ]
         ];
-    }
-
-    public function getNmStatus()
-    {
-        $maps = [
-            self::STATUS_DRAFT => 'Draft',
-            self::STATUS_ISSUE => 'Release',
-            self::STATUS_DRAFT_RECEIVE => 'Draft Receive',
-            self::STATUS_CONFIRM => 'Confirm',
-            self::STATUS_CONFIRM_APPROVE => 'Approve',
-            self::STATUS_CONFIRM_REJECT => 'Reject',
-            self::STATUS_RECEIVE => 'Receive',
-        ];
-        return $maps[$this->status];
     }
 }

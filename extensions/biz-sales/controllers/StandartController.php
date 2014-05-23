@@ -9,7 +9,6 @@ use biz\models\SalesDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use biz\models\Cogs;
 use \Exception;
 use yii\base\UserException;
 use biz\tools\Helper;
@@ -128,14 +127,14 @@ class StandartController extends Controller
                         $detail->setAttributes($dataDetail);
                         $detail->id_sales = $id_hdr;
                         $detail->id_warehouse = $id_whse;
-                        $cogs = Cogs::findOne(['id_product' => $detail->id_product]);
-                        if ($cogs) {
-                            $detail->cogs = $cogs->cogs;
-                        } else {
+                        if($detail->idCogs){
+                            $detail->cogs = $detail->idCogs->cogs;
+                        }  else {
                             $detail->cogs = 0;
                         }
                         if (!$detail->save()) {
                             $success = false;
+                            $model->addError('', implode("\n", $detail->firstErrors));
                             break;
                         }
 
@@ -192,26 +191,60 @@ class StandartController extends Controller
 
     public function actionJs()
     {
-        $p_ct = Helper::getConfigValue('sales_price', 'grosir_category', 1);
+        $db = Yii::$app->db;
+
+        // price squence
+        $squence = Helper::getConfigValue('SALES_PRICE', 'GROSIR_CATEGORY', 1);
+        $price_standart = Helper::getConfigValue('SALES_PRICE', 'PRICE_STANDART', 1);
+        $squences = [$squence];
+        $sql_squence = "select squence_price"
+            . " from price_category"
+            . " where id_price_category=:category";
+        $cmd_squence = $db->createCommand($sql_squence);
+
+        while (true) {
+            $squence = $cmd_squence->bindValue(':category', $squence)->queryScalar();
+            $squence = empty($squence) ? $price_standart : $squence;
+            if (!in_array($squence, $squences)) {
+                $squences[] = $squence;
+            }
+            if ($squence == $price_standart) {
+                break;
+            }
+        }
+        $query_price = (new \yii\db\Query)->select(['id_product', 'id_price_category', 'price'])
+            ->from('price')
+            ->where(['id_price_category' => $squences]);
+        $prices = [];
+        foreach ($query_price->all() as $row) {
+            $prices[$row['id_product']][$row['id_price_category']] = $row['price'];
+        }
+        
+        // master product
         $sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
-			u.id_uom, u.nm_uom, pu.isi,pc.price
+			u.id_uom, u.nm_uom, pu.isi
 			from product p
 			join product_uom pu on(pu.id_product=p.id_product)
 			join uom u on(u.id_uom=pu.id_uom)
-			left join price pc on(pc.id_product=p.id_product and pc.id_price_category=$p_ct)
 			order by p.id_product,pu.isi";
         $result = [];
-        foreach (Yii::$app->db->createCommand($sql)->queryAll() as $row) {
+        foreach ($db->createCommand($sql)->queryAll() as $row) {
             $id = $row['id'];
             if (!isset($result[$id])) {
                 $result[$id] = [
                     'id' => $row['id'],
                     'cd' => $row['cd'],
                     'text' => $row['nm'],
-                    'price' => $row['price'],
                     'id_uom' => $row['id_uom'],
                     'nm_uom' => $row['nm_uom'],
+                    'price' => 0,
                 ];
+                foreach ($squences as $ct) {
+                    if(isset($prices[$id][$ct])){
+                        $result[$id]['price'] = $prices[$id][$ct];
+                        break;
+                    }
+                }
             }
             $result[$id]['uoms'][$row['id_uom']] = [
                 'id' => $row['id_uom'],
@@ -219,10 +252,27 @@ class StandartController extends Controller
                 'isi' => $row['isi']
             ];
         }
-        $sql = 'select id_customer as id, nm_cust as label
-			from customer';
-        $cust = Yii::$app->db->createCommand($sql)->queryAll();
-        return $this->renderPartial('process.js.php', ['product' => $result, 'cust' => $cust]);
+        
+        // barcodes
+        $barcodes = [];
+        $sql_barcode = "select lower(barcode) as barcode,id_product as id"
+            . " from product_child"
+            . " union"
+            . " select lower(cd_product), id_product"
+            . " from product";
+        foreach ($db->createCommand($sql_barcode)->queryAll() as $row) {
+            $barcodes[$row['barcode']] = $row['id'];
+        }
+        // customer
+        $sql = 'select id_customer as id, nm_cust as label from customer';
+        $cust = $db->createCommand($sql)->queryAll();
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->set('Content-Type', 'application/javascript');
+        return $this->renderPartial('process.js.php', [
+                'product' => $result,
+                'barcodes' => $barcodes,
+                'cust' => $cust]);
     }
 
     /**

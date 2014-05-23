@@ -19,6 +19,9 @@ use Yii;
  * @property integer $create_by
  * @property string $update_date
  * @property integer $update_by
+ * 
+ * @property string $nmStatus
+ * @property string $purchaseDate
  *
  * @property Supplier $idSupplier
  * @property Branch $idBranch
@@ -118,16 +121,10 @@ class PurchaseHdr extends \yii\db\ActiveRecord
                 'attributeMaps'=>[
                     'purchaseDate' => 'purchase_date',
                 ]
+            ],
+            [
+                'class'=>'biz\behaviors\StatusBehavior'
             ]
         ];
-    }
-
-    public function getNmStatus()
-    {
-        $maps = [
-            static::STATUS_DRAFT => 'Draft',
-            static::STATUS_RECEIVE => 'Receive',
-        ];
-        return $maps[$this->status];
     }
 }

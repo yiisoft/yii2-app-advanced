@@ -15,6 +15,9 @@ use Yii;
  * @property integer $create_by
  * @property string $create_date
  * @property string $update_date
+ * 
+ * @property string $nmStatus
+ * @property string $noticeDate
  *
  * @property TransferNoticeDtl[] $transferNoticeDtls
  * @property Product[] $idProducts
@@ -102,6 +105,9 @@ class TransferNotice extends \yii\db\ActiveRecord
                     'noticeDate' => 'notice_date',
                 ]
             ],
+            [
+                'class'=>'biz\behaviors\StatusBehavior'
+            ]
         ];
     }
 }

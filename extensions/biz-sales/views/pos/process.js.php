@@ -8,10 +8,6 @@ use yii\helpers\Url;
     yii.process = (function($) {
         var $grid, $form, $template, runing = false, $list_session, $list_template;
 
-        var product = <?= json_encode($product); ?>,
-            delay = 1000,
-            limit = 20;
-
         var storage = {
             pushUrl: '<?= Url::toRoute(['save-pos']) ?>',
             getCurrentSession: function() {
@@ -178,6 +174,10 @@ use yii\helpers\Url;
         }
 
         var local = {
+            product: <?= json_encode($product); ?>,
+            barcodes: <?= json_encode($barcodes); ?>,
+            delay: 1000,
+            limit: 20,
             addItem: function(item) {
                 var has = false;
                 $('#detail-grid > tbody > tr').each(function() {
@@ -399,9 +399,9 @@ use yii\helpers\Url;
         var pub = {
             sourceProduct: function(request, callback) {
                 var result = [];
-                var c = limit;
+                var c = local.limit;
                 var term = request.term.toLowerCase();
-                $.each(product, function() {
+                $.each(local.product, function() {
                     if (this.text.toLowerCase().indexOf(term) >= 0 || this.cd == term) {
                         result.push(this);
                         c--;
@@ -412,18 +412,17 @@ use yii\helpers\Url;
                 });
                 callback(result);
             },
-            searchProductByCode: function(cd) {
-                var result = false;
-                $.each(product, function() {
-                    if (this.cd == cd) {
-                        result = this;
-                        return false;
-                    }
-                });
-                return result;
-            },
             onSelectProduct: function(event, ui) {
                 local.addItem(ui.item);
+            },
+            searchProductByCode: function(cd) {
+                if (local.barcodes[cd]) {
+                    var id = local.barcodes[cd] + '';
+                    if (local.product[id]) {
+                        return local.product[id];
+                    }
+                }
+                return false;
             },
             onProductChange: function() {
                 var item = pub.searchProductByCode(this.value);
