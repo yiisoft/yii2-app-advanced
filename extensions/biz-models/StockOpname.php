@@ -102,7 +102,7 @@ class StockOpname extends \yii\db\ActiveRecord
             ],
             [
                 'class'=>'biz\behaviors\DateConverter',
-                'attributeMaps'=>[
+                'attributes'=>[
                     'opnameDate' => 'opname_date',
                 ]
             ],

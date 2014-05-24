@@ -112,7 +112,7 @@ class InvoiceHdr extends \yii\db\ActiveRecord
             ],
             [
                 'class'=>'biz\behaviors\DateConverter',
-                'attributeMaps'=>[
+                'attributes'=>[
                     'invDate' => 'inv_date',
                     'dueDate' => 'due_date',
                 ]

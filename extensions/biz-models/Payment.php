@@ -91,7 +91,7 @@ class Payment extends \yii\db\ActiveRecord
             ],
             [
                 'class'=>'biz\behaviors\DateConverter',
-                'attributeMaps'=>[
+                'attributes'=>[
                     'paymentDate' => 'payment_date',
                 ]
             ],

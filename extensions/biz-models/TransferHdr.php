@@ -149,7 +149,7 @@ class TransferHdr extends \yii\db\ActiveRecord
             ],
             [
                 'class' => 'biz\behaviors\DateConverter',
-                'attributeMaps' => [
+                'attributes' => [
                     'transferDate' => 'transfer_date',
                     'receiveDate' => 'receive_date'
                 ]

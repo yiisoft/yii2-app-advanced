@@ -21,6 +21,7 @@ use Yii;
  * @property integer $create_by
  * @property string $update_date
  * @property integer $update_by
+ * @property string $glDate
  *
  * @property GlDetail[] $glDetails
  * @property AccPeriode $idPeriode
@@ -118,7 +119,7 @@ class GlHeader extends \yii\db\ActiveRecord
             [
                 'class'=>'biz\behaviors\DateConverter',
                 'physicalFormat'=>'Y-m-d H:i:s',
-                'attributeMaps'=>[
+                'attributes'=>[
                     'glDate' => 'gl_date'
                 ]
             ],

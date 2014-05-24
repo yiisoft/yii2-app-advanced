@@ -118,7 +118,7 @@ class PurchaseHdr extends \yii\db\ActiveRecord
             ],
             [
                 'class'=>'biz\behaviors\DateConverter',
-                'attributeMaps'=>[
+                'attributes'=>[
                     'purchaseDate' => 'purchase_date',
                 ]
             ],

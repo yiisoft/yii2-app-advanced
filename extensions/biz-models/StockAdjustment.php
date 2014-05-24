@@ -98,7 +98,7 @@ class StockAdjustment extends \yii\db\ActiveRecord
             ],
             [
                 'class'=>'biz\behaviors\DateConverter',
-                'attributeMaps'=>[
+                'attributes'=>[
                     'adjusmentDate' => 'adjusment_date',
                 ]
             ],

@@ -128,7 +128,7 @@ class SalesHdr extends \yii\db\ActiveRecord
             ],
             [
                 'class'=>'biz\behaviors\DateConverter',
-                'attributeMaps'=>[
+                'attributes'=>[
                     'salesDate' => 'sales_date',
                 ]
             ],

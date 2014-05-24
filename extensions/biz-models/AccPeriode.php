@@ -82,7 +82,7 @@ class AccPeriode extends \yii\db\ActiveRecord
             'biz\behaviors\AutoUser',
             [
                 'class'=>'biz\behaviors\DateConverter',
-                'attributeMaps'=>[
+                'attributes'=>[
                     'dateFrom' => 'date_from',
                     'dateTo' => 'date_to',
                 ]

@@ -101,7 +101,7 @@ class TransferNotice extends \yii\db\ActiveRecord
             'biz\behaviors\AutoUser',
             [
                 'class'=>'biz\behaviors\DateConverter',
-                'attributeMaps'=>[
+                'attributes'=>[
                     'noticeDate' => 'notice_date',
                 ]
             ],

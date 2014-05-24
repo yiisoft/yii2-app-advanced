@@ -11,14 +11,14 @@ use DateTime;
  */
 class DateConverter extends \yii\base\Behavior
 {
-    public $attributeMaps = [];
+    public $attributes = [];
     public $logicalFormat = 'd-m-Y';
     public $physicalFormat = 'Y-m-d';
 
     public function __get($param)
     {
-        if (isset($this->attributeMaps[$param])) {
-            return $this->convertToLogical($this->owner->{$this->attributeMaps[$param]});
+        if (isset($this->attributes[$param])) {
+            return $this->convertToLogical($this->owner->{$this->attributes[$param]});
         } else {
             return parent::__get($name);
         }
@@ -26,8 +26,8 @@ class DateConverter extends \yii\base\Behavior
 
     public function __set($param, $value)
     {
-        if (isset($this->attributeMaps[$param])) {
-            $this->owner->{$this->attributeMaps[$param]} = $this->convertToPhysical($value);
+        if (isset($this->attributes[$param])) {
+            $this->owner->{$this->attributes[$param]} = $this->convertToPhysical($value);
         } else {
             parent::__set($name, $value);
         }
@@ -53,11 +53,11 @@ class DateConverter extends \yii\base\Behavior
 
     public function canGetProperty($name, $checkVars = true)
     {
-        return isset($this->attributeMaps[$name]) || parent::canGetProperty($name, $checkVars);
+        return isset($this->attributes[$name]) || parent::canGetProperty($name, $checkVars);
     }
 
     public function canSetProperty($name, $checkVars = true)
     {
-        return isset($this->attributeMaps[$name]) || parent::canSetProperty($name, $checkVars);
+        return isset($this->attributes[$name]) || parent::canSetProperty($name, $checkVars);
     }
 }
