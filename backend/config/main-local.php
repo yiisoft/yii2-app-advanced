@@ -5,6 +5,7 @@ return [
     'bootstrap' => [
         'debug',
 //        'gii',
+        'admin'
     ],
     'modules' => [
         'debug' => 'yii\debug\Module',
@@ -12,6 +13,12 @@ return [
             'class' => 'yii\gii\Module',
             'generators' => [
                 'bizmodel' => ['class' => 'biz\gii\generators\model\Generator']
+            ]
+        ],
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+            'allowActions' => [
+                'site/manifest',
             ]
         ],
         'master' => 'biz\master\Module',
@@ -43,13 +50,6 @@ return [
 //            'showScriptName' => false,
         ],
     ],
-    'as access' => [
-        'class' => 'mdm\admin\components\AccessControl',
-        'allowActions' => [
-            'site/login',
-            'site/error',
-            'site/manifest',
-        ]],
-    'as clientId' => 'mdm\tools\ClientKey',
-    'as appcache' => 'mdm\tools\AppCache',
+//    'as clientId' => 'mdm\tools\ClientKey',
+//    'as appcache' => 'mdm\tools\AppCache',
 ];
