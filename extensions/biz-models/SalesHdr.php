@@ -50,10 +50,9 @@ class SalesHdr extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_customer','discount'], 'default'],
             [['id_branch', 'id_customer', 'salesDate', 'status'], 'required'],
             [['id_branch', 'id_cashdrawer', 'status', 'id_warehouse'], 'integer'],
-            [['discount'], 'string'],
+            [['discount'], 'number'],
             [['sales_date'], 'safe']
         ];
     }

@@ -78,39 +78,20 @@ use yii\helpers\Url;
     $('#product').change(yii.process.onProductChange);
     $('#product').focus();
 
+    yii.process.showDiscount();
+    $('#purchasehdr-item_discount').change(yii.process.showDiscount);
+    
     $(window).keydown(function(event) {
         if (event.keyCode == 13) {
-            if ($(event.target).is('#product')) {
-                $('#product').change();
+            var $target = $(event.target);
+            if ($target.is('#product') || $target.is('#purchasehdr-item_discount')) {
+                $target.change();
             } else {
                 event.preventDefault();
             }
             return false;
         }
     });
-
-    $('#purchasehdr-item_discount').keydown(function(e) {
-        if (e.keyCode == 13) {
-            $(this).change();
-            return false;
-        }
-    })
-
-    $('#purchasehdr-item_discount').change(function() {
-        var purch_val = $('#purchasehdr-purchase_value').val();
-        if (this.value * 1 != 0) {
-            $('#bfore').show();
-            var disc_val = purch_val * this.value * 0.01;
-
-            $('#purchase-val').text($.number(purch_val, 0));
-            $('#disc-val').text($.number(disc_val, 0));
-            $('#total-price').text($.number((purch_val - disc_val), 0));
-        } else {
-            $('#total-price').text($.number(purch_val, 0));
-            $('#bfore').hide();
-        }
-    });
-
 <?php $this->endBlock(); ?>
 </script>
 <?php

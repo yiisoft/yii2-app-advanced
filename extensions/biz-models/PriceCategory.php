@@ -34,8 +34,8 @@ class PriceCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['squence_price'],'default'],
             [['nm_price_category'], 'required'],
+            [['squence_price'],'safe'],
             [['nm_price_category', 'formula'], 'string']
         ];
     }

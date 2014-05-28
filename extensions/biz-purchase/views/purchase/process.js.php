@@ -150,6 +150,7 @@
         }
 
         var pub = {
+            sourceSupplier: local.supp,
             init: function() {
                 local.initObj();
                 local.initRow();
@@ -198,7 +199,21 @@
             onSupplierOpen: function(event, ui) {
                 $('#id_supplier').val('');
             },
-            sourceSupplier: local.supp,
+            showDiscount: function() {
+                var purch_val = $('#purchasehdr-purchase_value').val();
+                var disc_val = $('#purchasehdr-item_discount').val();
+                if (disc_val * 1 != 0) {
+                    $('#bfore').show();
+                    var disc_val = purch_val * disc_val * 0.01;
+
+                    $('#purchase-val').text($.number(purch_val, 0));
+                    $('#disc-val').text($.number(disc_val, 0));
+                    $('#total-price').text($.number((purch_val - disc_val), 0));
+                } else {
+                    $('#total-price').text($.number(purch_val, 0));
+                    $('#bfore').hide();
+                }
+            }
         };
         return pub;
     })(window.jQuery);

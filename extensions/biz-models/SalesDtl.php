@@ -40,10 +40,9 @@ class SalesDtl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['discount'],'default'],
             [['id_sales', 'id_product', 'id_uom', 'id_warehouse', 'sales_price', 'sales_qty', 'cogs'], 'required'],
             [['id_sales', 'id_product', 'id_uom', 'id_warehouse'], 'integer'],
-            [['sales_price', 'sales_qty', 'discount', 'cogs', 'tax'], 'string']
+            [['sales_price', 'sales_qty', 'discount', 'cogs', 'tax'], 'number'],
         ];
     }
 
