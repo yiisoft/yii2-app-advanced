@@ -10,6 +10,7 @@ use yii\helpers\Url;
 
         var storage = {
             pushUrl: '<?= Url::toRoute(['save-pos']) ?>',
+            delay: 1000,
             getCurrentSession: function() {
                 var key = localStorage.getItem('session-current');
                 if (key == undefined) {
@@ -131,7 +132,7 @@ use yii\helpers\Url;
                 });
                 setTimeout(function() {
                     storage.push();
-                }, delay);
+                }, storage.delay);
             },
             initEvent: function() {
                 $('#new-session').click(function() {
@@ -294,8 +295,13 @@ use yii\helpers\Url;
                 });
             },
             currentTime: function() {
-
                 setTimeout(local.currentTime, 1000);
+            },
+            setDrawer: function(obj){
+                $('#id-drawer').val(obj.id_cashdrawer);
+                $('#no-kasir').text(obj.cashier_no);
+                $('#nama-kasir').text(obj.username);
+                $('#open-time').text(obj.open_time);
             },
             initObj: function() {
                 $grid = $('#detail-grid');
@@ -389,6 +395,28 @@ use yii\helpers\Url;
                 });
 
                 yii.numeric.input($('#payment-value'), '', {});
+
+                $('#cashdrawer-opennew').click(function() {
+                    $.post('<?= Url::toRoute(['open-new-drawer']) ?>',
+                        $('#dlg-drawer :input').serialize(),
+                        function(r) {
+                            if (r.type == 'S') {
+                                local.setDrawer(r.drawer);
+                                $('#dlg-drawer').modal('hide');
+                            }
+                        });
+                    return false;
+                });
+                $('#dlg-drawer').on('click', 'a.cashdrawer-select', function() {
+                    $.post($(this).attr('href'),
+                        function(r) {
+                            if (r.type == 'S') {
+                                local.setDrawer(r.drawer);
+                                $('#dlg-drawer').modal('hide');
+                            }
+                        });
+                    return false;
+                });
             },
             init: function() {
                 local.initObj();
@@ -433,7 +461,7 @@ use yii\helpers\Url;
                 $(this).autocomplete("close");
             },
             init: function() {
-                initDrawer();
+                //initDrawer();
                 local.init();
                 storage.init();
 

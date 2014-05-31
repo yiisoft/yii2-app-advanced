@@ -16,6 +16,7 @@ use biz\models\Price;
 use biz\models\PriceCategory;
 use biz\models\GlobalConfig;
 use biz\models\Warehouse;
+use biz\models\Branch;
 use biz\models\ProductUom;
 use yii\helpers\ArrayHelper;
 
@@ -355,5 +356,10 @@ class Helper
             $query->where(['id_branch' => $branch]);
         }
         return ArrayHelper::map($query->asArray()->all(), 'id_warehouse', 'nm_whse');
+    }
+    
+    public static function getBranchList()
+    {
+        return ArrayHelper::map(Branch::find()->all(), 'id_branch', 'nm_branch');
     }
 }

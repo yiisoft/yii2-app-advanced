@@ -26,6 +26,11 @@ use Yii;
  */
 class Cashdrawer extends \yii\db\ActiveRecord
 {
+    const SESSION_KEY = '_cashdrawer_id';
+    const STATUS_OPEN = 1;
+    const STATUS_PROCESS = 2;
+    const STATUS_CLOSE = 3;
+
     /**
      * @inheritdoc
      */
@@ -40,9 +45,12 @@ class Cashdrawer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_machine', 'id_branch', 'cashier_no', 'id_user', 'status'], 'required'],
+            [['client_machine'], 'default', 'value' => Yii::$app->clientUniqueid],
+            [['id_user'], 'default', 'value' => Yii::$app->user->id],
+            [['status'], 'default', 'value' => static::STATUS_OPEN],
+            [['id_branch', 'cashier_no'], 'required'],
             [['id_branch', 'cashier_no', 'id_user', 'status'], 'integer'],
-            [['init_cash', 'close_cash', 'variants'], 'string'],
+            [['init_cash', 'close_cash', 'variants'], 'double'],
             [['client_machine'], 'string', 'max' => 32]
         ];
     }
@@ -93,6 +101,14 @@ class Cashdrawer extends \yii\db\ActiveRecord
         return [
             'biz\behaviors\AutoTimestamp',
             'biz\behaviors\AutoUser',
+            [
+                'class' => 'biz\behaviors\DateConverter',
+                'physicalFormat' => 'Y-m-d H:i:s.u',
+                'logicalFormat' => 'd-m-Y H:i:s',
+                'attributes' => [
+                    'open_time' => 'create_date'
+                ]
+            ]
         ];
     }
 }

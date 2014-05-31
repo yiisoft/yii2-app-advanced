@@ -39,7 +39,7 @@ class DateConverter extends \yii\base\Behavior
             return null;
         }
         $date = DateTime::createFromFormat($this->logicalFormat, $value);
-        return $date->format($this->physicalFormat);
+        return $date === false ? null : $date->format($this->physicalFormat);
     }
 
     private function convertToLogical($value)
@@ -48,7 +48,7 @@ class DateConverter extends \yii\base\Behavior
             return null;
         }
         $date = DateTime::createFromFormat($this->physicalFormat, $value);
-        return $date->format($this->logicalFormat);
+        return $date === false ? null : $date->format($this->logicalFormat);
     }
 
     public function canGetProperty($name, $checkVars = true)

@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     echo $this->render('_form', [
         'payment_methods' => $payment_methods,
+        'cashDrawer' => $cashDrawer
     ]);
     ?>
 

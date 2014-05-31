@@ -70,6 +70,11 @@ use yii\helpers\Url;
     $('#product').change(yii.process.onProductChange);
     $('#product').focus();
 
+    <?php if($cashDrawer->isNewRecord): ?>
+        $('#dlg-drawer').modal('show');
+    <?php endif; ?>
+        
+        
 <?php $this->endBlock(); ?>
 </script>
 <?php

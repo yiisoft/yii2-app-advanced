@@ -18,7 +18,6 @@ return [
         'admin' => [
             'class' => 'mdm\admin\Module',
             'allowActions' => [
-                'site/manifest',
             ]
         ],
         'master' => 'biz\master\Module',
@@ -50,6 +49,6 @@ return [
 //            'showScriptName' => false,
         ],
     ],
-//    'as clientId' => 'mdm\tools\ClientKey',
+    'as clientId' => 'mdm\tools\ClientKey',
 //    'as appcache' => 'mdm\tools\AppCache',
 ];
