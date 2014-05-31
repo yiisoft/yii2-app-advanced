@@ -11,6 +11,7 @@ use yii\helpers\Url;
         var storage = {
             pushUrl: '<?= Url::toRoute(['save-pos']) ?>',
             delay: 1000,
+            id_cashdrawer: 0,
             getCurrentSession: function() {
                 var key = localStorage.getItem('session-current');
                 if (key == undefined) {
@@ -82,7 +83,7 @@ use yii\helpers\Url;
                 }
                 var key = storage.getCurrentSession();
                 var data = {
-                    id_drawer: 1,
+                    id_drawer: storage.id_cashdrawer,
                     key: key,
                     detail: [],
                 };
@@ -165,6 +166,7 @@ use yii\helpers\Url;
                 });
             },
             init: function() {
+                storage.id_cashdrawer = $('#id-drawer').val();
                 var current = storage.listSession();
                 if (current) {
                     storage.changeSession(current);
@@ -298,6 +300,7 @@ use yii\helpers\Url;
                 setTimeout(local.currentTime, 1000);
             },
             setDrawer: function(obj){
+                storage.id_cashdrawer = obj.id_cashdrawer;
                 $('#id-drawer').val(obj.id_cashdrawer);
                 $('#no-kasir').text(obj.cashier_no);
                 $('#nama-kasir').text(obj.username);

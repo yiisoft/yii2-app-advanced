@@ -20,9 +20,6 @@ use biz\models\Cashdrawer;
  */
 class PosController extends Controller
 {
-    const MANIFEST_ID = 'sales-pos';
-
-    public $manifest;
 
     public function behaviors()
     {
@@ -31,34 +28,18 @@ class PosController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
-                    'save-pos' => ['post']
+                    'save-pos' => ['post'],
+                    'open-new-drawer' => ['post'],
+                    'select-drawer' => ['post']
                 ],
             ],
+            [
+                'class' => AppCache::className(),
+                'actions' => [
+                //    'create'
+                ]
+            ]
         ];
-    }
-
-    /**
-     * Lists all SalesHdr models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new SalesHdrSearch;
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-
-        return $this->render('index', ['dataProvider' => $dataProvider, 'searchModel' => $searchModel]);
-    }
-
-    /**
-     * Displays a single SalesHdr model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-                'model' => $this->findModel($id),
-        ]);
     }
 
     /**
@@ -69,17 +50,36 @@ class PosController extends Controller
     public function actionCreate()
     {
         $drawer_id = Yii::$app->session->get(Cashdrawer::SESSION_KEY);
-        $cashDrawer = isset($drawer_id) ? Cashdrawer::findOne($drawer_id) : new Cashdrawer([
-            'id_branch' => Yii::$app->clientIdBranch,
-            'cashier_no' => Yii::$app->clientCashierNo,
-        ]);
+        $cashDrawer = isset($drawer_id) ? Cashdrawer::findOne([
+                'id_cashdrawer' => $drawer_id,
+                'status' => Cashdrawer::STATUS_OPEN,
+            ]) : null;
+
+        if ($cashDrawer === null) {
+            $query = Cashdrawer::find()->where([
+                'client_machine' => Yii::$app->clientUniqueid,
+                'id_user' => Yii::$app->user->id,
+                'status' => Cashdrawer::STATUS_OPEN]
+            );
+            $cashDrawer = $query->count() == 1 ? $query->one() : new Cashdrawer([
+                'id_branch' => Yii::$app->clientIdBranch,
+                'cashier_no' => Yii::$app->clientCashierNo,
+            ]);
+        }
+
         $payment_methods = [
             1 => 'Cash',
             2 => 'Bank',
         ];
+
         return $this->render('create', [
                 'payment_methods' => $payment_methods,
                 'cashDrawer' => $cashDrawer]);
+    }
+
+    public static function invalidatePos()
+    {
+        AppCache::invalidate('sales/pos/create');
     }
 
     public function actionOpenNewDrawer()
@@ -102,6 +102,7 @@ class PosController extends Controller
                         'open_time' => $model->open_time
                     ]
                 ];
+
                 $transaction->commit();
             } else {
                 $result = [
@@ -130,15 +131,16 @@ class PosController extends Controller
             $app->clientIdBranch = $model->id_branch;
             $app->clientCashierNo = $model->cashier_no;
             $result = [
-                    'type' => 'S',
-                    'drawer' => [
-                        'cashier_no' => $model->cashier_no,
-                        'id_branch' => $model->id_branch,
-                        'nm_branch' => $model->idBranch->nm_branch,
-                        'username' => $app->user->identity->username,
-                        'open_time' => $model->open_time
-                    ]
-                ];
+                'type' => 'S',
+                'drawer' => [
+                    'cashier_no' => $model->cashier_no,
+                    'id_branch' => $model->id_branch,
+                    'nm_branch' => $model->idBranch->nm_branch,
+                    'username' => $app->user->identity->username,
+                    'open_time' => $model->open_time
+                ]
+            ];
+            AppCache::invalidate('sales/pos/create');
         } else {
             $result = [
                 'type' => 'E',
@@ -252,37 +254,6 @@ class PosController extends Controller
     }
 
     /**
-     * Updates an existing SalesHdr model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_sales_hdr]);
-        } else {
-            return $this->render('update', [
-                    'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing SalesHdr model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-        return $this->redirect(['index']);
-    }
-
-    /**
      * Finds the SalesHdr model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -296,10 +267,5 @@ class PosController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-
-    public function actionUpdateManifest()
-    {
-        return AppCache::forceUpdateManifest(static::MANIFEST_ID);
     }
 }
