@@ -8,3 +8,4 @@ Yii::setAlias('biz/accounting', __DIR__ . '/biz-accounting');
 Yii::setAlias('biz/purchase', __DIR__ . '/biz-purchase');
 Yii::setAlias('biz/sales', __DIR__ . '/biz-sales');
 Yii::setAlias('biz/gii', __DIR__ . '/biz-gii');
+Yii::setAlias('biz/widgets', __DIR__.'/biz-widgets');

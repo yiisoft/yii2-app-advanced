@@ -30,15 +30,15 @@ return [
         'user' => [
             'as info' => 'biz\behaviors\UserBehavior',
         ],
-        'log' => [
-            'targets' => [
-                [
-                    'class' => 'mdm\tools\MongoTarget',
-                    'levels' => ['info'],
-                    'categories' => ['application*'],
-                ],
-            ],
-        ],
+//        'log' => [
+//            'targets' => [
+//                [
+//                    'class' => 'mdm\logger\MongoTarget',
+//                    'levels' => ['info'],
+//                    'categories' => ['application*'],
+//                ],
+//            ],
+//        ],
         'hooks' => [
             'class' => 'biz\base\Hooks',
             'hooksPath' => '@biz/hooks',
@@ -49,6 +49,6 @@ return [
 //            'showScriptName' => false,
         ],
     ],
-    'as clientId' => 'mdm\tools\ClientKey',
+    'as client' => 'mdm\clienttools\ClientBehavior',
 //    'as appcache' => 'mdm\tools\AppCache',
 ];

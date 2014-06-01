@@ -12,6 +12,12 @@
         "source": "https://github.com/sangkilsoft/sangkilbiz-3"
     },
     "minimum-stability": "dev",
+	"repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/mdmsoft/yii2-client-tools"
+        }
+    ],
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": "*",
@@ -19,9 +25,10 @@
         "yiisoft/yii2-swiftmailer": "*",
         "mdmsoft/yii2-admin": "dev-master",
         "mdmsoft/yii2-autonumber": "dev-master",
-        "mdmsoft/yii2-tools": "dev-master",
         "yiisoft/yii2-jui": "*",
-        "yiisoft/yii2-mongodb": "*"
+        "yiisoft/yii2-mongodb": "*",
+        "mdmsoft/yii2-client-tools": "dev-master",
+        "mdmsoft/yii2-logger": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

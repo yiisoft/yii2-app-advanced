@@ -4,12 +4,11 @@ namespace biz\sales\controllers;
 
 use Yii;
 use biz\models\SalesHdr;
-use biz\models\searchs\SalesHdr as SalesHdrSearch;
 use biz\models\SalesDtl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use mdm\tools\AppCache;
+use mdm\clienttools\AppCache;
 use biz\tools\Helper;
 use yii\db\Query;
 use yii\web\Response;
