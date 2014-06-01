@@ -33,6 +33,6 @@ class UserBehavior extends \biz\base\PropertyBehavior
      */
     public function afterLogin($event)
     {
-        PosController::invalidatePos();
+        //PosController::invalidatePos();
     }
 }

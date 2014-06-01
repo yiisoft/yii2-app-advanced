@@ -19,7 +19,7 @@ Modal::begin([
 <div class="cash-drawer-form">
     <?php
     $query = Cashdrawer::find()->where([
-        'client_machine' => Yii::$app->clientUniqueid,
+        'client_machine' => Yii::$app->clientId,
         'id_user' => Yii::$app->user->id,
         'status' => Cashdrawer::STATUS_OPEN,
     ]);

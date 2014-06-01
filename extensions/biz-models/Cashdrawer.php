@@ -45,7 +45,7 @@ class Cashdrawer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_machine'], 'default', 'value' => Yii::$app->clientUniqueid],
+            [['client_machine'], 'default', 'value' => Yii::$app->clientId],
             [['id_user'], 'default', 'value' => Yii::$app->user->id],
             [['status'], 'default', 'value' => static::STATUS_OPEN],
             [['id_branch', 'cashier_no'], 'required'],

@@ -50,5 +50,4 @@ return [
         ],
     ],
     'as client' => 'mdm\clienttools\ClientBehavior',
-//    'as appcache' => 'mdm\tools\AppCache',
 ];

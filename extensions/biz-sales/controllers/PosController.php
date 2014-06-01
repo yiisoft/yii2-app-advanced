@@ -56,7 +56,7 @@ class PosController extends Controller
 
         if ($cashDrawer === null) {
             $query = Cashdrawer::find()->where([
-                'client_machine' => Yii::$app->clientUniqueid,
+                'client_machine' => Yii::$app->clientId,
                 'id_user' => Yii::$app->user->id,
                 'status' => Cashdrawer::STATUS_OPEN]
             );

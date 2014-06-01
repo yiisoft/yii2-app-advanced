@@ -62,7 +62,7 @@ class DrawerController extends Controller
 	public function actionCreate()
 	{
 		$model = new Cashdrawer;
-		$model->client_machine = Yii::$app->clientUniqueid;
+		$model->client_machine = Yii::$app->clientId;
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 			return $this->redirect(['view', 'id' => $model->id_cashdrawer]);
 		} else {
@@ -75,13 +75,13 @@ class DrawerController extends Controller
 	public function actionOpen()
 	{
 		$model = Cashdrawer::findOne([
-				'client_machine' => Yii::$app->clientUniqueid,
+				'client_machine' => Yii::$app->clientId,
 				'id_user' => Yii::$app->user->getId(),
 				'status' => Cashdrawer::STATUS_OPEN,
 		]);
 		if ($model === null) {
 			$model = new Cashdrawer([
-				'client_machine' => Yii::$app->clientUniqueid,
+				'client_machine' => Yii::$app->clientId,
 				'id_user' => Yii::$app->user->getId(),
 				'status' => Cashdrawer::STATUS_OPEN,
 			]);
