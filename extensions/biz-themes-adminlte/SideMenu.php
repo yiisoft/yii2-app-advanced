@@ -1,10 +1,11 @@
 <?php
 
-namespace biz\widgets;
+namespace biz\adminlte;
 
 use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
+use Yii;
 
 /**
  * Description of SideMenu
@@ -113,8 +114,7 @@ class SideMenu extends \yii\base\Widget
         $items = ArrayHelper::getValue($item, 'items');
         $url = ArrayHelper::getValue($item, 'url', '#');
         $linkOptions = ArrayHelper::getValue($item, 'linkOptions', []);
-        $icon1 = ArrayHelper::getValue($item, 'icon1');
-        $icon2 = ArrayHelper::getValue($item, 'icon2');
+        $icon = ArrayHelper::getValue($item, 'icon');
         $badge = ArrayHelper::getValue($item, 'badge');
 
         if (isset($item['active'])) {
@@ -123,8 +123,8 @@ class SideMenu extends \yii\base\Widget
             $active = $this->isItemActive($item);
         }
         $linkContent = '';
-        if ($icon1) {
-            $linkContent .= Html::tag('i', '', ['class' => 'fa ' . $icon1]);
+        if ($icon) {
+            $linkContent .= Html::tag('i', '', ['class' => $icon]);
         }
 
         if ($this->activateItems && $active) {
@@ -149,8 +149,8 @@ class SideMenu extends \yii\base\Widget
             }
             $linkContent .= Html::tag('small', $badge[0], ['class' => $bagdeCss]);
         }
-        if ($icon2) {
-            $linkContent .= Html::tag('i', '', ['class' => 'fa ' . $icon2 . ' pull-right']);
+        if (!empty($items)) {
+            $linkContent .= Html::tag('i', '', ['class' => 'fa fa-angle-left pull-right']);
         }
         return Html::tag('li', Html::a($linkContent, $url, $linkOptions) . $items, $options);
     }
