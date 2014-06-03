@@ -24,26 +24,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id_cashdrawer',
-            'client_machine',
-            'id_branch',
+            'idBranch.nm_branch',
             'cashier_no',
-            'id_user',
-            // 'init_cash',
-            // 'close_cash',
-            // 'variants',
-            // 'status',
-            // 'create_date',
-            // 'create_by',
-            // 'update_date',
-            // 'update_by',
-
+            'idUser.username',
+            'open_time',
+            'nmStatus',
+            'client_machine',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
+<?= Yii::$app->clientId; ?>
 </div>

@@ -3,6 +3,7 @@
 namespace biz\models;
 
 use Yii;
+use common\models\User;
 
 /**
  * This is the model class for table "cashdrawer".
@@ -22,6 +23,7 @@ use Yii;
  * @property integer $update_by
  *
  * @property Branch $idBranch
+ * @property User $idUser
  * @property SalesHdr[] $salesHdrs
  */
 class Cashdrawer extends \yii\db\ActiveRecord
@@ -47,6 +49,7 @@ class Cashdrawer extends \yii\db\ActiveRecord
         return [
             [['client_machine'], 'default', 'value' => Yii::$app->clientId],
             [['id_user'], 'default', 'value' => Yii::$app->user->id],
+            [['id_user'], 'unique', 'filter' => ['status' => static::STATUS_OPEN]],
             [['status'], 'default', 'value' => static::STATUS_OPEN],
             [['id_branch', 'cashier_no'], 'required'],
             [['id_branch', 'cashier_no', 'id_user', 'status'], 'integer'],
@@ -88,6 +91,14 @@ class Cashdrawer extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getIdUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'id_user']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getSalesHdrs()
     {
         return $this->hasMany(SalesHdr::className(), ['id_cashdrawer' => 'id_cashdrawer']);
@@ -101,6 +112,7 @@ class Cashdrawer extends \yii\db\ActiveRecord
         return [
             'biz\behaviors\AutoTimestamp',
             'biz\behaviors\AutoUser',
+            'biz\behaviors\StatusBehavior',
             [
                 'class' => 'biz\behaviors\DateConverter',
                 'physicalFormat' => 'Y-m-d H:i:s.u',

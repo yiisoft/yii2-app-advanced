@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use biz\master\models\Branch;
+use biz\models\Branch;
 /**
  * @var yii\web\View $this
  * @var biz\models\Cashdrawer $model
@@ -12,9 +12,10 @@ use biz\master\models\Branch;
 ?>
 
 <div class="cashdrawer-form">
-
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->errorSummary($model);?>
+    
     <?= $form->field($model, 'id_branch')->dropDownList(ArrayHelper::map(Branch::find()->all(), 'id_branch', 'nm_branch')) ?>
 
     <?= $form->field($model, 'cashier_no')->dropDownList([1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7]) ?>

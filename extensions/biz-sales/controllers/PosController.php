@@ -56,14 +56,18 @@ class PosController extends Controller
 
         if ($cashDrawer === null) {
             $query = Cashdrawer::find()->where([
-                'client_machine' => Yii::$app->clientId,
                 'id_user' => Yii::$app->user->id,
                 'status' => Cashdrawer::STATUS_OPEN]
             );
-            $cashDrawer = $query->count() == 1 ? $query->one() : new Cashdrawer([
-                'id_branch' => Yii::$app->clientIdBranch,
-                'cashier_no' => Yii::$app->clientCashierNo,
-            ]);
+            if ($query->count() == 1) {
+                $cashDrawer = $query->one();
+                Yii::$app->session->set(Cashdrawer::SESSION_KEY, $cashDrawer->id_cashdrawer);
+            } else {
+                $cashDrawer = new Cashdrawer([
+                    'id_branch' => Yii::$app->clientIdBranch,
+                    'cashier_no' => Yii::$app->clientCashierNo,
+                ]);
+            }
         }
 
         $payment_methods = [

@@ -18,6 +18,7 @@ return [
         'admin' => [
             'class' => 'mdm\admin\Module',
             'allowActions' => [
+                '*'
             ]
         ],
         'master' => 'biz\master\Module',

@@ -33,7 +33,10 @@ class DrawerController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$searchModel = new CashdrawerSearch;
+		$searchModel = new CashdrawerSearch([
+//            'client_machine'=>  \Yii::$app->clientId,
+            'status'=>  Cashdrawer::STATUS_OPEN,
+            ]);
 		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
 		return $this->render('index', [
