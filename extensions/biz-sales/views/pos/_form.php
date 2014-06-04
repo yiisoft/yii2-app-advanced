@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use biz\sales\assets\PosAsset;
+use yii\web\View;
+use yii\helpers\Url;
 
 /**
  * @var yii\web\View $this
@@ -74,4 +77,19 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 </div>
 <?php
-$this->render('_script', ['cashDrawer' => $cashDrawer]);
+PosAsset::register($this);
+$j_master = json_encode($masters);
+$j_config = json_encode([
+    'pushUrl' => Url::toRoute(['save-pos']),
+    'newDrawerUrl' => Url::toRoute(['open-new-drawer']),
+    'delay' => 1000,
+    ]);
+$js_begin = <<<BEGIN
+var master = $j_master;
+var config = $j_config;
+BEGIN;
+
+$this->registerJs($js_begin, View::POS_BEGIN);
+$js_ready = '$("#product").data("ui-autocomplete")._renderItem = yii.global.renderItemPos';
+$this->registerJs($js_ready);
+

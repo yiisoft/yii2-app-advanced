@@ -73,7 +73,11 @@ class ReceiveController extends Controller
         if ($success) {
             return $this->redirect(['view', 'id' => $model->id_transfer]);
         }
-        return $this->render('update', ['model' => $model, 'details' => $details,]);
+        return $this->render('update', [
+                'model' => $model,
+                'details' => $details,
+                'masters' => $this->getDataMaster()
+        ]);
     }
 
     /**
@@ -172,6 +176,7 @@ class ReceiveController extends Controller
 
         return $this->redirect(['index']);
     }
+
     /**
      * Finds the TransferHdr model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -188,7 +193,7 @@ class ReceiveController extends Controller
         }
     }
 
-    public function actionJs()
+    public function getDataMaster()
     {
         $db = Yii::$app->db;
         $sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
@@ -232,11 +237,9 @@ class ReceiveController extends Controller
         foreach ($db->createCommand($sql)->queryAll() as $row) {
             $ps[$row['id_warehouse']][$row['id_product']] = $row['qty_stock'];
         }
-
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
-        Yii::$app->response->headers->set('Content-Type', 'application/javascript');
-		return $this->renderPartial('process.js.php', [
-                'product' => $product,
-                'ps' => $ps]);
+        return [
+            'product' => $product,
+            'ps' => $ps
+        ];
     }
 }

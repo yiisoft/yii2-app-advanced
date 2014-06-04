@@ -3,9 +3,10 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
-use biz\master\models\Warehouse;
 use yii\jui\AutoComplete;
 use biz\tools\Helper;
+use biz\purchase\assets\PurchaseAsset;
+use yii\web\View;
 
 /**
  * @var yii\web\View $this
@@ -42,9 +43,9 @@ use biz\tools\Helper;
                         'attribute' => 'idSupplier[nm_supplier]',
                         'options' => ['class' => 'form-control', 'id' => $el_id],
                         'clientOptions' => [
-                            'source' => new JsExpression("yii.process.sourceSupplier"),
-                            'select' => new JsExpression("yii.process.onSupplierSelect"),
-                            'open' => new JsExpression("yii.process.onSupplierOpen"),
+                            'source' => new JsExpression("yii.purchase.sourceSupplier"),
+                            'select' => new JsExpression("yii.purchase.onSupplierSelect"),
+                            'open' => new JsExpression("yii.purchase.onSupplierOpen"),
                         ]
                 ]);
                 echo $field;
@@ -62,12 +63,20 @@ use biz\tools\Helper;
             </div>
             <div class="panel-footer" style="text-align: right;">
                 <?php
-            echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
-            ?>
+                echo Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']);
+                ?>
             </div>
         </div>
     </div>    
     <?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
     <?php ActiveForm::end(); ?>
-
 </div>
+<?php
+PurchaseAsset::register($this);
+$j_master = json_encode($masters);
+$js_begin = <<<BEGIN
+    var master = $j_master;
+BEGIN;
+$js_ready = '$("#product").data("ui-autocomplete")._renderItem = yii.global.renderItem';
+$this->registerJs($js_begin, View::POS_BEGIN);
+$this->registerJs($js_ready);

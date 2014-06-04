@@ -77,7 +77,9 @@ class PosController extends Controller
 
         return $this->render('create', [
                 'payment_methods' => $payment_methods,
-                'cashDrawer' => $cashDrawer]);
+                'cashDrawer' => $cashDrawer,
+                'masters' => $this->getDataMaster(),
+        ]);
     }
 
     public static function invalidatePos()
@@ -178,7 +180,7 @@ class PosController extends Controller
         ];
     }
 
-    public function actionJs()
+    public function getDataMaster()
     {
         // price squence
         $squence = Helper::getConfigValue('SALES_PRICE', 'GROSIR_CATEGORY', 1);
@@ -248,12 +250,10 @@ class PosController extends Controller
             $barcodes[$row['barcode']] = $row['id'];
         }
 
-        Yii::$app->response->format = Response::FORMAT_RAW;
-        Yii::$app->response->headers->set('Content-Type', 'application/javascript');
-        return $this->renderPartial('process.js.php', [
-                'product' => $result,
-                'barcodes' => $barcodes
-        ]);
+        return [
+            'product' => $result,
+            'barcodes' => $barcodes
+        ];
     }
 
     /**

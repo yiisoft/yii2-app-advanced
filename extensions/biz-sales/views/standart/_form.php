@@ -3,9 +3,10 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
-use biz\master\models\Warehouse;
 use yii\jui\AutoComplete;
 use biz\tools\Helper;
+use biz\sales\assets\StandartAsset;
+use yii\web\View;
 
 /**
  * @var yii\web\View $this
@@ -54,9 +55,9 @@ use biz\tools\Helper;
                         'attribute' => 'idCustomer[nm_cust]',
                         'options' => ['class' => 'form-control', 'id' => $id_input],
                         'clientOptions' => [
-                            'source' => new JsExpression('yii.process.sourceCustomer'),
-                            'select' => new JsExpression('yii.process.onCustomerSelect'),
-                            'open' => new JsExpression('yii.process.onCustomerOpen'),
+                            'source' => new JsExpression('yii.standart.sourceCustomer'),
+                            'select' => new JsExpression('yii.standart.onCustomerSelect'),
+                            'open' => new JsExpression('yii.standart.onCustomerOpen'),
                         ],
                 ]);
                 echo $field;
@@ -71,5 +72,13 @@ use biz\tools\Helper;
         </div>
     </div>
     <?php ActiveForm::end(); ?>
-
 </div>
+<?php
+StandartAsset::register($this);
+$j_master = json_encode($masters);
+$js_begin = <<<BEGIN
+    var master = $j_master;
+BEGIN;
+$js_ready = '$("#product").data("ui-autocomplete")._renderItem = yii.global.renderItem';
+$this->registerJs($js_begin, View::POS_BEGIN);
+$this->registerJs($js_ready);

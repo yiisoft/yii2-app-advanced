@@ -79,6 +79,7 @@ class TransferController extends Controller
         return $this->render('create', [
                 'model' => $model,
                 'details' => $details,
+                'masters' => $this->getDataMaster()
         ]);
     }
 
@@ -102,6 +103,7 @@ class TransferController extends Controller
         return $this->render('update', [
                 'model' => $model,
                 'details' => $details,
+                'masters' => $this->getDataMaster(),
         ]);
     }
 
@@ -229,7 +231,7 @@ class TransferController extends Controller
         }
     }
 
-    public function actionJs()
+    public function getDataMaster()
     {
         $db = Yii::$app->db;
         $sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
@@ -274,11 +276,10 @@ class TransferController extends Controller
             $ps[$row['id_warehouse']][$row['id_product']] = $row['qty_stock'];
         }
 
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
-        Yii::$app->response->headers->set('Content-Type', 'application/javascript');
-        return $this->renderPartial('process.js.php', [
-                'product' => $product,
-                'barcodes' => $barcodes,
-                'ps' => $ps]);
+        return [
+            'product' => $product,
+            'barcodes' => $barcodes,
+            'ps' => $ps
+        ];
     }
 }

@@ -17,6 +17,7 @@ return [
         ],
         'admin' => [
             'class' => 'mdm\admin\Module',
+            'positionMenu' => 'left',
             'allowActions' => [
                 '*'
             ]
@@ -49,6 +50,11 @@ return [
 //            'enablePrettyUrl' => true,
 //            'showScriptName' => false,
         ],
+        'view' => [
+//            'theme' => [
+//                'pathMap' => ['@app/views' => '@biz/adminlte/views'],
+//            ],
+        ]
     ],
     'as client' => 'mdm\clienttools\ClientBehavior',
 ];

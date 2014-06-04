@@ -76,7 +76,11 @@ class PurchaseController extends Controller
         if ($success) {
             return $this->redirect(['view', 'id' => $model->id_purchase]);
         }
-        return $this->render('create', ['model' => $model, 'details' => $details]);
+        return $this->render('create', [
+                'model' => $model,
+                'details' => $details,
+                'masters' => $this->getDataMaster()
+        ]);
     }
 
     /**
@@ -96,7 +100,10 @@ class PurchaseController extends Controller
         if ($success) {
             return $this->redirect(['view', 'id' => $model->id_purchase]);
         }
-        return $this->render('update', ['model' => $model, 'details' => $details
+        return $this->render('update', [
+                'model' => $model,
+                'details' => $details,
+                'masters' => $this->getDataMaster()
         ]);
     }
 
@@ -228,7 +235,7 @@ class PurchaseController extends Controller
         }
     }
 
-    public function actionJs()
+    public function getDataMaster()
     {
         $db = Yii::$app->db;
         $sql = "select p.id_product as id, p.cd_product as cd, p.nm_product as nm,
@@ -275,13 +282,11 @@ class PurchaseController extends Controller
 
         $sql = "select id_supplier as id, nm_supplier as label from supplier";
         $supp = $db->createCommand($sql)->queryAll();
-        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
-        Yii::$app->response->headers->set('Content-Type', 'application/javascript');
         
-        return $this->renderPartial('process.js.php', [
-                'product' => $product,
-                'ps' => $ps,
-                'barcodes' => $barcodes,
-                'supp' => $supp]);
+        return [
+            'product' => $product,
+            'ps' => $ps,
+            'barcodes' => $barcodes,
+            'supp' => $supp];
     }
 }

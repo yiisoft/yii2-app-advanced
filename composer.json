@@ -16,6 +16,10 @@
         {
             "type": "git",
             "url": "https://github.com/mdmsoft/yii2-client-tools"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/mdmsoft/yii2-logger"
         }
     ],
     "require": {

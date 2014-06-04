@@ -15,8 +15,8 @@ use biz\tools\Helper;
                 'name' => 'product',
                 'id' => 'product',
                 'clientOptions' => [
-                    'source' => new JsExpression('yii.process.sourceProduct'),
-                    'select' => new JsExpression('yii.process.onProductSelect'),
+                    'source' => new JsExpression('yii.transfer.sourceProduct'),
+                    'select' => new JsExpression('yii.transfer.onProductSelect'),
                     'delay' => 100,
                 ]
             ]);
@@ -103,5 +103,3 @@ use biz\tools\Helper;
         </table>
     </div>
 </div>
-<?php
-$this->render('_script');

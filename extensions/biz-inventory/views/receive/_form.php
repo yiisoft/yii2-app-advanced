@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use biz\inventory\assets\ReceiveAsset;
+use yii\web\View;
 
 /**
  * @var yii\web\View $this
@@ -51,5 +53,13 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
     <?php ActiveForm::end(); ?>
-
 </div>
+<?php
+ReceiveAsset::register($this);
+$j_master = json_encode($masters);
+$js_begin = <<<BEGIN
+    var master = $j_master;
+BEGIN;
+$js_ready = '$("#product").data("ui-autocomplete")._renderItem = yii.global.renderItem';
+$this->registerJs($js_begin, View::POS_BEGIN);
+$this->registerJs($js_ready);

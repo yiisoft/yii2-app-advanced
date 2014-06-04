@@ -86,7 +86,9 @@ class StandartController extends Controller
         return $this->render('create', [
                 'model' => $model,
                 'details' => $details,
-                'payment_methods' => $payment_methods]);
+                'payment_methods' => $payment_methods,
+                'masters' => $this->getDataMaster()
+        ]);
     }
 
     /**
@@ -129,9 +131,9 @@ class StandartController extends Controller
                         $detail->setAttributes($dataDetail);
                         $detail->id_sales = $id_hdr;
                         $detail->id_warehouse = $id_whse;
-                        if($detail->idCogs){
+                        if ($detail->idCogs) {
                             $detail->cogs = $detail->idCogs->cogs;
-                        }  else {
+                        } else {
                             $detail->cogs = 0;
                         }
                         if (!$detail->save()) {
@@ -191,7 +193,7 @@ class StandartController extends Controller
         return $this->redirect(['view', 'id' => $id]);
     }
 
-    public function actionJs()
+    public function getDataMaster()
     {
         // price squence
         $squence = Helper::getConfigValue('SALES_PRICE', 'GROSIR_CATEGORY', 1);
@@ -262,14 +264,13 @@ class StandartController extends Controller
         }
 
         // customer
-        $query_cust = (new Query)->select(['id'=>'id_customer','label'=>'nm_cust'])->from('customer');
-        Yii::$app->response->format = Response::FORMAT_RAW;
-        Yii::$app->response->headers->set('Content-Type', 'application/javascript');
-        return $this->renderPartial('process.js.php', [
-                'product' => $result,
-                'barcodes' => $barcodes,
-                'cust' => $query_cust->all(),
-        ]);
+        $query_cust = (new Query)->select(['id' => 'id_customer', 'label' => 'nm_cust'])->from('customer');
+
+        return [
+            'product' => $result,
+            'barcodes' => $barcodes,
+            'cust' => $query_cust->all(),
+        ];
     }
 
     /**
@@ -294,7 +295,9 @@ class StandartController extends Controller
         return $this->render('update', [
                 'model' => $model,
                 'details' => $details,
-                'payment_methods' => $payment_methods]);
+                'payment_methods' => $payment_methods,
+                'masters' => $this->getDataMaster()
+        ]);
     }
 
     /**

@@ -22,8 +22,8 @@ use yii\web\JsExpression;
                             'name' => 'product',
                             'id' => 'product',
                             'clientOptions' => [
-                                'source' => new JsExpression('yii.process.sourceProduct'),
-                                'select' => new JsExpression('yii.process.onProductSelect'),
+                                'source' => new JsExpression('yii.receive.sourceProduct'),
+                                'select' => new JsExpression('yii.receive.onProductSelect'),
                                 'delay' => 100,
                             ]
                         ]);
@@ -124,5 +124,3 @@ use yii\web\JsExpression;
         </table>
     </div>
 </div>
-<?php
-$this->render('_script');

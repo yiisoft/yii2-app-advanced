@@ -2,10 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\web\JsExpression;
-use biz\master\models\Warehouse;
-use yii\jui\AutoComplete;
 use biz\tools\Helper;
+use biz\inventory\assets\TransferAsset;
+use yii\web\View;
 
 /**
  * @var yii\web\View $this
@@ -17,14 +16,15 @@ use biz\tools\Helper;
 <div class="purchase-hdr-form">
     <?php
     $form = ActiveForm::begin([
-                'id' => 'transfer-form',
+            'id' => 'transfer-form',
     ]);
     ?>
-    <?php 
+    <?php
     $models = $details;
     array_unshift($models, $model);
-    echo $form->errorSummary($models) ?>
-    <?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
+    echo $form->errorSummary($models)
+    ?>
+<?= $this->render('_detail', ['model' => $model, 'details' => $details]) ?> 
     <div class="col-lg-3" style="padding-right: 0px;">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -36,11 +36,11 @@ use biz\tools\Helper;
                 <?= $form->field($model, 'id_warehouse_dest')->dropDownList(Helper::getWarehouseList()); ?>
                 <?php
                 echo $form->field($model, 'transferDate')
-                        ->widget('yii\jui\DatePicker', [
-                            'options' => ['class' => 'form-control', 'style' => 'width:50%'],
-                            'clientOptions' => [
-                                'dateFormat' => 'dd-mm-yy'
-                            ],
+                    ->widget('yii\jui\DatePicker', [
+                        'options' => ['class' => 'form-control', 'style' => 'width:50%'],
+                        'clientOptions' => [
+                            'dateFormat' => 'dd-mm-yy'
+                        ],
                 ]);
                 ?>
             </div>
@@ -51,6 +51,15 @@ use biz\tools\Helper;
             ?>
         </div>
     </div>
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 
 </div>
+<?php
+TransferAsset::register($this);
+$j_master = json_encode($masters);
+$js_begin = <<<BEGIN
+    var master = $j_master;
+BEGIN;
+$js_ready = '$("#product").data("ui-autocomplete")._renderItem = yii.global.renderItem';
+$this->registerJs($js_begin, View::POS_BEGIN);
+$this->registerJs($js_ready);
