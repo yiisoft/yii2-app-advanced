@@ -59,9 +59,9 @@ select{
 	/* prevent horizontal scrollbar */
 	overflow-x: hidden;
 }
-#list-session li{
-
+#list-session div a{
+	color: black;
 }
-#list-session li.active{
+#list-session div.active a{
 	color:blue;
 }

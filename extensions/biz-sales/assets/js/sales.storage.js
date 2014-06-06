@@ -1,5 +1,4 @@
 yii.storage = (function($) {
-    var interval;
     var STAGE_KEY = 'push-running-stage';
     var CURRENT_SESSION_KEY = 'session-current';
     var SESSION_KEY_PREFIX = 'session-';
@@ -17,11 +16,16 @@ yii.storage = (function($) {
             localStorage.setItem(STAGE_KEY, (val ? '1:' : '0:') + (new Date()).getTime());
         }
     }
+
+    var local = {
+        interval: 1000,
+        id_cash_drawer: 0,
+    }
     var pub = {
-        setCashDrawe:function(id){
-            id_cash_drawer = id;
+        setCashDrawer: function(id) {
+            local.id_cash_drawer = id;
         },
-        getCurrentSession: function(createNew){
+        getCurrentSession: function(createNew) {
             var key = localStorage.getItem(CURRENT_SESSION_KEY);
             if (key == undefined && createNew) {
                 key = (new Date()).getTime();
@@ -33,24 +37,38 @@ yii.storage = (function($) {
         removeCurrentSession: function() {
             localStorage.removeItem(CURRENT_SESSION_KEY);
         },
-        removeSession:function (key){
+        removeSession: function(key) {
+            var cKey = localStorage.getItem(CURRENT_SESSION_KEY);
+            if(cKey == key){
+                localStorage.removeItem(CURRENT_SESSION_KEY);
+            }
             localStorage.removeItem(SESSION_KEY_PREFIX + key);
         },
         saveSession: function(data) {
-            var key = storage.getCurrentSession(true);
+            var key = pub.getCurrentSession(true);
             localStorage.setItem(SESSION_KEY_PREFIX + key, JSON.stringify(data));
         },
         changeSession: function(key) {
-            localStorage.setItem(CURRENT_SESSION_KEY, key);
-            return JSON.parse(localStorage.getItem(SESSION_KEY_PREFIX + key));
+            if(key==undefined){
+                localStorage.removeItem(CURRENT_SESSION_KEY);
+                return [];
+            }else{
+                localStorage.setItem(CURRENT_SESSION_KEY, key);
+                return pub.getSessionData(key);
+            }            
         },
         getSessionData: function(key) {
-            return JSON.parse(localStorage.getItem(SESSION_KEY_PREFIX + key));
+            var data = localStorage.getItem(SESSION_KEY_PREFIX + key);
+            if (data) {
+                return JSON.parse(data);
+            } else {
+                return [];
+            }
         },
         savePos: function(detail) {
             var key = pub.getCurrentSession(true);
             var data = {
-                id_drawer: id_cash_drawer,
+                id_drawer: local.id_cash_drawer,
                 key: key,
                 detail: detail,
             }
@@ -70,40 +88,42 @@ yii.storage = (function($) {
                     result.push(key.substr(8));
                 }
             });
-            return result;
+            return result.reverse();
         },
         push: function() {
-            var keys = Object.keys(localStorage);
-            $.each(keys, function() {
-                var key = this;
-                if (key != POS_DATA_COUNT_KEY && key.indexOf(POS_DATA_KEY_PREFIX) == 0) {
-                    if (runing()) {
-                        runing(true);
-                        var data = JSON.parse(localStorage.getItem(key));
-                        $.ajax(biz.config.pushUrl, {
-                            data: data,
-                            dataType: 'json',
-                            type: 'POST',
-                            success: function(r) {
-                                if (r.type == 'S') {
-                                    localStorage.removeItem(key);
+            if (biz.config.pushUrl) {
+                var keys = Object.keys(localStorage);
+                $.each(keys, function() {
+                    var key = this;
+                    if (key != POS_DATA_COUNT_KEY && key.indexOf(POS_DATA_KEY_PREFIX) == 0) {
+                        if (!runing()) {
+                            runing(true);
+                            var data = JSON.parse(localStorage.getItem(key));
+                            $.ajax(biz.config.pushUrl, {
+                                data: data,
+                                dataType: 'json',
+                                type: 'POST',
+                                success: function(r) {
+                                    if (r.type == 'S') {
+                                        localStorage.removeItem(key);
+                                    }
+                                    runing(false);
+                                },
+                                error: function() {
+                                    runing(false);
                                 }
-                                runing(false);
-                            },
-                            error: function() {
-                                runing(false);
-                            }
-                        });
+                            });
+                        }
+                        return false;
                     }
-                    return false;
-                }
-            });
+                });
+            }
             setTimeout(function() {
                 pub.push();
-            }, interval);
+            }, local.interval);
         },
         init: function() {
-            interval = biz.config.interval ? biz.config.interval : 1000;
+            local.interval = biz.config.interval ? biz.config.interval : 1000;
             pub.push();
         }
     }

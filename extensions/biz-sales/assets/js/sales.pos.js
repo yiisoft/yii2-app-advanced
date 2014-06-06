@@ -1,7 +1,6 @@
 yii.process = (function($) {
     var $grid, $form, $template, $list_session, $list_template;
     var storage = {
-        id_cashdrawer: 0,
         changeSession: function(key) {
             var details = yii.storage.changeSession(key);
             $('#detail-grid > tbody > tr').remove();
@@ -92,10 +91,12 @@ yii.process = (function($) {
             });
         },
         init: function() {
-            storage.id_cashdrawer = $('#id-drawer').val();
-            var current = storage.listSession()
-            if (current) {
-                storage.changeSession(current);
+            yii.storage.setCashDrawer($('#id-drawer').val());
+            var key = yii.storage.getCurrentSession();
+            if (key) {
+                storage.changeSession(key);
+            }else{
+                storage.listSession();
             }
             storage.initEvent();
         },
@@ -194,6 +195,7 @@ yii.process = (function($) {
             $('#total-price').text(local.format(total));
             $('#h-total-price').val(total);
             yii.storage.saveSession(details);
+            storage.listSession();
         },
         searchProductByCode: function(cd) {
             if (biz.master.barcodes[cd]) {
@@ -259,7 +261,7 @@ yii.process = (function($) {
                 local.selectRow($(e.target).closest('tr'));
             });
             $('#btn-save').on('click', function() {
-                storage.savePos()();
+                storage.savePos();
                 $('#product').focus();
                 return false;
             });
@@ -327,7 +329,7 @@ yii.process = (function($) {
                     });
                 return false;
             });
-            
+
             $('#product').change(local.onProductChange);
             $('#product').focus();
         },
