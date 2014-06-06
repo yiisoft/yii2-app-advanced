@@ -1,24 +1,9 @@
 yii.process = (function($) {
     var $grid, $form, $template, $list_session, $list_template;
     var storage = {
-        delay: 1000,
         id_cashdrawer: 0,
-        getCurrentSession: function() {
-            var key = localStorage.getItem('session-current');
-            if (key == undefined) {
-                key = (new Date()).getTime();
-                localStorage.setItem('session-current', key);
-                localStorage.setItem('session-' + key, '[]');
-                $list_session.children('div').removeClass('active');
-                var $div = $list_template.clone();
-                $div.children('.session').text(key);
-                $list_session.append($div.addClass('active'));
-            }
-            return key;
-        },
         changeSession: function(key) {
-            var details = JSON.parse(localStorage.getItem('session-' + key));
-            localStorage.setItem('session-current', key);
+            var details = yii.storage.changeSession(key);
             $('#detail-grid > tbody > tr').remove();
             $.each(details, function() {
                 var item = this;
@@ -37,60 +22,47 @@ yii.process = (function($) {
             local.normalizeItem();
         },
         newSession: function() {
-            localStorage.removeItem('session-current');
+            yii.storage.removeCurrentSession();
             $('#detail-grid > tbody > tr').remove();
             $list_session.children('div').removeClass('active');
             $('#total-price').text(local.format(0));
             $('#product').focus();
         },
         listSession: function() {
-            var current = localStorage.getItem('session-current');
-            var keys = Object.keys(localStorage);
+            var keys = yii.storage.listSession();
+            var current = yii.storage.getCurrentSession();
             $list_session.children('div').remove();
+
             $.each(keys, function() {
                 var key = this;
-                if (key != 'session-current' && key.indexOf('session-') == 0) {
-                    var $div = $list_template.clone();
-                    $div.children('.session').text(key.substr(8));
-                    if (key == 'session-' + current) {
-                        $div.addClass('active');
-                    }
-                    $list_session.append($div);
+                var $div = $list_template.clone();
+                $div.children('.session').text(key);
+                if (key == current) {
+                    $div.addClass('active');
                 }
+                $list_session.append($div);
             });
             return current;
         },
-        saveSession: function(data) {
-            var key = storage.getCurrentSession();
-            localStorage.setItem('session-' + key, JSON.stringify(data));
-            storage.listSession();
-        },
-        save: function() {
+        savePos: function() {
             var $rows = $('#detail-grid > tbody > tr');
             if ($rows.length == 0) {
                 return false;
             }
-            var key = storage.getCurrentSession();
-            var data = {
-                id_drawer: storage.id_cashdrawer,
-                key: key,
-                detail: [],
-            };
+            var details = [];
             $rows.each(function() {
                 var $row = $(this), detail = {};
                 $row.find('input[data-field]').each(function() {
                     var field = $(this).data('field');
                     detail[field] = $(this).val();
                 });
-                data.detail.push(detail);
+                details.push(detail);
             });
             // -- save to queue and remove session
-            var s = JSON.stringify(data);
-            localStorage.setItem('pos-data-' + key, s);
-            localStorage.removeItem('session-' + key);
-            localStorage.removeItem('session-current');
-            $('#list-session > div.active').remove();
-            $('#detail-grid > tbody > tr').remove();
+            if (yii.storage.savePos(details)) {
+                $('#list-session > div.active').remove();
+                $('#detail-grid > tbody > tr').remove();
+            }
         },
         initEvent: function() {
             $('#new-session').click(function() {
@@ -99,31 +71,29 @@ yii.process = (function($) {
             });
             $list_session.on('click', 'a', function() {
                 var $this = $(this);
+                var isActive = $this.closest('div').hasClass('active');
                 if ($this.is('.session')) {
-                    if ($this.closest('div').hasClass('active')) {
+                    if (isActive) {
                         return false;
                     }
                     var key = $this.text();
-                    $('#list-session > div').removeClass('active');
-                    $this.closest('div').addClass('active');
                     storage.changeSession(key);
                 } else {
                     var $div = $this.closest('div');
                     var key = $div.children('.session').text();
-                    $div.remove();
-                    localStorage.removeItem('session-' + key);
-                    if (localStorage.getItem('session-current') == key) {
-                        localStorage.removeItem('session-current');
+                    yii.storage.removeSession(key);
+                    if (isActive) {
                         $('#detail-grid > tbody > tr').remove();
                         $('#product').focus();
                     }
                 }
+                storage.listSession();
                 return false;
             });
         },
         init: function() {
             storage.id_cashdrawer = $('#id-drawer').val();
-            var current = storage.listSession();
+            var current = storage.listSession()
             if (current) {
                 storage.changeSession(current);
             }
@@ -132,8 +102,6 @@ yii.process = (function($) {
     }
 
     var local = {
-        delay: 1000,
-        limit: 20,
         addItem: function(item) {
             var has = false;
             $('#detail-grid > tbody > tr').each(function() {
@@ -225,13 +193,13 @@ yii.process = (function($) {
             });
             $('#total-price').text(local.format(total));
             $('#h-total-price').val(total);
-            storage.saveSession(details);
+            yii.storage.saveSession(details);
         },
         searchProductByCode: function(cd) {
-            if (master.barcodes[cd]) {
-                var id = master.barcodes[cd] + '';
-                if (master.product[id]) {
-                    return master.product[id];
+            if (biz.master.barcodes[cd]) {
+                var id = biz.master.barcodes[cd] + '';
+                if (biz.master.product[id]) {
+                    return biz.master.product[id];
                 }
             }
             return false;
@@ -291,7 +259,7 @@ yii.process = (function($) {
                 local.selectRow($(e.target).closest('tr'));
             });
             $('#btn-save').on('click', function() {
-                storage.save();
+                storage.savePos()();
                 $('#product').focus();
                 return false;
             });
@@ -339,7 +307,7 @@ yii.process = (function($) {
             });
             yii.numeric.input($('#payment-value'), '', {});
             $('#cashdrawer-opennew').click(function() {
-                $.post(config.newDrawerUrl,
+                $.post(biz.config.newDrawerUrl,
                     $('#dlg-drawer :input').serialize(),
                     function(r) {
                         if (r.type == 'S') {
@@ -359,8 +327,7 @@ yii.process = (function($) {
                     });
                 return false;
             });
-
-
+            
             $('#product').change(local.onProductChange);
             $('#product').focus();
         },
@@ -373,9 +340,9 @@ yii.process = (function($) {
     var pub = {
         sourceProduct: function(request, callback) {
             var result = [];
-            var c = local.limit;
+            var c = biz.config.limit;
             var term = request.term.toLowerCase();
-            $.each(master.product, function() {
+            $.each(biz.master.product, function() {
                 if (this.text.toLowerCase().indexOf(term) >= 0 || this.cd == term) {
                     result.push(this);
                     c--;

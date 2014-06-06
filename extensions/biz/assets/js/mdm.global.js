@@ -28,6 +28,17 @@ yii.global = (function($) {
                 return func.apply(e.target);
             });
         },
+        pullMaster: function(url, param) {
+            var pullUrl = url ? url : biz.config.pullUrl;
+            var data = param ? param : {};
+            if (pullUrl) {
+                $.getJSON(pullUrl, data, function(result) {
+                    $.each(result, function(key, val) {
+                        biz.master[key] = val;
+                    });
+                });
+            }
+        }
     }
     return pub;
 })(window.jQuery);

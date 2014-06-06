@@ -5,8 +5,6 @@
 yii.purchase = (function($) {
     var $grid, $form, template, counter = 0;
     var local = {
-        delay: 1000,
-        limit: 20,
         addItem: function(item) {
             var has = false;
             $('#detail-grid > tbody > tr').each(function() {
@@ -72,10 +70,10 @@ yii.purchase = (function($) {
             }
         },
         searchProductByCode: function(cd) {
-            if (master.barcodes[cd]) {
-                var id = master.barcodes[cd] + '';
-                if (master.product[id]) {
-                    return master.product[id];
+            if (biz.master.barcodes[cd]) {
+                var id = biz.master.barcodes[cd] + '';
+                if (biz.master.product[id]) {
+                    return biz.master.product[id];
                 }
             }
             return false;
@@ -91,7 +89,7 @@ yii.purchase = (function($) {
         initRow: function() {
             $('#detail-grid > tbody > tr').each(function() {
                 var $row = $(this);
-                var product = master.product[$row.find('[data-field="id_product"]').val()];
+                var product = biz.master.product[$row.find('[data-field="id_product"]').val()];
                 if (product) {
                     $row.find('[data-field="id_uom"] > option').each(function() {
                         var $opt = $(this);
@@ -187,7 +185,7 @@ yii.purchase = (function($) {
     }
 
     var pub = {
-        sourceSupplier: master.supp,
+        sourceSupplier: biz.master.supp,
         init: function() {
             local.initObj();
             local.initRow();
@@ -196,9 +194,9 @@ yii.purchase = (function($) {
         },
         sourceProduct: function(request, callback) {
             var result = [];
-            var limit = local.limit;
+            var limit = biz.config.limit;
             var term = request.term.toLowerCase();
-            $.each(master.product, function() {
+            $.each(biz.master.product, function() {
                 var prod = this;
                 if (prod.text.toLowerCase().indexOf(term) >= 0) {
                     result.push(prod);

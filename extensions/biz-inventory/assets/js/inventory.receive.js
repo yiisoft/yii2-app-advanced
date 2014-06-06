@@ -2,11 +2,6 @@ yii.receive = (function($) {
     var $grid, $form, template, counter = 0;
 
     var local = {
-//            product: <?= json_encode($product); ?>,
-//            barcodes: <?= json_encode($barcodes); ?>,
-//            ps:<?= json_encode($ps) ?>,
-        delay: 1000,
-        limit: 20,
         checkStock: true,
         addItem: function(item) {
             var has = false;
@@ -64,15 +59,15 @@ yii.receive = (function($) {
         },
         searchProductByCode: function(cd) {
             var whse = $('#transferhdr-id_warehouse_source').val();
-            if (local.checkStock && (whse == '' || master.ps[whse] == undefined)) {
+            if (local.checkStock && (whse == '' || biz.master.ps[whse] == undefined)) {
                 return false;
             }
-            var id = master.barcodes[cd] + '';
-            if (id && master.product[id]) {
-                if (local.checkStock && (master.ps[whse][id] == undefined || master.ps[whse][id] <= 0)) {
+            var id = biz.master.barcodes[cd] + '';
+            if (id && biz.master.product[id]) {
+                if (local.checkStock && (biz.master.ps[whse][id] == undefined || biz.master.ps[whse][id] <= 0)) {
                     return false;
                 }
-                return master.product[id];
+                return biz.master.product[id];
             }
             return false;
         },
@@ -164,18 +159,18 @@ yii.receive = (function($) {
         },
         sourceProduct: function(request, callback) {
             var result = [];
-            var limit = local.limit;
+            var limit = biz.config.limit;
             var term = request.term.toLowerCase();
             var whse = $('#transferhdr-id_warehouse_source').val();
-            if (local.checkStock && (whse == '' || master.ps[whse] == undefined)) {
+            if (local.checkStock && (whse == '' || biz.master.ps[whse] == undefined)) {
                 callback([]);
                 return;
             }
 
-            $.each(master.product, function() {
+            $.each(biz.master.product, function() {
                 if (this.text.toLowerCase().indexOf(term) >= 0) {
                     var id = this.id + '';
-                    if (local.checkStock && (master.ps[whse][id] == undefined || master.ps[whse][id] <= 0)) {
+                    if (local.checkStock && (biz.master.ps[whse][id] == undefined || biz.master.ps[whse][id] <= 0)) {
                         callback([]);
                         return;
                     }

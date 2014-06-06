@@ -54,10 +54,9 @@ class Cashdrawer extends \yii\db\ActiveRecord
             [['id_branch', 'cashier_no'], 'required'],
             [['id_branch', 'cashier_no', 'id_user', 'status'], 'integer'],
             [['init_cash', 'close_cash', 'variants'], 'double'],
-            [['client_machine'], 'string', 'max' => 32]
         ];
     }
-
+    
     /**
      * @inheritdoc
      */

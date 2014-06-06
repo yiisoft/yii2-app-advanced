@@ -1,6 +1,6 @@
 <?php
 
-namespace biz\sales\assets;
+namespace biz\sales\components;
 
 /**
  * Description of Asset
@@ -9,9 +9,9 @@ namespace biz\sales\assets;
  */
 class StandartAsset extends \yii\web\AssetBundle
 {
-    public $sourcePath = '@biz/sales/assets/js';
+    public $sourcePath = '@biz/sales/assets';
     public $js = [
-        'sales.standart.js'
+        'js/sales.standart.js'
     ];
     public $depends = [
         'biz\tools\BizAsset'

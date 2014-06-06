@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use biz\inventory\assets\ReceiveAsset;
-use yii\web\View;
+use biz\tools\BizDataAsset;
 
 /**
  * @var yii\web\View $this
@@ -56,10 +56,8 @@ use yii\web\View;
 </div>
 <?php
 ReceiveAsset::register($this);
-$j_master = json_encode($masters);
-$js_begin = <<<BEGIN
-    var master = $j_master;
-BEGIN;
-$js_ready = '$("#product").data("ui-autocomplete")._renderItem = yii.global.renderItem';
-$this->registerJs($js_begin, View::POS_BEGIN);
+BizDataAsset::register($this, [
+    'master'=>$masters
+]);
+$js_ready = '$("#product").data("ui-autocomplete")._renderItem = yii.global.renderItem;';
 $this->registerJs($js_ready);

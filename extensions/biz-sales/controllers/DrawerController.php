@@ -34,7 +34,7 @@ class DrawerController extends Controller
 	public function actionIndex()
 	{
 		$searchModel = new CashdrawerSearch([
-//            'client_machine'=>  \Yii::$app->clientId,
+            'client_machine'=>  \Yii::$app->clientId,
             'status'=>  Cashdrawer::STATUS_OPEN,
             ]);
 		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
@@ -64,8 +64,10 @@ class DrawerController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model = new Cashdrawer;
-		$model->client_machine = Yii::$app->clientId;
+		$model = new Cashdrawer([
+            'client_machine'=>  Yii::$app->clientId,
+            'id_user'=>  Yii::$app->user->id,
+        ]);
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
 			return $this->redirect(['view', 'id' => $model->id_cashdrawer]);
 		} else {

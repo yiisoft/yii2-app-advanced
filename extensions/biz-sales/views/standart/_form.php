@@ -5,8 +5,8 @@ use yii\widgets\ActiveForm;
 use yii\web\JsExpression;
 use yii\jui\AutoComplete;
 use biz\tools\Helper;
-use biz\sales\assets\StandartAsset;
-use yii\web\View;
+use biz\sales\components\StandartAsset;
+use biz\tools\BizDataAsset;
 
 /**
  * @var yii\web\View $this
@@ -75,10 +75,8 @@ use yii\web\View;
 </div>
 <?php
 StandartAsset::register($this);
-$j_master = json_encode($masters);
-$js_begin = <<<BEGIN
-    var master = $j_master;
-BEGIN;
-$js_ready = '$("#product").data("ui-autocomplete")._renderItem = yii.global.renderItem';
-$this->registerJs($js_begin, View::POS_BEGIN);
+BizDataAsset::register($this, [
+    'master' => $masters,
+]);
+$js_ready = '$("#product").data("ui-autocomplete")._renderItem = yii.global.renderItem;';
 $this->registerJs($js_ready);

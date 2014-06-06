@@ -2,8 +2,6 @@ yii.standart = (function($) {
     var $grid, $form, template, counter = 0;
 
     var local = {
-        delay: 1000,
-        limit: 20,
         addItem: function(item) {
             var has = false;
             $('#detail-grid > tbody > tr').each(function() {
@@ -63,10 +61,10 @@ yii.standart = (function($) {
             $('#total-price').text(local.format(total));
         },
         searchProductByCode: function(cd) {
-            if (master.barcodes[cd]) {
-                var id = master.barcodes[cd] + '';
-                if (master.product[id]) {
-                    return master.product[id];
+            if (biz.master.barcodes[cd]) {
+                var id = biz.master.barcodes[cd] + '';
+                if (biz.master.product[id]) {
+                    return biz.master.product[id];
                 }
             }
             return false;
@@ -82,7 +80,7 @@ yii.standart = (function($) {
         initRow: function() {
             $('#detail-grid > tbody > tr').each(function() {
                 var $row = $(this);
-                var product = master.product[$row.find('[data-field="id_product"]').val()];
+                var product = biz.master.product[$row.find('[data-field="id_product"]').val()];
                 if (product) {
                     $row.find('[data-field="id_uom"] > option').each(function() {
                         var $opt = $(this);
@@ -190,9 +188,9 @@ yii.standart = (function($) {
         },
         sourceProduct: function(request, callback) {
             var result = [];
-            var c = local.limit;
+            var c = biz.config.limit;
             var term = request.term.toLowerCase();
-            $.each(master.product, function() {
+            $.each(biz.master.product, function() {
                 if (this.text.toLowerCase().indexOf(term) >= 0) {
                     result.push(this);
                     c--;
@@ -212,7 +210,7 @@ yii.standart = (function($) {
         onCustomerOpen: function(event, ui) {
             $('#id_customer').val('');
         },
-        sourceCustomer: master.cust,
+        sourceCustomer: biz.master.cust,
     };
     return pub;
 })(window.jQuery);

@@ -1,17 +1,18 @@
 <?php
 
-namespace biz\purchase\assets;
+namespace biz\sales\components;
 
 /**
  * Description of Asset
  *
  * @author Misbahul D Munir (mdmunir) <misbahuldmunir@gmail.com>
  */
-class PurchaseAsset extends \yii\web\AssetBundle
+class PosAsset extends \yii\web\AssetBundle
 {
-    public $sourcePath = '@biz/purchase/assets/js';
+    public $sourcePath = '@biz/sales/assets';
     public $js = [
-        'purchase.purchase.js'
+        'js/sales.pos.js',
+        'js/sales.storage.js'
     ];
     public $depends = [
         'biz\tools\BizAsset'

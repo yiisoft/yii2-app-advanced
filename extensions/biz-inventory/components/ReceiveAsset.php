@@ -1,6 +1,6 @@
 <?php
 
-namespace biz\inventory\assets;
+namespace biz\inventory\components;
 
 /**
  * Description of TransferAsset
@@ -9,9 +9,9 @@ namespace biz\inventory\assets;
  */
 class ReceiveAsset extends \yii\web\AssetBundle
 {
-    public $sourcePath = '@biz/inventory/assets/js';
+    public $sourcePath = '@biz/inventory/assets';
     public $js = [
-        'inventory.receive.js'
+        'js/inventory.receive.js'
     ];
     public $depends = [
         'biz\tools\BizAsset'

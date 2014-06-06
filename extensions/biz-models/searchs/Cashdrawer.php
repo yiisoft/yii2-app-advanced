@@ -37,6 +37,7 @@ class Cashdrawer extends CashdrawerModel
 
         $this->load($params);
         if (!$this->validate()) {
+            $query->where('1=0');
             return $dataProvider;
         }
 
