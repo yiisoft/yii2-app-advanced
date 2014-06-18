@@ -22,7 +22,7 @@ use yii\web\JsExpression;
                             'name' => 'product',
                             'id' => 'product',
                             'clientOptions' => [
-                                'source' => new JsExpression('yii.receive.sourceProduct'),
+                                'source' => new JsExpression('yii.global.sourceProduct'),
                                 'select' => new JsExpression('yii.receive.onProductSelect'),
                                 'delay' => 100,
                             ]

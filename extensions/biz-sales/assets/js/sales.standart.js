@@ -186,21 +186,6 @@ yii.standart = (function($) {
             local.initEvent();
             yii.numeric.input($grid, 'input[data-field]');
         },
-        sourceProduct: function(request, callback) {
-            var result = [];
-            var c = biz.config.limit;
-            var term = request.term.toLowerCase();
-            $.each(biz.master.product, function() {
-                if (this.text.toLowerCase().indexOf(term) >= 0) {
-                    result.push(this);
-                    c--;
-                    if (c <= 0) {
-                        return false;
-                    }
-                }
-            });
-            callback(result);
-        },
         onProductSelect: function(event, ui) {
             local.addItem(ui.item);
         },

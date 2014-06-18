@@ -49,14 +49,16 @@ class Cashdrawer extends \yii\db\ActiveRecord
         return [
             [['client_machine'], 'default', 'value' => Yii::$app->clientId],
             [['id_user'], 'default', 'value' => Yii::$app->user->id],
-            [['id_user'], 'unique', 'filter' => ['status' => static::STATUS_OPEN]],
+            [['id_user', 'client_machine'], 'unique', 
+                'filter' => ['status' => static::STATUS_OPEN],
+                'message' => 'Already opened drawer'],
             [['status'], 'default', 'value' => static::STATUS_OPEN],
             [['id_branch', 'cashier_no'], 'required'],
             [['id_branch', 'cashier_no', 'id_user', 'status'], 'integer'],
             [['init_cash', 'close_cash', 'variants'], 'double'],
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -119,7 +121,7 @@ class Cashdrawer extends \yii\db\ActiveRecord
                 'attributes' => [
                     'open_time' => 'create_date'
                 ]
-            ]
+            ],
         ];
     }
 }

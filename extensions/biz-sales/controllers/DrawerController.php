@@ -22,6 +22,7 @@ class DrawerController extends Controller
 				'class' => VerbFilter::className(),
 				'actions' => [
 					'delete' => ['post'],
+                    'close' => ['post'],
 				],
 			],
 		];
@@ -107,17 +108,15 @@ class DrawerController extends Controller
 	 * @param integer $id
 	 * @return mixed
 	 */
-	public function actionUpdate($id)
+	public function actionClose($id)
 	{
 		$model = $this->findModel($id);
-
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id_cashdrawer]);
-		} else {
-			return $this->render('update', [
-					'model' => $model,
-			]);
-		}
+        $model->status = Cashdrawer::STATUS_CLOSE;
+        $model->load(Yii::$app->request->post());
+		if (!$model->save()) {
+			throw new \yii\base\UserException(implode("\n", $model->firstErrors));
+        }
+        return $this->redirect(['view', 'id' => $model->id_cashdrawer]);
 	}
 
 	/**

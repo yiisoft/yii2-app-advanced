@@ -192,22 +192,6 @@ yii.purchase = (function($) {
             local.initEvent();
             yii.numeric.input($grid, 'input[data-field]');
         },
-        sourceProduct: function(request, callback) {
-            var result = [];
-            var limit = biz.config.limit;
-            var term = request.term.toLowerCase();
-            $.each(biz.master.product, function() {
-                var prod = this;
-                if (prod.text.toLowerCase().indexOf(term) >= 0) {
-                    result.push(prod);
-                    limit--;
-                    if (limit <= 0) {
-                        return false;
-                    }
-                }
-            });
-            callback(result);
-        },
         onProductSelect: function(event, ui) {
             local.addItem(ui.item);
         },

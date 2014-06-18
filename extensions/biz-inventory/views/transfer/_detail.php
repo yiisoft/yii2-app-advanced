@@ -15,7 +15,7 @@ use biz\tools\Helper;
                 'name' => 'product',
                 'id' => 'product',
                 'clientOptions' => [
-                    'source' => new JsExpression('yii.transfer.sourceProduct'),
+                    'source' => new JsExpression('yii.global.sourceProduct'),
                     'select' => new JsExpression('yii.transfer.onProductSelect'),
                     'delay' => 100,
                 ]

@@ -1,4 +1,4 @@
-yii.process = (function($) {
+yii.pos = (function($) {
     var $grid, $form, $template, $list_session, $list_template;
     var storage = {
         changeSession: function(key) {
@@ -91,11 +91,15 @@ yii.process = (function($) {
             });
         },
         init: function() {
-            yii.storage.setCashDrawer($('#id-drawer').val());
+            var drawer = yii.storage.getCurrentDrawer();
+            if (drawer != false) {
+                yii.storage.setCashDrawer(drawer);
+            }
+            local.checkDrawer();
             var key = yii.storage.getCurrentSession();
             if (key) {
                 storage.changeSession(key);
-            }else{
+            } else {
                 storage.listSession();
             }
             storage.initEvent();
@@ -198,6 +202,7 @@ yii.process = (function($) {
             storage.listSession();
         },
         searchProductByCode: function(cd) {
+            cd = cd.toLowerCase();
             if (biz.master.barcodes[cd]) {
                 var id = biz.master.barcodes[cd] + '';
                 if (biz.master.product[id]) {
@@ -217,10 +222,26 @@ yii.process = (function($) {
         currentTime: function() {
             setTimeout(local.currentTime, 1000);
         },
+        checkDrawer: function() {
+            $.getJSON(biz.config.checkDrawerUrl, function(r) {
+                if (r.type == 'S') {
+                    local.setDrawer(r.drawer);
+                } else {
+                    $('#dlg-drawer').modal('show');
+                }
+            }).fail(function(jqxhr, textStatus, error) {
+                var err = textStatus + ', ' + error;
+                yii.global.log("Request Failed: " + err);
+                if (jqxhr.status == 403) { // forbiden
+                    window.location.href = biz.config.loginUrl;
+                }
+            });
+        },
         setDrawer: function(obj) {
-            storage.id_cashdrawer = obj.id_cashdrawer;
+            yii.storage.setCashDrawer(obj);
             $('#id-drawer').val(obj.id_cashdrawer);
             $('#no-kasir').text(obj.cashier_no);
+            $('#nm-cabang').text(obj.nm_branch);
             $('#nama-kasir').text(obj.username);
             $('#open-time').text(obj.open_time);
         },
@@ -250,7 +271,7 @@ yii.process = (function($) {
                 $('#cashback').text('Rp ' + local.format(p - t));
                 if (p >= t) {
                     $('#cashback').css({'color': 'black'});
-                    $('#btn-save').focus();
+                    $('#dlg-confirm-save').modal('show');
                 } else {
                     $('#cashback').css({'color': 'red'});
                 }
@@ -283,7 +304,7 @@ yii.process = (function($) {
                         case 67: // ctrl+C
                             if (e.ctrlKey) {
                                 $('#payment-method').val(kode == 67 ? 1 : 2);
-                                $('#payment-value').focus();
+                                $('#payment-value').focus().select();
                                 return false;
                             }
                         default:
@@ -308,6 +329,7 @@ yii.process = (function($) {
                 allowNegative: false,
             });
             yii.numeric.input($('#payment-value'), '', {});
+            
             $('#cashdrawer-opennew').click(function() {
                 $.post(biz.config.newDrawerUrl,
                     $('#dlg-drawer :input').serialize(),
@@ -315,16 +337,8 @@ yii.process = (function($) {
                         if (r.type == 'S') {
                             local.setDrawer(r.drawer);
                             $('#dlg-drawer').modal('hide');
-                        }
-                    });
-                return false;
-            });
-            $('#dlg-drawer').on('click', 'a.cashdrawer-select', function() {
-                $.post($(this).attr('href'),
-                    function(r) {
-                        if (r.type == 'S') {
-                            local.setDrawer(r.drawer);
-                            $('#dlg-drawer').modal('hide');
+                        }else{
+                            alert(r.msg);
                         }
                     });
                 return false;
@@ -332,6 +346,25 @@ yii.process = (function($) {
 
             $('#product').change(local.onProductChange);
             $('#product').focus();
+
+            // confirm-save
+            $('#btn-confirm-yes').click(function(e) {
+                e.preventDefault();
+                alert('Cetak');
+                storage.savePos();
+                $('#product').focus();
+                $('#dlg-confirm-save').modal('hide');
+                $('#payment-value').val('');
+                return false;
+            });
+            $('#btn-confirm-no').click(function(e) {
+                e.preventDefault();
+                storage.savePos();
+                $('#product').focus();
+                $('#dlg-confirm-save').modal('hide');
+                $('#payment-value').val('');
+                return false;
+            });
         },
         init: function() {
             local.initObj();
@@ -340,21 +373,6 @@ yii.process = (function($) {
     }
 
     var pub = {
-        sourceProduct: function(request, callback) {
-            var result = [];
-            var c = biz.config.limit;
-            var term = request.term.toLowerCase();
-            $.each(biz.master.product, function() {
-                if (this.text.toLowerCase().indexOf(term) >= 0 || this.cd == term) {
-                    result.push(this);
-                    c--;
-                    if (c <= 0) {
-                        return false;
-                    }
-                }
-            });
-            callback(result);
-        },
         onSelectProduct: function(event, ui) {
             local.addItem(ui.item);
         },

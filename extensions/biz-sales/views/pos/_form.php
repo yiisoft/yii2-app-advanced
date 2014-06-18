@@ -6,13 +6,12 @@ use biz\sales\components\PosAsset;
 use yii\helpers\Url;
 use biz\tools\BizDataAsset;
 
-/**
- * @var yii\web\View $this
- * @var biz\models\SalesHdr $model
- * @var yii\widgets\ActiveForm $form
- */
-?>
 
+/* @var yii\web\View $this */
+/* @var biz\models\SalesHdr $model */
+/* @var yii\widgets\ActiveForm $form */
+
+?>
 <div class="sales-hdr-form">
     <?php $form = ActiveForm::begin(['options' => ['id' => 'pos-form']]); ?>
     <div class="col-lg-9" style="padding-left: 0px;">
@@ -69,8 +68,8 @@ use biz\tools\BizDataAsset;
                 </div>
             </div>
         </div>
-        <?= Html::a('Save', '', ['class' => 'btn btn-primary', 'id' => 'btn-save']); ?>&nbsp;
-        <?= Html::a('New Session', '', ['class' => 'btn btn-success', 'id' => 'new-session']); ?>
+        <?php Html::a('Save', '', ['class' => 'btn btn-primary', 'id' => 'btn-save']); ?>&nbsp;
+        <?php Html::a('New Session', '', ['class' => 'btn btn-success', 'id' => 'new-session']); ?>
     </div>
 
     <?= $this->render('_dialog', ['form' => $form, 'model' => $cashDrawer]); ?>
@@ -88,4 +87,3 @@ BizDataAsset::register($this, [
 ]);
 $js_ready = '$("#product").data("ui-autocomplete")._renderItem = yii.global.renderItemPos;';
 $this->registerJs($js_ready);
-

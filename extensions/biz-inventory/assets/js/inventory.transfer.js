@@ -183,32 +183,6 @@ yii.transfer = (function($) {
             local.initEvent();
             yii.numeric.input($grid, 'input[data-field]');
         },
-        sourceProduct: function(request, callback) {
-            var result = [];
-            var limit = biz.config.limit;
-            var term = request.term.toLowerCase();
-            var whse = $('#transferhdr-id_warehouse_source').val();
-            if (local.checkStock && (whse == '' || biz.master.ps[whse] == undefined)) {
-                callback([]);
-                return;
-            }
-
-            $.each(biz.master.product, function() {
-                if (this.text.toLowerCase().indexOf(term) >= 0) {
-                    var id = this.id + '';
-                    if (local.checkStock && (biz.master.ps[whse][id] == undefined || biz.master.ps[whse][id] <= 0)) {
-                        callback([]);
-                        return;
-                    }
-                    result.push(this);
-                    limit--;
-                    if (limit <= 0) {
-                        return false;
-                    }
-                }
-            });
-            callback(result);
-        },
         onProductSelect: function(event, ui) {
             local.addItem(ui.item);
         },

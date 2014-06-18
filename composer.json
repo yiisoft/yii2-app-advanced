@@ -20,6 +20,10 @@
         {
             "type": "git",
             "url": "https://github.com/mdmsoft/yii2-logger"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/mdmsoft/yii2-admin"
         }
     ],
     "require": {

@@ -35,7 +35,7 @@ class PosController extends Controller
             [
                 'class' => AppCache::className(),
                 'actions' => [
-                //    'create'
+                    'create'
                 ]
             ]
         ];
@@ -48,28 +48,6 @@ class PosController extends Controller
      */
     public function actionCreate()
     {
-        $drawer_id = Yii::$app->session->get(Cashdrawer::SESSION_KEY);
-        $cashDrawer = isset($drawer_id) ? Cashdrawer::findOne([
-                'id_cashdrawer' => $drawer_id,
-                'status' => Cashdrawer::STATUS_OPEN,
-            ]) : null;
-
-        if ($cashDrawer === null) {
-            $query = Cashdrawer::find()->where([
-                'id_user' => Yii::$app->user->id,
-                'status' => Cashdrawer::STATUS_OPEN]
-            );
-            if ($query->count() == 1) {
-                $cashDrawer = $query->one();
-                Yii::$app->session->set(Cashdrawer::SESSION_KEY, $cashDrawer->id_cashdrawer);
-            } else {
-                $cashDrawer = new Cashdrawer([
-                    'id_branch' => Yii::$app->clientIdBranch,
-                    'cashier_no' => Yii::$app->clientCashierNo,
-                ]);
-            }
-        }
-
         $payment_methods = [
             1 => 'Cash',
             2 => 'Bank',
@@ -77,7 +55,6 @@ class PosController extends Controller
 
         return $this->render('create', [
                 'payment_methods' => $payment_methods,
-                'cashDrawer' => $cashDrawer,
                 'masters' => $this->getDataMaster(),
         ]);
     }
@@ -94,12 +71,12 @@ class PosController extends Controller
         $transaction = $app->db->beginTransaction();
         try {
             if ($model->load($app->request->post()) && $model->save()) {
-                $app->session->set(Cashdrawer::SESSION_KEY, $model->id_cashdrawer);
                 $app->clientIdBranch = $model->id_branch;
                 $app->clientCashierNo = $model->cashier_no;
                 $result = [
                     'type' => 'S',
                     'drawer' => [
+                        'id_cashdrawer' => $model->id_cashdrawer,
                         'cashier_no' => $model->cashier_no,
                         'id_branch' => $model->id_branch,
                         'nm_branch' => $model->idBranch->nm_branch,
@@ -127,17 +104,25 @@ class PosController extends Controller
         return $result;
     }
 
-    public function actionSelectDrawer($id)
+    public function actionCheckDrawer()
     {
         $app = Yii::$app;
-        $model = Cashdrawer::findOne($id);
+        $model = Cashdrawer::find()
+            ->where([
+                'id_user' => Yii::$app->user->id,
+                'client_machine' => Yii::$app->clientId,
+                'status' => Cashdrawer::STATUS_OPEN,
+                ]
+            )
+            ->andWhere(['between', 'create_date', date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
+            ->one();
         if ($model) {
-            $app->session->set(Cashdrawer::SESSION_KEY, $model->id_cashdrawer);
             $app->clientIdBranch = $model->id_branch;
             $app->clientCashierNo = $model->cashier_no;
             $result = [
                 'type' => 'S',
                 'drawer' => [
+                    'id_cashdrawer' => $model->id_cashdrawer,
                     'cashier_no' => $model->cashier_no,
                     'id_branch' => $model->id_branch,
                     'nm_branch' => $model->idBranch->nm_branch,
@@ -176,7 +161,7 @@ class PosController extends Controller
         }
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [
-            'type' => 'S'
+            'type' => 'E'
         ];
     }
 

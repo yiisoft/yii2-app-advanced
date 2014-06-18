@@ -18,6 +18,7 @@ use biz\models\GlobalConfig;
 use biz\models\Warehouse;
 use biz\models\Branch;
 use biz\models\ProductUom;
+use biz\models\UserToBranch;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -357,9 +358,14 @@ class Helper
         }
         return ArrayHelper::map($query->asArray()->all(), 'id_warehouse', 'nm_whse');
     }
-    
-    public static function getBranchList()
+
+    public static function getBranchList($id_user = null)
     {
-        return ArrayHelper::map(Branch::find()->all(), 'id_branch', 'nm_branch');
+        if ($id_user === null) {
+            return ArrayHelper::map(Branch::find()->all(), 'id_branch', 'nm_branch');
+        } else {
+            $query = UserToBranch::find()->with('idBranch')->where(['user_id'=>$id_user]);
+            return ArrayHelper::map($query->all(), 'id_branch', 'idBranch.nm_branch');
+        }
     }
 }

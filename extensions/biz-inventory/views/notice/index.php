@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use biz\models\TransferNotice;
 
 /**
  * @var yii\web\View $this
@@ -31,15 +32,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'idTransfer.idWarehouseSource.nm_whse',
             'idTransfer.idWarehouseDest.nm_whse',
             'noticeDate',
-            //'nmStatus',
+            'nmStatus',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update}',
+                'buttons' => [
+                    'update' => function ($url, $model) {
+                    if (Yii::$app->user->can('inventory.notice.update', ['model' => $model])) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                                'title' => Yii::t('yii', 'Update'),
+                                'data-pjax' => '0',
+                        ]);
+                    }
+                }
+                ]
             ],
         ],
     ]);
     ?>
     <?php Pjax::end(); ?>
-
-
 </div>

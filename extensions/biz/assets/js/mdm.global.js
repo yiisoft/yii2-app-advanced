@@ -2,11 +2,14 @@ yii.global = (function($) {
     var enterPressed = false;
     var pub = {
         renderItem: function(ul, item) {
-            var $a = $('<a>').append($('<b>').text(item.text)).append('<br>');
+            var $a = $('<a>')
+                .append($('<b>').text(item.text)).append('<br>')
+                .append($('<i>').text(item.cd).css({color: '#999999'}));
             return $("<li>").append($a).appendTo(ul);
         },
         renderItemPos: function(ul, item) {
-            var $a = $('<a>').append($('<b>').text(item.text)).append('<br>')
+            var $a = $('<a>')
+                .append($('<b>').text(item.text)).append('<br>')
                 .append($('<i>').text(item.cd + ' - @ Rp' + item.price).css({color: '#999999'}));
             return $("<li>").append($a).appendTo(ul);
         },
@@ -38,7 +41,39 @@ yii.global = (function($) {
                     });
                 });
             }
-        }
+        },
+        log: function(data) {
+            if (biz.debug) {
+                console.log(data);
+            }
+        },
+        sourceProduct: function(request, callback) {
+            var result = [];
+            var limit = biz.config.limit;
+            var checkStock = biz.config.checkStock && biz.master.ps !== undefined;
+
+            var term = request.term.toLowerCase();
+            var whse = biz.config.whse;
+            if (checkStock && (whse == undefined || biz.master.ps[whse] == undefined)) {
+                callback([]);
+                return;
+            }
+
+            $.each(biz.master.product, function() {
+                var product = this;
+                if (product.text.toLowerCase().indexOf(term) >= 0 || product.cd.toLowerCase().indexOf(term) >= 0) {
+                    var id = product.id + '';
+                    if (!checkStock || biz.master.ps[whse][id] > 0) {
+                        result.push(product);
+                        limit--;
+                        if (limit <= 0) {
+                            return false;
+                        }
+                    }
+                }
+            });
+            callback(result);
+        },
     }
     return pub;
 })(window.jQuery);

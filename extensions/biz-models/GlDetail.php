@@ -10,13 +10,16 @@ use Yii;
  * @property integer $id_gl_detail
  * @property integer $id_gl
  * @property integer $id_coa
- * @property string $amount
+ * @property double $amount
+ * @property double $debit
+ * @property double $kredit
  *
  * @property Coa $idCoa
  * @property GlHeader $idGl
  */
 class GlDetail extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -33,7 +36,8 @@ class GlDetail extends \yii\db\ActiveRecord
         return [
             [['id_gl', 'id_coa', 'amount'], 'required'],
             [['id_gl', 'id_coa'], 'integer'],
-            [['amount'], 'number']
+            [['amount', 'debit', 'kredit'], 'number'],
+            [['debit', 'kredit'], 'compare', 'operator' => '>', 'compareValue' => 0]
         ];
     }
 
@@ -64,5 +68,29 @@ class GlDetail extends \yii\db\ActiveRecord
     public function getIdGl()
     {
         return $this->hasOne(GlHeader::className(), ['id_gl' => 'id_gl']);
+    }
+
+    public function getDebit()
+    {
+        return $this->amount > 0 ? $this->amount : '';
+    }
+
+    public function getKredit()
+    {
+        return $this->amount < 0 ? -$this->amount : '';
+    }
+
+    public function setDebit($value)
+    {
+        if ($value > 0.0) {
+            $this->amount = $value;
+        }
+    }
+
+    public function setKredit($value)
+    {
+        if ($value > 0.0) {
+            $this->amount = -$value;
+        }
     }
 }

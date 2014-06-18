@@ -3,7 +3,7 @@
 $exts = dirname(dirname(__DIR__)) . '/extensions';
 return [
     'bootstrap' => [
-        'debug',
+//        'debug',
 //        'gii',
         'admin'
     ],
@@ -12,14 +12,26 @@ return [
         'gii' => [
             'class' => 'yii\gii\Module',
             'generators' => [
-                'bizmodel' => ['class' => 'biz\gii\generators\model\Generator']
+                'bizmodel' => ['class' => 'biz\gii\generators\model\Generator'],
+                'crud' => [
+                    'class' => 'yii\gii\generators\crud\Generator',
+                    'templates'=>[
+                        'netbeans' => '@biz/gii/generators/crud/netbeans'
+                    ]
+                ]
             ]
         ],
         'admin' => [
             'class' => 'mdm\admin\Module',
             'positionMenu' => 'left',
             'allowActions' => [
-                '*'
+//                '*'
+            ],
+            'items'=>[
+                'assigment'=>[
+                    'idField'=>'id',
+                    'usernameField'=>'username'
+                ]
             ]
         ],
         'master' => 'biz\master\Module',
@@ -51,10 +63,11 @@ return [
 //            'showScriptName' => false,
         ],
         'view' => [
-//            'theme' => [
-//                'pathMap' => ['@app/views' => '@biz/adminlte/views'],
-//            ],
-        ]
+            'theme' => 'biz\adminlte\Theme',
+        ],
+        'authManager' => [
+            'class' => 'mdm\admin\components\DbManager',
+        ],
     ],
     'as client' => 'mdm\clienttools\ClientBehavior',
 ];

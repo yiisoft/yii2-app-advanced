@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use biz\inventory\assets\ReceiveAsset;
+use biz\inventory\components\ReceiveAsset;
 use biz\tools\BizDataAsset;
 
 /**

@@ -2,48 +2,56 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use biz\models\Cashdrawer;
+use yii\widgets\ActiveForm;
 
-/**
- * @var yii\web\View $this
- * @var biz\models\Cashdrawer $model
- */
+/* @var $this yii\web\View */
+/* @var $model biz\models\Cashdrawer */
+/* @var $form yii\widgets\ActiveForm */
 
-$this->title = $model->id_cashdrawer;
+$this->title = $model->idUser->username . ' : Cashier ' . $model->cashier_no;
 $this->params['breadcrumbs'][] = ['label' => 'Cashdrawers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$isOpen = $model->status == Cashdrawer::STATUS_OPEN;
 ?>
 <div class="cashdrawer-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_cashdrawer], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_cashdrawer], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
+    <?php
+    $form = ActiveForm::begin([
+            'action' => ['close','id'=>$model->id_cashdrawer]
+        ])
+    ?>
+    <?=
+    DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_cashdrawer',
-            'client_machine',
-            'id_branch',
+            'idBranch.nm_branch',
             'cashier_no',
-            'id_user',
-            'init_cash',
-            'close_cash',
-            'variants',
-            'status',
-            'create_date',
-            'create_by',
-            'update_date',
-            'update_by',
+            'idUser.username',
+            'nmStatus',
+            'open_time',
+            [
+                'attribute' => 'close_cash',
+                'value' => $isOpen ? $form->field($model, 'close_cash', [
+                    'template'=>'{input}'
+                ]) : $model->close_cash,
+                'format' => $isOpen ? 'raw' : 'number',
+            ]
         ],
-    ]) ?>
+    ]);
+    ?>
+    <p>
+        <?php
+        if ($isOpen) {
+            echo Html::submitButton('Close', ['class' => 'btn btn-danger']);
+        }
+        ?>
+    </p>
+    <?php ActiveForm::end() ?>
+
+<?= $this->render('_detail', ['id_drawer' => $model->id_cashdrawer]) ?>
 
 </div>

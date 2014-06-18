@@ -2,19 +2,18 @@ yii.storage = (function($) {
     var STAGE_KEY = 'push-running-stage';
     var CURRENT_SESSION_KEY = 'session-current';
     var SESSION_KEY_PREFIX = 'session-';
-    var POS_DATA_COUNT_KEY = 'pos-data-count';
     var POS_DATA_KEY_PREFIX = 'pos-data-';
-    var IDLE = 10;
-    var id_cash_drawer;
+    var LAST_MODIFIED = 'last-modified';
+    var CURRENT_DRAWER = 'current-drawer';
+    var IDLE = 10000;
 
-    function runing(val) {
-        if (val === undefined) {
-            var stage = localStorage.getItem(STAGE_KEY);
-            var result = stage == undefined ? ['0', '0'] : stage.split(':');
-            return result[0] == '1' && ((new Date()).getTime() - result[1] * 1) < IDLE;
-        } else {
-            localStorage.setItem(STAGE_KEY, (val ? '1:' : '0:') + (new Date()).getTime());
-        }
+    function setRuning(val) {
+        localStorage.setItem(STAGE_KEY, val ? (new Date()).getTime() : 0);
+    }
+
+    function isRunning() {
+        var stage = localStorage.getItem(STAGE_KEY);
+        return stage !== undefined && stage * 1 > ((new Date()).getTime() - IDLE);
     }
 
     var local = {
@@ -22,8 +21,13 @@ yii.storage = (function($) {
         id_cash_drawer: 0,
     }
     var pub = {
-        setCashDrawer: function(id) {
-            local.id_cash_drawer = id;
+        setCashDrawer: function(drawer) {
+            local.id_cash_drawer = drawer.id_cashdrawer;
+            localStorage.setItem(CURRENT_DRAWER, JSON.stringify(drawer));
+        },
+        getCurrentDrawer: function() {
+            var s = localStorage.getItem(CURRENT_DRAWER);
+            return s != undefined ? JSON.parse(s) : false;
         },
         getCurrentSession: function(createNew) {
             var key = localStorage.getItem(CURRENT_SESSION_KEY);
@@ -39,7 +43,7 @@ yii.storage = (function($) {
         },
         removeSession: function(key) {
             var cKey = localStorage.getItem(CURRENT_SESSION_KEY);
-            if(cKey == key){
+            if (cKey == key) {
                 localStorage.removeItem(CURRENT_SESSION_KEY);
             }
             localStorage.removeItem(SESSION_KEY_PREFIX + key);
@@ -47,15 +51,16 @@ yii.storage = (function($) {
         saveSession: function(data) {
             var key = pub.getCurrentSession(true);
             localStorage.setItem(SESSION_KEY_PREFIX + key, JSON.stringify(data));
+            localStorage.setItem(LAST_MODIFIED, (new Date()).getTime());
         },
         changeSession: function(key) {
-            if(key==undefined){
+            if (key == undefined) {
                 localStorage.removeItem(CURRENT_SESSION_KEY);
                 return [];
-            }else{
+            } else {
                 localStorage.setItem(CURRENT_SESSION_KEY, key);
                 return pub.getSessionData(key);
-            }            
+            }
         },
         getSessionData: function(key) {
             var data = localStorage.getItem(SESSION_KEY_PREFIX + key);
@@ -88,42 +93,63 @@ yii.storage = (function($) {
                     result.push(key.substr(8));
                 }
             });
-            return result.reverse();
+            return result.sort();
+        },
+        getDataPos: function(all, drawer) {
+            var keys = Object.keys(localStorage);
+            keys = keys.sort();
+            var result = [];
+            $.each(keys, function() {
+                var key = this;
+                if (key.indexOf(POS_DATA_KEY_PREFIX) == 0) {
+                    var data = JSON.parse(localStorage.getItem(key));
+                    if (drawer == undefined || data.id_drawer + '' == drawer + '') {
+                        result.push(data);
+                    }
+                    return all == true;
+                }
+            });
+            if (all == true) {
+                return result;
+            } else {
+                return result.shift();
+            }
+        },
+        getLastModified: function() {
+            return localStorage.getItem(LAST_MODIFIED);
         },
         push: function() {
             if (biz.config.pushUrl) {
-                var keys = Object.keys(localStorage);
-                $.each(keys, function() {
-                    var key = this;
-                    if (key != POS_DATA_COUNT_KEY && key.indexOf(POS_DATA_KEY_PREFIX) == 0) {
-                        if (!runing()) {
-                            runing(true);
-                            var data = JSON.parse(localStorage.getItem(key));
-                            $.ajax(biz.config.pushUrl, {
-                                data: data,
-                                dataType: 'json',
-                                type: 'POST',
-                                success: function(r) {
-                                    if (r.type == 'S') {
-                                        localStorage.removeItem(key);
-                                    }
-                                    runing(false);
-                                },
-                                error: function() {
-                                    runing(false);
+                if (!isRunning()) {
+                    var data = pub.getDataPos();
+                    if (data) {
+                        setRuning(true);
+                        $.ajax(biz.config.pushUrl, {
+                            data: data,
+                            dataType: 'json',
+                            type: 'POST',
+                            success: function(r) {
+                                if (r.type == 'S') {
+                                    localStorage.removeItem(POS_DATA_KEY_PREFIX + data.key);
+                                    localStorage.setItem(LAST_MODIFIED, (new Date()).getTime());
                                 }
-                            });
-                        }
-                        return false;
+                                setRuning(false);
+                            },
+                            error: function() {
+                                setRuning(false);
+                            }
+                        });
                     }
-                });
+                }
             }
             setTimeout(function() {
                 pub.push();
             }, local.interval);
         },
         init: function() {
-            local.interval = biz.config.interval ? biz.config.interval : 1000;
+            if (biz.config.pushInterval) {
+                local.interval = biz.config.pushInterval;
+            }
             pub.push();
         }
     }

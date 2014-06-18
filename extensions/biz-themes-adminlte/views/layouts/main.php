@@ -12,13 +12,15 @@ $baseurl = $lte_asset->baseUrl;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language ?>" manifest="<?= isset($this->context->manifestFile) ? $this->context->manifestFile : '' ?>">
     <head>
         <meta charset="<?= Yii::$app->charset ?>"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
         <?php $this->head() ?>
     </head>
+    <?php $this->beginBody() ?>
     <body class="skin-blue">
         <header class="header">
             <?php echo $this->render('heading',['baseurl'=>$baseurl]); ?>
@@ -30,8 +32,8 @@ $baseurl = $lte_asset->baseUrl;
             <aside class="right-side">
                 <section class="content-header">
                     <h1>
-                        Dashboard
-                        <small>Control panel</small>
+                        <?= '&nbsp;'.Html::encode($this->title) ?>                        
+                        <small><?php echo \Yii::$app->controller->id.'-'.\Yii::$app->controller->action->id; ?></small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>

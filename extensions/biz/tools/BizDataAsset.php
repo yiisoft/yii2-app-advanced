@@ -24,9 +24,10 @@ class BizDataAsset
             'config' => [
                 'delay' => 1000,
                 'limit' => 20,
+                'checkStock' => false
             ]
         ];
-        $js = "\n biz = " . json_encode(ArrayHelper::merge($default, $data)) . ';';
+        $js = "\n biz = " . json_encode(ArrayHelper::merge($default, $data)) . ";\n";
         $view->registerJs($js, $position);
     }
 }

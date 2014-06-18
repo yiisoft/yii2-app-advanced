@@ -19,7 +19,7 @@ use biz\tools\Helper;
                 'name' => 'product',
                 'id' => 'product',
                 'clientOptions' => [
-                    'source' => new JsExpression('yii.purchase.sourceProduct'),
+                    'source' => new JsExpression('yii.global.sourceProduct'),
                     'select' => new JsExpression('yii.purchase.onProductSelect'),
                     'delay' => 100,
                 ]
