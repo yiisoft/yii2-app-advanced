@@ -25,6 +25,16 @@ yii.drawer = (function($) {
                 $tr.append($('<td>').text(t));
                 $tr.appendTo($bodyList);
             });
+            if(list.length==0){
+                $.getJSON(biz.config.totalCashDrawerUrl,{id:biz.id_drawer},function(r){
+                    if(r.type=='S'){
+                        $('#btn-drawer-close').prop('disabled',false);
+                        $('#total-sales').val(r.total);
+                    }
+                });
+            }else{
+                $('#btn-drawer-close').prop('disabled',true);
+            }
         },
         show: function() {
             var lastM = yii.storage.getLastModified();
@@ -35,7 +45,7 @@ yii.drawer = (function($) {
             setTimeout(function() {
                 local.show();
             }, local.interval);
-        },
+        }
     }
     var pub = {
         init: function() {
@@ -44,6 +54,10 @@ yii.drawer = (function($) {
             }
             $bodyList = $('#list-pos > tbody');
             local.show();
+            $('#cashdrawer-close_cash').change(function (){
+                var variant = $('#total-sales').val()+$('#init-cash').val()-$('#cashdrawer-close_cash').val();
+                $('#variant').text(variant);
+            });
         }
     }
     return pub;

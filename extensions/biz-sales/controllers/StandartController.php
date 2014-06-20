@@ -15,6 +15,7 @@ use biz\tools\Helper;
 use biz\tools\Hooks;
 use yii\db\Query;
 use yii\web\Response;
+use biz\base\Event;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -173,18 +174,18 @@ class StandartController extends Controller
     public function actionRelease($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->hooks->fire(Hooks::E_SSREL_1, $model);
+        Yii::$app->trigger(Hooks::E_SSREL_1, new Event([$model]));
         $transaction = Yii::$app->db->beginTransaction();
         try {
             $model->status = SalesHdr::STATUS_RELEASE;
             if (!$model->save()) {
                 throw new UserException(implode("\n", $model->getFirstErrors()));
             }
-            Yii::$app->hooks->fire(Hooks::E_SSREL_21, $model);
+            Yii::$app->trigger(Hooks::E_SSREL_21, new Event([$model]));
             foreach ($model->salesDtls as $detail) {
-                Yii::$app->hooks->fire(Hooks::E_SSREL_22, $model, $detail);
+                Yii::$app->trigger(Hooks::E_SSREL_22, new Event([$model, $detail]));
             }
-            Yii::$app->hooks->fire(Hooks::E_SSREL_23, $model);
+            Yii::$app->trigger(Hooks::E_SSREL_23, new Event([$model]));
             $transaction->commit();
         } catch (Exception $exc) {
             $transaction->rollBack();
@@ -310,6 +311,24 @@ class StandartController extends Controller
     {
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
+    }
+
+    /**
+     * 
+     * @param string $action
+     * @param SalesHdr $model
+     * @return boolean Description
+     */
+    public function checkAccess($action, $model)
+    {
+        \Yii::$app->user->can($action);
+        switch ($action) {
+            case 'update':
+                return $model->status == SalesHdr::STATUS_DRAFT;
+
+            default:
+                return true;
+        }
     }
 
     /**

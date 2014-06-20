@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use \Exception;
 use biz\tools\Hooks;
 use yii\base\UserException;
+use biz\base\Event;
 
 /**
  * TransferController implements the CRUD actions for TransferHdr model.
@@ -68,7 +69,7 @@ class ReceiveController extends Controller
     {
         $model = $this->findModel($id);
         $model->scenario = TransferHdrSearch::SCENARIO_RECEIVE;
-        Yii::$app->hooks->fire(Hooks::E_IRUPD_1, $model);
+        Yii::$app->trigger(Hooks::E_IRUPD_1, new Event([$model]));
         list($details, $success) = $this->saveReceive($model);
         if ($success) {
             return $this->redirect(['view', 'id' => $model->id_transfer]);
@@ -156,18 +157,18 @@ class ReceiveController extends Controller
     public function actionReceive($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->hooks->fire(Hooks::E_IRREC_1, $model);
+        Yii::$app->trigger(Hooks::E_IRREC_1, new Event([$model]));
         $transaction = Yii::$app->db->beginTransaction();
         try {
             $model->status = TransferHdr::STATUS_RECEIVE;
             if (!$model->save()) {
                 throw new UserException(implode(",\n", $model->firstErrors));
             }
-            Yii::$app->hooks->fire(Hooks::E_IRREC_21, $model);
+            Yii::$app->trigger(Hooks::E_IRREC_21, new Event([$model]));
             foreach ($model->transferDtls as $detail) {
-                Yii::$app->hooks->fire(Hooks::E_IRREC_22, $model, $detail);
+                Yii::$app->trigger(Hooks::E_IRREC_22, new Event([$model, $detail]));
             }
-            Yii::$app->hooks->fire(Hooks::E_IRREC_23, $model);
+            Yii::$app->trigger(Hooks::E_IRREC_23, new Event([$model]));
             $transaction->commit();
         } catch (Exception $exc) {
             $transaction->rollBack();

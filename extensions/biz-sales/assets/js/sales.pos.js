@@ -96,6 +96,10 @@ yii.pos = (function($) {
                 yii.storage.setCashDrawer(drawer);
             }
             local.checkDrawer();
+            yii.storage.loadMaster();
+            yii.global.pullMaster(biz.config.pullMasterUrl,{},function(master){
+                yii.storage.saveMaster(master);
+            });
             var key = yii.storage.getCurrentSession();
             if (key) {
                 storage.changeSession(key);
@@ -374,6 +378,7 @@ yii.pos = (function($) {
 
     var pub = {
         onSelectProduct: function(event, ui) {
+            yii.global.log(ui.item);
             local.addItem(ui.item);
         },
         init: function() {

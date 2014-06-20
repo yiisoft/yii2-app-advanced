@@ -5,6 +5,7 @@ yii.storage = (function($) {
     var POS_DATA_KEY_PREFIX = 'pos-data-';
     var LAST_MODIFIED = 'last-modified';
     var CURRENT_DRAWER = 'current-drawer';
+    var MASTER_STORAGE = 'master-sales-';
     var IDLE = 10000;
 
     function setRuning(val) {
@@ -21,6 +22,19 @@ yii.storage = (function($) {
         id_cash_drawer: 0,
     }
     var pub = {
+        loadMaster:function (){
+            $.each(['product','barcodes'],function (){
+                var s = localStorage.getItem(MASTER_STORAGE+this);
+                if(s){
+                    biz.master[this] = JSON.parse(s);
+                }
+            });
+        },
+        saveMaster:function (masters){
+            $.each(masters,function(key,value){
+                localStorage.setItem(MASTER_STORAGE+key, JSON.stringify(value));
+            });
+        },
         setCashDrawer: function(drawer) {
             local.id_cash_drawer = drawer.id_cashdrawer;
             localStorage.setItem(CURRENT_DRAWER, JSON.stringify(drawer));

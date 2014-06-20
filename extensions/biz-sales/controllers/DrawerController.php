@@ -15,137 +15,60 @@ use yii\filters\VerbFilter;
 class DrawerController extends Controller
 {
 
-	public function behaviors()
-	{
-		return [
-			'verbs' => [
-				'class' => VerbFilter::className(),
-				'actions' => [
-					'delete' => ['post'],
-                    'close' => ['post'],
-				],
-			],
-		];
-	}
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+        ];
+    }
 
-	/**
-	 * Lists all Cashdrawer models.
-	 * @return mixed
-	 */
-	public function actionIndex()
-	{
-		$searchModel = new CashdrawerSearch([
-            'client_machine'=>  \Yii::$app->clientId,
-            'status'=>  Cashdrawer::STATUS_OPEN,
-            ]);
-		$dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
-
-		return $this->render('index', [
-				'dataProvider' => $dataProvider,
-				'searchModel' => $searchModel,
-		]);
-	}
-
-	/**
-	 * Displays a single Cashdrawer model.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionView($id)
-	{
-		return $this->render('view', [
-				'model' => $this->findModel($id),
-		]);
-	}
-
-	/**
-	 * Creates a new Cashdrawer model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 * @return mixed
-	 */
-	public function actionCreate()
-	{
-		$model = new Cashdrawer([
-            'client_machine'=>  Yii::$app->clientId,
-            'id_user'=>  Yii::$app->user->id,
+    /**
+     * Lists all Cashdrawer models.
+     * @return mixed
+     */
+    public function actionIndex()
+    {
+        $searchModel = new CashdrawerSearch([
+            'status' => Cashdrawer::STATUS_OPEN,
         ]);
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id_cashdrawer]);
-		} else {
-			return $this->render('create', [
-					'model' => $model,
-			]);
-		}
-	}
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
-	public function actionOpen()
-	{
-		$model = Cashdrawer::findOne([
-				'client_machine' => Yii::$app->clientId,
-				'id_user' => Yii::$app->user->getId(),
-				'status' => Cashdrawer::STATUS_OPEN,
-		]);
-		if ($model === null) {
-			$model = new Cashdrawer([
-				'client_machine' => Yii::$app->clientId,
-				'id_user' => Yii::$app->user->getId(),
-				'status' => Cashdrawer::STATUS_OPEN,
-			]);
-		}
-		
-		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-			return $this->redirect(['view', 'id' => $model->id_cashdrawer]);
-		} else {
-			return $this->render('create', [
-					'model' => $model,
-			]);
-		}
-	}
+        return $this->render('index', [
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
+        ]);
+    }
 
-	/**
-	 * Updates an existing Cashdrawer model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionClose($id)
-	{
-		$model = $this->findModel($id);
-        $model->status = Cashdrawer::STATUS_CLOSE;
-        $model->load(Yii::$app->request->post());
-		if (!$model->save()) {
-			throw new \yii\base\UserException(implode("\n", $model->firstErrors));
+    /**
+     * Displays a single Cashdrawer model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+                'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Finds the Cashdrawer model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Cashdrawer the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = Cashdrawer::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
-        return $this->redirect(['view', 'id' => $model->id_cashdrawer]);
-	}
-
-	/**
-	 * Deletes an existing Cashdrawer model.
-	 * If deletion is successful, the browser will be redirected to the 'index' page.
-	 * @param integer $id
-	 * @return mixed
-	 */
-	public function actionDelete($id)
-	{
-		$this->findModel($id)->delete();
-
-		return $this->redirect(['index']);
-	}
-
-	/**
-	 * Finds the Cashdrawer model based on its primary key value.
-	 * If the model is not found, a 404 HTTP exception will be thrown.
-	 * @param integer $id
-	 * @return Cashdrawer the loaded model
-	 * @throws NotFoundHttpException if the model cannot be found
-	 */
-	protected function findModel($id)
-	{
-		if (($model = Cashdrawer::findOne($id)) !== null) {
-			return $model;
-		} else {
-			throw new NotFoundHttpException('The requested page does not exist.');
-		}
-	}
-
+    }
 }

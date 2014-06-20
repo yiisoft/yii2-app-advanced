@@ -24,7 +24,8 @@ class BizDataAsset
             'config' => [
                 'delay' => 1000,
                 'limit' => 20,
-                'checkStock' => false
+                'checkStock' => false,
+                'debug' => YII_ENV == 'dev'
             ]
         ];
         $js = "\n biz = " . json_encode(ArrayHelper::merge($default, $data)) . ";\n";

@@ -31,14 +31,17 @@ yii.global = (function($) {
                 return func.apply(e.target);
             });
         },
-        pullMaster: function(url, param) {
+        pullMaster: function(url, param, callback) {
             var pullUrl = url ? url : biz.config.pullUrl;
-            var data = param ? param : {};
+            var data = param!=undefined ? param : {};
             if (pullUrl) {
                 $.getJSON(pullUrl, data, function(result) {
                     $.each(result, function(key, val) {
                         biz.master[key] = val;
                     });
+                    if(callback != undefined){
+                        callback(result);
+                    }
                 });
             }
         },

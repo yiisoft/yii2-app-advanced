@@ -23,17 +23,17 @@ $baseurl = $lte_asset->baseUrl;
     <?php $this->beginBody() ?>
     <body class="skin-blue">
         <header class="header">
-            <?php echo $this->render('heading',['baseurl'=>$baseurl]); ?>
+            <?php echo $this->render('heading', ['baseurl' => $baseurl]); ?>
         </header>
         <div class="wrapper row-offcanvas row-offcanvas-left">
             <aside class="left-side sidebar-offcanvas">
-                <?php echo $this->render('sidebar',['baseurl'=>$baseurl]); ?>
+                <?php echo $this->render('sidebar', ['baseurl' => $baseurl]); ?>
             </aside>
             <aside class="right-side">
                 <section class="content-header">
                     <h1>
-                        <?= '&nbsp;'.Html::encode($this->title) ?>                        
-                        <small><?php echo \Yii::$app->controller->id.'-'.\Yii::$app->controller->action->id; ?></small>
+                        <?= '&nbsp;' . Html::encode($this->title) ?>                        
+                        <small><?php echo \Yii::$app->controller->id . '-' . \Yii::$app->controller->action->id; ?></small>
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -48,8 +48,8 @@ $baseurl = $lte_asset->baseUrl;
 
         <!--        <footer class="footer">
                     <div class="container">
-                        <p class="pull-left">&copy; My Company <?= ''//date('Y')    ?></p>
-                        <p class="pull-right"><?= ''//Yii::powered()    ?></p>
+                        <p class="pull-left">&copy; My Company <?= ''//date('Y')      ?></p>
+                        <p class="pull-right"><?= ''//Yii::powered()      ?></p>
                     </div>
                 </footer>-->
     </div>

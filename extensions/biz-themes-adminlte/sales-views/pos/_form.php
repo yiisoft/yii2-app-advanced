@@ -36,6 +36,10 @@ use biz\tools\BizDataAsset;
                 </div>
             </div>
             <div class="panel-footer">
+                <?=
+                Html::a('<span class="glyphicon glyphicon-off"></span>', ['close-drawer'], [
+                    'target' => '_blank', 'class' => 'pull-right'])
+                ?>
                 <?= Html::hiddenInput('', '', ['id' => 'id-drawer']) ?>
                 <div>Cabang: &nbsp;<?= Html::tag('span', '', ['id' => 'nm-cabang']) ?></div>
                 <div>No. Kasir: &nbsp;  <?= Html::tag('span', '', ['id' => 'no-kasir']) ?></div>
@@ -90,11 +94,12 @@ use biz\tools\BizDataAsset;
 <?php
 PosAsset::register($this);
 BizDataAsset::register($this, [
-    'master' => $masters,
+    'master' => [],
     'config' => [
         'pushUrl' => Url::toRoute(['save-pos']),
         'newDrawerUrl' => Url::toRoute(['open-new-drawer']),
         'checkDrawerUrl' => Url::toRoute(['check-drawer']),
+        'pullMasterUrl' => Url::toRoute(['masters']),
         'delay' => 1000,
         'pushInterval' => 10000,
     ]

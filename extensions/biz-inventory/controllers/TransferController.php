@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use \Exception;
 use yii\base\UserException;
 use biz\tools\Hooks;
+use biz\base\Event;
 
 /**
  * TransferController implements the CRUD actions for TransferHdr model.
@@ -95,7 +96,7 @@ class TransferController extends Controller
         if ($model->status != TransferHdr::STATUS_DRAFT) {
             throw new UserException('tidak bisa diedit');
         }
-        Yii::$app->hooks->fire(Hooks::E_ITUPD_1, $model);
+        Yii::$app->trigger(Hooks::E_ITUPD_1, new Event([$model]));
         list($details, $success) = $this->saveTransfer($model);
         if ($success) {
             return $this->redirect(['view', 'id' => $model->id_transfer]);
@@ -186,7 +187,7 @@ class TransferController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->hooks->fire(Hooks::E_ITDEL_1);
+        Yii::$app->trigger(Hooks::E_ITDEL_1, new Event([$model]));
         $model->delete();
         return $this->redirect(['index']);
     }
@@ -194,18 +195,18 @@ class TransferController extends Controller
     public function actionIssue($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->hooks->fire(Hooks::E_ITISS_1, $model);
+        Yii::$app->trigger(Hooks::E_ITISS_1, new Event([$model]));
         $transaction = Yii::$app->db->beginTransaction();
         try {
             $model->status = TransferHdr::STATUS_ISSUE;
             if (!$model->save()) {
                 throw new UserException(implode(",\n", $model->firstErrors));
             }
-            Yii::$app->hooks->fire(Hooks::E_ITISS_21, $model);
+            Yii::$app->trigger(Hooks::E_ITISS_21, new Event([$model]));
             foreach ($model->transferDtls as $detail) {
-                Yii::$app->hooks->fire(Hooks::E_ITISS_22, $model, $detail);
+                Yii::$app->trigger(Hooks::E_ITISS_22, new Event([$model, $detail]));
             }
-            Yii::$app->hooks->fire(Hooks::E_ITISS_23, $model);
+            Yii::$app->trigger(Hooks::E_ITISS_23, new Event([$model]));
             $transaction->commit();
         } catch (Exception $exc) {
             $transaction->rollBack();

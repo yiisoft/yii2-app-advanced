@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use yii\base\Model;
 use biz\tools\Hooks;
 use yii\base\UserException;
+use biz\base\Event;
 
 /**
  * NoticeController implements the CRUD actions for TransferNotice model.
@@ -108,22 +109,22 @@ class NoticeController extends Controller
                 'details' => $details
         ]);
     }
-    
+
     public function actionApprove($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->hooks->fire(Hooks::E_INAPP_1, $model);
+        Yii::$app->trigger(Hooks::E_INAPP_1, new Event([$model]));
         $transaction = Yii::$app->db->beginTransaction();
         try {
             $model->status = TransferNotice::STATUS_APPROVE;
             if (!$model->save()) {
                 throw new UserException(implode(",\n", $model->firstErrors));
             }
-            Yii::$app->hooks->fire(Hooks::E_INAPP_21, $model);
+            Yii::$app->trigger(Hooks::E_INAPP_21, new Event([$model]));
             foreach ($model->transferNoticeDtls as $detail) {
-                Yii::$app->hooks->fire(Hooks::E_INAPP_22, $model, $detail);
+                Yii::$app->trigger(Hooks::E_INAPP_22, new Event([$model, $detail]));
             }
-            Yii::$app->hooks->fire(Hooks::E_INAPP_23, $model);
+            Yii::$app->trigger(Hooks::E_INAPP_23, new Event([$model]));
             $transaction->commit();
         } catch (Exception $exc) {
             $transaction->rollBack();

@@ -12,6 +12,7 @@ use biz\models\PurchaseDtl;
 use \Exception;
 use yii\base\UserException;
 use biz\tools\Hooks;
+use biz\base\Event;
 
 /**
  * PurchaseHdrController implements the CRUD actions for PurchaseHdr model.
@@ -92,7 +93,7 @@ class PurchaseController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->hooks->fire(Hooks::E_PPUPD_1, $model);
+        Yii::$app->trigger(Hooks::E_PPUPD_1, new Event([$model]));
         if (count($model->purchaseDtls)) {
             $model->id_warehouse = $model->purchaseDtls[0]->id_warehouse;
         }
@@ -191,7 +192,7 @@ class PurchaseController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->hooks->fire(Hooks::E_PPDEL_1, $model);
+        Yii::$app->trigger(Hooks::E_PPDEL_1, new Event([$model]));
         $model->delete();
         return $this->redirect(['index']);
     }
@@ -199,18 +200,18 @@ class PurchaseController extends Controller
     public function actionReceive($id)
     {
         $model = $this->findModel($id);
-        Yii::$app->hooks->fire(Hooks::E_PPREC_1, $model);
+        Yii::$app->trigger(Hooks::E_PPREC_1, new Event([$model]));
         $transaction = Yii::$app->db->beginTransaction();
         try {
             $model->status = PurchaseHdr::STATUS_RECEIVE;
             if (!$model->save()) {
                 throw new UserException(implode(",\n", $model->firstErrors));
             }
-            Yii::$app->hooks->fire(Hooks::E_PPREC_21, $model);
+            Yii::$app->trigger(Hooks::E_PPREC_21, new Event([$model]));
             foreach ($model->purchaseDtls as $detail) {
-                Yii::$app->hooks->fire(Hooks::E_PPREC_22, $model, $detail);
+                Yii::$app->trigger(Hooks::E_PPREC_22, new Event([$model, $detail]));
             }
-            Yii::$app->hooks->fire(Hooks::E_PPREC_23, $model);
+            Yii::$app->trigger(Hooks::E_PPREC_23, new Event([$model]));
             $transaction->commit();
         } catch (Exception $exc) {
             $transaction->rollBack();
@@ -282,7 +283,7 @@ class PurchaseController extends Controller
 
         $sql = "select id_supplier as id, nm_supplier as label from supplier";
         $supp = $db->createCommand($sql)->queryAll();
-        
+
         return [
             'product' => $product,
             'ps' => $ps,

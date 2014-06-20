@@ -28,7 +28,6 @@ use common\models\User;
  */
 class Cashdrawer extends \yii\db\ActiveRecord
 {
-    const SESSION_KEY = '_cashdrawer_id';
     const STATUS_OPEN = 1;
     const STATUS_PROCESS = 2;
     const STATUS_CLOSE = 3;
@@ -49,9 +48,12 @@ class Cashdrawer extends \yii\db\ActiveRecord
         return [
             [['client_machine'], 'default', 'value' => Yii::$app->clientId],
             [['id_user'], 'default', 'value' => Yii::$app->user->id],
-            [['id_user', 'client_machine'], 'unique', 
+            [['id_user'], 'unique', 
                 'filter' => ['status' => static::STATUS_OPEN],
-                'message' => 'Already opened drawer'],
+                'message' => 'Already opened drawer for this user'],
+            [['client_machine'], 'unique', 
+                'filter' => ['status' => static::STATUS_OPEN],
+                'message' => 'Already opened drawer in this client'],
             [['status'], 'default', 'value' => static::STATUS_OPEN],
             [['id_branch', 'cashier_no'], 'required'],
             [['id_branch', 'cashier_no', 'id_user', 'status'], 'integer'],

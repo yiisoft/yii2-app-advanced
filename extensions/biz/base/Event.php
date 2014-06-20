@@ -10,12 +10,10 @@ namespace biz\base;
 class Event extends \yii\base\Event
 {
     public $params;
-    public $result;
 
-    public function __construct($name, $params = [], $config = [])
+    public function __construct($params = [], $config = [])
     {
-        $this->name = $name;
-        $this->params = (array) $params;
+        $this->params = $params;
         parent::__construct($config);
     }
 }

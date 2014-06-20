@@ -13,6 +13,7 @@ use biz\tools\Helper;
 use yii\db\Query;
 use yii\web\Response;
 use biz\models\Cashdrawer;
+use biz\models\Cogs;
 
 /**
  * PosController implements the CRUD actions for SalesHdr model.
@@ -35,7 +36,7 @@ class PosController extends Controller
             [
                 'class' => AppCache::className(),
                 'actions' => [
-                    'create'
+//                    'create'
                 ]
             ]
         ];
@@ -55,8 +56,13 @@ class PosController extends Controller
 
         return $this->render('create', [
                 'payment_methods' => $payment_methods,
-                'masters' => $this->getDataMaster(),
         ]);
+    }
+
+    public function actionMasters()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return $this->getDataMaster();
     }
 
     public static function invalidatePos()
@@ -67,13 +73,13 @@ class PosController extends Controller
     public function actionOpenNewDrawer()
     {
         $app = Yii::$app;
+        $app->response->format = Response::FORMAT_JSON;
         $model = new Cashdrawer();
-        $transaction = $app->db->beginTransaction();
         try {
             if ($model->load($app->request->post()) && $model->save()) {
                 $app->clientIdBranch = $model->id_branch;
                 $app->clientCashierNo = $model->cashier_no;
-                $result = [
+                return [
                     'type' => 'S',
                     'drawer' => [
                         'id_cashdrawer' => $model->id_cashdrawer,
@@ -84,84 +90,116 @@ class PosController extends Controller
                         'open_time' => $model->open_time
                     ]
                 ];
-
-                $transaction->commit();
             } else {
-                $result = [
+                return [
                     'type' => 'E',
                     'msg' => implode("\n", $model->firstErrors)
                 ];
-                $transaction->rollBack();
             }
         } catch (\Exception $exc) {
-            $result = [
+            return [
                 'type' => 'E',
                 'msg' => $exc->getMessage(),
             ];
-            $transaction->rollBack();
         }
-        $app->response->format = Response::FORMAT_JSON;
-        return $result;
     }
 
     public function actionCheckDrawer()
     {
         $app = Yii::$app;
-        $model = Cashdrawer::find()
-            ->where([
+        $app->response->format = Response::FORMAT_JSON;
+        $model = Cashdrawer::findOne([
                 'id_user' => Yii::$app->user->id,
                 'client_machine' => Yii::$app->clientId,
                 'status' => Cashdrawer::STATUS_OPEN,
-                ]
-            )
-            ->andWhere(['between', 'create_date', date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
-            ->one();
+        ]);
         if ($model) {
-            $app->clientIdBranch = $model->id_branch;
-            $app->clientCashierNo = $model->cashier_no;
-            $result = [
-                'type' => 'S',
-                'drawer' => [
-                    'id_cashdrawer' => $model->id_cashdrawer,
-                    'cashier_no' => $model->cashier_no,
-                    'id_branch' => $model->id_branch,
-                    'nm_branch' => $model->idBranch->nm_branch,
-                    'username' => $app->user->identity->username,
-                    'open_time' => $model->open_time
-                ]
-            ];
-            AppCache::invalidate('sales/pos/create');
+            if ($model->create_date > date('Y-m-d 00:00:00')) {
+                $app->clientIdBranch = $model->id_branch;
+                $app->clientCashierNo = $model->cashier_no;
+                return [
+                    'type' => 'S',
+                    'drawer' => [
+                        'id_cashdrawer' => $model->id_cashdrawer,
+                        'cashier_no' => $model->cashier_no,
+                        'id_branch' => $model->id_branch,
+                        'nm_branch' => $model->idBranch->nm_branch,
+                        'username' => $app->user->identity->username,
+                        'open_time' => $model->open_time
+                    ]
+                ];
+            } else {
+                return $this->redirect(['close-drawer']);
+            }
         } else {
-            $result = [
+            return [
                 'type' => 'E',
                 'msg' => 'not found'
             ];
         }
-        $app->response->format = Response::FORMAT_JSON;
-        return $result;
+    }
+
+    public function actionCloseDrawer()
+    {
+        $model = Cashdrawer::findOne([
+                'client_machine' => Yii::$app->clientId,
+                'id_user' => Yii::$app->user->getId(),
+                'status' => Cashdrawer::STATUS_OPEN,
+        ]);
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->status = Cashdrawer::STATUS_CLOSE;
+            if ($model->save()) {
+                return $this->redirect(['drawer/index']);
+            }
+        }
+        $model->status = Cashdrawer::STATUS_OPEN;
+        return $this->render('close', ['model' => $model]);
     }
 
     public function actionSavePos()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $post = Yii::$app->request->post();
         try {
             $transaction = Yii::$app->db->beginTransaction();
-            $hdr = new SalesHdr;
-            $hdr->id_warehouse = '';
-            if ($hdr->load($post) && $hdr->save()) {
-                $formName = (new SalesDtl)->formName();
-                foreach ($post[$formName] as $detail) {
-                    $dtl = new SalesDtl;
-                    $dtl->load($detail, '');
-                }
+            $drawer = Cashdrawer::findOne(['id_cashdrawer' => $post['id_drawer']]);
+            $hdr = new SalesHdr([
+                'id_cashdrawer' => $post['id_drawer'],
+                'id_branch' => $drawer->id_branch,
+                'create_by' => $drawer->id_user,
+            ]);
+            $total = 0.0;
+            $dtls = [];
+            foreach ($post['detail'] as $detail) {
+                $cogs = Cogs::findOne(['id_product' => $detail['id_product']]);
+                $dtl = new SalesDtl([
+                    'id_product' => $detail['id_product'],
+                    'id_uom' => $detail['id_uom'],
+                    'sales_price' => $detail['price'],
+                    'sales_qty' => $detail['qty'],
+                    'discount' => $detail['discon'],
+                    'cogs' => $cogs ? $cogs->cogs : 0,
+                ]);
+                $total += $detail['qty'] * $detail['price'] * (1 - 0.01 * $detail['discon']);
+                $dtls[] = $dtl;
             }
+
             $transaction->commit();
         } catch (\Exception $exc) {
             $transaction->rollback();
         }
-        Yii::$app->response->format = Response::FORMAT_JSON;
         return [
             'type' => 'E'
+        ];
+    }
+
+    public function actionTotalCash($id)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return[
+            'type' => 'S',
+            'total' => 100000
         ];
     }
 

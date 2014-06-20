@@ -6,6 +6,7 @@ use Yii;
 use biz\tools\Hooks;
 use biz\models\TransferNotice;
 use biz\models\TransferNoticeDtl;
+use biz\base\Event;
 
 /**
  * Description of CreateTransferNotice
@@ -48,15 +49,15 @@ class CreateTransferNotice extends \yii\base\Behavior
             if (!$notice->save()) {
                 throw new \Exception(implode("\n", $notice->firstErrors));
             }
-            Yii::$app->hooks->fire(Hooks::E_TNCRE_21,$notice);
+        Yii::$app->trigger(Hooks::E_TNCRE_21, new Event([$notice]));
             foreach ($noticeDtls as $noticeDtl) {
                 $noticeDtl->id_transfer = $notice->id_transfer;
                 if (!$noticeDtl->save()) {
                     throw new \Exception(implode("\n", $noticeDtl->firstErrors));
                 }
-                Yii::$app->hooks->fire(Hooks::E_TNCRE_22,$notice,$noticeDtl);
+        Yii::$app->trigger(Hooks::E_TNCRE_22, new Event([$notice,$noticeDtl]));
             }
-            Yii::$app->hooks->fire(Hooks::E_TNCRE_23,$notice);
+        Yii::$app->trigger(Hooks::E_TNCRE_23, new Event([$notice]));
         }
     }
 }
