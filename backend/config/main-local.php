@@ -44,26 +44,12 @@ return [
         'user' => [
             'as info' => 'biz\behaviors\UserBehavior',
         ],
-//        'log' => [
-//            'targets' => [
-//                [
-//                    'class' => 'mdm\logger\MongoTarget',
-//                    'levels' => ['info'],
-//                    'categories' => ['application*'],
-//                ],
-//            ],
-//        ],
-        'hooks' => [
-            'class' => 'biz\base\Hooks',
-            'hooksPath' => '@biz/hooks',
-            'hooksNamespace' => 'biz\hooks',
-        ],
         'urlManager' => [
 //            'enablePrettyUrl' => true,
 //            'showScriptName' => false,
         ],
         'view' => [
-            'theme' => 'biz\adminlte\Theme',
+//            'theme' => 'biz\adminlte\Theme',
         ],
         'authManager' => [
             'class' => 'mdm\admin\components\DbManager',
