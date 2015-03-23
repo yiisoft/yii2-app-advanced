@@ -50,7 +50,6 @@ before_script:
 
 script:
   - |
-    cd web
     php -S localhost:8080 > /dev/null 2>&1 &
-    cd ../tests
+    cd tests
     codecept run
