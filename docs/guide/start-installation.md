@@ -3,12 +3,12 @@ Installation
 
 ## Requirements
 
-The minimum requirement by this application template that your Web server supports PHP 5.4.0.
+The minimum requirement by this application template is that your Web server supports PHP 5.4.0.
 
 ## Installing using Composer
 
 If you do not have [Composer](http://getcomposer.org/), follow the instructions in the
-[Installing Yii](start-installation.md#installing-via-composer) section to install it.
+[Installing Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide/start-installation.md#installing-via-composer) section of the definitive guide to install it.
 
 With Composer installed, you can then install the application using the following commands:
 
@@ -25,7 +25,7 @@ You can choose a different directory name if you want.
 Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
 a directory named `advanced` that is directly under the Web root.
 
-Then follow the instructions given in "GETTING STARTED".
+Then follow the instructions given in the next subsection.
 
 
 ## Preparing application
