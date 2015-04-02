@@ -1,7 +1,7 @@
 Comparison
 ==========
 
-The following table compares the difference between the advanced and the basic application templates:
+The following table compares the difference between the advanced and the basic project templates:
 
 
 | Feature  |  Basic  |  Advanced |

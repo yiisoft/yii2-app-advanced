@@ -1,14 +1,14 @@
 Configuring Composer
 ====================
 
-After the application template is installed it's a good idea to adjust default `composer.json` that can be found in the root
+After the project template is installed it's a good idea to adjust default `composer.json` that can be found in the root
 directory:
 
 ```json
 {
     "name": "yiisoft/yii2-app-advanced",
-    "description": "Yii 2 Advanced Application Template",
-    "keywords": ["yii2", "framework", "advanced", "application template"],
+    "description": "Yii 2 Advanced Project Template",
+    "keywords": ["yii2", "framework", "advanced", "project template"],
     "homepage": "http://www.yiiframework.com/",
     "type": "project",
     "license": "BSD-3-Clause",

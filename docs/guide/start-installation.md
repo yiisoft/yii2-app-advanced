@@ -3,7 +3,7 @@ Installation
 
 ## Requirements
 
-The minimum requirement by this application template is that your Web server supports PHP 5.4.0.
+The minimum requirement by this project template is that your Web server supports PHP 5.4.0.
 
 ## Installing using Composer
 

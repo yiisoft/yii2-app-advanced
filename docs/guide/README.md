@@ -1,7 +1,7 @@
-Yii 2 Advanced Application Template
-===================================
+Yii 2 Advanced Project Template
+===============================
 
-Yii 2 Advanced Application Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
+Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
 developing complex Web applications with multiple tiers.
 
 The template includes three tiers: front end, back end, and console, each of which
@@ -17,7 +17,7 @@ Getting Started
 ---------------
 
 * [Installation](start-installation.md)
-* [Difference from basic application template](start-comparison.md)
+* [Difference from basic project template](start-comparison.md)
 * [Configuring Composer](start-composer.md)
 
 Structure
