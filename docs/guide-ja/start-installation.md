@@ -3,11 +3,11 @@
 
 ## 必要条件
 
-このアプリケーション・テンプレートが要求する最低限の必要条件は、あなたのウェブ・サーバが PHP 5.4.0 をサポートしていることです。
+このプロジェクトテンプレートが要求する最低限の必要条件は、あなたのウェブサーバが PHP 5.4.0 をサポートしていることです。
 
 ## Composer を使ってインストールする
 
-If you do not have [Composer](http:/[Composer](http://getcomposer.org/) を持っていない場合は、決定版ガイドの [Yii をインストールする](https://github.com/yiisoft/yii2/blob/master/docs/guide-ja/start-installation.md#installing-via-composer) の節の指示に従ってインストールしてください。
+[Composer](http:/[Composer](http://getcomposer.org/) を持っていない場合は、決定版ガイドの [Yii をインストールする](https://github.com/yiisoft/yii2/blob/master/docs/guide-ja/start-installation.md#installing-via-composer) の節の指示に従ってインストールしてください。
 
 Composer がインストールされていれば、次のコマンドを使ってアプリケーションをインストールすることが出来ます。
 
@@ -17,13 +17,13 @@ Composer がインストールされていれば、次のコマンドを使っ�
 最初のコマンドは [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/) をインストールします。
 これにより、Composer を通じて bower と npm の依存パッケージを管理することが出来るようになります。
 このコマンドは全体で一度だけ走らせれば十分です。
-第二のコマンドは `yii-application` という名前のディレクトリにアドバンスト・アプリケーションをインストールします。
+第二のコマンドは `yii-application` という名前のディレクトリにアドバンストアプリケーションをインストールします。
 望むなら別のディレクトリ名を選ぶことも出来ます。
 
 
-## アーカイブ・ファイルからインストールする
+## アーカイブファイルからインストールする
 
-[yiiframework.com](http://www.yiiframework.com/download/) からダウンロードしたアーカイブ・ファイルをウェブ・ルートの直下、`advanced` と名付けられたディレクトリに解凍します。
+[yiiframework.com](http://www.yiiframework.com/download/) からダウンロードしたアーカイブファイルをウェブルートの直下、`advanced` と名付けられたディレクトリに解凍します。
 
 その後は、次の項に記載されている指示に従ってください。
 
