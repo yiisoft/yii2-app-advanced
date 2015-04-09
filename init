@@ -65,6 +65,11 @@ if (empty($params['env'])) {
 
 echo "\n  Start initialization ...\n\n";
 $files = getFileList("$root/environments/{$env['path']}");
+if (isset($env['skipFiles'])) {
+    $skipFiles = $env['skipFiles'];
+    array_walk($skipFiles, function(&$value) use($env, $root) { $value = "$root/$value"; });
+    $files = array_diff($files, array_intersect_key($env['skipFiles'], array_filter($skipFiles, 'file_exists')));
+}
 $all = false;
 foreach ($files as $file) {
     if (!copyFile($root, "environments/{$env['path']}/$file", $file, $all, $params)) {
