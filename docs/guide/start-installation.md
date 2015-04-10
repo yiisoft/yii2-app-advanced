@@ -176,9 +176,8 @@ server {
 
 5) Change the hosts file to point the domain to your server.
 
-Windows: `c:\Windows\System32\Drivers\etc\hosts`
-
-Linux: `/etc/hosts`
+- Windows: `c:\Windows\System32\Drivers\etc\hosts`
+- Linux: `/etc/hosts`
 
 Add the following lines:
 
