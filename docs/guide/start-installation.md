@@ -172,5 +172,18 @@ server {
 }
 ```
 
+5. Change the hosts file to point the domain to your server.
+
+Windows: `c:\Windows\System32\Drivers\etc\hosts`
+
+Linux: `/etc/hosts`
+
+Add the following lines:
+
+```
+127.0.0.1   frontend.dev
+127.0.0.1   backend.dev
+```
+
 To login into the application, you need to first sign up, with any of your email address, username and password.
 Then, you can login into the application with same email address and password at any time.
