@@ -35,15 +35,15 @@ the installed application. You only need to do these once for all.
 
 1) Execute the `init` command and select `dev` as environment.
 
-    ```
-    php /path/to/yii-application/init
-    ```
+```
+php /path/to/yii-application/init
+```
 
-    Otherwise, in production execute `init` in non-interactive mode.
+Otherwise, in production execute `init` in non-interactive mode.
 
-    ```
-    php /path/to/yii-application/init --env=Production --overwrite=All
-    ```
+```
+php /path/to/yii-application/init --env=Production --overwrite=All
+```
 
 2) Create a new database and adjust the `components['db']` configuration in `common/config/main-local.php` accordingly.
 
