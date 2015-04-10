@@ -49,8 +49,128 @@ the installed application. You only need to do these once for all.
 3. Apply migrations with console command `yii migrate`.
 4. Set document roots of your web server:
 
-- for frontend `/path/to/yii-application/frontend/web/` and using the URL `http://frontend/`
-- for backend `/path/to/yii-application/backend/web/` and using the URL `http://backend/`
+- for frontend `/path/to/yii-application/frontend/web/` and using the URL `http://frontend.dev/`
+- for backend `/path/to/yii-application/backend/web/` and using the URL `http://backend.dev/`
+
+For Apache it could be the following:
+
+```
+<VirtualHost *:80>
+    ServerName frontend.dev
+    ServerAlias 127.0.0.1
+    DocumentRoot /path/to/yii-application/frontend/web/
+    
+    <Directory "/path/to/yii-application/frontend/web/">
+        # use mod_rewrite for pretty URL support
+        RewriteEngine on
+        # If a directory or a file exists, use the request directly
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        # Otherwise forward the request to index.php
+        RewriteRule . index.php
+    
+        # ...other settings...
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName backend.dev
+    ServerAlias 127.0.0.1
+    DocumentRoot /path/to/yii-application/backend/web/
+    
+    <Directory "/path/to/yii-application/backend/web/">
+        # use mod_rewrite for pretty URL support
+        RewriteEngine on
+        # If a directory or a file exists, use the request directly
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        # Otherwise forward the request to index.php
+        RewriteRule . index.php
+    
+        # ...other settings...
+    </Directory>
+</VirtualHost>
+```
+
+For nginx:
+
+```
+server {
+    charset utf-8;
+    client_max_body_size 128M;
+
+    listen 80; ## listen for ipv4
+    #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
+
+    server_name frontend.dev;
+    root        /path/to/yii-application/frontend/web/;
+    index       index.php;
+
+    access_log  /path/to/yii-application/log/frontend-access.log;
+    error_log   /path/to/yii-application/log/frontend-error.log;
+
+    location / {
+        # Redirect everything that isn't a real file to index.php
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    # uncomment to avoid processing of calls to non-existing static files by Yii
+    #location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+    #    try_files $uri =404;
+    #}
+    #error_page 404 /404.html;
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+        fastcgi_pass   127.0.0.1:9000;
+        #fastcgi_pass unix:/var/run/php5-fpm.sock;
+        try_files $uri =404;
+    }
+
+    location ~ /\.(ht|svn|git) {
+        deny all;
+    }
+}
+
+server {
+    charset utf-8;
+    client_max_body_size 128M;
+
+    listen 80; ## listen for ipv4
+    #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
+
+    server_name backend.dev;
+    root        /path/to/yii-application/backend/web/;
+    index       index.php;
+
+    access_log  /path/to/yii-application/log/backend-access.log;
+    error_log   /path/to/yii-application/log/backend-error.log;
+
+    location / {
+        # Redirect everything that isn't a real file to index.php
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    # uncomment to avoid processing of calls to non-existing static files by Yii
+    #location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+    #    try_files $uri =404;
+    #}
+    #error_page 404 /404.html;
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+        fastcgi_pass   127.0.0.1:9000;
+        #fastcgi_pass unix:/var/run/php5-fpm.sock;
+        try_files $uri =404;
+    }
+
+    location ~ /\.(ht|svn|git) {
+        deny all;
+    }
+}
+```
 
 To login into the application, you need to first sign up, with any of your email address, username and password.
 Then, you can login into the application with same email address and password at any time.
