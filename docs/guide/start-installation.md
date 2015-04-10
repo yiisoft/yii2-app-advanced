@@ -33,7 +33,7 @@ Then follow the instructions given in the next subsection.
 After you install the application, you have to conduct the following steps to initialize
 the installed application. You only need to do these once for all.
 
-1. Execute the `init` command and select `dev` as environment.
+1) Execute the `init` command and select `dev` as environment.
 
     ```
     php /path/to/yii-application/init
@@ -45,9 +45,11 @@ the installed application. You only need to do these once for all.
     php /path/to/yii-application/init --env=Production --overwrite=All
     ```
 
-2. Create a new database and adjust the `components['db']` configuration in `common/config/main-local.php` accordingly.
-3. Apply migrations with console command `yii migrate`.
-4. Set document roots of your web server:
+2) Create a new database and adjust the `components['db']` configuration in `common/config/main-local.php` accordingly.
+
+3) Apply migrations with console command `yii migrate`.
+
+4) Set document roots of your web server:
 
 - for frontend `/path/to/yii-application/frontend/web/` and using the URL `http://frontend.dev/`
 - for backend `/path/to/yii-application/backend/web/` and using the URL `http://backend.dev/`
@@ -172,7 +174,7 @@ server {
 }
 ```
 
-5. Change the hosts file to point the domain to your server.
+5) Change the hosts file to point the domain to your server.
 
 Windows: `c:\Windows\System32\Drivers\etc\hosts`
 
