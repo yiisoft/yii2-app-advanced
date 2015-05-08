@@ -31,21 +31,21 @@ class PasswordResetRequestFormTest extends DbTestCase
 
     public function testSendEmailWrongUser()
     {
-        $this->specify('no user with such email, message should not be send', function () {
+        $this->specify('no user with such email, message should not be sent', function () {
 
             $model = new PasswordResetRequestForm();
             $model->email = 'not-existing-email@example.com';
 
-            expect('email not send', $model->sendEmail())->false();
+            expect('email not sent', $model->sendEmail())->false();
 
         });
 
-        $this->specify('user is not active, message should not be send', function () {
+        $this->specify('user is not active, message should not be sent', function () {
 
             $model = new PasswordResetRequestForm();
             $model->email = $this->user[1]['email'];
 
-            expect('email not send', $model->sendEmail())->false();
+            expect('email not sent', $model->sendEmail())->false();
 
         });
     }
