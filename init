@@ -91,7 +91,7 @@ function getFileList($root, $basePath = '')
     $files = [];
     $handle = opendir($root);
     while (($path = readdir($handle)) !== false) {
-        if ($path === '.svn' || $path === '.' || $path === '..') {
+        if ($path === '.git' || $path === '.svn' || $path === '.' || $path === '..') {
             continue;
         }
         $fullPath = "$root/$path";
