@@ -90,5 +90,4 @@ class LoginFormTest extends DbTestCase
             ],
         ];
     }
-
 }
