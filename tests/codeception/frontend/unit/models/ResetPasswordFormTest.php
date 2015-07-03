@@ -40,5 +40,4 @@ class ResetPasswordFormTest extends DbTestCase
             ],
         ];
     }
-
 }
