@@ -84,5 +84,4 @@ class PasswordResetRequestFormTest extends DbTestCase
     {
         return Yii::getAlias(Yii::$app->mailer->fileTransportPath) . '/testing_message.eml';
     }
-
 }
