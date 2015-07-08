@@ -15,15 +15,15 @@ class m130524_201442_init extends Migration
 
         $this->createTable('{{%user}}', [
             'id' => Schema::TYPE_PK,
-            'username' => Schema::TYPE_STRING . ' NOT NULL UNIQUE',
-            'auth_key' => Schema::TYPE_STRING . '(32) NOT NULL',
-            'password_hash' => Schema::TYPE_STRING . ' NOT NULL',
-            'password_reset_token' => Schema::TYPE_STRING . ' UNIQUE',
-            'email' => Schema::TYPE_STRING . ' NOT NULL UNIQUE',
+            'username' => Schema::string()->notNull()->unique(),
+            'auth_key' => Schema::string(32)->notNull(),
+            'password_hash' => Schema::string()->notNull(),
+            'password_reset_token' => Schema::string()->unique(),
+            'email' => Schema::string()->notNull()->unique(),
 
-            'status' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 10',
-            'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'status' => Schema::smallInteger()->notNull()->default(10),
+            'created_at' => Schema::integer()->notNull(),
+            'updated_at' => Schema::integer()->notNull(),
         ], $tableOptions);
     }
 
