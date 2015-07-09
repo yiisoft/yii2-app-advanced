@@ -14,7 +14,7 @@ class m130524_201442_init extends Migration
         }
 
         $this->createTable('{{%user}}', [
-            'id' => Schema::TYPE_PK,
+            'id' => Schema::primaryKey(),
             'username' => Schema::string()->notNull()->unique(),
             'auth_key' => Schema::string(32)->notNull(),
             'password_hash' => Schema::string()->notNull(),
