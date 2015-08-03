@@ -21,7 +21,7 @@ class m130524_201442_init extends Migration
             'password_reset_token' => Schema::string()->unique(),
             'email' => Schema::string()->notNull()->unique(),
 
-            'status' => Schema::smallInteger()->notNull()->default(10),
+            'status' => Schema::smallInteger()->notNull()->defaultValue(10),
             'created_at' => Schema::integer()->notNull(),
             'updated_at' => Schema::integer()->notNull(),
         ], $tableOptions);
