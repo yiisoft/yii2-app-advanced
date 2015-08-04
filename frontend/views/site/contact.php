@@ -38,6 +38,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
                 </div>
 
+            <?= Html::a(
+               'Delete',
+                ['site/index', 'delete' => 1],
+                [
+                    'data' => [
+                        'method' => 'post',
+                        'confirm' => Yii::t('app', 'Are you sure you want to delete this?'),
+                    ]
+                ]
+            ) ?>
+
             <?php ActiveForm::end(); ?>
         </div>
     </div>
