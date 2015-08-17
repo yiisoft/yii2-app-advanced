@@ -21,9 +21,10 @@ class FixtureHelper extends Module
      * and are not excluded by module settings, in actor class.
      */
     use FixtureTrait {
-        loadFixtures as protected;
-        fixtures as protected;
-        globalFixtures as protected;
+        loadFixtures as public;
+        fixtures as public;
+        globalFixtures as public;
+        createFixtures as public;
         unloadFixtures as protected;
         getFixtures as protected;
         getFixture as protected;

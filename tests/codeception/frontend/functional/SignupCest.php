@@ -10,29 +10,27 @@ class SignupCest
 
     /**
      * This method is called before each cest class test method
-     * @param \Codeception\Event\TestEvent $event
+     * @param \codeception_frontend\FunctionalTester $I
      */
-    public function _before($event)
+    public function _before($I)
     {
     }
 
     /**
      * This method is called after each cest class test method, even if test failed.
-     * @param \Codeception\Event\TestEvent $event
+     * @param \codeception_frontend\FunctionalTester $I
      */
-    public function _after($event)
+    public function _after($I)
     {
-        User::deleteAll([
-            'email' => 'tester.email@example.com',
-            'username' => 'tester',
-        ]);
+        //reload default fixtures
+        $I->loadFixtures();
     }
 
     /**
      * This method is called when test fails.
-     * @param \Codeception\Event\FailEvent $event
+     * @param \codeception_frontend\FunctionalTester $I
      */
-    public function _fail($event)
+    public function _failed($I)
     {
 
     }
