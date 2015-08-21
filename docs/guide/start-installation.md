@@ -119,9 +119,9 @@ the installed application. You only need to do these once for all.
            #}
            #error_page 404 /404.html;
 
-           # disable php engine for the folder /assets
-           location ~ ^/assets {
-              fastcgi_param PHP_FLAG "engine=on";
+           # ignore php file for the folder /assets
+           location ~ ^/assets/.*\.php$ {
+               deny all;
            }
 
            location ~ \.php$ {
@@ -162,9 +162,9 @@ the installed application. You only need to do these once for all.
            #}
            #error_page 404 /404.html;
 
-           # disable php engine for the folder /assets
-           location ~ ^/assets {
-              fastcgi_param PHP_FLAG "engine=on";
+           # ignore php file for the folder /assets
+           location ~ ^/assets/.*\.php$ {
+               deny all;
            }
 
            location ~ \.php$ {
