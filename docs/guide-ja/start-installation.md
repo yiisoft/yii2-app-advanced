@@ -55,7 +55,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
    - バックエンドのパスは `/path/to/yii-application/backend/web/`、URL は `http://backend/` を使用
 
    Apache の場合は、次のように設定することが出来ます。
-
+```apache
        <VirtualHost *:80>
            ServerName frontend.dev
            ServerAlias 127.0.0.1
@@ -91,9 +91,9 @@ Composer がインストールされていれば、次のコマンドを使っ�
                # ... その他の設定 ...
            </Directory>
        </VirtualHost>
-
+```
    nginx の場合は、次のように設定することが出来ます。
-
+```nginx
        server {
            charset utf-8;
            client_max_body_size 128M;
@@ -169,7 +169,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
                deny all;
            }
        }
-
+```
 5. hosts ファイルを書き換えて、フロントエンドとバックエンドのドメインをあなたのサーバに向ける。
 
    - Windows: `c:\Windows\System32\Drivers\etc\hosts`
