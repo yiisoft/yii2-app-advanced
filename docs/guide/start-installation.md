@@ -55,10 +55,10 @@ the installed application. You only need to do these once for all.
    - for backend `/path/to/yii-application/backend/web/` and using the URL `http://backend.dev/`
 
    For Apache it could be the following:
-```apache
+
+   ```apache
        <VirtualHost *:80>
            ServerName frontend.dev
-           ServerAlias 127.0.0.1
            DocumentRoot /path/to/yii-application/frontend/web/
            
            <Directory "/path/to/yii-application/frontend/web/">
@@ -69,14 +69,16 @@ the installed application. You only need to do these once for all.
                RewriteCond %{REQUEST_FILENAME} !-d
                # Otherwise forward the request to index.php
                RewriteRule . index.php
-           
+
+               # use index.php as index file
+               DirectoryIndex index.php
+
                # ...other settings...
            </Directory>
        </VirtualHost>
        
        <VirtualHost *:80>
            ServerName backend.dev
-           ServerAlias 127.0.0.1
            DocumentRoot /path/to/yii-application/backend/web/
            
            <Directory "/path/to/yii-application/backend/web/">
@@ -87,13 +89,18 @@ the installed application. You only need to do these once for all.
                RewriteCond %{REQUEST_FILENAME} !-d
                # Otherwise forward the request to index.php
                RewriteRule . index.php
-           
+
+               # use index.php as index file
+               DirectoryIndex index.php
+
                # ...other settings...
            </Directory>
        </VirtualHost>
-```
+   ```
+
    For nginx:
-```nginx
+
+   ```nginx
        server {
            charset utf-8;
            client_max_body_size 128M;
@@ -169,7 +176,8 @@ the installed application. You only need to do these once for all.
                deny all;
            }
        }
-```
+   ```
+
 5. Change the hosts file to point the domain to your server.
 
    - Windows: `c:\Windows\System32\Drivers\etc\hosts`
