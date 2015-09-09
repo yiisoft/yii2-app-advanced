@@ -11,7 +11,7 @@
 
 Composer がインストールされていれば、次のコマンドを使ってアプリケーションをインストールすることが出来ます。
 
-    composer global require "fxp/composer-asset-plugin:~1.0.0"
+    composer global require "fxp/composer-asset-plugin:~1.0.3"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
 最初のコマンドは [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/) をインストールします。
@@ -55,10 +55,10 @@ Composer がインストールされていれば、次のコマンドを使っ�
    - バックエンドのパスは `/path/to/yii-application/backend/web/`、URL は `http://backend/` を使用
 
    Apache の場合は、次のように設定することが出来ます。
-```apache
+
+   ```apache
        <VirtualHost *:80>
            ServerName frontend.dev
-           ServerAlias 127.0.0.1
            DocumentRoot /path/to/yii-application/frontend/web/
            
            <Directory "/path/to/yii-application/frontend/web/">
@@ -69,14 +69,16 @@ Composer がインストールされていれば、次のコマンドを使っ�
                RewriteCond %{REQUEST_FILENAME} !-d
                # そうでなければ、index.php にリクエストを引き渡す
                RewriteRule . index.php
-           
+
+               # index.php をインデックスファイルとして使用
+               DirectoryIndex index.php
+
                # ... その他の設定 ...
            </Directory>
        </VirtualHost>
 
        <VirtualHost *:80>
            ServerName backend.dev
-           ServerAlias 127.0.0.1
            DocumentRoot /path/to/yii-application/backend/web/
            
            <Directory "/path/to/yii-application/backend/web/">
@@ -87,13 +89,18 @@ Composer がインストールされていれば、次のコマンドを使っ�
                RewriteCond %{REQUEST_FILENAME} !-d
                # そうでなければ、index.php にリクエストを引き渡す
                RewriteRule . index.php
-           
+
+               # index.php をインデックスファイルとして使用
+               DirectoryIndex index.php
+
                # ... その他の設定 ...
            </Directory>
        </VirtualHost>
-```
+   ```
+
    nginx の場合は、次のように設定することが出来ます。
-```nginx
+
+   ```nginx
        server {
            charset utf-8;
            client_max_body_size 128M;
@@ -169,7 +176,8 @@ Composer がインストールされていれば、次のコマンドを使っ�
                deny all;
            }
        }
-```
+   ```
+
 5. hosts ファイルを書き換えて、フロントエンドとバックエンドのドメインをあなたのサーバに向ける。
 
    - Windows: `c:\Windows\System32\Drivers\etc\hosts`
