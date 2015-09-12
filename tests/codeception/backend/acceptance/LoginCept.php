@@ -20,7 +20,6 @@ $I->see('Username cannot be blank.', '.help-block');
 $I->see('Password cannot be blank.', '.help-block');
 
 $I->amGoingTo('try to login with wrong credentials');
-$I->expectTo('see validations errors');
 $loginPage->login('admin', 'wrong');
 if (method_exists($I, 'wait')) {
     $I->wait(3); // only for selenium
