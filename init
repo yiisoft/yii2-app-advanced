@@ -47,6 +47,14 @@ if (empty($params['env']) || $params['env'] === '1') {
 }
 
 if (!in_array($envName, $envNames)) {
+    foreach ($envs as $n => $v) {
+        if ($envName===$v['path']) {
+            $envName = $n;
+        }
+    }
+}
+
+if (!in_array($envName, $envNames)) {
     $envsList = implode(', ', $envNames);
     echo "\n  $envName is not a valid environment. Try one of the following: $envsList. \n";
     exit(2);
