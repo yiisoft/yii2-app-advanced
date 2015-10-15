@@ -89,3 +89,12 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+/* align the logout "link" (button in form) of the navbar */
+.nav > li > form {
+	padding: 8px;
+}
+.nav > li > form > button:hover {
+		text-decoration: none;
+	}
+}
