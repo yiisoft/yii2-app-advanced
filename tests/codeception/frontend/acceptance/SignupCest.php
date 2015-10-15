@@ -77,6 +77,6 @@ class SignupCest
         ]);
 
         $I->expectTo('see that user logged in');
-        $I->seeLink('Logout (tester)');
+        $I->see('Logout (tester)', 'form button[type=submit]');
     }
 }
