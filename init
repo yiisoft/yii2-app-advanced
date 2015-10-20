@@ -173,8 +173,12 @@ function getParams()
 function setWritable($root, $paths)
 {
     foreach ($paths as $writable) {
-        echo "      chmod 0777 $writable\n";
-        @chmod("$root/$writable", 0777);
+        if (is_dir("$root/$writable")) {
+            echo "      chmod 0777 $writable\n";
+            @chmod("$root/$writable", 0777);
+        } else {
+            echo "\n  Error. Directory $writable does not exist. \n";
+        }
     }
 }
 
