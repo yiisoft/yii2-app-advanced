@@ -1,4 +1,4 @@
-Comparison
+Comparativa
 ==========
 La siguiente tabla compara las diferencias entre la plantilla de proyecto avanzada y la Basica:
 
