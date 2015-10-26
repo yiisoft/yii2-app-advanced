@@ -1,26 +1,25 @@
-Installation
+Instalacion
 ============
 
-## Requirements
+## Requisitos
 
-The minimum requirement by this project template is that your Web server supports PHP 5.4.0.
+El requerimiento minimo para esta plantilla de proyecto es que su servidor Web Soporte PHP 5.4.0
 
-## Installing using Composer
+## Instalacion usando composer
 
-If you do not have [Composer](http://getcomposer.org/), follow the instructions in the
-[Installing Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide/start-installation.md#installing-via-composer) section of the definitive guide to install it.
+Si no tienes [Composer](http://getcomposer.org/), y sigue las instrucciones en la seccion [Instalando YII](https://github.com/yiisoft/yii2/blob/master/docs/guide/start-installation.md#installing-via-composer) de la guia definitiva para instalarlo.
 
-With Composer installed, you can then install the application using the following commands:
+Con composer instalado, Puedes entonces instalar la aplicacion usando los siguientes comandos:
 
-    composer global require "fxp/composer-asset-plugin:~1.0.3"
+    composer global require "fxp/composer-asset-plugin:~1.0.3" 
+
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-The first command installs the [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/)
-which allows managing bower and npm package dependencies through Composer. You only need to run this command
-once for all. The second command installs the advanced application in a directory named `yii-application`.
-You can choose a different directory name if you want.
+El primer comando instala el [El plugin activo(asset plugin) de composer ](https://github.com/francoispluchino/composer-asset-plugin/) el cual permite el manejo de los paquetes de las dependencias Bower y npm a traves de composer
+Sólo tiene que ejecutar este comando una vez para todas las plantillas avanzados. 
+El segundo comando instala la aplicación avanzada en un directorio llamado yii-aplicación. Usted puede elegir un nombre de directorio diferente si lo desea.
 
-## Install from an Archive File
+## Instalacion de un Archivo
 
 Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
 a directory named `advanced` that is directly under the Web root.
@@ -33,7 +32,7 @@ Then follow the instructions given in the next subsection.
 After you install the application, you have to conduct the following steps to initialize
 the installed application. You only need to do these once for all.
 
-1. Execute the `init` command and select `dev` as environment.
+1. Ejecutar el comando  `init`  y selecciona  `dev` Como entorno.
 
    ```
    php /path/to/yii-application/init

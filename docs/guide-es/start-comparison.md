@@ -12,7 +12,7 @@ La siguiente tabla compara las diferencias entre la plantilla de proyecto avanza
 | Conexion a la base de datos  | ✓ | ✓ |
 | Consola de Comandos  | ✓ | ✓ |
 | paquete de activos(assets Bundle)  | ✓ | ✓ |
-| Pruebas de Codeception  | ✓ | ✓ |
+| Pruebas en Codeception  | ✓ | ✓ |
 | Twitter Bootstrap   | ✓ | ✓ |
 | Aplicaciones de front-end y back-end  |    | ✓ |
 | Modelo de usuario Listo para utilizar |    | ✓ |
