@@ -1,20 +1,19 @@
 Comparison
 ==========
+La siguiente tabla compara las diferencias entre la plantilla de proyecto avanzada y la Basica:
 
-The following table compares the difference between the advanced and the basic project templates:
 
-
-| Feature  |  Basic  |  Advanced |
+| Caracteristicas  |  Basico  |  Avanzado |
 |---|:---:|:---:|
-| Project structure | ✓ | ✓ |
-| Site controller | ✓ | ✓ |
-| User login/logout | ✓ | ✓ |
-| Forms  | ✓ | ✓ |
-| DB connection  | ✓ | ✓ |
-| Console command  | ✓ | ✓ |
-| Asset bundle  | ✓ | ✓ |
-| Codeception tests  | ✓ | ✓ |
-| Twitter Bootstrap  | ✓ | ✓ |
-| Front- and back-end apps  |    | ✓ |
-| Ready to use User model |    | ✓ |
-| User signup and password restore  |     | ✓ |
+| Estructura de proyecto | ✓ | ✓ |
+| Controlador Site | ✓ | ✓ |
+| Inicio y cierre de sesion de usuario | ✓ | ✓ |
+| Formulario  | ✓ | ✓ |
+| Conexion a la base de datos  | ✓ | ✓ |
+| Consola de Comandos  | ✓ | ✓ |
+| paquete de activos(assets Bundle)  | ✓ | ✓ |
+| Pruebas de Codeception  | ✓ | ✓ |
+| Twitter Bootstrap   | ✓ | ✓ |
+| Aplicaciones de front-end y back-end  |    | ✓ |
+| Modelo de usuario Listo para utilizar |    | ✓ |
+| Registro de usuario y recuperacion de contraseña  |     | ✓ |
