@@ -59,7 +59,7 @@ the installed application. You only need to do these once for all.
    ```apache
        <VirtualHost *:80>
            ServerName frontend.dev
-           DocumentRoot /path/to/yii-application/frontend/web/
+           DocumentRoot "/path/to/yii-application/frontend/web/"
            
            <Directory "/path/to/yii-application/frontend/web/">
                # use mod_rewrite for pretty URL support
@@ -79,7 +79,7 @@ the installed application. You only need to do these once for all.
        
        <VirtualHost *:80>
            ServerName backend.dev
-           DocumentRoot /path/to/yii-application/backend/web/
+           DocumentRoot "/path/to/yii-application/backend/web/"
            
            <Directory "/path/to/yii-application/backend/web/">
                # use mod_rewrite for pretty URL support
