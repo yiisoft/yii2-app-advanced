@@ -49,11 +49,11 @@ a.asc:after, a.desc:after {
 }
 
 a.asc:after {
-    content: /*"\e113"*/ "\e151";
+    content: "\e151";
 }
 
 a.desc:after {
-    content: /*"\e114"*/ "\e152";
+    content: "\e152";
 }
 
 .sort-numerical a.asc:after {
