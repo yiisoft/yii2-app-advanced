@@ -2,6 +2,7 @@
 namespace frontend\models;
 
 use common\models\User;
+use Yii;
 use yii\base\Model;
 
 /**
@@ -53,7 +54,7 @@ class PasswordResetRequestForm extends Model
             return false;
         }
 
-        return \Yii::$app
+        return Yii::$app
             ->mailer
             ->compose(
                 [
