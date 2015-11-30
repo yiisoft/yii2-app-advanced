@@ -72,7 +72,7 @@ a.desc:after {
     content: "\e156";
 }
 
-.text-nowrap {
+.grid-view td {
     white-space: nowrap;
 }
 
