@@ -7,27 +7,28 @@ The minimum requirement by this project template is that your Web server support
 
 ## Installing using Vagrant
 
-This way is easiest but long (~20 min).
+This way is the easiest but long (~20 min).
 
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 2. Install [Vagrant](https://www.vagrantup.com/downloads.html)
 3. Create GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens)
 4. Run commands:
 
-   ```
+   ```bash
    git clone https://github.com/yiisoft/yii2-app-advanced.git
    cd yii2-app-advanced
    cp vagrant/config/vagrant-local.example.yml vagrant/config/vagrant-local.yml
    vagrant plugin install vagrant-hostmanager
    ```
+   
 5. Place your GitHub personal API token to `vagrant/config/vagrant-local.yml`
 6. Run command:
 
-   ```
+   ```bash
    vagrant up
    ```
 
-That`s all. You just need to wait for completion.
+That's all. You just need to wait for completion.
 
 ## Installing using Composer
 
