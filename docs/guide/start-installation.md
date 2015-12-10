@@ -9,22 +9,30 @@ The minimum requirement by this project template is that your Web server support
 
 This way is the easiest but long (~20 min).
 
+**This installation way doesn't require pre-installed software (such as web-server, PHP, MySQL etc.)** - just do next steps!
+
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 2. Install [Vagrant](https://www.vagrantup.com/downloads.html)
-3. Create GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens)
-4. Run commands:
-
-   ```bash
-   git clone https://github.com/yiisoft/yii2-app-advanced.git
-   cd yii2-app-advanced
-   cp vagrant/config/vagrant-local.example.yml vagrant/config/vagrant-local.yml
-   vagrant plugin install vagrant-hostmanager
-   ```
+3. Windows users must reboot here
+4. Create GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens)
+5. Prepare project
+   1. Linux/Unix users can run commands:
    
-5. Place your GitHub personal API token to `vagrant/config/vagrant-local.yml`
-6. Run command:
+      ```bash
+      git clone https://github.com/yiisoft/yii2-app-advanced.git
+      cd yii2-app-advanced/vagrant/config
+      cp vagrant-local.example.yml vagrant-local.yml
+      ```
+   2. Windows users:
+      * download repo [yii2-app-advanced](https://github.com/yiisoft/yii2-app-advanced/archive/master.zip)
+      * unzip it
+      * copy `vagrant/config/vagrant-local.example.yml` to `vagrant/config/vagrant-local.yml`
+   
+6. Place your GitHub personal API token to `vagrant/config/vagrant-local.yml`
+7. Go into project directory and run commands (Windows users can use `cmd.exe`):
 
    ```bash
+   vagrant plugin install vagrant-hostmanager
    vagrant up
    ```
 
