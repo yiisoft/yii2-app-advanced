@@ -13,7 +13,7 @@ This way is the easiest but long (~20 min).
 
 1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 2. Install [Vagrant](https://www.vagrantup.com/downloads.html)
-3. Windows users must reboot here
+3. Windows users must reboot now
 4. Create GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens)
 5. Prepare project
    1. Linux/Unix users can run commands:
@@ -26,17 +26,31 @@ This way is the easiest but long (~20 min).
    2. Windows users:
       * download repo [yii2-app-advanced](https://github.com/yiisoft/yii2-app-advanced/archive/master.zip)
       * unzip it
-      * copy `vagrant/config/vagrant-local.example.yml` to `vagrant/config/vagrant-local.yml`
+      * go into directory `yii2-app-advanced-master/vagrant/config`
+      * copy `vagrant-local.example.yml` to `vagrant-local.yml`
    
-6. Place your GitHub personal API token to `vagrant/config/vagrant-local.yml`
-7. Go into project directory and run commands (Windows users can use `cmd.exe`):
+6. Place your GitHub personal API token to `vagrant-local.yml`
+7. Windows users must manually add next strings to [hosts file](https://ru.wikipedia.org/wiki/Hosts):
+   
+   ```
+   192.168.83.137 yii2-app-advanced-frontend.dev
+   192.168.83.137 yii2-app-advanced-backend.dev
+   ```
+   
+   (You must use your own IP-address if you changed it in `vagrant-local.yml`)
+
+8. Open terminal (Windows users can use `cmd.exe`), **change directory to project root** and run commands:
 
    ```bash
    vagrant plugin install vagrant-hostmanager
    vagrant up
    ```
+   
+   (Windows users can read [here](http://www.wikihow.com/Change-Directories-in-Command-Prompt) how to change directories in command prompt) 
 
-That's all. You just need to wait for completion.
+That's all. You just need to wait for completion! After that you can access project locally by URLs:
+* frontend: http://yii2-app-advanced-frontend.dev
+* backend: http://yii2-app-advanced-backend.dev
 
 ## Installing using Composer
 
