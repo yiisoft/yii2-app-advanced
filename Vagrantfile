@@ -2,8 +2,8 @@ require 'yaml'
 require 'fileutils'
 
 domains = {
-  frontend: 'yii2-app-advanced-frontend.dev',
-  backend:  'yii2-app-advanced-backend.dev'
+  frontend: 'y2aa-frontend.dev',
+  backend:  'y2aa-backend.dev'
 }
 
 config = {
@@ -42,11 +42,14 @@ Vagrant.configure(2) do |config|
   # machine name (for vagrant console)
   config.vm.define options['machine_name']
 
+  # machine name (for guest machine console)
+  config.vm.hostname = options['machine_name']
+
   # network settings
   config.vm.network 'private_network', ip: options['ip']
 
   # sync: folder 'yii2-app-advanced' (host machine) -> folder '/app' (guest machine)
-  config.vm.synced_folder './', '/app', owner: 'www-data', group: 'www-data'
+  config.vm.synced_folder './', '/app', owner: 'vagrant', group: 'vagrant'
 
   # disable folder '/vagrant' (guest machine)
   config.vm.synced_folder '.', '/vagrant', disabled: true
@@ -60,12 +63,9 @@ Vagrant.configure(2) do |config|
   config.hostmanager.aliases            = domains.values
 
   # provisioners
-  config.vm.provision 'shell', path: './vagrant/provision/once.sh', args: [
-    options['github_token'],
-    options['timezone']
-  ]
-
-  config.vm.provision 'shell', path: './vagrant/provision/always.sh', run: 'always'
+  config.vm.provision 'shell', path: './vagrant/provision/once-as-root.sh', args: [options['timezone']]
+  config.vm.provision 'shell', path: './vagrant/provision/once-as-vagrant.sh', args: [options['github_token']], privileged: false
+  config.vm.provision 'shell', path: './vagrant/provision/always-as-root.sh', run: 'always'
 
   # post-install message (vagrant console)
   config.vm.post_up_message = "Frontend URL: http://#{domains[:frontend]}\nBackend URL: http://#{domains[:backend]}"

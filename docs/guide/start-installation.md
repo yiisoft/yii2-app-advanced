@@ -33,8 +33,8 @@ This way is the easiest but long (~20 min).
 7. Windows users must manually add the following lines to [hosts file](https://ru.wikipedia.org/wiki/Hosts):
    
    ```
-   192.168.83.137 yii2-app-advanced-frontend.dev
-   192.168.83.137 yii2-app-advanced-backend.dev
+   192.168.83.137 y2aa-frontend.dev
+   192.168.83.137 y2aa-backend.dev
    ```
    
    (You must use your own IP-address if you changed it in `vagrant-local.yml`)
@@ -49,8 +49,8 @@ This way is the easiest but long (~20 min).
    (Windows users can read [here](http://www.wikihow.com/Change-Directories-in-Command-Prompt) how to change directories in command prompt) 
 
 That's all. You just need to wait for completion! After that you can access project locally by URLs:
-* frontend: http://yii2-app-advanced-frontend.dev
-* backend: http://yii2-app-advanced-backend.dev
+* frontend: http://y2aa-frontend.dev
+* backend: http://y2aa-backend.dev
 
 ## Installing using Composer
 

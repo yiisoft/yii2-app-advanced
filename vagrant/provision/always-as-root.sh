@@ -10,7 +10,9 @@ function info {
 
 #== Provision script ==
 
+info "Provision-script user: `whoami`"
+
 info "Restart web-stack"
-sudo service php5-fpm restart
-sudo service nginx restart
-sudo service mysql restart
+service php5-fpm restart
+service nginx restart
+service mysql restart
