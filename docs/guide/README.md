@@ -32,3 +32,4 @@ Additional Topics
 -----------------
 
 * [Creating links from backend to frontend](topic-link-backend-frontend.md)
+* [Adding more applications](topic-adding-more-apps.md)
