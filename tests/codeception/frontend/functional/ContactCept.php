@@ -29,7 +29,7 @@ $contactPage->submit([
     'body' => 'test content',
     'verifyCode' => 'testme',
 ]);
-$I->expectTo('see that email adress is wrong');
+$I->expectTo('see that email address is wrong');
 $I->dontSee('Name cannot be blank', '.help-block');
 $I->see('Email is not a valid email address.', '.help-block');
 $I->dontSee('Subject cannot be blank', '.help-block');
