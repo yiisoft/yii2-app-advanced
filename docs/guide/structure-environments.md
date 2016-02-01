@@ -17,7 +17,7 @@ and debug turned on. Second is for server deployments. It has debug and develope
 
 Typically environment contains application bootstrap files such as `index.php` and config files suffixed with
 `-local.php`. These are either personal configs of team members which are usually in `dev` environment or configs of
-specific servers. For example, production database connection could be in `prod` enviornment `-local.php` config.
+specific servers. For example, production database connection could be in `prod` environment `-local.php` config.
 These local configs are added to `.gitignore` and never pushed to source code repository.
 
 In order to avoid duplication configurations are overriding each other. For example, the frontend reads configuration in the
