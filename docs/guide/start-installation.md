@@ -30,7 +30,7 @@ This way is the easiest but long (~20 min).
       * copy `vagrant-local.example.yml` to `vagrant-local.yml`
    
 6. Place your GitHub personal API token to `vagrant-local.yml`
-7. Windows users must manually add the following lines to [hosts file](https://ru.wikipedia.org/wiki/Hosts):
+7. Windows users must manually add the following lines to [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)):
    
    ```
    192.168.83.137 y2aa-frontend.dev
