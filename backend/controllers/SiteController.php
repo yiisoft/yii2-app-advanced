@@ -2,10 +2,10 @@
 namespace backend\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use common\models\LoginForm;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use common\models\LoginForm;
 
 /**
  * Site controller
@@ -60,7 +60,7 @@ class SiteController extends Controller
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
