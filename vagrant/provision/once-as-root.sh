@@ -41,7 +41,7 @@ apt-get update
 apt-get upgrade -y
 
 info "Install additional software"
-apt-get install -y git php5-cli php5-intl php5-mysqlnd php5-gd php5-fpm nginx mysql-server-5.6
+apt-get install -y git php5-curl php5-cli php5-intl php5-mysqlnd php5-gd php5-fpm nginx mysql-server-5.6
 
 info "Configure MySQL"
 sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
@@ -63,6 +63,7 @@ echo "Done!"
 
 info "Initailize databases for MySQL"
 mysql -uroot <<< "CREATE DATABASE yii2advanced"
+mysql -uroot <<< "CREATE DATABASE yii2_advanced_tests"
 echo "Done!"
 
 info "Install composer"
