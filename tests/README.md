@@ -25,7 +25,8 @@ After creating and setting up the advanced application, follow these steps to pr
    composer require --dev yiisoft/yii2-faker:*
    ```
 
-3. Create `yii2_advanced_tests` database then update it by applying migrations:
+3. Create a database for tests, adjust the `components['db']` configuration in `tests/codeception/config/config-local.php`,
+   then update it by applying migrations:
 
    ```
    codeception/bin/yii migrate
