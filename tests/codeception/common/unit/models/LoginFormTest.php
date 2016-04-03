@@ -23,8 +23,8 @@ class LoginFormTest extends DbTestCase
         Yii::configure(Yii::$app, [
             'components' => [
                 'user' => [
-                    'class' => 'yii\web\User',
-                    'identityClass' => 'common\models\User',
+                    'class' => \yii\web\User::className(),
+                    'identityClass' => \common\models\User::className(),
                 ],
             ],
         ]);
