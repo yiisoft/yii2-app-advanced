@@ -33,21 +33,21 @@ Composer がインストールされていれば、次のコマンドを使っ�
 アプリケーションをインストールした後に、インストールされたアプリケーションの初期設定をするために、次の各ステップを実行しなければなりません。
 これらは全体で一度だけやれば十分です。
 
-1. `init` コマンドを実行して、環境として `dev` を選択します。
+1. コンソールターミナルを開き、`init` コマンドを実行して環境として `dev` を選択します。
 
    ```
-   php /path/to/yii-application/init
+   /path/to/php-bin/php /path/to/yii-application/init
    ```
 
-   あるいは、本番サーバで、非対話モードで `init` を実行します。
+   あるいは、本番サーバでは、非対話モードで `init` を実行します。
 
    ```
-   php /path/to/yii-application/init --env=Production --overwrite=All
+   /path/to/php-bin/php /path/to/yii-application/init --env=Production --overwrite=All
    ```
 
 2. 新しいデータベースを作成し、それに従って `common/config/main-local.php` の `components['db']` の構成情報を修正します。
 
-3. コンソールコマンド `yii migrate` でマイグレーションを適用します。
+3. コンソールターミナルを開き、`/path/to/php-bin/php /path/to/yii-application/yii migrate` というコマンドでマイグレーションを適用します。
 
 4. ウェブサーバのドキュメントルートを設定します。
 
