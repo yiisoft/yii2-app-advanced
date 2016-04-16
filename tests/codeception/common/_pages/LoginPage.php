@@ -5,8 +5,8 @@ namespace tests\codeception\common\_pages;
 use yii\codeception\BasePage;
 
 /**
- * Represents loging page
- * @property \codeception_frontend\AcceptanceTester|\codeception_frontend\FunctionalTester|\codeception_backend\AcceptanceTester|\codeception_backend\FunctionalTester $actor
+ * Represents logging page
+ * @property \tests\codeception\frontend\AcceptanceTester|\tests\codeception\frontend\FunctionalTester|\tests\codeception\backend\AcceptanceTester|\tests\codeception\backend\FunctionalTester $actor
  */
 class LoginPage extends BasePage
 {
