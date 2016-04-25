@@ -174,10 +174,13 @@ function setWritable($root, $paths)
 {
     foreach ($paths as $writable) {
         if (is_dir("$root/$writable")) {
-            echo "      chmod 0777 $writable\n";
-            @chmod("$root/$writable", 0777);
+            if (@chmod("$root/$writable", 0777)) {
+                echo "      chmod 0777 $writable\n";
+            } else {
+                printError("Operation chmod not permitted for directory $writable.");
+            }
         } else {
-            echo "\n  Error. Directory $writable does not exist. \n";
+            printError("Directory $writable does not exist.");
         }
     }
 }
@@ -185,8 +188,15 @@ function setWritable($root, $paths)
 function setExecutable($root, $paths)
 {
     foreach ($paths as $executable) {
-        echo "      chmod 0755 $executable\n";
-        @chmod("$root/$executable", 0755);
+        if (is_file("$root/$executable")) {
+            if (@chmod("$root/$executable", 0755)) {
+                echo "      chmod 0755 $executable\n";
+            } else {
+                printError("Operation chmod not permitted for file $executable.");
+            }
+        } else {
+            printError("File $executable does not exist.");
+        }
     }
 }
 
@@ -203,15 +213,98 @@ function setCookieValidationKey($root, $paths)
     }
 }
 
-function createSymlink($root, $links) {
+function createSymlink($root, $links)
+{
     foreach ($links as $link => $target) {
-        echo "      symlink " . $root . "/" . $target . " " . $root . "/" . $link . "\n";
         //first removing folders to avoid errors if the folder already exists
         @rmdir($root . "/" . $link);
         //next removing existing symlink in order to update the target
         if (is_link($root . "/" . $link)) {
             @unlink($root . "/" . $link);
         }
-        @symlink($root . "/" . $target, $root . "/" . $link);
+        if (@symlink($root . "/" . $target, $root . "/" . $link)) {
+            echo "      symlink $root/$target $root/$link\n";
+        } else {
+            printError("Cannot create symlink $root/$target $root/$link.");
+        }
     }
+}
+
+/**
+ * Prints error message.
+ * @param string $message message
+ */
+function printError($message)
+{
+    echo "\n  " . formatMessage("Error. $message", ['fg-red']) . " \n";
+}
+
+/**
+ * Returns true if STDOUT supports stylization.
+ * Stylization is disabled for:
+ *  -  Windows before 10.0.10586 without Ansicon, ConEmu or Mintty
+ *  -  non tty consoles
+ * Copied and adapted from Symfony\Component\Console\Output\StreamOutput.
+ * @return boolean true if the stream supports stylization, false otherwise.
+ */
+function stylizationSupported()
+{
+    if (DIRECTORY_SEPARATOR === '\\') {
+        $winVersion = PHP_WINDOWS_VERSION_MAJOR . '.' . PHP_WINDOWS_VERSION_MINOR . '.' . PHP_WINDOWS_VERSION_BUILD;
+        return
+            0 >= version_compare('10.0.10586', $winVersion)
+            || false !== getenv('ANSICON')
+            || 'ON' === getenv('ConEmuANSI')
+            || 'xterm' === getenv('TERM');
+    }
+
+    if (!defined('STDOUT')) {
+        return false;
+    }
+
+    return function_exists('posix_isatty') && @posix_isatty(STDOUT);
+}
+
+/**
+ * Get ANSI code of style.
+ * @param string $name style name
+ * @return integer ANSI code of style.
+ */
+function getStyleCode($name)
+{
+    $styles = [
+        'bold' => 1,
+        'fg-black' => 30,
+        'fg-red' => 31,
+        'fg-green' => 32,
+        'fg-yellow' => 33,
+        'fg-blue' => 34,
+        'fg-magenta' => 35,
+        'fg-cyan' => 36,
+        'fg-white' => 37,
+        'bg-black' => 40,
+        'bg-red' => 41,
+        'bg-green' => 42,
+        'bg-yellow' => 43,
+        'bg-blue' => 44,
+        'bg-magenta' => 45,
+        'bg-cyan' => 46,
+        'bg-white' => 47,
+    ];
+    return $styles[$name];
+}
+
+/**
+ * Formats message using styles if STDOUT supports it.
+ * @param string $message message
+ * @param string[] $styles styles
+ * @return string formatted message.
+ */
+function formatMessage($message, $styles)
+{
+    if (empty($styles) || !stylizationSupported()) {
+        return $message;
+    }
+
+    return sprintf("\x1b[%sm", implode(';', array_map('getStyleCode', $styles))) . $message . "\x1b[0m";
 }
