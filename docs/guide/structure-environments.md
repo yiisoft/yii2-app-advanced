@@ -9,7 +9,7 @@ There are multiple problems with a typical approach to configuration:
 - Defining all configuration options for each case is very repetitive and takes too much time to maintain.
 
 In order to solve these issues Yii introduces a simple environments concept. Each environment is represented
-by a set of files under the `environments` directory. The `init` command is used to switch between these. What it really does is
+by a set of files under the `environments` directory. The `init` command is used to initialize an environment. What it really does is
 copy everything from the environment directory over to the root directory where all applications are.
 
 By default there are two environments: `dev` and `prod`. First is for development. It has all the developer tools
