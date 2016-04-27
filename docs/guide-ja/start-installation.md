@@ -5,6 +5,78 @@
 
 このプロジェクトテンプレートが要求する最低限の必要条件は、あなたのウェブサーバが PHP 5.4.0 をサポートしていることです。
 
+## Vagrant を使ってインストールする
+
+この方法が最も簡単ですが、時間はかかります (～20分)。
+
+**このインストール方法では、(ウェブサーバ、PHP、MySQL 等々の) ソフトウェアを事前にインストールする必要はありません。** - 単に以下のステップを実行するだけです。 steps!
+
+#### Linux/Unix ユーザ用マニュアル
+
+1. [VirtualBox](https://www.virtualbox.org/wiki/Downloads) をインストールする
+2. [Vagrant](https://www.vagrantup.com/downloads.html) をインストールする
+3. GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens) を作成する
+3. プロジェクトを準備する
+   
+   ```bash
+   git clone https://github.com/yiisoft/yii2-app-advanced.git
+   cd yii2-app-advanced/vagrant/config
+   cp vagrant-local.example.yml vagrant-local.yml
+   ```
+   
+4. 作成した GitHub personal API token を `vagrant-local.yml` に置く
+5. プロジェクトのルートディレクトリに移動する
+
+   ```bash
+   cd yii2-app-advanced
+   ```
+
+5. 下記のコマンドを実行する
+
+   ```bash
+   vagrant plugin install vagrant-hostmanager
+   vagrant up
+   ```
+   
+これで全部です。後はただ完了するのを待つだけです。
+完了後には、次の URL でローカルのプロジェクトにアクセスすることが出来ます。
+* フロントエンド: http://y2aa-frontend.dev
+* バックエンド: http://y2aa-backend.dev
+   
+#### Windows ユーザ用マニュアル
+
+1. [VirtualBox](https://www.virtualbox.org/wiki/Downloads) をインストールする
+2. [Vagrant](https://www.vagrantup.com/downloads.html) をインストールする
+3. 再起動する
+4. GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens) を作成する
+5. プロジェクトを準備する
+   * [yii2-app-advanced](https://github.com/yiisoft/yii2-app-advanced/archive/master.zip) レポジトリをダウンロードする
+   * 解凍する
+   * `yii2-app-advanced-master/vagrant/config` ディレクトリに入る
+   * vagrant-local.example.yml` を `vagrant-local.yml` にコピーする
+
+6. 作成した GitHub personal API token を `vagrant-local.yml` に置く
+7. 次の2行を [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) に追加する
+   
+   ```
+   192.168.83.137 y2aa-frontend.dev
+   192.168.83.137 y2aa-backend.dev
+   ```
+
+8. ターミナル (`cmd.exe`) を開き、 **プロジェクトのルートディレクトリに移動して** 次のコマンドを実行する
+
+   ```bash
+   vagrant plugin install vagrant-hostmanager
+   vagrant up
+   ```
+   
+   (コマンドプロンプトでディレクトリを移動する方法については、[ここ](http://www.wikihow.com/Change-Directories-in-Command-Prompt) を読んでください) 
+
+これで全部です。後はただ完了するのを待つだけです。
+完了後には、次の URL でローカルのプロジェクトにアクセスすることが出来ます。
+* フロントエンド: http://y2aa-frontend.dev
+* バックエンド: http://y2aa-backend.dev
+
 ## Composer を使ってインストールする
 
 [Composer](http:/[Composer](http://getcomposer.org/) を持っていない場合は、決定版ガイドの [Yii をインストールする](https://github.com/yiisoft/yii2/blob/master/docs/guide-ja/start-installation.md#installing-via-composer) の節の指示に従ってインストールしてください。
