@@ -28,6 +28,7 @@ console
     config/              contains console configurations
     controllers/         contains console controllers (commands)
     migrations/          contains database migrations
+    fixtures/            contains fixtures(demo data)
     models/              contains console-specific model classes
     runtime/             contains files generated during runtime
 backend
