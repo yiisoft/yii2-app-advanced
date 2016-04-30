@@ -109,7 +109,7 @@ the installed application. You only need to do these once for all.
    /path/to/php-bin/php /path/to/yii-application/init
    ```
 
-   Otherwise, in production execute `init` in non-interactive mode.
+   If you automate it with a script you can execute `init` in non-interactive mode.
 
    ```
    /path/to/php-bin/php /path/to/yii-application/init --env=Production --overwrite=All
