@@ -189,7 +189,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
        
            location / {
                # 本当のファイルでないものは全て index.php にリダイレクト
-               try_files $uri $uri/ /index.php?$args;
+               try_files $uri $uri/ /index.php$is_args$args;
            }
        
            # 存在しない静的なファイルの呼び出しを Yii が処理するのを防ぐためには、コメントをはずす
@@ -200,7 +200,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
        
            location ~ \.php$ {
                include fastcgi_params;
-               fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                fastcgi_pass   127.0.0.1:9000;
                #fastcgi_pass unix:/var/run/php5-fpm.sock;
                try_files $uri =404;
@@ -227,7 +227,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
        
            location / {
                # 本当のファイルでないものは全て index.php にリダイレクト
-               try_files $uri $uri/ /index.php?$args;
+               try_files $uri $uri/ /index.php$is_args$args;
            }
        
            # 存在しない静的なファイルの呼び出しを Yii が処理するのを防ぐためには、コメントをはずす
@@ -238,7 +238,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
        
            location ~ \.php$ {
                include fastcgi_params;
-               fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                fastcgi_pass   127.0.0.1:9000;
                #fastcgi_pass unix:/var/run/php5-fpm.sock;
                try_files $uri =404;

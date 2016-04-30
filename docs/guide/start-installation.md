@@ -187,7 +187,7 @@ the installed application. You only need to do these once for all.
        
            location / {
                # Redirect everything that isn't a real file to index.php
-               try_files $uri $uri/ /index.php?$args;
+               try_files $uri $uri/ /index.php$is_args$args;
            }
        
            # uncomment to avoid processing of calls to non-existing static files by Yii
@@ -198,7 +198,7 @@ the installed application. You only need to do these once for all.
        
            location ~ \.php$ {
                include fastcgi_params;
-               fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                fastcgi_pass   127.0.0.1:9000;
                #fastcgi_pass unix:/var/run/php5-fpm.sock;
                try_files $uri =404;
@@ -225,7 +225,7 @@ the installed application. You only need to do these once for all.
        
            location / {
                # Redirect everything that isn't a real file to index.php
-               try_files $uri $uri/ /index.php?$args;
+               try_files $uri $uri/ /index.php$is_args$args;
            }
        
            # uncomment to avoid processing of calls to non-existing static files by Yii
@@ -236,7 +236,7 @@ the installed application. You only need to do these once for all.
        
            location ~ \.php$ {
                include fastcgi_params;
-               fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                fastcgi_pass   127.0.0.1:9000;
                #fastcgi_pass unix:/var/run/php5-fpm.sock;
                try_files $uri =404;
