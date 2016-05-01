@@ -23,3 +23,23 @@ return [
 ```php
 echo Yii::$app->urlManagerFrontend->createUrl(...);
 ```
+
+フロントエンドの規則をコピペしなくても済むように、最初にそれらの規則を独立した `urlsphp` ファイルに移しておくことが出来ます。
+
+```php
+return [
+    // ...
+    'components' => [
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => require 'urls.php',
+        ],
+        // ...
+
+    ],
+    // ...
+];
+```
+
+そして、後でこれを `urlManagerFrontend` の規則としても読み込めば良いわけです。
