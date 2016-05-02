@@ -7,26 +7,30 @@
 
 namespace common\widgets;
 
+use yii;
+use yii\bootstrap\Widget;
+use yii\bootstrap\Alert as AlertOld;
+
 /**
  * Alert widget renders a message from session flash. All flash messages are displayed
  * in the sequence they were assigned using setFlash. You can set message as following:
  *
  * ```php
- * \Yii::$app->session->setFlash('error', 'This is the message');
- * \Yii::$app->session->setFlash('success', 'This is the message');
- * \Yii::$app->session->setFlash('info', 'This is the message');
+ * Yii::$app->session->setFlash('error', 'This is the message');
+ * Yii::$app->session->setFlash('success', 'This is the message');
+ * Yii::$app->session->setFlash('info', 'This is the message');
  * ```
  *
  * Multiple messages could be set as follows:
  *
  * ```php
- * \Yii::$app->session->setFlash('error', ['Error 1', 'Error 2']);
+ * Yii::$app->session->setFlash('error', ['Error 1', 'Error 2']);
  * ```
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @author Alexander Makarov <sam@rmcreative.ru>
  */
-class Alert extends \yii\bootstrap\Widget
+class Alert extends Widget
 {
     /**
      * @var array the alert types configuration for the flash messages.
@@ -51,7 +55,7 @@ class Alert extends \yii\bootstrap\Widget
     {
         parent::init();
 
-        $session = \Yii::$app->session;
+        $session = Yii::$app->session;
         $flashes = $session->getAllFlashes();
         $appendCss = isset($this->options['class']) ? ' ' . $this->options['class'] : '';
 
@@ -65,7 +69,7 @@ class Alert extends \yii\bootstrap\Widget
                     /* assign unique id to each alert box */
                     $this->options['id'] = $this->getId() . '-' . $type . '-' . $i;
 
-                    echo \yii\bootstrap\Alert::widget([
+                    echo AlertOld::widget([
                         'body' => $message,
                         'closeButton' => $this->closeButton,
                         'options' => $this->options,

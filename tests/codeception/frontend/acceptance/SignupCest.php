@@ -2,6 +2,7 @@
 
 namespace tests\codeception\frontend\acceptance;
 
+use yii;
 use tests\codeception\frontend\_pages\SignupPage;
 use common\models\User;
 
@@ -37,7 +38,7 @@ class SignupCest
     }
 
     /**
-     * @param \codeception_frontend\AcceptanceTester $I
+     * @param \tests\codeception\frontend\AcceptanceTester $I
      * @param \Codeception\Scenario $scenario
      */
     public function testUserSignup($I, $scenario)

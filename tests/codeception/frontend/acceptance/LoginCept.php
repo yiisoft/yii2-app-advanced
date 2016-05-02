@@ -1,8 +1,12 @@
 <?php
+
+namespace tests\codeception\frontend\acceptance;
+
+use yii;
 use tests\codeception\frontend\AcceptanceTester;
 use tests\codeception\common\_pages\LoginPage;
 
-/* @var $scenario Codeception\Scenario */
+/* @var $scenario \Codeception\Scenario */
 
 $I = new AcceptanceTester($scenario);
 $I->wantTo('ensure login page works');

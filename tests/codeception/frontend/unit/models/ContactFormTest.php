@@ -2,14 +2,15 @@
 
 namespace tests\codeception\frontend\unit\models;
 
-use Yii;
+use yii;
 use tests\codeception\frontend\unit\TestCase;
+use Codeception\Specify;
 use frontend\models\ContactForm;
 
 class ContactFormTest extends TestCase
 {
 
-    use \Codeception\Specify;
+    use Specify;
 
     protected function setUp()
     {
