@@ -198,15 +198,15 @@ function setExecutable($root, $paths)
  */
 function setOwnerAndGroup($root, $ownersAndGroups)
 {
-    foreach ($ownersAndGroups as $ownerAndGroup => $directories) {
+    foreach ($ownersAndGroups as $ownerAndGroup => $paths) {
         list($owner, $group) = explode(':', $ownerAndGroup);
 
-        foreach ($directories as $directory) {
-            echo "      chown $owner $directory\n";
-            @chown("$root/$directory", $owner);
+        foreach ($paths as $path) {
+            echo "      chown $owner $path\n";
+            @chown("$root/$path", $owner);
 
-            echo "      chgrp $group $directory\n";
-            @chgrp("$root/$directory", $group);
+            echo "      chgrp $group $path\n";
+            @chgrp("$root/$path", $group);
         }
     }
 }
