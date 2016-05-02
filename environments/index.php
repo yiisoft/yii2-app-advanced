@@ -24,6 +24,12 @@
  *         'createSymlink' => [
  *             // list of symlinks to be created. Keys are symlinks, and values are the targets.
  *         ],
+ *         'setOwnerAndGroup' => [
+ *             'www-data:www-data' => [
+ *                 'uploads',
+ *                 'logs'
+ *             ]
+ *         ]
  *     ],
  * ];
  * ```
