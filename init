@@ -193,8 +193,8 @@ function setExecutable($root, $paths)
 /**
  * Set owners and groups for files or directories.
  *
- * @param $root string
- * @param $ownersAndGroups array
+ * @param string $root
+ * @param array $ownersAndGroups
  */
 function setOwnerAndGroup($root, $ownersAndGroups)
 {
