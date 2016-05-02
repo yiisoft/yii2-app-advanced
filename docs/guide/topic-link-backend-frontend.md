@@ -42,4 +42,4 @@ return [
 ];
 ```
 
-After than you may include it in `urlManagerFrontend` rules as well.
+After then you may include it in `urlManagerFrontend` rules as well.
