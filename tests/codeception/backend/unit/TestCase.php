@@ -2,7 +2,9 @@
 
 namespace tests\codeception\backend\unit;
 
-class TestCase extends \yii\codeception\TestCase
+use yii\codeception\TestCase as TestCaseOld;
+
+class TestCase extends TestCaseOld
 {
     public $appConfig = '@tests/codeception/config/backend/unit.php';
 }

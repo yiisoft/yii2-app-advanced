@@ -1,8 +1,12 @@
 <?php
+
+namespace tests\codeception\frontend\functional;
+
+use yii;
 use tests\codeception\frontend\FunctionalTester;
 use tests\codeception\frontend\_pages\ContactPage;
 
-/* @var $scenario Codeception\Scenario */
+/* @var $scenario \Codeception\Scenario */
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that contact works');

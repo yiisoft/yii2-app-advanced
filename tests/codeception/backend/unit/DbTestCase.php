@@ -2,7 +2,9 @@
 
 namespace tests\codeception\backend\unit;
 
-class DbTestCase extends \yii\codeception\DbTestCase
+use yii\codeception\DbTestCase as DbTestCaseOld;
+
+class DbTestCase extends DbTestCaseOld
 {
     public $appConfig = '@tests/codeception/config/backend/unit.php';
 }

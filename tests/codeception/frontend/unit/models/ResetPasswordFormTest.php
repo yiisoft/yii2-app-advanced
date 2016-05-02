@@ -2,6 +2,7 @@
 
 namespace tests\codeception\frontend\unit\models;
 
+use yii;
 use tests\codeception\frontend\unit\DbTestCase;
 use tests\codeception\common\fixtures\UserFixture;
 use frontend\models\ResetPasswordForm;
