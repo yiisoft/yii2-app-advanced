@@ -2,7 +2,7 @@
 
 namespace tests\codeception\frontend\_pages;
 
-use \yii\codeception\BasePage;
+use yii\codeception\BasePage;
 use frontend\models\SignupForm;
 
 /**
