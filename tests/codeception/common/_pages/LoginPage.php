@@ -3,6 +3,7 @@
 namespace tests\codeception\common\_pages;
 
 use yii\codeception\BasePage;
+use common\models\LoginForm;
 
 /**
  * Represents loging page
@@ -18,8 +19,10 @@ class LoginPage extends BasePage
      */
     public function login($username, $password)
     {
-        $this->actor->fillField('input[name="LoginForm[username]"]', $username);
-        $this->actor->fillField('input[name="LoginForm[password]"]', $password);
+        $loginForm = new LoginForm;
+
+        $this->actor->fillField('input[name="' . $loginForm->formName() . '[username]"]', $username);
+        $this->actor->fillField('input[name="' . $loginForm->formName() . '[password]"]', $password);
         $this->actor->click('login-button');
     }
 }
