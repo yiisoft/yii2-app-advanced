@@ -1,8 +1,11 @@
 <?php
+
+namespace tests\codeception\frontend\functional;
+
 use tests\codeception\frontend\FunctionalTester;
 use tests\codeception\common\_pages\LoginPage;
 
-/* @var $scenario Codeception\Scenario */
+/* @var $scenario \Codeception\Scenario */
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure login page works');
