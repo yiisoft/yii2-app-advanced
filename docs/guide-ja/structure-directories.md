@@ -3,11 +3,11 @@
 
 ルートディレクトリは次のサブディレクトリを含みます。
 
-- `backend` - バックエンドのウェブアプリケーション
-- `common` - 全てのアプリケーションに共通なファイル
-- `console` - コンソールアプリケーション
-- `environments` - 環境設定
-- `frontend` - フロントエンドのウェブアプリケーション
+- `backend` - [バックエンドのウェブアプリケーション](structure-applications.md)
+- `common` - [全てのアプリケーションに共通なファイル](structure-applications.md)
+- `console` - [コンソールアプリケーション](structure-applications.md)
+- `environments` - [環境設定](structure-applications.md)
+- `frontend` - [フロントエンドのウェブアプリケーション](structure-applications.md)
 
 ルートディレクトリは次の一群のファイルを含みます。
 

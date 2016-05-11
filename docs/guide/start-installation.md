@@ -109,7 +109,7 @@ the installed application. You only need to do these once for all.
    /path/to/php-bin/php /path/to/yii-application/init
    ```
 
-   Otherwise, in production execute `init` in non-interactive mode.
+   If you automate it with a script you can execute `init` in non-interactive mode.
 
    ```
    /path/to/php-bin/php /path/to/yii-application/init --env=Production --overwrite=All
@@ -187,7 +187,7 @@ the installed application. You only need to do these once for all.
        
            location / {
                # Redirect everything that isn't a real file to index.php
-               try_files $uri $uri/ /index.php?$args;
+               try_files $uri $uri/ /index.php$is_args$args;
            }
        
            # uncomment to avoid processing of calls to non-existing static files by Yii
@@ -198,7 +198,7 @@ the installed application. You only need to do these once for all.
        
            location ~ \.php$ {
                include fastcgi_params;
-               fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                fastcgi_pass   127.0.0.1:9000;
                #fastcgi_pass unix:/var/run/php5-fpm.sock;
                try_files $uri =404;
@@ -225,7 +225,7 @@ the installed application. You only need to do these once for all.
        
            location / {
                # Redirect everything that isn't a real file to index.php
-               try_files $uri $uri/ /index.php?$args;
+               try_files $uri $uri/ /index.php$is_args$args;
            }
        
            # uncomment to avoid processing of calls to non-existing static files by Yii
@@ -236,7 +236,7 @@ the installed application. You only need to do these once for all.
        
            location ~ \.php$ {
                include fastcgi_params;
-               fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                fastcgi_pass   127.0.0.1:9000;
                #fastcgi_pass unix:/var/run/php5-fpm.sock;
                try_files $uri =404;
@@ -262,6 +262,10 @@ the installed application. You only need to do these once for all.
 
 To login into the application, you need to first sign up, with any of your email address, username and password.
 Then, you can login into the application with same email address and password at any time.
+
+
+> Note: if you want to run advanced template on a single domain so `/` is frontend and `/admin` is backend, refer
+> to [configs and docs by Oleg Belostotskiy](https://github.com/mickgeek/yii2-advanced-one-domain-config).
 
 To auto generate demo database datum apply command `php yii fixture/load "*"`.
 Will be created one user (login: Bob, password: Z1ON0101)

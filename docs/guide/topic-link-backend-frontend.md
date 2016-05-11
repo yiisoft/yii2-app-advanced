@@ -23,3 +23,23 @@ After it is done, you can get an URL pointing to frontend like the following:
 ```php
 echo Yii::$app->urlManagerFrontend->createUrl(...);
 ```
+
+In order not to copy-paste frontend rules you may first move these into separate `urls.php` file:
+
+```php
+return [
+    // ...
+    'components' => [
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => require 'urls.php',
+        ],
+        // ...
+
+    ],
+    // ...
+];
+```
+
+After then you may include it in `urlManagerFrontend` rules as well.

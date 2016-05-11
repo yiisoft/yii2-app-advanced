@@ -12,13 +12,14 @@ class PasswordResetRequestForm extends Model
 {
     public $email;
 
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            ['email', 'filter', 'filter' => 'trim'],
+            ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'exist',
