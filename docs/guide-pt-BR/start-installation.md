@@ -77,7 +77,7 @@ Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o proje
 
 ## Instalação utilizando Composer
 
-Caso você não tenha o [Composer](http://getcomposer.org/) instalado, siga as instruções na seção [Instalando o Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide-pt-BR/start-installation.md#installing-via-composer)
+Caso você não tenha o [Composer](http://getcomposer.org/) instalado, siga as instruções na seção [Instalando o Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide-pt-BR/start-installation.md#instalando-via-composer-)
 do guia definitivo para Yii 2.0 para instala-lo.
 
 Com o Composer instalado, você pode então instalar o template de projetos usando os seguintes comandos:
