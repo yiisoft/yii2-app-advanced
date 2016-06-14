@@ -80,7 +80,7 @@ Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o proje
 Caso você não tenha o [Composer](http://getcomposer.org/) instalado, siga as instruções na seção [Instalando o Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide-pt-BR/start-installation.md#installing-via-composer)
 do guia definitivo para Yii 2.0 para instala-lo.
 
-Com o Composer instalado, então você pode instalar o template de projetos usando os seguintes comandos:
+Com o Composer instalado, você pode então instalar o template de projetos usando os seguintes comandos:
 
     composer global require "fxp/composer-asset-plugin:~1.1.1"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
@@ -88,7 +88,7 @@ Com o Composer instalado, então você pode instalar o template de projetos usan
 O primeiro comando instala o [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/) que permite
 o gerenciamento de dependências de pacotes bower e npm através do Composer. Este comando só precisa ser executado uma vez, no momento da instalação.
 O segundo comando instala o template avançado de projetos no diretório `yii-application`.
-Você pode escolher um diretório diferente se quiser.
+Você pode escolher um diretório diferente se desejar.
 
 ## Instalação a partir de um arquivo
 
@@ -101,15 +101,15 @@ Então siga as instruções presentes na próxima subseção.
 ## Preparando a aplicação
 
 Após instalar o template avançado de projetos, você deve seguir os seguintes passos 
-para inicializar a aplicação, realizando-os apenas neste momento.
+para inicializar a aplicação, sendo necessário realiza-los apenas uma vez no momento da instalação.
 
-1. Abra o terminal de console, execute comando `init` e selecione a opção `dev`.
+1. Abra um terminal de console, execute comando `init` e selecione a opção `dev`.
 
    ```
-   /caminho/para/php-binario/php /caminho/para/aplicacao-yii/init
+   /caminho/para/binario-php/php /caminho/para/aplicacao-yii/init
    ```
    
-   No caso da automação do processo por um script, você pode executar o comando `init` em modo não interativo.
+   Case queria realizar a automação do processo por meio de um script, você pode executar o comando `init` em modo não interativo.
    
    ```
    /caminho/para/binario-php/php /caminho/para/aplicacao-yii/init --env=Production --overwrite=All
@@ -117,12 +117,12 @@ para inicializar a aplicação, realizando-os apenas neste momento.
    
 2. Crie um novo banco de dados e ajuste a configuração `components['db']` em `common/config/main-local.php` adequadamente.
 
-3. Abra um terminal de console e aplique as migrações de dados utilizando o comando `/caminho/para/php-binario/php /caminho/para/aplicacao-yii/yii migrate.
+3. Abra um terminal de console e aplique as migrações de dados utilizando o comando `/caminho/para/binario-php/php /caminho/para/aplicacao-yii/yii migrate`.
 
 4. Configure a raiz dos documentos do seu servidor Web:
     
-    - para frontend `/caminho/para/aplicacao-yii/frontend/web/` usando URL `http://frontend.dev/`
-    - para backend `/caminho/para/aplicacao-yii/backend/web/` usando URL `http://backend.dev/`
+    - para o frontend `/caminho/para/aplicacao-yii/frontend/web/` usando URL `http://frontend.dev/`
+    - para o backend `/caminho/para/aplicacao-yii/backend/web/` usando URL `http://backend.dev/`
     
     
     Exemplo de configuração para servidores Apache
@@ -225,7 +225,7 @@ para inicializar a aplicação, realizando-os apenas neste momento.
                error_log   /caminho/para/aplicacao-yii/log/backend-error.log;
            
                location / {
-                   # Redirect everything that isn't a real file to index.php
+                   # Redireciona tudo que não é um arquivo real para index.php
                    try_files $uri $uri/ /index.php$is_args$args;
                }
            
@@ -265,4 +265,4 @@ Para se autenticar na aplicação é necessário que primeiro, você se registre
 Então, você pode se autenticar na aplicação com o mesmo endereço de e-mail e senha a qualquer momento.
 
 > PS: caso você queria que o template avançado de projetos utilize um único domínio, sendo `/` o frontend e `/admin` o backend, 
-> consulte as [configurações e documentações por Oleg Belostotskiy](https://github.com/mickgeek/yii2-advanced-one-domain-config) (inglês).
+> consulte as [configurações e documentações por Oleg Belostotskiy](https://github.com/mickgeek/yii2-advanced-one-domain-config) (apenas inglês).
