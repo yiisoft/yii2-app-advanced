@@ -3,7 +3,7 @@ Comparativo
 
 A tabela a seguir faz um comparativo entre o template de projetos básico e avançado:
 
-| Feature  |  Básico  |  Avançado |
+| Funcionalidade |  Básico  | Avançado |
 |---|:---:|:---:|
 | Estrutura do projeto | ✓ | ✓ |
 | Controller do site | ✓ | ✓ |

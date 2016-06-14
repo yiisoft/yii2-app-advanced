@@ -48,9 +48,9 @@ no diretório raiz:
 Primeiro vamos alterar as informações básicas. Modifique `name`, `description`, `keywords`, `homepage` e `support` 
 para corresponder as informações do seu projeto.
 
-Agora a parte interessante. Você pode adicionar mais pacotes que a sua aplicação necessita na seção `require`.
+Agora a parte interessante. Você pode adicionar mais pacotes que a sua aplicação necessita, na seção `require`.
 Todos os pacotes são provindos do [packagist.org](https://packagist.org/) então, sinta-se a vontade para procurar 
 pacotes úteis no website.
 
 Após alterar seu `composer.json` você pode executar o comando `composer update --prefer-dist`, aguardar o download e 
-instalação dos pacotes e depois utiliza-los. Classes serão carregadas automaticamente através de autoloading. 
+instalação dos pacotes e depois utilizá-los. Todas as classes são carregadas automaticamente através de autoloading. 

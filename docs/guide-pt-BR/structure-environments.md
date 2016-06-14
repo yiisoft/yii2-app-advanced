@@ -3,10 +3,10 @@ Configurações e ambientes
 
 Existem diversos problemas com a abordagem típica para a configuração:
 
-- Cada membro da equipe possui suas próprias opções de configurações. Commitar essas configurações irá afetar a configuração de outros membro da equipe.
+- Cada membro da equipe possui suas próprias opções de configurações. Commitar essas configurações irá afetar a configuração de outros membros da equipe.
 - Senhas do banco de dados de produção e chaves de API não devem estar presentes no repositório.
 - Existem diversos ambientes: desenvolvimento, homologação, produção. Cada um deve possuir sua própria configuração.
-- Definir todas as configurações para cada caso é muito repetitivo e toma muito tempo para manter.
+- Definir todas as configurações para cada caso é muito repetitivo e é muito custoso para se manter.
 
 Para resolver estes problemas Yii introduz conceito simples de ambientes. Cada ambiente é representado por uma série
 de arquivos presentes no diretório `environments`. O comando `init` é usado para inicializar um ambiente. O papel deste comando
@@ -22,7 +22,7 @@ estão localizados no diretório `dev` ou configurações específicas de servid
 do banco de dados de produção estaria no arquivo de configuração `-local.php` dentro do diretório de ambiente `prod`.
 Os arquivos de configuração local são adicionados ao `.gitignore` e nunca são enviados para o repositório de versionamento de código.
 
-Para evitar duplicação de código, as configurações se sobrescrevem. Por exemplo, a aplicação frontend lê as configurações
+Para evitar a duplicação de configurações, as mesmas se sobrescrevem. Por exemplo, a aplicação frontend lê as configurações
 na seguinte ordem:
 
 - `common/config/main.php`

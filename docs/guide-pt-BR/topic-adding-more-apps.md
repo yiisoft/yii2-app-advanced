@@ -1,7 +1,7 @@
 Adicionando mais aplicações
 ===========================
 
-Enquanto a separação entre frontend e backend é comum, a mesma pode não é o suficiente dependendo da situação.
+Enquanto a separação entre frontend e backend é comum, a mesma pode não ser o suficiente dependendo da situação.
 Você pode necessitar de uma aplicação adicional, por exemplo, um blog. A fim de obtê-lo:
 
 1. Copie `frontend` para `blog`, `environments/dev/frontend` para `environments/dev/blog` e `environments/prod/frontend`

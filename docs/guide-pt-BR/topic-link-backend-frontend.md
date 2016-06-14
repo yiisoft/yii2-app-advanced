@@ -2,8 +2,8 @@ Criando links do backend para o frontend
 ========================================
 
 Frequentemente é necessário a criação de links da aplicação de backend para a aplicação de frontend. Uma vez que a
-aplicação de frontend pode conter suas próprias regras do gerenciador de URL, você deve duplica-las para a aplicação
-de backend nomeando o componente de forma diferente:
+aplicação de frontend pode conter suas próprias regras do gerenciador de URL, você deve replicá-las para a aplicação
+de backend e criar um componente de gerenciador de URL com um nome diferente:
 
 ```php
 return [
@@ -19,7 +19,7 @@ return [
 ];
 ```
 
-Após a configuração, você pode criar uma URL apontando para o frontend da seguinte forma:
+Tendo configurado o novo componente, você pode criar uma URL apontando para o frontend da seguinte forma:
 
 ```php
 echo Yii::$app->urlManagerFrontend->createUrl(...);

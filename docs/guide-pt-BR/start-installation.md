@@ -7,9 +7,9 @@ O requisito mínimo deste template de projetos é que seu servidor Web suporte P
 
 ## Instalação utilizando Vagrant
 
-Esta é a forma mais simples porém, mais longa (~20 min).
+Esta é a forma mais simples porém, mais demorada (~20 min).
 
-**Esta forma de instalação não necessita de nenhum software pré-instalado (como um web-server, PHP, MySQL, etc.)** - basta apenas seguir as etapas!
+**Esta forma de instalação não necessita de nenhum software pré-instalado (web-server, PHP, MySQL, etc.)** - basta apenas seguir as etapas!
 
 #### Manual para usuários Linux/Unix
 
@@ -101,7 +101,7 @@ Então siga as instruções presentes na próxima subseção.
 ## Preparando a aplicação
 
 Após instalar o template avançado de projetos, você deve seguir os seguintes passos 
-para inicializar a aplicação, sendo necessário realiza-los apenas uma vez no momento da instalação.
+para inicializar a aplicação, sendo necessário realizá-los apenas uma vez no momento da instalação.
 
 1. Abra um terminal de console, execute comando `init` e selecione a opção `dev`.
 
@@ -109,7 +109,7 @@ para inicializar a aplicação, sendo necessário realiza-los apenas uma vez no 
    /caminho/para/binario-php/php /caminho/para/aplicacao-yii/init
    ```
    
-   Case queria realizar a automação do processo por meio de um script, você pode executar o comando `init` em modo não interativo.
+   Caso queria realizar a automação do processo por meio de um script, você pode executar o comando `init` em modo não interativo.
    
    ```
    /caminho/para/binario-php/php /caminho/para/aplicacao-yii/init --env=Production --overwrite=All
@@ -264,5 +264,5 @@ para inicializar a aplicação, sendo necessário realiza-los apenas uma vez no 
 Para se autenticar na aplicação é necessário que primeiro, você se registre com qualquer um dos seus endereços de e-mail, usuário e senha.
 Então, você pode se autenticar na aplicação com o mesmo endereço de e-mail e senha a qualquer momento.
 
-> PS: caso você queria que o template avançado de projetos utilize um único domínio, sendo `/` o frontend e `/admin` o backend, 
+> PS: caso queira que o template avançado de projetos utilize um único domínio, sendo `/` o frontend e `/admin` o backend, 
 > consulte as [configurações e documentações por Oleg Belostotskiy](https://github.com/mickgeek/yii2-advanced-one-domain-config) (apenas inglês).
