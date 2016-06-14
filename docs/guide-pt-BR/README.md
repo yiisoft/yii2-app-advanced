@@ -1,7 +1,8 @@
 Template Avançado de Projetos Yii 2
 ===================================
 
-O template Avançado de Projetos Yii 2 é uma est
+O template Avançado de Projetos Yii 2 é uma estrutura de aplicação [Yii 2](http://www.yiiframework.com/) mais adequada
+para desenvolvimento de projetos Web complexos com múltiplas camadas.
 
 O template inclui três camadas: frontend, backend, e console, sendo que cada uma das
 camadas é uma aplicação Yii separada.
