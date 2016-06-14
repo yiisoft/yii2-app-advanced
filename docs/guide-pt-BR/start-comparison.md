@@ -16,4 +16,4 @@ A tabela a seguir faz um comparativo entre o template de projetos básico e avan
 | Twitter Bootstrap | ✓ | ✓ |
 | Aplicações front e back-end |    | ✓ |
 | Model de usuário pronto para uso |    | ✓ |
-| Registro de usuário e recuperação de senha |     | ✓ |
+| Registro de usuários e recuperação de senha |     | ✓ |
