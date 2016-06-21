@@ -275,4 +275,4 @@ Then, you can login into the application with same email address and password at
 
 
 > Note: if you want to run advanced template on a single domain so `/` is frontend and `/admin` is backend, refer
-> to [configs and docs by Oleg Belostotskiy](https://github.com/mickgeek/yii2-advanced-one-domain-config).
+> to [Using advanced project template at shared hosting](topic-shared-hosting.md).
