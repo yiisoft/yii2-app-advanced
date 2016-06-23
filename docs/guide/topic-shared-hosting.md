@@ -7,8 +7,8 @@ which shared hosting webservers don't support. We will need to adjust the direct
 
 ### Move entry scripts into single webroot
 
-First of all we need a webroot directory. Create a new directory and name it to match your hosting webroot name as
-described in [Renaming webroot](#renaming-webroot) above, e.g., `www` or `public_html` or the like. Then create the
+First of all we need a webroot directory. Create a new directory and name it to match your hosting webroot name,
+e.g., `www` or `public_html` or the like. Then create the
 following structure where `www` is the hosting webroot directory you just created:
 
 ```
