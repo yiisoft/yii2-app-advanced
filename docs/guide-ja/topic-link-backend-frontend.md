@@ -21,7 +21,7 @@ return [
 このようにすると、フロントエンドを指す URL を次のようにして取得することが出来ます。
 
 ```php
-echo Yii::$app->urlManagerFrontend->createUrl(...);
+echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(...);
 ```
 
 フロントエンドの規則をコピペしなくても済むように、最初にそれらの規則を独立した `urlsphp` ファイルに移しておくことが出来ます。
