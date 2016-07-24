@@ -31,6 +31,4 @@ before_script:
   - php yii_test migrate --interactive=0
 
 script:
-  - |
-    php -S localhost:8080 > /dev/null 2>&1 &
-    codecept run
+  - composer exec codecept run
