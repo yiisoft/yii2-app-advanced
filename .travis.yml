@@ -27,7 +27,7 @@ install:
     sed -i "s/'cookieValidationKey' => ''/'cookieValidationKey' => 'testkey'/" backend/config/main.php
 
 before_script:
-  - mysql -e 'CREATE DATABASE yii2_advanced_tests;';
+  - mysql -e 'CREATE DATABASE yii2advanced_test;'
   - php yii_test migrate --interactive=0
 
 script:
