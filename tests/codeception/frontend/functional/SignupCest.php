@@ -10,7 +10,7 @@ class SignupCest
 
     /**
      * This method is called before each cest class test method
-     * @param \codeception_frontend\FunctionalTester $I
+     * @param \tests\codeception\frontend\FunctionalTester $I
      */
     public function _before($I)
     {
@@ -18,7 +18,7 @@ class SignupCest
 
     /**
      * This method is called after each cest class test method, even if test failed.
-     * @param \codeception_frontend\FunctionalTester $I
+     * @param \tests\codeception\frontend\FunctionalTester $I
      */
     public function _after($I)
     {
@@ -28,7 +28,7 @@ class SignupCest
 
     /**
      * This method is called when test fails.
-     * @param \codeception_frontend\FunctionalTester $I
+     * @param \tests\codeception\frontend\FunctionalTester $I
      */
     public function _failed($I)
     {
@@ -37,7 +37,7 @@ class SignupCest
 
     /**
      *
-     * @param \codeception_frontend\FunctionalTester $I
+     * @param \tests\codeception\frontend\FunctionalTester $I
      * @param \Codeception\Scenario $scenario
      */
     public function testUserSignup($I, $scenario)

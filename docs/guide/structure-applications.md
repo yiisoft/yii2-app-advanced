@@ -7,7 +7,7 @@ cron jobs and low-level server management. Also it's used during application dep
 
 There's also a `common` directory that contains files used by more than one application. For example, `User` model.
 
-frontend and backend are both web applications and both contain the `web` directory. That's the webroot you should point your
+Frontend and backend are both web applications and both contain the `web` directory. That's the webroot you should point your
 web server to.
 
-Each application has its own namespace and alias corresponding to its name. Same applies to common directory.
+Each application has its own namespace and alias corresponding to its name. Same applies to the common directory.

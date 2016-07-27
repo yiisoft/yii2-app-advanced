@@ -37,7 +37,7 @@ class SignupCest
     }
 
     /**
-     * @param \codeception_frontend\AcceptanceTester $I
+     * @param \tests\codeception\frontend\AcceptanceTester $I
      * @param \Codeception\Scenario $scenario
      */
     public function testUserSignup($I, $scenario)
