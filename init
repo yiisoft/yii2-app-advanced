@@ -188,14 +188,14 @@ function setWritable($root, $paths)
 function setExecutable($root, $paths)
 {
     foreach ($paths as $executable) {
-        if (is_file("$root/$executable")) {
+        if (file_exists("$root/$executable")) {
             if (@chmod("$root/$executable", 0755)) {
                 echo "      chmod 0755 $executable\n";
             } else {
-                printError("Operation chmod not permitted for file $executable.");
+                printError("Operation chmod not permitted for $executable.");
             }
         } else {
-            printError("File $executable does not exist.");
+            printError("$executable does not exist.");
         }
     }
 }
