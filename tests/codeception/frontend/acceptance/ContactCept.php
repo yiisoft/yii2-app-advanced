@@ -1,8 +1,11 @@
 <?php
+
+namespace tests\codeception\frontend\acceptance;
+
 use tests\codeception\frontend\AcceptanceTester;
 use tests\codeception\frontend\_pages\ContactPage;
 
-/* @var $scenario Codeception\Scenario */
+/* @var $scenario \Codeception\Scenario */
 
 $I = new AcceptanceTester($scenario);
 $I->wantTo('ensure that contact works');
@@ -35,7 +38,7 @@ $contactPage->submit([
 if (method_exists($I, 'wait')) {
     $I->wait(3); // only for selenium
 }
-$I->expectTo('see that email adress is wrong');
+$I->expectTo('see that email address is wrong');
 $I->dontSee('Name cannot be blank', '.help-block');
 $I->see('Email is not a valid email address.', '.help-block');
 $I->dontSee('Subject cannot be blank', '.help-block');

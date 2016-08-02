@@ -1,8 +1,11 @@
 <?php
+
+namespace tests\codeception\frontend\functional;
+
 use tests\codeception\frontend\FunctionalTester;
 use tests\codeception\frontend\_pages\ContactPage;
 
-/* @var $scenario Codeception\Scenario */
+/* @var $scenario \Codeception\Scenario */
 
 $I = new FunctionalTester($scenario);
 $I->wantTo('ensure that contact works');
@@ -29,7 +32,7 @@ $contactPage->submit([
     'body' => 'test content',
     'verifyCode' => 'testme',
 ]);
-$I->expectTo('see that email adress is wrong');
+$I->expectTo('see that email address is wrong');
 $I->dontSee('Name cannot be blank', '.help-block');
 $I->see('Email is not a valid email address.', '.help-block');
 $I->dontSee('Subject cannot be blank', '.help-block');

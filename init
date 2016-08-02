@@ -173,8 +173,12 @@ function getParams()
 function setWritable($root, $paths)
 {
     foreach ($paths as $writable) {
-        echo "      chmod 0777 $writable\n";
-        @chmod("$root/$writable", 0777);
+        if (is_dir("$root/$writable")) {
+            echo "      chmod 0777 $writable\n";
+            @chmod("$root/$writable", 0777);
+        } else {
+            echo "\n  Error. Directory $writable does not exist. \n";
+        }
     }
 }
 
@@ -204,6 +208,10 @@ function createSymlink($root, $links) {
         echo "      symlink " . $root . "/" . $target . " " . $root . "/" . $link . "\n";
         //first removing folders to avoid errors if the folder already exists
         @rmdir($root . "/" . $link);
+        //next removing existing symlink in order to update the target
+        if (is_link($root . "/" . $link)) {
+            @unlink($root . "/" . $link);
+        }
         @symlink($root . "/" . $target, $root . "/" . $link);
     }
 }

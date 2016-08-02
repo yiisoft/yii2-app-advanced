@@ -28,3 +28,6 @@ Yii 2 アドバンストプロジェクトテンプレートは、複数の層�
 --------------
 
 * [バックエンドからフロントエンドへのリンクを作成する](topic-link-backend-frontend.md)
+* [アプリケーションをさらに追加する](topic-adding-more-apps.md)
+* [共有ホスティング環境でアドバンストプロジェクトテンプレートを使う](topic-shared-hosting.md)
+

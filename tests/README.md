@@ -7,7 +7,7 @@ After creating and setting up the advanced application, follow these steps to pr
 1. Install Codeception if it's not yet installed:
 
    ```
-   composer global require "codeception/codeception=2.0.*" "codeception/specify=*" "codeception/verify=*"
+   composer global require "codeception/codeception=2.1.*" "codeception/specify=*" "codeception/verify=*"
    ```
 
    If you've never used Composer for global packages run `composer global status`. It should output:
@@ -25,7 +25,8 @@ After creating and setting up the advanced application, follow these steps to pr
    composer require --dev yiisoft/yii2-faker:*
    ```
 
-3. Create `yii2_advanced_tests` database then update it by applying migrations:
+3. Create a database for tests, adjust the `components['db']` configuration in `tests/codeception/config/config-local.php`,
+   then update it by applying migrations:
 
    ```
    codeception/bin/yii migrate
