@@ -31,11 +31,11 @@ class ContactCest
     public function checkContactSubmitNotCorrectEmail(FunctionalTester $I)
     {
         $I->submitForm('#contact-form', [
-            'ContactForm[name]'			=>	'tester',
-            'ContactForm[email]'	    =>	'tester.email',
-            'ContactForm[subject]'		=>	'test subject',
-            'ContactForm[body]'			=>	'test content',
-            'ContactForm[verifyCode]'	=>	'testme',
+            'ContactForm[name]' => 'tester',
+            'ContactForm[email]' => 'tester.email',
+            'ContactForm[subject]' => 'test subject',
+            'ContactForm[body]' => 'test content',
+            'ContactForm[verifyCode]' => 'testme',
         ]);
         $I->seeValidationError('Email is not a valid email address.');
         $I->dontSeeValidationError('Name cannot be blank');
@@ -47,11 +47,11 @@ class ContactCest
     public function checkContactSubmitCorrectData(FunctionalTester $I)
     {
         $I->submitForm('#contact-form', [
-            'ContactForm[name]'			=>	'tester',
-            'ContactForm[email]'	    =>	'tester@example.com',
-            'ContactForm[subject]'		=>	'test subject',
-            'ContactForm[body]'			=>	'test content',
-            'ContactForm[verifyCode]'	=>	'testme',
+            'ContactForm[name]' => 'tester',
+            'ContactForm[email]' => 'tester@example.com',
+            'ContactForm[subject]' => 'test subject',
+            'ContactForm[body]' => 'test content',
+            'ContactForm[verifyCode]' => 'testme',
         ]);
         $I->seeEmailIsSent();
         $I->see('Thank you for contacting us. We will respond to you as soon as possible.');
