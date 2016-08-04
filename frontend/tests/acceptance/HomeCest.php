@@ -3,6 +3,7 @@ namespace tests\frontend\acceptance;
 
 use Yii;
 use tests\frontend\AcceptanceTester;
+use yii\helpers\Url;
 
 class HomeCest
 {
