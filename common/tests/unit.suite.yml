@@ -1,0 +1,7 @@
+class_name: UnitTester
+bootstrap: false
+modules:
+    enabled:
+        - Yii2:
+            configFile: 'config/test-local.php'
+            part: fixtures
