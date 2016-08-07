@@ -1,0 +1,22 @@
+AddDefaultCharset utf-8
+
+#AuthType Basic
+#AuthName "Private Area"
+#AuthUserFile .htpasswd
+#Require valid-user
+
+RewriteEngine on
+
+
+RewriteRule ^(.+[^/])/$ http://%{HTTP_HOST}/$1 [R=301,L]
+
+
+#RewriteCond %{HTTPS} !=on
+#RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# otherwise forward it to index.php
+RewriteRule . index.php
