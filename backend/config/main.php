@@ -56,6 +56,13 @@ return [
                 ],
             ],
         ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@app/views' => '@backend/lte-view'
+                ],
+            ],
+        ],
 
     ],
     'params' => $params,
