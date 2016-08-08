@@ -5,5 +5,13 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+    ],
+    'modules' => [
+        'noty' => [
+            'class' => 'lo\modules\noty\Module',
+        ],
     ],
 ];
