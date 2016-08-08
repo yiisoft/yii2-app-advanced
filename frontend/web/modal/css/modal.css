@@ -1,0 +1,52 @@
+/*MODAL DLG*/
+.mymodal{ display: none; position: fixed; width: 100%; height: 100%; max-height: 100%; overflow-y: scroll; top: 0; left: 0; background: rgba(0,0,0,0.9); z-index: 10000; text-align: center;  }
+.mymodal:after{ content:''; display: inline-block; vertical-align: middle; height: 100%; }
+.modaldlg{
+    position: relative; display: inline-block; vertical-align: middle; text-align: left; visibility: hidden; opacity: 0; -webkit-transition: 0.3s ease all ; -moz-transition: 0.3s ease all ; -ms-transition: 0.3s ease all ; -o-transition: 0.3s ease all ; transition: 0.3s ease all ;
+    background: #ffffff; border-radius: 8px; min-width: 400px;
+}
+.modal-show{ overflow: hidden;}
+.modaldlg.show_dlg{ visibility: visible; opacity: 1; }
+
+.mymodal .closedlg{
+    width: 30px !important;
+    height: 30px !important;
+    top: 15px;
+    right: 15px;
+    position: absolute;
+    cursor: pointer;
+    z-index: 1103;
+}
+.mymodal .closedlg:before{
+    width: 17px; height: 17px; background-position: -200px -67px;
+    position: absolute; left: 50%; margin-left: -8px; top: 50%; margin-top: -8px;
+}
+
+
+.modalhead{
+    margin: 0 !important;
+    top: 0px;
+    z-index: 1103 !important;
+    width: auto !important;
+    color: #333;
+    font-size: 18px !important;
+    position: relative;
+    line-height: 22px;
+    font-weight: bold;
+}
+.modalhead .modelhead-inside{
+    /*padding: 18px 10px 17px;*/
+    padding: 10px;
+}
+
+.modalbody{
+    padding: 0;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 1102;
+    padding: 15px 70px 50px 70px;
+}
+
+
+.modaldlg.width-a{ width: 550px; }

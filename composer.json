@@ -28,7 +28,8 @@
         "kartik-v/yii2-widget-touchspin": "*",
         "bower-asset/tooltipster": "^3.3",
         "bower-asset/noty": "^2.3",
-        "dmstr/yii2-adminlte-asset": "2.*"
+        "dmstr/yii2-adminlte-asset": "2.*",
+        "loveorigami/yii2-notification-wrapper": "*"
     },
     "require-dev": {
         "codeception/base": "^2.2.3",

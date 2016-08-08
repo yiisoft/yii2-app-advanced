@@ -12,8 +12,7 @@ use common\widgets\Alert;
 
 AppAsset::register($this);
 ?>
-<?php $this->beginPage() ?>
-<!DOCTYPE html>
+<?php $this->beginPage() ?><!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
@@ -22,7 +21,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body class="<?= $this->context->page_class;?> <?= $this->context->id . '-' . $this->context->action->id . (($this->context->item_id)?(' item-' . $this->context->item_id):'');?>" >
 <?php $this->beginBody() ?>
 
 <div class="wrap">
