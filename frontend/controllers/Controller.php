@@ -8,6 +8,7 @@
 
     namespace frontend\controllers;
 
+    use Yii;
 
     class Controller extends \yii\web\Controller
     {
@@ -65,8 +66,8 @@
         });
 
         \yii\base\Event::on(\yii\web\View::className(), \yii\web\View::EVENT_END_BODY , function ($event) {
-            echo \lo\modules\noty\widgets\Wrapper::widget([
-                'layerClass' => 'lo\modules\noty\widgets\layers\Noty',
+            echo \lo\modules\noty\Wrapper::widget([
+                'layerClass' => 'lo\modules\noty\layers\Noty',
                 'layerOptions'=>[
                     'registerAnimateCss' => true,
                     //'registerButtonsCss' => true
