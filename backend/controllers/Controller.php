@@ -8,6 +8,8 @@
 
     namespace backend\controllers;
 
+    use yii\filters\VerbFilter;
+    use yii\filters\AccessControl;
 
     class Controller extends \yii\web\Controller
     {
