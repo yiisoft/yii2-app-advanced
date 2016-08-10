@@ -10,6 +10,12 @@ Create database `yii2advanced_test` in mysql (according to config in `common/con
 ./yii_test migrate
 ```
 
+Build the test suite:
+
+```
+composer exec codecept build
+```
+
 Then all sample tests can be started by running:
 
 ```
