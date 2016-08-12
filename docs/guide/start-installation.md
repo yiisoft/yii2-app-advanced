@@ -276,3 +276,6 @@ Then, you can login into the application with same email address and password at
 
 > Note: if you want to run advanced template on a single domain so `/` is frontend and `/admin` is backend, refer
 > to [Using advanced project template at shared hosting](topic-shared-hosting.md).
+
+To auto generate demo database datum apply command `php yii fixture/load "*"`.
+Will be created one user (login: Bob, password: Z1ON0101)
