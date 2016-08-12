@@ -176,17 +176,17 @@ Composer がインストールされていれば、次のコマンドを使っ�
        server {
            charset utf-8;
            client_max_body_size 128M;
-       
+
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
-       
+
            server_name frontend.dev;
            root        /path/to/yii-application/frontend/web/;
            index       index.php;
-       
+
            access_log  /path/to/yii-application/log/frontend-access.log;
            error_log   /path/to/yii-application/log/frontend-error.log;
-       
+
            location / {
                # 本当のファイルでないものは全て index.php にリダイレクト
                try_files $uri $uri/ /index.php$is_args$args;
@@ -197,45 +197,55 @@ Composer がインストールされていれば、次のコマンドを使っ�
            #    try_files $uri =404;
            #}
            #error_page 404 /404.html;
-       
+
+           # /assets ディレクトリの php ファイルへのアクセスを拒否する
+           location ~ ^/assets/.*\.php$ {
+               deny all;
+           }
+
            location ~ \.php$ {
                include fastcgi_params;
                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-               fastcgi_pass   127.0.0.1:9000;
+               fastcgi_pass 127.0.0.1:9000;
                #fastcgi_pass unix:/var/run/php5-fpm.sock;
                try_files $uri =404;
            }
-       
-           location ~ /\.(ht|svn|git) {
+
+           location ~* /\. {
                deny all;
            }
        }
-       
+
        server {
            charset utf-8;
            client_max_body_size 128M;
-       
+
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
-       
+
            server_name backend.dev;
            root        /path/to/yii-application/backend/web/;
            index       index.php;
-       
+
            access_log  /path/to/yii-application/log/backend-access.log;
            error_log   /path/to/yii-application/log/backend-error.log;
-       
+
            location / {
                # 本当のファイルでないものは全て index.php にリダイレクト
                try_files $uri $uri/ /index.php$is_args$args;
            }
-       
+
            # 存在しない静的なファイルの呼び出しを Yii が処理するのを防ぐためには、コメントをはずす
            #location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
            #    try_files $uri =404;
            #}
            #error_page 404 /404.html;
-       
+
+           # /assets ディレクトリの php ファイルへのアクセスを拒否する
+           location ~ ^/assets/.*\.php$ {
+               deny all;
+           }
+
            location ~ \.php$ {
                include fastcgi_params;
                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -243,8 +253,8 @@ Composer がインストールされていれば、次のコマンドを使っ�
                #fastcgi_pass unix:/var/run/php5-fpm.sock;
                try_files $uri =404;
            }
-       
-           location ~ /\.(ht|svn|git) {
+
+           location ~* /\. {
                deny all;
            }
        }
@@ -266,3 +276,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
 アプリケーションにログインするためには、最初にユーザ登録をする必要があります。
 あなたの任意のメールアドレス、ユーザ名、パスワードを指定してください。
 そうすれば、同じメールアドレスとパスワードを使って何時でもアプリケーションにログインすることが出来ます。
+
+
+> Note: `/` をフロントエンド、`/admin` をバックエンドにして、アドバンストテンプレートを単一のドメインで走らせたい場合は、
+> [共有ホスティング環境でアドバンストプロジェクトテンプレートを使う](topic-shared-hosting.md) を参照して下さい。

@@ -14,6 +14,6 @@ require(__DIR__ . '/../../common/config/bootstrap.php');
 require(__DIR__ . '/../config/bootstrap.php');
 
 
-$config = require(__DIR__ . '/../../tests/codeception/config/backend/acceptance.php');
+$config = require(__DIR__ . '/../config/test.php');
 
 (new yii\web\Application($config))->run();

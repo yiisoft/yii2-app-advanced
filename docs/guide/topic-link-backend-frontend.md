@@ -21,7 +21,7 @@ return [
 After it is done, you can get an URL pointing to frontend like the following:
 
 ```php
-echo Yii::$app->urlManagerFrontend->createUrl(...);
+echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(...);
 ```
 
 In order not to copy-paste frontend rules you may first move these into separate `urls.php` file:

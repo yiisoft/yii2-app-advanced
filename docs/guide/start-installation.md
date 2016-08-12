@@ -174,37 +174,42 @@ the installed application. You only need to do these once for all.
        server {
            charset utf-8;
            client_max_body_size 128M;
-       
+
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
-       
+
            server_name frontend.dev;
            root        /path/to/yii-application/frontend/web/;
            index       index.php;
-       
+
            access_log  /path/to/yii-application/log/frontend-access.log;
            error_log   /path/to/yii-application/log/frontend-error.log;
-       
+
            location / {
                # Redirect everything that isn't a real file to index.php
                try_files $uri $uri/ /index.php$is_args$args;
            }
-       
+
            # uncomment to avoid processing of calls to non-existing static files by Yii
            #location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
            #    try_files $uri =404;
            #}
            #error_page 404 /404.html;
-       
+
+           # deny accessing php files for the /assets directory
+           location ~ ^/assets/.*\.php$ {
+               deny all;
+           }
+
            location ~ \.php$ {
                include fastcgi_params;
                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-               fastcgi_pass   127.0.0.1:9000;
+               fastcgi_pass 127.0.0.1:9000;
                #fastcgi_pass unix:/var/run/php5-fpm.sock;
                try_files $uri =404;
            }
        
-           location ~ /\.(ht|svn|git) {
+           location ~* /\. {
                deny all;
            }
        }
@@ -233,16 +238,21 @@ the installed application. You only need to do these once for all.
            #    try_files $uri =404;
            #}
            #error_page 404 /404.html;
-       
+
+           # deny accessing php files for the /assets directory
+           location ~ ^/assets/.*\.php$ {
+               deny all;
+           }
+
            location ~ \.php$ {
                include fastcgi_params;
                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-               fastcgi_pass   127.0.0.1:9000;
+               fastcgi_pass 127.0.0.1:9000;
                #fastcgi_pass unix:/var/run/php5-fpm.sock;
                try_files $uri =404;
            }
        
-           location ~ /\.(ht|svn|git) {
+           location ~* /\. {
                deny all;
            }
        }
@@ -265,7 +275,7 @@ Then, you can login into the application with same email address and password at
 
 
 > Note: if you want to run advanced template on a single domain so `/` is frontend and `/admin` is backend, refer
-> to [configs and docs by Oleg Belostotskiy](https://github.com/mickgeek/yii2-advanced-one-domain-config).
+> to [Using advanced project template at shared hosting](topic-shared-hosting.md).
 
 To auto generate demo database datum apply command `php yii fixture/load "*"`.
 Will be created one user (login: Bob, password: Z1ON0101)
