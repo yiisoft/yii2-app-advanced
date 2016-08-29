@@ -2,7 +2,7 @@ Testing
 ===============================
 
 Yii2 Advanced Application uses Codeception as its primary test framework. 
-There are already some sample tests prepare in `tests` directory of `frontend`, `backend`, and `common`.
+There are already some sample tests prepared in `tests` directory of `frontend`, `backend`, and `common`.
 Tests require **additional database**, which will be cleaned up between tests. 
 Create database `yii2advanced_test` in mysql (according to config in `common/config/test.php`) and execute: 
 
@@ -26,7 +26,7 @@ You will see output similar to this:
 
 ![](images/tests.png)
 
-It is recommended to keep you tests up to date. If a class, or functionality is deleted, corresponding tests should be deleted as well.
+It is recommended to keep your tests up to date. If a class, or functionality is deleted, corresponding tests should be deleted as well.
 You should run tests regularly, or better to set up Continuous Integration server for them.  
 
 Please refer to [Yii2 Framework Case Study](http://codeception.com/for/yii) to learn how to configure Codeception for your application.
