@@ -31,4 +31,5 @@ before_script:
   - php yii_test migrate --interactive=0
 
 script:
+  - composer validate --strict
   - composer exec codecept run
