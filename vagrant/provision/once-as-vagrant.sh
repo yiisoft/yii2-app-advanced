@@ -21,7 +21,7 @@ composer config --global github-oauth.github.com ${github_token}
 echo "Done!"
 
 info "Install plugins for composer"
-composer global require "fxp/composer-asset-plugin:~1.1.1" --no-progress
+composer global require "fxp/composer-asset-plugin:^1.2.0" --no-progress
 
 info "Install codeception"
 composer global require "codeception/codeception=2.0.*" "codeception/specify=*" "codeception/verify=*" --no-progress

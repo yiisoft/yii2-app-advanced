@@ -5,76 +5,6 @@ Installation
 
 The minimum requirement by this project template is that your Web server supports PHP 5.4.0.
 
-## Installing using Vagrant
-
-This way is the easiest but long (~20 min).
-
-**This installation way doesn't require pre-installed software (such as web-server, PHP, MySQL etc.)** - just do next steps!
-
-#### Manual for Linux/Unix users
-
-1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-2. Install [Vagrant](https://www.vagrantup.com/downloads.html)
-3. Create GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens)
-3. Prepare project:
-   
-   ```bash
-   git clone https://github.com/yiisoft/yii2-app-advanced.git
-   cd yii2-app-advanced/vagrant/config
-   cp vagrant-local.example.yml vagrant-local.yml
-   ```
-   
-4. Place your GitHub personal API token to `vagrant-local.yml`
-5. Change directory to project root:
-
-   ```bash
-   cd yii2-app-advanced
-   ```
-
-5. Run commands:
-
-   ```bash
-   vagrant plugin install vagrant-hostmanager
-   vagrant up
-   ```
-   
-That's all. You just need to wait for completion! After that you can access project locally by URLs:
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
-   
-#### Manual for Windows users
-
-1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-2. Install [Vagrant](https://www.vagrantup.com/downloads.html)
-3. Reboot
-4. Create GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens)
-5. Prepare project:
-   * download repo [yii2-app-advanced](https://github.com/yiisoft/yii2-app-advanced/archive/master.zip)
-   * unzip it
-   * go into directory `yii2-app-advanced-master/vagrant/config`
-   * copy `vagrant-local.example.yml` to `vagrant-local.yml`
-
-6. Place your GitHub personal API token to `vagrant-local.yml`
-7. Add the following lines to [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)):
-   
-   ```
-   192.168.83.137 y2aa-frontend.dev
-   192.168.83.137 y2aa-backend.dev
-   ```
-
-8. Open terminal (`cmd.exe`), **change directory to project root** and run commands:
-
-   ```bash
-   vagrant plugin install vagrant-hostmanager
-   vagrant up
-   ```
-   
-   (You can read [here](http://www.wikihow.com/Change-Directories-in-Command-Prompt) how to change directories in command prompt) 
-
-That's all. You just need to wait for completion! After that you can access project locally by URLs:
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
-
 ## Installing using Composer
 
 If you do not have [Composer](http://getcomposer.org/), follow the instructions in the
@@ -82,7 +12,7 @@ If you do not have [Composer](http://getcomposer.org/), follow the instructions 
 
 With Composer installed, you can then install the application using the following commands:
 
-    composer global require "fxp/composer-asset-plugin:~1.1.1"
+    composer global require "fxp/composer-asset-plugin:^1.2.0"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
 The first command installs the [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/)
@@ -276,3 +206,74 @@ Then, you can login into the application with same email address and password at
 
 > Note: if you want to run advanced template on a single domain so `/` is frontend and `/admin` is backend, refer
 > to [Using advanced project template at shared hosting](topic-shared-hosting.md).
+
+## Installing using Vagrant
+
+This way is the easiest but long (~20 min).
+
+**This installation way doesn't require pre-installed software (such as web-server, PHP, MySQL etc.)** - just do next steps!
+
+#### Manual for Linux/Unix users
+
+1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+2. Install [Vagrant](https://www.vagrantup.com/downloads.html)
+3. Create GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens)
+3. Prepare project:
+   
+   ```bash
+   git clone https://github.com/yiisoft/yii2-app-advanced.git
+   cd yii2-app-advanced/vagrant/config
+   cp vagrant-local.example.yml vagrant-local.yml
+   ```
+   
+4. Place your GitHub personal API token to `vagrant-local.yml`
+5. Change directory to project root:
+
+   ```bash
+   cd yii2-app-advanced
+   ```
+
+5. Run commands:
+
+   ```bash
+   vagrant plugin install vagrant-hostmanager
+   vagrant up
+   ```
+   
+That's all. You just need to wait for completion! After that you can access project locally by URLs:
+* frontend: http://y2aa-frontend.dev
+* backend: http://y2aa-backend.dev
+   
+#### Manual for Windows users
+
+1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+2. Install [Vagrant](https://www.vagrantup.com/downloads.html)
+3. Reboot
+4. Create GitHub [personal API token](https://github.com/blog/1509-personal-api-tokens)
+5. Prepare project:
+   * download repo [yii2-app-advanced](https://github.com/yiisoft/yii2-app-advanced/archive/master.zip)
+   * unzip it
+   * go into directory `yii2-app-advanced-master/vagrant/config`
+   * copy `vagrant-local.example.yml` to `vagrant-local.yml`
+
+6. Place your GitHub personal API token to `vagrant-local.yml`
+7. Add the following lines to [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)):
+   
+   ```
+   192.168.83.137 y2aa-frontend.dev
+   192.168.83.137 y2aa-backend.dev
+   ```
+
+8. Open terminal (`cmd.exe`), **change directory to project root** and run commands:
+
+   ```bash
+   vagrant plugin install vagrant-hostmanager
+   vagrant up
+   ```
+   
+   (You can read [here](http://www.wikihow.com/Change-Directories-in-Command-Prompt) how to change directories in command prompt) 
+
+That's all. You just need to wait for completion! After that you can access project locally by URLs:
+* frontend: http://y2aa-frontend.dev
+* backend: http://y2aa-backend.dev
+

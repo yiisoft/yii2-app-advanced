@@ -5,76 +5,6 @@ Instalação
 
 O requisito mínimo deste template de projetos é que seu servidor Web suporte PHP 5.4.0.
 
-## Instalação utilizando Vagrant
-
-Esta é a forma mais simples porém, mais demorada (~20 min).
-
-**Esta forma de instalação não necessita de nenhum software pré-instalado (web-server, PHP, MySQL, etc.)** - basta apenas seguir as etapas!
-
-#### Manual para usuários Linux/Unix
-
-1. Instale o [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-2. Instale o [Vagrant](https://www.vagrantup.com/downloads.html)
-3. Crie um [token de API pessoal](https://github.com/blog/1509-personal-api-tokens) do GitHub
-4. Prepare o projeto:
-   
-   ```bash
-   git clone https://github.com/yiisoft/yii2-app-advanced.git
-   cd yii2-app-advanced/vagrant/config
-   cp vagrant-local.example.yml vagrant-local.yml
-   ```
-   
-4. Introduza seu token de API pessoal no arquivo `vagrant-local.yml`
-5. Entre no diretório raiz do projeto:
-
-   ```bash
-   cd yii2-app-advanced
-   ```
-
-5. Execute os comandos:
-
-   ```bash
-   vagrant plugin install vagrant-hostmanager
-   vagrant up
-   ```
-   
-Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o projeto localmente pelas URLs:
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
-
-#### Manual para usuários Windows
-
-1. Instale o [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-2. Instale o [Vagrant](https://www.vagrantup.com/downloads.html)
-3. Reinicie
-4. Crie um [token de API pessoal](https://github.com/blog/1509-personal-api-tokens) do GitHub
-5. Prepare o projeto:
-   * faça do download do repositório [yii2-app-advanced](https://github.com/yiisoft/yii2-app-advanced/archive/master.zip)
-   * descompacte o arquivo
-   * entre no diretório `yii2-app-advanced-master/vagrant/config`
-   * copie o arquivo `vagrant-local.example.yml` para `vagrant-local.yml`
-   
-6. Introduza seu token de API pessoal no arquivo `vagrant-local.yml`
-7. Adicione as seguintes linhas no [arquivo de hosts](https://pt.wikipedia.org/wiki/Hosts_(arquivo)):
-   
-   ```
-   192.168.83.137 y2aa-frontend.dev
-   192.168.83.137 y2aa-backend.dev
-   ```
-   
-8. Abra o terminal (`cmd.exe`), **entre no diretório raiz do projeto** e execute os comandos:
-
-   ```bash
-   vagrant plugin install vagrant-hostmanager
-   vagrant up
-   ```
-   
-   (Você pode ler [aqui](http://pt.wikihow.com/Alterar-Diret%C3%B3rios-no-Prompt-de-Comandos) como alterar diretórios no prompt de comando) 
-
-Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o projeto localmente pelas URLs:
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
-
 ## Instalação utilizando Composer
 
 Caso você não tenha o [Composer](http://getcomposer.org/) instalado, siga as instruções na seção [Instalando o Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide-pt-BR/start-installation.md#instalando-via-composer-)
@@ -82,7 +12,7 @@ do guia definitivo para Yii 2.0 para instala-lo.
 
 Com o Composer instalado, você pode então instalar o template de projetos usando os seguintes comandos:
 
-    composer global require "fxp/composer-asset-plugin:~1.1.1"
+    composer global require "fxp/composer-asset-plugin:^1.2.0"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
     
 O primeiro comando instala o [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/) que permite
@@ -266,3 +196,74 @@ Então, você pode se autenticar na aplicação com o mesmo endereço de e-mail 
 
 > PS: caso queira que o template avançado de projetos utilize um único domínio, sendo `/` o frontend e `/admin` o backend, 
 > consulte as [configurações e documentações por Oleg Belostotskiy](https://github.com/mickgeek/yii2-advanced-one-domain-config) (apenas inglês).
+
+## Instalação utilizando Vagrant
+
+Esta é a forma mais simples porém, mais demorada (~20 min).
+
+**Esta forma de instalação não necessita de nenhum software pré-instalado (web-server, PHP, MySQL, etc.)** - basta apenas seguir as etapas!
+
+#### Manual para usuários Linux/Unix
+
+1. Instale o [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+2. Instale o [Vagrant](https://www.vagrantup.com/downloads.html)
+3. Crie um [token de API pessoal](https://github.com/blog/1509-personal-api-tokens) do GitHub
+4. Prepare o projeto:
+   
+   ```bash
+   git clone https://github.com/yiisoft/yii2-app-advanced.git
+   cd yii2-app-advanced/vagrant/config
+   cp vagrant-local.example.yml vagrant-local.yml
+   ```
+   
+4. Introduza seu token de API pessoal no arquivo `vagrant-local.yml`
+5. Entre no diretório raiz do projeto:
+
+   ```bash
+   cd yii2-app-advanced
+   ```
+
+5. Execute os comandos:
+
+   ```bash
+   vagrant plugin install vagrant-hostmanager
+   vagrant up
+   ```
+   
+Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o projeto localmente pelas URLs:
+* frontend: http://y2aa-frontend.dev
+* backend: http://y2aa-backend.dev
+
+#### Manual para usuários Windows
+
+1. Instale o [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+2. Instale o [Vagrant](https://www.vagrantup.com/downloads.html)
+3. Reinicie
+4. Crie um [token de API pessoal](https://github.com/blog/1509-personal-api-tokens) do GitHub
+5. Prepare o projeto:
+   * faça do download do repositório [yii2-app-advanced](https://github.com/yiisoft/yii2-app-advanced/archive/master.zip)
+   * descompacte o arquivo
+   * entre no diretório `yii2-app-advanced-master/vagrant/config`
+   * copie o arquivo `vagrant-local.example.yml` para `vagrant-local.yml`
+   
+6. Introduza seu token de API pessoal no arquivo `vagrant-local.yml`
+7. Adicione as seguintes linhas no [arquivo de hosts](https://pt.wikipedia.org/wiki/Hosts_(arquivo)):
+   
+   ```
+   192.168.83.137 y2aa-frontend.dev
+   192.168.83.137 y2aa-backend.dev
+   ```
+   
+8. Abra o terminal (`cmd.exe`), **entre no diretório raiz do projeto** e execute os comandos:
+
+   ```bash
+   vagrant plugin install vagrant-hostmanager
+   vagrant up
+   ```
+   
+   (Você pode ler [aqui](http://pt.wikihow.com/Alterar-Diret%C3%B3rios-no-Prompt-de-Comandos) como alterar diretórios no prompt de comando) 
+
+Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o projeto localmente pelas URLs:
+* frontend: http://y2aa-frontend.dev
+* backend: http://y2aa-backend.dev
+
