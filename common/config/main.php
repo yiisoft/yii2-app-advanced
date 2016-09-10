@@ -12,6 +12,14 @@ return [
             'class' => 'yii\image\ImageDriver',
             'driver' => 'GD',  //GD or Imagick
         ],
+        'urlManagerFrontEnd' =>[
+            'class' => 'yii\web\UrlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName'=>false,
+            'baseUrl' => SITE_URL,
+            //'class'=>'frontend\components\LangUrlManager',
+            'rules'=> require(dirname(__FILE__).'/_urls.php')
+        ],
     ],
     'modules' => [
         'noty' => [
