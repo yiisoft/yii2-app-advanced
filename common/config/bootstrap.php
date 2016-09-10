@@ -1,8 +1,5 @@
 <?php
 
-    define('SITE_URL', 'http://mysite.com');
-    define('ADMIN_SITE_URL', 'http://admin.mysite.com');
-
 Yii::setAlias('@common', dirname(__DIR__));
 Yii::setAlias('@frontend', dirname(dirname(__DIR__)) . '/frontend');
 Yii::setAlias('@backend', dirname(dirname(__DIR__)) . '/backend');
