@@ -1,15 +1,15 @@
 <?php
-namespace tests\frontend\acceptance;
+namespace frontend\tests\acceptance;
 
 use Yii;
-use tests\frontend\AcceptanceTester;
+use frontend\tests\AcceptanceTester;
 use yii\helpers\Url;
 
 class HomeCest
 {
     public function checkHome(AcceptanceTester $I)
     {
-        $I->amOnPage(Url::toRoute('/site/home'));
+        $I->amOnPage(Url::toRoute('/site/index'));
         $I->see('My Company');
         $I->seeLink('About');
         $I->click('About');

@@ -5,4 +5,4 @@ modules:
             url: http://localhost:8080
             browser: firefox
         - Yii2:
-            parts: init
+            part: init
