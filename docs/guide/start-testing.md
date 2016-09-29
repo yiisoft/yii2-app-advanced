@@ -3,7 +3,10 @@ Testing
 
 Yii2 Advanced Application uses Codeception as its primary test framework. 
 There are already some sample tests prepared in `tests` directory of `frontend`, `backend`, and `common`.
-Tests require **additional database**, which will be cleaned up between tests. 
+In order for the following procedure to work, it is assumed that the application has been initialized using
+the `dev` environment. In case tests need to be executed within a `Production` environment, `yii_test` and
+`yii_test.bat` must be manually copied from the `environments/dev` folder into the project root directory.
+Tests require an **additional database**, which will be cleaned up between tests.
 Create database `yii2advanced_test` in mysql (according to config in `common/config/test.php`) and execute: 
 
 ```
@@ -69,28 +72,34 @@ To execute acceptance tests do the following:
 
 1. Rename `frontend/tests/acceptance.suite.yml.example` to `frontend/tests/acceptance.suite.yml` to enable suite configuration
 
-2. Replace `codeception/base` package in `composer.json` with `codeception/codeception` to install full featured
+1. Replace `codeception/base` package in `composer.json` with `codeception/codeception` to install full featured
    version of Codeception
 
-3. Update dependencies with Composer 
+1. Update dependencies with Composer 
 
     ```
     composer update  
     ```
 
-4. Download [Selenium Server](http://www.seleniumhq.org/download/) and launch it:
+1. Auto-generate new support classes for acceptance tests:
+
+    ```
+    composer exec codecept build -- -c frontend
+    ```
+
+1. Download [Selenium Server](http://www.seleniumhq.org/download/) and launch it:
 
     ```
     java -jar ~/selenium-server-standalone-x.xx.x.jar
     ``` 
 
-5. Start web server:
+1. Start web server:
 
     ```
     php -S 127.0.0.1:8080 -t frontend/web
     ```
 
-6. Now you can run all available tests
+1. Now you can run all available tests
 
    ```
    composer exec codecept run acceptance -- -c frontend
