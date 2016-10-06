@@ -14,6 +14,6 @@
         ];
 
         public $depends = [
-            'lo\modules\noty\widgets\layers\NotyAsset',
+            'lo\modules\noty\assets\NotyAsset',
         ];
     }
