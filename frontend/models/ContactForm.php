@@ -46,7 +46,7 @@ class ContactForm extends Model
      * Sends an email to the specified email address using the information collected by this model.
      *
      * @param string $email the target email address
-     * @return boolean whether the email was sent
+     * @return bool whether the email was sent
      */
     public function sendEmail($email)
     {

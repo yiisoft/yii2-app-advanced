@@ -12,6 +12,7 @@ class ResetPasswordFormTest extends \Codeception\Test\Unit
      */
     protected $tester;
 
+
     public function _before()
     {
         $this->tester->haveFixtures([

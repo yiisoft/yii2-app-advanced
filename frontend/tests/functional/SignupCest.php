@@ -8,6 +8,7 @@ class SignupCest
 {
     protected $formId = '#form-signup';
 
+
     public function _before(FunctionalTester $I)
     {
         $I->amOnRoute('site/signup');
