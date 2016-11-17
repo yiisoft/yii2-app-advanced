@@ -11,7 +11,8 @@ use yii\web\IdentityInterface;
  * User model
  *
  * @property integer $id
- * @property string $username
+ * @property string $fam
+ * @property string $im
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
@@ -41,7 +42,13 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['createDate'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => [],
+                ],
+            ]
         ];
     }
 
@@ -61,6 +68,9 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['email', 'email'],
+            ['email', 'unique'],
+            [['email'], 'required'],
             //['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }
@@ -81,16 +91,6 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        return static::findOne(['username' => $username/*, 'status' => self::STATUS_ACTIVE*/]);
-    }
 
     /**
      * Finds user by email

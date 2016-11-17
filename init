@@ -85,6 +85,10 @@ foreach ($callbacks as $callback) {
 }
 
 echo "\n  ... initialization completed.\n\n";
+echo "\n  You need to config database connection in common/config/main-local.php\n\n";
+echo "\n  You need to run command: php yii migrate --migrationPath=@yii/rbac/migrations/\n\n";
+echo "\n  You need to run command: php yii migrate \n\n";
+echo "\n  You need to run command: php yii user/create-admin -e=<email> -p=<password>\n\n";
 
 function getFileList($root, $basePath = '')
 {
