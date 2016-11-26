@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
 
+#== Bash helpers ==
+source /app/vagrant/provision/common.sh
+
 #== Import script args ==
 
 timezone=$(echo "$1")
-
-#== Bash helpers ==
-
-function info {
-  echo " "
-  echo "--> $1"
-  echo " "
-}
 
 #== Provision script ==
 
