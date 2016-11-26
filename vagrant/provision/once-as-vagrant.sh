@@ -35,11 +35,11 @@ composer --no-progress --prefer-dist install
 echo "Done!"
 
 info "Init project"
-./init --env=Development --overwrite=y
+php ./init --env=Development --overwrite=y
 echo "Done!"
 
 info "Apply migrations"
-./yii migrate <<< "yes"
+php ./yii migrate <<< "yes"
 echo "Done!"
 
 info "Create bash-alias 'app' for vagrant user"
