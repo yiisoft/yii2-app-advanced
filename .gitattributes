@@ -4,3 +4,4 @@
 /.scrutinizer.yml   export-ignore
 /.travis.yml        export-ignore
 /docs               export-ignore
+/vagrant/provision/*.sh text eol=lf
