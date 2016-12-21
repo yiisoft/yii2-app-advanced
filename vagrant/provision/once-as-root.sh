@@ -46,7 +46,7 @@ apt-get update
 info "Install zip"
 apt-get install unzip
 info "Install php"
-apt-get install -y git php7.0 php7.0-fpm php7.0-mysql php7.0-curl php7.0-gd php-mbstring php-xml mysql-server-5.6
+apt-get install -y git php7.0 php7.0-fpm php7.0-mysql php7.0-curl php7.0-gd php-mbstring php-xml
 info "Install MySQL"
 apt-get install -y mysql-server-5.6
 info "Set locale"
