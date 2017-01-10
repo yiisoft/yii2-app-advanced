@@ -74,6 +74,12 @@ the installed application. You only need to do these once for all.
                DirectoryIndex index.php
 
                # ...other settings...
+               # Apache 2.4
+               Require all granted
+               
+               ## Apache 2.2
+               # Order allow,deny
+               # Allow from all
            </Directory>
        </VirtualHost>
        
@@ -94,6 +100,12 @@ the installed application. You only need to do these once for all.
                DirectoryIndex index.php
 
                # ...other settings...
+               # Apache 2.4
+               Require all granted
+               
+               ## Apache 2.2
+               # Order allow,deny
+               # Allow from all
            </Directory>
        </VirtualHost>
    ```
