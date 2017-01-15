@@ -6,6 +6,7 @@ source /app/vagrant/provision/common.sh
 #== Import script args ==
 
 github_token=$(echo "$1")
+netmask=$(echo "$2")
 
 #== Provision script ==
 
@@ -45,11 +46,11 @@ info "Enabling colorized prompt for guest console"
 sed -i "s/#force_color_prompt=yes/force_color_prompt=yes/" /home/vagrant/.bashrc
 echo "Done!"
 
-info "Enabling access to GII from 192.168.83.1"
+info "Enabling access to GII from host ip"
 sed  -i  '/return $config/d' ./frontend/config/main-local.php
 cat <<EOT >> ./frontend/config/main-local.php
 if (!YII_ENV_TEST && isset(\$config['modules']['gii']) )
-    \$config['modules']['gii']['allowedIPs'] = ['127.0.0.1', '::1','192.168.83.1'];
+    \$config['modules']['gii']['allowedIPs'] = ['127.0.0.1', '::1','${netmask}.1'];
 
 return \$config;
 EOT
