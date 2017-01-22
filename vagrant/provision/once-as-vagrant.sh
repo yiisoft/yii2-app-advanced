@@ -6,7 +6,7 @@ source /app/vagrant/provision/common.sh
 #== Import script args ==
 
 github_token=$(echo "$1")
-netmask=$(echo "$2")
+ip_prefix=$(echo "$2")
 
 #== Provision script ==
 
@@ -50,7 +50,7 @@ info "Enabling access to GII from host ip"
 sed  -i  '/return $config/d' ./frontend/config/main-local.php
 cat <<EOT >> ./frontend/config/main-local.php
 if (!YII_ENV_TEST && isset(\$config['modules']['gii']) )
-    \$config['modules']['gii']['allowedIPs'] = ['127.0.0.1', '::1','${netmask}.1'];
+    \$config['modules']['gii']['allowedIPs'] = ['127.0.0.1', '::1','${ip_prefix}.1'];
 
 return \$config;
 EOT

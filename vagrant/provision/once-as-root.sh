@@ -6,7 +6,7 @@ source /app/vagrant/provision/common.sh
 #== Import script args ==
 
 timezone=$(echo "$1")
-netmask=$(echo "$2")
+ip_prefix=$(echo "$2")
 
 #== Provision script ==
 
@@ -63,8 +63,8 @@ mysql -uroot <<< "CREATE DATABASE yii2advanced_test"
 echo "Done!"
 
 info "Enable remote access(root user) to MySQL from 192.168.83.1"
-mysql -uroot <<< "GRANT ALL PRIVILEGES ON yii2advanced.* TO 'root'@'${netmask}.1'  WITH GRANT OPTION"
-mysql -uroot <<< "GRANT ALL PRIVILEGES ON yii2advanced_test.* TO 'root'@'${netmask}.1'  WITH GRANT OPTION"
+mysql -uroot <<< "GRANT ALL PRIVILEGES ON yii2advanced.* TO 'root'@'${ip_prefix}.1'  WITH GRANT OPTION"
+mysql -uroot <<< "GRANT ALL PRIVILEGES ON yii2advanced_test.* TO 'root'@'${ip_prefix}.1'  WITH GRANT OPTION"
 echo "Done!"
 
 

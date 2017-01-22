@@ -53,7 +53,7 @@ Vagrant.configure(2) do |config|
   config.vm.hostname = options['machine_name']
 
   # network settings
-  config.vm.network 'private_network', ip: options['netmask']+'.'+options['ip']
+  config.vm.network 'private_network', ip: options['ip_prefix']+'.'+options['ip']
 
   # sync: folder 'yii2-app-advanced' (host machine) -> folder '/app' (guest machine)
   config.vm.synced_folder './', '/app', owner: 'vagrant', group: 'vagrant'
@@ -70,8 +70,8 @@ Vagrant.configure(2) do |config|
   config.hostmanager.aliases            = domains.values
 
   # provisioners
-  config.vm.provision 'shell', path: './vagrant/provision/once-as-root.sh', args: [options['timezone'],options['netmask']]
-  config.vm.provision 'shell', path: './vagrant/provision/once-as-vagrant.sh', args: [options['github_token'],options['netmask']], privileged: false
+  config.vm.provision 'shell', path: './vagrant/provision/once-as-root.sh', args: [options['timezone'],options['ip_prefix']]
+  config.vm.provision 'shell', path: './vagrant/provision/once-as-vagrant.sh', args: [options['github_token'],options['ip_prefix']], privileged: false
   config.vm.provision 'shell', path: './vagrant/provision/always-as-root.sh', run: 'always'
 
   # post-install message (vagrant console)

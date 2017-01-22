@@ -12,8 +12,8 @@ box_check_update: false
 # Virtual machine name
 machine_name: y2aa
 
-# Virtual netmask
-netmask: 192.168.83
+# Virtual ip prefix
+ip_prefix: 192.168.83
 
 # Virtual machine IP
 ip: "137"
