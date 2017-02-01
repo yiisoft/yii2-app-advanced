@@ -16,24 +16,14 @@ function info {
 
 info "Provision-script user: `whoami`"
 
-info "Allocate swap for MySQL 5.6"
-fallocate -l 2048M /swapfile
-chmod 600 /swapfile
-mkswap /swapfile
-swapon /swapfile
-echo '/swapfile none swap defaults 0 0' >> /etc/fstab
-
-info "Configure locales"
-update-locale LC_ALL="C"
-dpkg-reconfigure locales
+export DEBIAN_FRONTEND=noninteractive
 
 info "Configure timezone"
-echo ${timezone} | tee /etc/timezone
-dpkg-reconfigure --frontend noninteractive tzdata
+timedatectl set-timezone ${timezone} --no-ask-password
 
 info "Prepare root password for MySQL"
-debconf-set-selections <<< "mysql-server-5.6 mysql-server/root_password password \"''\""
-debconf-set-selections <<< "mysql-server-5.6 mysql-server/root_password_again password \"''\""
+debconf-set-selections <<< "mysql-community-server mysql-community-server/root-pass password \"''\""
+debconf-set-selections <<< "mysql-community-server mysql-community-server/re-root-pass password \"''\""
 echo "Done!"
 
 info "Update OS software"
@@ -41,16 +31,20 @@ apt-get update
 apt-get upgrade -y
 
 info "Install additional software"
-apt-get install -y git php5-curl php5-cli php5-intl php5-mysqlnd php5-gd php5-fpm nginx mysql-server-5.6
+apt-get install -y php7.0-curl php7.0-cli php7.0-intl php7.0-mysqlnd php7.0-gd php7.0-fpm php7.0-mbstring php7.0-xml unzip nginx mysql-server-5.7
 
 info "Configure MySQL"
-sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
+mysql -uroot <<< "CREATE USER 'root'@'%' IDENTIFIED BY ''"
+mysql -uroot <<< "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'"
+mysql -uroot <<< "DROP USER 'root'@'localhost'"
+mysql -uroot <<< "FLUSH PRIVILEGES"
 echo "Done!"
 
 info "Configure PHP-FPM"
-sed -i 's/user = www-data/user = vagrant/g' /etc/php5/fpm/pool.d/www.conf
-sed -i 's/group = www-data/group = vagrant/g' /etc/php5/fpm/pool.d/www.conf
-sed -i 's/owner = www-data/owner = vagrant/g' /etc/php5/fpm/pool.d/www.conf
+sed -i 's/user = www-data/user = vagrant/g' /etc/php/7.0/fpm/pool.d/www.conf
+sed -i 's/group = www-data/group = vagrant/g' /etc/php/7.0/fpm/pool.d/www.conf
+sed -i 's/owner = www-data/owner = vagrant/g' /etc/php/7.0/fpm/pool.d/www.conf
 echo "Done!"
 
 info "Configure NGINX"
