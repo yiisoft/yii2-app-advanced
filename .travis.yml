@@ -32,4 +32,4 @@ before_script:
 
 script:
   - composer validate --strict
-  - composer exec codecept run
+  - vendor/bin/codecept run

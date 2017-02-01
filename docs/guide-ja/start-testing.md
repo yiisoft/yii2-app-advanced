@@ -13,13 +13,13 @@ Yii2 アドバンストアプリケーションは Codeception を主たるテ�
 次に、テストスイートをビルドします。
 
 ```
-composer exec codecept build
+vendor/bin/codecept build
 ```
 
 これで、次のコマンドを実行すれば、全てのサンプルテストを開始することが出来ます。
 
 ```
-composer exec codecept run
+vendor/bin/codecept run
 ```
 
 次の図と同じような出力が得られる筈です。
@@ -38,7 +38,7 @@ Codeception をあなたのアプリケーションのために構成する方�
 下記を実行してテストを実行します。
 
 ```
-composer exec codecept run -- -c common 
+vendor/bin/codecept run -- -c common
 ```
 
 `-c` オプションが `codeception.yml` 構成ファイルへのパスをセットすることを可能にしています。
@@ -54,7 +54,7 @@ composer exec codecept run -- -c common
 下記を実行してテストを実行します。
 
 ```
-composer exec codecept run -- -c frontend
+vendor/bin/codecept run -- -c frontend
 ```
 
 テストスイートの説明
@@ -94,7 +94,7 @@ composer exec codecept run -- -c frontend
 6. これで全てのテストを実行することが出来る
 
    ```
-   composer exec codecept run acceptance -- -c frontend
+   vendor/bin/codecept run acceptance -- -c frontend
    ```
 
 ## Backend
@@ -103,5 +103,5 @@ composer exec codecept run -- -c frontend
 下記によって、テストスイートを実行します。
 
 ```
-composer exec codecept run -- -c backend 
+vendor/bin/codecept run -- -c backend
 ```

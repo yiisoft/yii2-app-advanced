@@ -14,13 +14,13 @@ Yii2高级应用程序使用Codeception作为其主要测试框架。
 构建测试套件：
 
 ```
-composer exec codecept build
+vendor/bin/codecept build
 ```
 
 然后所有的样例测试可以通过运行如下代码：
 
 ```
-composer exec codecept run
+vendor/bin/codecept run
 ```
 
 您将看到类似于以下的输出：
@@ -37,7 +37,7 @@ common部分的测试位于 `common/tests`. 在这个模板中只有 `unit` （�
 运行如下代码:
 
 ```
-composer exec codecept run -- -c common 
+vendor/bin/codecept run -- -c common
 ```
 
 `-c` 选项允许设置 `codeception.yml` 配置的路径。
@@ -52,7 +52,7 @@ composer exec codecept run -- -c common
 通过运行：
 
 ```
-composer exec codecept run -- -c frontend
+vendor/bin/codecept run -- -c frontend
 ```
 
 测试套件描述：
@@ -80,7 +80,7 @@ composer exec codecept run -- -c frontend
 1. 为验收测试自动生成新的支持类:
 
     ```
-    composer exec codecept build -- -c frontend
+    vendor/bin/codecept build -- -c frontend
     ```
 
 1. 下载 [Selenium Server](http://www.seleniumhq.org/download/) 并启动:
@@ -98,7 +98,7 @@ composer exec codecept run -- -c frontend
 1. 现在可以运行所有可用的测试
 
    ```
-   composer exec codecept run acceptance -- -c frontend
+   vendor/bin/codecept run acceptance -- -c frontend
    ```
 
 ## Backend
@@ -106,5 +106,5 @@ composer exec codecept run -- -c frontend
 后端应用程序包含单元和功能测试套件。 通过运行：
 
 ```
-composer exec codecept run -- -c backend 
+vendor/bin/codecept run -- -c backend
 ```

@@ -16,13 +16,13 @@ Create database `yii2advanced_test` in mysql (according to config in `common/con
 Build the test suite:
 
 ```
-composer exec codecept build
+vendor/bin/codecept build
 ```
 
 Then all sample tests can be started by running:
 
 ```
-composer exec codecept run
+vendor/bin/codecept run
 ```
 
 You will see output similar to this:
@@ -40,7 +40,7 @@ Tests for common classes are located in `common/tests`. In this template there a
 Execute them by running:
 
 ```
-composer exec codecept run -- -c common 
+vendor/bin/codecept run -- -c common
 ```
 
 `-c` option allows to set path to `codeception.yml` config.
@@ -55,7 +55,7 @@ Frontend tests contain unit tests, functional tests, and acceptance tests.
 Execute them by running:
 
 ```
-composer exec codecept run -- -c frontend
+vendor/bin/codecept run -- -c frontend
 ```
 
 Description of test suites:
@@ -84,7 +84,7 @@ To execute acceptance tests do the following:
 1. Auto-generate new support classes for acceptance tests:
 
     ```
-    composer exec codecept build -- -c frontend
+    vendor/bin/codecept build -- -c frontend
     ```
 
 1. Download [Selenium Server](http://www.seleniumhq.org/download/) and launch it:
@@ -102,7 +102,7 @@ To execute acceptance tests do the following:
 1. Now you can run all available tests
 
    ```
-   composer exec codecept run acceptance -- -c frontend
+   vendor/bin/codecept run acceptance -- -c frontend
    ```
 
 ## Backend
@@ -110,5 +110,5 @@ To execute acceptance tests do the following:
 Backend application contain unit and functional test suites. Execute them by running:
 
 ```
-composer exec codecept run -- -c backend 
+vendor/bin/codecept run -- -c backend
 ```
