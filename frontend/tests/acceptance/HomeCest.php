@@ -1,7 +1,6 @@
 <?php
 namespace frontend\tests\acceptance;
 
-use Yii;
 use frontend\tests\AcceptanceTester;
 use yii\helpers\Url;
 

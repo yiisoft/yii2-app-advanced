@@ -3,7 +3,7 @@
 namespace backend\tests\functional;
 
 use \backend\tests\FunctionalTester;
-use common\fixtures\User as UserFixture;
+use common\fixtures\UserFixture as UserFixture;
 
 /**
  * Class LoginCest
