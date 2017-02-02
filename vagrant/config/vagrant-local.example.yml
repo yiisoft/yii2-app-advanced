@@ -10,7 +10,7 @@ timezone: Europe/London
 box_check_update: false
 
 # Virtual machine name
-machine_name: y2aa
+machine_name: site
 
 # Virtual machine IP
 ip: 192.168.83.137
