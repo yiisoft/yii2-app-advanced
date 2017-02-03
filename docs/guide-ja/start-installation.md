@@ -74,6 +74,12 @@ Composer がインストールされていれば、次のコマンドを使っ�
                DirectoryIndex index.php
 
                # ... その他の設定 ...
+               # Apache 2.4
+               Require all granted
+               
+               ## Apache 2.2
+               # Order allow,deny
+               # Allow from all
            </Directory>
        </VirtualHost>
 
@@ -94,6 +100,12 @@ Composer がインストールされていれば、次のコマンドを使っ�
                DirectoryIndex index.php
 
                # ... その他の設定 ...
+               # Apache 2.4
+               Require all granted
+               
+               ## Apache 2.2
+               # Order allow,deny
+               # Allow from all
            </Directory>
        </VirtualHost>
    ```
