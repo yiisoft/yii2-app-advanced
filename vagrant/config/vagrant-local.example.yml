@@ -12,8 +12,11 @@ box_check_update: false
 # Virtual machine name
 machine_name: y2aa
 
+# Virtual ip prefix
+ip_prefix: 192.168.83
+
 # Virtual machine IP
-ip: 192.168.83.137
+ip: "137"
 
 # Virtual machine CPU cores number
 cpus: 1

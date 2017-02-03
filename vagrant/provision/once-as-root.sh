@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
 
+#== Bash helpers ==
+source /app/vagrant/provision/common.sh
+
 #== Import script args ==
 
 timezone=$(echo "$1")
-
-#== Bash helpers ==
-
-function info {
-  echo " "
-  echo "--> $1"
-  echo " "
-}
+ip_prefix=$(echo "$2")
 
 #== Provision script ==
 
@@ -51,14 +47,20 @@ info "Configure NGINX"
 sed -i 's/user www-data/user vagrant/g' /etc/nginx/nginx.conf
 echo "Done!"
 
-info "Enabling site configuration"
+info "Enable site configuration"
 ln -s /app/vagrant/nginx/app.conf /etc/nginx/sites-enabled/app.conf
 echo "Done!"
 
-info "Initailize databases for MySQL"
+info "Initialize databases for MySQL"
 mysql -uroot <<< "CREATE DATABASE yii2advanced"
 mysql -uroot <<< "CREATE DATABASE yii2advanced_test"
 echo "Done!"
+
+info "Enable remote access(root user) to MySQL from 192.168.83.1"
+mysql -uroot <<< "GRANT ALL PRIVILEGES ON yii2advanced.* TO 'root'@'${ip_prefix}.1'  WITH GRANT OPTION"
+mysql -uroot <<< "GRANT ALL PRIVILEGES ON yii2advanced_test.* TO 'root'@'${ip_prefix}.1'  WITH GRANT OPTION"
+echo "Done!"
+
 
 info "Install composer"
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
