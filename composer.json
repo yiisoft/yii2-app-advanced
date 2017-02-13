@@ -28,15 +28,11 @@
         "bower-asset/noty": "^2.3",
         "dmstr/yii2-adminlte-asset": "2.*",
         "loveorigami/yii2-notification-wrapper": "~3.0",
-        "yurkinx/yii2-image": "^1.1",
-        "telegram-bot/api": "^2.2"
+        "yurkinx/yii2-image": "^1.1"
     },
     "require-dev": {
-        "codeception/base": "^2.2.3",
-        "codeception/verify": "~0.3.1",
         "yiisoft/yii2-debug": "*",
-        "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*"
+        "yiisoft/yii2-gii": "*"
     },
     "config": {
         "process-timeout": 1800
