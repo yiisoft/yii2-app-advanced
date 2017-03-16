@@ -1,0 +1,100 @@
+version: '3'
+
+services:
+
+  php-fpm:
+    image: sazo/php-fpm:local_dev
+    volumes:
+      - .:/var/www/html
+    networks:
+      webapp:
+        aliases:
+          - php-app
+
+  init:
+    image: sazo/php-fpm:local_dev
+    entrypoint: php init
+    volumes:
+      - .:/var/www/html
+    networks:
+      - webapp
+
+  codecept:
+    image: sazo/php-fpm:local_dev
+    entrypoint: vendor/bin/codecept
+    volumes:
+      - .:/var/www/html
+    networks:
+      - webapp
+
+  yii-test:
+    image: sazo/php-fpm:local_dev
+    entrypoint: php yii_test
+    volumes:
+      - .:/var/www/html
+    networks:
+      - webapp
+
+  yii:
+    image: sazo/php-fpm:local_dev
+    entrypoint: php yii
+    volumes:
+      - .:/var/www/html
+    networks:
+      - webapp
+
+  backend:
+    image: nginx
+    volumes:
+      - .:/var/www/html
+      - ./docker/backend-nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php-fpm
+    environment:
+      VIRTUAL_HOST: backend.dev
+      VIRTUAL_PORT: 80
+    networks:
+      - webapp
+
+  frontend:
+    image: nginx
+    volumes:
+      - .:/var/www/html
+      - ./docker/frontend-nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php-fpm
+    environment:
+      VIRTUAL_HOST: frontend.dev
+      VIRTUAL_PORT: 80
+    networks:
+      - webapp
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - webapp
+
+  database:
+    image: mysql/mysql-server:5.6
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_HOST: 172.%.%.%
+      MYSQL_DATABASE: 'yii2advanced'
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - webapp
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  webapp:
