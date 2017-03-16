@@ -299,7 +299,9 @@ That's all. You just need to wait for completion! After that you can access proj
 
 2. step ONLY for linux - Install [Docker-compose](https://docs.docker.com/compose/)
 
-3. Prepare project:
+3. step ONLY for Windows - Remember to share your drive
+
+4. Prepare project:
    
    ```bash
    change the database hostname in environments/dev/common/config/main-local.php
@@ -308,22 +310,27 @@ That's all. You just need to wait for completion! After that you can access proj
    change the database hostname in environments/dev/common/config/test-local.php
    mysql:host=localhost;dbname=yii2advanced_test -> mysql:host=database;dbname=yii2advanced_test
    ```
-   
-4. Add the following lines to [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)):
-   
-   ```
-   127.0.0.1 frontend.dev
-   127.0.0.1 backend.dev
-   ```
 
-   
 5. Change directory to project root:
 
    ```bash
    cd yii2-app-advanced
    ```
 
-5. Run commands:
+6. Run init
+
+    ```bash
+   docker-compose run --rm init --env=Development
+   ```
+   
+7. Add the following lines to [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)):
+   
+   ```
+   127.0.0.1 frontend.dev
+   127.0.0.1 backend.dev
+   ```
+
+8. Run commands:
 
    ```bash
    docker-compose up -d database nginx-proxy frontend backend
