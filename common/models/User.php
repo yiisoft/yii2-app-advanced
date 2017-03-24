@@ -102,7 +102,11 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
     {
         return static::findOne(['email' => $email]);
     }
-
+    
+    public static function findByUsername($email)
+    {
+        return self::findByEmail($email);
+    }
     /**
      * Finds user by password reset token
      *
