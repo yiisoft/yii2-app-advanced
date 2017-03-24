@@ -27,7 +27,7 @@
         "bower-asset/tooltipster": "^3.3",
         "bower-asset/noty": "^2.3",
         "dmstr/yii2-adminlte-asset": "2.*",
-        "loveorigami/yii2-notification-wrapper": "~3.0",
+        "loveorigami/yii2-notification-wrapper": "*",
         "yurkinx/yii2-image": "^1.1"
     },
     "require-dev": {
