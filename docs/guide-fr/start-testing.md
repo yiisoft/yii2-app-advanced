@@ -37,10 +37,10 @@ Lancez-les en exécutant :
 vendor/bin/codecept run -- -c common
 ```
 
-`-c` option allows to set path to `codeception.yml` config.
+L'option `-c` permet de définir le chemin vers la configuration `codeception.yml`.
 
 La suite de tests unitaires (`unit`) (située dans `common/tests/unit`) peut utiliser les fonctionnalités de  Yii framework : `Yii::$app`, l'enregistrement actif (*ActiveRecord*), les environnement prédéfinis (*fixtures*), etc.
-Cela est effectif parce que le module `Yii2` est activée dans la configuration des tests unitaires : `common/tests/unit.suite.yml`. Vous pouvez le désactiver pour exécuter les tests en isolation totale.
+Cela est effectif parce que le module `Yii2` est activé dans la configuration des tests unitaires : `common/tests/unit.suite.yml`. Vous pouvez le désactiver pour exécuter les tests en isolation totale.
 
 
 ### Interface utilisateur (frontend)

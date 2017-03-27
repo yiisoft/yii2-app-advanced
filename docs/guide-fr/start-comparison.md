@@ -15,6 +15,6 @@ La table ci-dessous présente les différences entre le modèle de projet avanc�
 | Paquets de ressources  | ✓ | ✓ |
 | Tests Codeception  | ✓ | ✓ |
 | Twitter Bootstrap  | ✓ | ✓ |
-| Application *frontend*/*backend*  |    | ✓ |
+| Applications *frontend*/*backend*  |    | ✓ |
 | Modèle utilisateur prêt à l'emploi |    | ✓ |
 | Enregistrement de l'utilisateur et récupération du mot de passe |     | ✓ |
