@@ -53,4 +53,4 @@ Commencez par mettre les informations de base à jour. Modifiez `name`, `descrip
 Maintenant, vient la partie intéressante. Vous pouvez ajouter des paquets nécessaires à votre application dans la section `require`. 
 Tous ces paquets proviennent de [packagist.org](https://packagist.org/), c'est pourquoi vous ne devez pas hésiter à parcourir le site Web pour trouver du code utile. 
 
-Après avoir modifié votre fichier `composer.json`, vous pouvez exécuter  `composer update --prefer-dist`, attendre tout simplement le téléchargement et l'installation des paquets pour les utiliser. L'auto-chargement des classes est pris en charge automatiquement. 
+Après avoir modifié votre fichier `composer.json`, vous pouvez exécuter  `composer update --prefer-dist`, et attendre tout simplement le téléchargement et l'installation des paquets pour les utiliser. L'auto-chargement des classes est pris en charge automatiquement. 
