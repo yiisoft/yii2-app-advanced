@@ -1,10 +1,4 @@
 <?php
-    /**
-     * Created by PhpStorm.
-     * User: PAVLO
-     * Date: 08.08.2016
-     * Time: 11:40
-     */
 
     namespace frontend\controllers;
 
@@ -18,20 +12,23 @@
 
     //MessageSource::EVENT_MISSING_TRANSLATION
     // Создать языквую переменную, если она была найдена в тексте, но еще не была определена в массиве переменных
-    /*
-     \yii\base\Event::on(MessageSource::className(), MessageSource::EVENT_MISSING_TRANSLATION, function ($event) {
-
+    \yii\base\Event::on(MessageSource::className(), MessageSource::EVENT_MISSING_TRANSLATION, function ($event)
+    {
         $cur_lang = explode('-', $event->language)[0];
         $source_lang = $event->sender->sourceLanguage;
-        if($source_lang != $cur_lang)
-        {
+        
+        if($source_lang != $cur_lang) {
             return;
         }
 
         $file_name = Yii::getAlias($event->sender->basePath).'/'.$source_lang.'/'.$event->category.'.php';
-        if( !is_file($file_name) )
-        {
-            return;
+        
+        if(!is_file($file_name)) {
+            $fp = fopen($file_name, "w");
+            $t = "<?php \n    return [\n";
+            $t .= "\n    ];";
+            fwrite($fp, $t);
+            fclose($fp);
         }
         $file = require($file_name);
 
@@ -40,7 +37,7 @@
         $t = "<?php \n    return [\n";
         foreach ($file as $k => $v)
         {
-            $t.= "        '$k' => '$v', \n";
+            $t.= "        '$k' => '$v',\n";
         }
         $t .= "\n    ];";
 
