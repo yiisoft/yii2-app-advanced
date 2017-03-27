@@ -1,16 +1,11 @@
-Using advanced project template at shared hosting
-=================================================
+Utilisation du modèle de projet avancé sur un hébergement partagé
+=================================================================
 
-Deploying an advanced project template to shared hosting is a bit trickier than a basic one because it has two webroots,
-which shared hosting webservers don't support. We will need to adjust the directory structure so frontend URL will be
-`http://site.local` and backend URL will be `http://site.local/admin`.
+Le déploiement d'un modèle de projet avancé sur un hébergement partagé est un peu plus délicat que le déploiement du projet *basic* parce qu'il a deux racines Web que les serveurs Web des hébergements partagés ne prennent pas en charge. Il faut adapter le structure des dossiers de manière à ce que l'URL de l'interface utilisateur soit `http://site.local` et celle de l'interface d'administration `http://site.local/admin`.
 
-### Move entry scripts into single webroot
+### Déplacement des scripts d'entrée dans une racine Web unique
 
-First of all we need a webroot directory. Create a new directory and name it to match your hosting webroot name,
-e.g., `www` or `public_html` or the like. Then create the
-following structure where `www` is the hosting webroot directory you just created:
-
+En premier lieu, il faut un dossier qui serve de racine Web. Créez un nouveau dossier et appelez-le de manière à ce qu'il corresponde à votre nom de racine Web, p. ex. `www` ou `public_html`, ou similaire. Ensuite, créez la structure suivante dans laquelle `www` est la racine Web de l'hébergement que vous venez juste de créer :
 ```
 www
     admin
@@ -22,14 +17,11 @@ frontend
 ...
 ```
 
-`www` will be our frontend directory so move the contents of `frontend/web` into it. Move the contents of `backend/web`
-into `www/admin`. In each case you will need to adjust the paths in `index.php` and `index-test.php`.
+`www` sera notre dossier de l'interface utilisateur, c'est pourquoi il faut déplacer le contenu de `frontend/web` dedans. Déplacez le contenu de `backend/web` dans `www/admin`. Dans les deux cas, vous devez adapter les chemins dans `index.php` et `index-test.php`.
 
-### Adjust sessions and cookies
+### Adaptez les sessions et les témoins de connexion (cookies)
 
-Originally the backend and frontend are intended to run at different domains. When we’re moving it all to the same domain
-the frontend and backend will be sharing the same cookies, creating a clash. In order to fix it, adjust backend application config
-`backend/config/main.php` as follows:
+À l'origine l'interface d'administration et l'interface utilisateur sont prévues pour s'exécuter dans des domaines différents. Lorsqu'on les rassemble dans le même domaine, elles vont partager les mêmes témoins de connexion, se qui crée une collision. Pour régler cela, adaptez la configuration de  l'interface d'administration `backend/config/main.php` comme suit :
 
 ```php
 'components' => [
@@ -50,7 +42,7 @@ the frontend and backend will be sharing the same cookies, creating a clash. In 
         ],
     ],
     'session' => [
-        // this is the name of the session cookie used for login on the backend
+        // ceci est le mom du témoin de connexion de session utilisé pour la connexion à l'interface d'administration
         'name' => 'advanced-backend',
         'cookieParams' => [
             'path' => '/admin',
@@ -59,7 +51,7 @@ the frontend and backend will be sharing the same cookies, creating a clash. In 
 ],
 ```
 
-### Alternative setup
+### Installation alternative
 
-If the way to set up template provided above doesn't work for you, try
-[configs and docs by Oleg Belostotskiy](https://github.com/mickgeek/yii2-advanced-one-domain-config).
+Si la manière d'installer le modèle de projet présentée ci-dessus ne fonctionne pas dans votre cas, essayez
+[configurations et documentation d'Oleg Belostotskiy](https://github.com/mickgeek/yii2-advanced-one-domain-config).

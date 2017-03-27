@@ -1,10 +1,9 @@
-Adding more applications
-========================
+Ajout d'applications supplémentaires
+====================================
 
-While having separate frontend and backend is common, sometimes it's not enough. For example, you may need additional
-application for, say, a blog. In order to get it:
+Tandis qu'avoir des interfaces utilisateur et d'administration séparées est une pratique courante, ce n'est parfois pas suffisant. Par exemple, vous pouvez avoir besoin d'une application additionnelle pour, disons, un blog. Pour l'avoir :
 
-1. Copy `frontend` to `blog`, `environments/dev/frontend` to `environments/dev/blog` and `environments/prod/frontend`
-to `environments/prod/blog`.
-2. Adjust namespaces and paths to start with `blog` instead of `frontend`.
-3. In `common\config\bootstrap.php` add `Yii::setAlias('blog', dirname(dirname(__DIR__)) . '/blog');`.
+1. Copier le dossier `frontend` sur `blog`, `environments/dev/frontend` sur `environments/dev/blog` et `environments/prod/frontend`
+sur `environments/prod/blog`.
+2. Adapdez les espaces de noms et les chemins pour démarrer avec `blog` au lieu de `frontend`.
+3. Dans `common\config\bootstrap.php` ajoutez `Yii::setAlias('blog', dirname(dirname(__DIR__)) . '/blog');`.

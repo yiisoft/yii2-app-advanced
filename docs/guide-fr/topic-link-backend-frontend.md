@@ -1,30 +1,29 @@
-Creating links from backend to frontend
-=======================================
+Création de liens de l'interface d'administration vers l'interface utilisateur
+==============================================================================
 
-Often it's required to create links from the backend application to the frontend application. Since the frontend application may
-contain its own URL manager rules you need to duplicate that for the backend application by naming it differently:
+Souvent, il est nécessaire de créer des liens depuis l'application interface d'administration vers l'application l'interface utilisateur. Comme l'interface utilisateur peut contenir ses propres règles de gestionnaire d'URL, vous devez les dupliquer pour l'interface d'administration en les nommant différemment :
 
 ```php
 return [
     'components' => [
         'urlManager' => [
-            // here is your normal backend url manager config
+            // ici se trouve votre configuration normale du gestionnaire d'URL de l'interface d'administration
         ],
         'urlManagerFrontend' => [
-            // here is your frontend URL manager config
+            // ici se trouve votre configuration du gestionnaire d'URL de l'interface utilisateur
         ],
 
     ],
 ];
 ```
 
-After it is done, you can get an URL pointing to frontend like the following:
+Après l'avoir fait, vous pouvez obtenir une URL qui pointe sur l'interface utilisateur comme ceci :
 
 ```php
 echo Yii::$app->urlManagerFrontend->createAbsoluteUrl(...);
 ```
 
-In order not to copy-paste frontend rules you may first move these into separate `urls.php` file:
+Afin de ne pas copier-coller les règles de l'interface utilisateur, vous pouvez d'abord les déplacer dans un fichier `urls.php` :
 
 ```php
 return [
@@ -42,4 +41,4 @@ return [
 ];
 ```
 
-After then you may include it in `urlManagerFrontend` rules as well.
+Ensuite vous pouvez l'inclure dans les règles `urlManagerFrontend` également.
