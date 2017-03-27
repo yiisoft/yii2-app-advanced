@@ -1,7 +1,7 @@
 Utilisation du modèle de projet avancé sur un hébergement partagé
 =================================================================
 
-Le déploiement d'un modèle de projet avancé sur un hébergement partagé est un peu plus délicat que le déploiement du projet *basic* parce qu'il a deux racines Web que les serveurs Web des hébergements partagés ne prennent pas en charge. Il faut adapter le structure des dossiers de manière à ce que l'URL de l'interface utilisateur soit `http://site.local` et celle de l'interface d'administration `http://site.local/admin`.
+Le déploiement d'un modèle de projet avancé sur un hébergement partagé est un peu plus délicat que le déploiement du projet *basic* parce qu'il a deux racines Web que les serveurs Web des hébergements partagés ne prennent pas en charge. Il faut adapter la structure des dossiers de manière à ce que l'URL de l'interface utilisateur soit `http://site.local` et celle de l'interface d'administration `http://site.local/admin`.
 
 ### Déplacement des scripts d'entrée dans une racine Web unique
 
@@ -21,7 +21,7 @@ frontend
 
 ### Adaptez les sessions et les témoins de connexion (cookies)
 
-À l'origine l'interface d'administration et l'interface utilisateur sont prévues pour s'exécuter dans des domaines différents. Lorsqu'on les rassemble dans le même domaine, elles vont partager les mêmes témoins de connexion, se qui crée une collision. Pour régler cela, adaptez la configuration de  l'interface d'administration `backend/config/main.php` comme suit :
+À l'origine l'interface d'administration et l'interface utilisateur sont prévues pour s'exécuter dans des domaines différents. Lorsqu'on les rassemble dans le même domaine, elles vont partager les mêmes témoins de connexion, ce qui crée une collision. Pour régler cela, adaptez la configuration de  l'interface d'administration `backend/config/main.php` comme suit :
 
 ```php
 'components' => [
