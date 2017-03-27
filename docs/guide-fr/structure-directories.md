@@ -16,7 +16,7 @@ Le dossier racine contient également un jeu de fichiers :
 - `composer.json` - la configuration de Composer décrite dans [Configuration de Composer](start-composer.md).
 - `init` - les scripts d'initialisation décrits dans  [Configuration et environnements](structure-environments.md).
 - `init.bat` - les mêmes pour Windows.
-- `LICENSE.md` - les informations de licence. Placez la licence de votre projet ici. En particulier si vous les placez en open source. 
+- `LICENSE.md` - les informations de licence. Placez la licence de votre projet ici. En particulier si vous le placez en open source. 
 - `README.md` - informations de base sur la façon d'installer le modèle de projet. Envisagez de remplacer ces informations par vos propres informations sur votre projet et son installation. 
 - `requirements.php` - vérificateur des exigences de Yii.
 - `yii` - démarrage de l'application console.
