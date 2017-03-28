@@ -3,6 +3,7 @@
     namespace frontend\controllers;
 
     use Yii;
+    use yii\i18n\MessageSource;
 
     class Controller extends \yii\web\Controller
     {
