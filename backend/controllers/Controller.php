@@ -36,10 +36,10 @@
                             'allow' => true,
                             'roles' => ['@'],
                         ],
-                        /*[
+                        [
                             'allow' => true,
                             'roles' => ['admin'],
-                        ],*/
+                        ],
                     ],
                 ],
                 'verbs' => [
