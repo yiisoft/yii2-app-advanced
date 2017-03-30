@@ -45,7 +45,7 @@
         file_put_contents($file_name, $t);
 
     });
-    */
+    
 
     if( !Yii::$app->request->isAjax )
     {
