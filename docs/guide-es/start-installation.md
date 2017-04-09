@@ -9,12 +9,11 @@ El requerimiento mínimo para esta plantilla es que su servidor web soporte PHP 
 
 Si no tienes [Composer](http://getcomposer.org/), sigue las instrucciones en la sección [Instalando Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide-es/start-installation.md#installing-via-composer) de la guía definitiva para instalarlo.
 
-Con Composer instalado, puedes entonces instalar la aplicación usando los siguientes comandos:
+Con Composer instalado, puedes entonces instalar la aplicación usando los siguiente comando:
 
-    composer global require "fxp/composer-asset-plugin:^1.2.0"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-El primer comando instala el [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/) el cual permite el manejo de los paquetes de dependencias bower y npm a través de Composer. Sólo necesitas ejecutar este comando la primera vez. El segundo comando instala la aplicación avanzada en un directorio nombrado `yii-application`.
+El comando instala la aplicación avanzada en un directorio nombrado `yii-application`.
 Puedes elegir un nombre de directorio diferente si tu quieres.
 
 ## Instalación desde un Archivo

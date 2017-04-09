@@ -10,14 +10,11 @@ The minimum requirement by this project template is that your Web server support
 If you do not have [Composer](http://getcomposer.org/), follow the instructions in the
 [Installing Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide/start-installation.md#installing-via-composer) section of the definitive guide to install it.
 
-With Composer installed, you can then install the application using the following commands:
+With Composer installed, you can then install the application using the following command:
 
-    composer global require "fxp/composer-asset-plugin:^1.2.0"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-The first command installs the [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/)
-which allows managing bower and npm package dependencies through Composer. You only need to run this command
-once for all. The second command installs the advanced application in a directory named `yii-application`.
+This command installs the advanced application in a directory named `yii-application`.
 You can choose a different directory name if you want.
 
 ## Install from an Archive File

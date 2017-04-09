@@ -12,11 +12,9 @@
 
 安装Composer后，您可以使用以下命令安装应用程序：
 
-    composer global require "fxp/composer-asset-plugin:^1.2.0"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-第一个命令安装 [composer asset插件](https://github.com/francoispluchino/composer-asset-plugin/)
-第一个命令安装composer asset插件，它允许通过Composer管理bower和npm包依赖。 您只需要为所有运行此命令一次。 第二个命令将高级应用程序安装在名为 `yii-application` 的目录中。 如果需要，您可以选择不同的目录名称。 
+该小组将在一个名为 `yii-application` 在目录中安装额外的应用程序。如果必要的话，你可以选择不同的目录名。
 
 ## 从归档文件安装
 
