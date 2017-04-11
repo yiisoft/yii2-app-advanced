@@ -1,4 +1,4 @@
 main-local.php
 params-local.php
 test-local.php
-bootstrap.php
+environment.php
