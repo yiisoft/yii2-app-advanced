@@ -13,7 +13,7 @@ class UserController extends Controller
     public $email;
     public $password;
 
-    public function options()
+    public function options($actionID)
     {
         return ['email', 'password'];
     }
