@@ -10,8 +10,15 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'backend\components\EventsHandler'],
     'modules' => [
+        'permit' => [
+            'class' => 'developeruz\db_rbac\Yii2DbRbac',
+            //'layout' => '//admin',
+            'params' => [
+                'userClass' => 'common\models\User'
+            ]
+        ],
         'gridview' =>  [
             'class' => '\kartik\grid\Module'
             // enter optional module parameters below - only if you need to
@@ -59,6 +66,9 @@ return [
                 '<_c:(\w|-)+>/<id:\d+>'=>'<_c>/view',
                 '<_c:(\w|-)+>/<_a:(\w|-)+>/<id:\d+>'=>'<_c>/<_a>',
                 '<_c:(\w|-)+>/<_a:(\w|-)+>'=>'<_c>/<_a>',
+
+                '<module:\w+>/<controller:\w+>/<action:(\w|-)+>' => '<module>/<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<action:(\w|-)+>/<id:\d+>' => '<module>/<controller>/<action>',
             ],
         ],
 
