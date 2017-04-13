@@ -20,6 +20,9 @@ if (!YII_ENV_TEST) {
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         'generators' => [ //here
+              'model' => [
+                  'class' => 'yii\gii\generators\model\Generator'
+              ],
             'crud' => [ // generator name
                 'class' => 'backend\generators\crud\Generator', // generator class
                 'templates' => [ //setting for out templates
