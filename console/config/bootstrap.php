@@ -1,5 +1,5 @@
 <?php
 
-    define('FRONT_SIDE', false);
-    define('IS_FRONT', false);
-    define('IS_BACK', false);
+    define('IS_FRONTEND', false);
+    define('IS_BACKEND', false);
+    define('IS_CONSOLE', true);
