@@ -43,6 +43,16 @@ When the process completes you will be able to access the CMS at:
 
 * Frontend  [http://localhost](http://localhost)
 * Backend   [http://localhost/admin](http://localhost/admin)
+* Adminer   [http://localhost:8080](http://localhost:8080)
+
+You can use Adminer to connect to examine ssh the database with the following credentials:
+
+```
+host:       db
+user:       example
+password:   example
+database:   example
+```
 
 DEVELOPING FOR THE CMS
 ----------------------
