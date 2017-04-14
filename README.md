@@ -33,10 +33,10 @@ From a terminal window
 
 ```
 
-$ cd ~/Development                                                                                     # Change to the development directory  
-$ git clone git@github.com:mobilejazz/yii2-mj-cms-example.git          # Clone the yii2-mj-cms-example project
-$ cd yii2-mj-cms-example                                                                            # Change to the project directory
-$ bin/build.sh                                                                                                  # Run the build script
+$ cd ~/Development                                                      # Change to the development directory  
+$ git clone git@github.com:mobilejazz/yii2-mj-cms-example.git           # Clone the yii2-mj-cms-example project
+$ cd yii2-mj-cms-example                                                # Change to the project directory
+$ bin/build.sh                                                          # Run the build script
 ```
 
 When the process completes you will be able to access the CMS at:
@@ -52,8 +52,8 @@ If you wish to make changes to the `yii2-mj-cms` project you can use this projec
 From a terminal window:
 
 ```  
-$ cd ~/Development                                                                                     # Change to the development directory
-$ git clone git@github.com:mobilejazz/yii2-mj-cms.git                           # Clone the yii2-mj-cms project
+$ cd ~/Development                                                      # Change to the development directory
+$ git clone git@github.com:mobilejazz/yii2-mj-cms.git                   # Clone the yii2-mj-cms project
 ```
 
 Edit the Composer file located at `~/Development/yii2-mj-cms-example/src/composer.json`
@@ -75,8 +75,8 @@ Needs changed to:
 ```
 
 ```
-$ cd ~/Development/yii2-mj-cms-example                                                # Change to the yii2-mj-cms directory  
-$ bin/composer.sh update -vv                                                                       # Clone the yii2-mj-cms project
+$ cd ~/Development/yii2-mj-cms-example                                  # Change to the yii2-mj-cms directory  
+$ bin/composer.sh update -vv                                            # Clone the yii2-mj-cms project
 ```
 
 You can now make changes to the Yii2 MJ CMS project code located in `~/Development/yii2-mj-cms` and those changes will be reflect in the test project.
