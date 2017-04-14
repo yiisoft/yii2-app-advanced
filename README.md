@@ -45,7 +45,14 @@ When the process completes you will be able to access the CMS at:
 * Backend   [http://localhost/admin](http://localhost/admin)
 * Adminer   [http://localhost:8080](http://localhost:8080)
 
-You can use Adminer to connect to examine ssh the database with the following credentials:
+You can access the admin section with the following credentials:
+
+```
+email:      admin@example.com
+password:   admin
+```
+
+You can use Adminer to examine the database with the following credentials:
 
 ```
 host:       db
