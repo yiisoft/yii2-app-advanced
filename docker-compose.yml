@@ -25,5 +25,4 @@ services:
     - "80:80"
     volumes:
     - ./src:/var/www/html
-    - ${MOBILEJAZZ_DEV}:/mobilejazz
-    - ${MOBILEJAZZ_CONTRIB}:/mobilejazz-contrib
+    - ../:/Development

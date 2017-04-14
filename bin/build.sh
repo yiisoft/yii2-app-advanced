@@ -21,7 +21,6 @@ export MOBILEJAZZ_CONTRIB=${2-${ROOT_DIR}}
 echo "MobileJazz projects dir: '$MOBILEJAZZ_DEV'";
 echo "MobileJazz Contrib projects '$MOBILEJAZZ_CONTRIB'";
 
-
 cd ${ROOT_DIR} && docker-compose up -d --build --remove-orphans
 
 sleep 10    # hack to allow services to start
