@@ -18,7 +18,7 @@ return [
         'view' => [
             'theme' => [
                 'pathMap' => [
-                    '/mobilejazz/yii2-mj-cms/src/frontend/views' => [
+                    '/Development/yii2-mj-cms/src/frontend/views' => [
                         '@app/views'
                     ],
                     '@mobilejazz/yii2/cms/frontend/views' => [

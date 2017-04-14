@@ -53,10 +53,10 @@ return [
                 'baseUrl'   => '@web',
                 'pathMap'   => [
                     '@app/views/layouts' => [                               # Use default layouts from backend
-                        '/mobilejazz/yii2-mj-cms/src/backend/views/layouts',
+                        '/Development/yii2-mj-cms/src/backend/views/layouts',
                         '@mobilejazz/yii2/cms/backend/views/layouts'
                     ],
-                    '/mobilejazz/yii2-mj-cms/src/backend/views' => [        # Allow for overriding all other backend views locally, local development
+                    '/Development/yii2-mj-cms/src/backend/views' => [        # Allow for overriding all other backend views locally, local development
                         '@app/views'
                     ],
                     '@mobilejazz/yii2/cms/backend/views' => [               # Allow for overriding all other backend views locally, when used as a remote library
