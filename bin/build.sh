@@ -13,3 +13,6 @@ sleep 10    # hack to allow services to start
 bin/exec.sh composer install -vv
 bin/exec.sh vendor/bin/phing docker.init
 
+# Load example data
+
+bin/yii.sh fixture/load User,MediaFile,Locale,ContentSource,ContentSlug,ContentComponent,ComponentField --interactive=0
