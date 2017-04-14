@@ -31,7 +31,12 @@ The following assumes you are in the root directory of the repository:
  * `bin/stop.sh` will stop the docker images
  * `bin/start.sh` will start the docker images
  * `bin/exec.sh` will execute whatever command you want from within the docker environment e.g. `bin/exec.sh composer update -vv`
-
+ * `bin/composer.sh` is a utility script built on top of `bin/exec.sh` for running composer related tasks
+ * `bin/phing.sh` is a utility script built on top of `bin/exec.sh` for running phing related tasks
+ * `bin/codecept.sh` is a utility script built on top of `bin/exec.sh` for running codecept related tasks
+ * `bin/yii.sh` is a utility script built on top of `bin/exec.sh` for running yii related tasks
+ * `bin/yii_test.sh` is a utility script built on top of `bin/exec.sh` for running yii_test related tasks
+ 
 If you wish to locally map repositories for use within the `web` container you can supply 2 optional arguments to the `bin/build.sh`:
 
 ```bash
