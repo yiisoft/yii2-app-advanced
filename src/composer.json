@@ -1,0 +1,57 @@
+{
+  "name": "mobilejazz/yii2-mj-cms-example",
+  "description": "MJ CMS Example",
+  "keywords": [
+    "yii2",
+    "cms",
+    "mobilejazz"
+  ],
+  "type": "project",
+  "homepage": "https://github.com/mobilejazz/yii2-mj-cms",
+  "license": "Apache-2.0",
+  "support": {
+    "issues": "https://github.com/mobilejazz/yii2-mj-cms-example/issues?state=open",
+    "source": "https://github.com/mobilejazz/yii2-mj-cms-example"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=5.5.0",
+    "mobilejazz/yii2-mj-cms": "dev-develop"
+  },
+  "require-dev": {
+    "yiisoft/yii2-debug": "~2.0.0",
+    "yiisoft/yii2-gii": "~2.0.0",
+    "yiisoft/yii2-faker": "~2.0.0",
+    "codeception/base": "^2.2.3",
+    "codeception/verify": "~0.3.1",
+    "phing/phing": "2.*"
+  },
+  "config": {
+    "process-timeout": 1800
+  },
+  "scripts": {
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/mobilejazz/yii2-mj-cms.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/mobilejazz/yii2-oauth2-server.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/mobilejazz-contrib/yii2-export.git"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/mobilejazz-contrib/yii2-password.git"
+    }
+  ]
+}

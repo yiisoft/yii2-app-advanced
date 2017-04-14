@@ -33,3 +33,7 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
+
+#
+auth.json
+vendor

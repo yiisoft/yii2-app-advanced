@@ -1,0 +1,29 @@
+version: '2'
+services:
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: example
+      MYSQL_USER: example
+      MYSQL_PASSWORD: example
+
+  adminer:
+    depends_on:
+    - db
+    image: clue/adminer
+    ports:
+    - "8080:80"
+
+  web:
+    depends_on:
+    - db
+    - adminer
+    image: mobilejazz/yii2-docker:apache-php5
+    ports:
+    - "80:80"
+    volumes:
+    - ./src:/var/www/html
+    - ${MOBILEJAZZ_DEV}:/mobilejazz
+    - ${MOBILEJAZZ_CONTRIB}:/mobilejazz-contrib
