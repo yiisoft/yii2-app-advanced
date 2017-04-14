@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name = "Yii2 MJ CMS Example" default = "docker.init" basedir = ".">
+
+    <property file="./build.properties" />
+
+    <target name = 'composer.install' >
+        <echo msg="Installing dependencies"/>
+        <exec command = "composer install -vv" checkreturn = "true"  passthru="true"/>
+        <echo msg="Optimizing autoloader"/>
+        <exec command = "composer -o dump-autoload" checkreturn = "true"  passthru="true"/>
+    </target>
+
+    <target name = "composer.update" >
+        <echo msg="Running composer update"/>
+        <exec command = "composer update -vv" passthru="true"/>
+        <echo msg="Optimizing autoloader"/>
+        <exec command = "composer -o dump-autoload" passthru="true"/>
+    </target>
+
+    <target name = 'migrate' >
+        <echo msg="Migrating database"/>
+        <exec command = "./yii migrate/up --interactive=0" checkreturn = "true" passthru="true"/>
+    </target>
+
+    <target name = 'init' >
+        <echo msg="Configuring for env = ${env}"/>
+        <exec command = "./init --env=${env} --overwrite=All" checkreturn = "true" passthru="true"/>
+    </target>
+
+    <target name = "docker.init">
+        <phingcall target="composer.install"/>
+        <phingcall target="init"/>
+        <phingcall target="migrate"/>
+    </target>
+
+    <target name = "update">
+        <phingcall target="composer.update"/>
+        <phingcall target="migrate"/>
+    </target>
+
+
+</project>
