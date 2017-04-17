@@ -36,6 +36,9 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'session' => [
+            'savePath' => dirname(__DIR__) . '/runtime/sessions',
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
