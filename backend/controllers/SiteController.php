@@ -32,12 +32,15 @@ class SiteController extends Controller
                     ],
                 ],
             ],
+            /*
+            // Users with Javascript disabled won't be able to logout
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
                 ],
             ],
+             */
         ];
     }
 
