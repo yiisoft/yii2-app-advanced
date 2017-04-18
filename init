@@ -77,7 +77,7 @@ foreach ($files as $file) {
     }
 }
 
-$callbacks = ['setCookieValidationKey', 'setWritable', 'setExecutable', 'createSymlink'];
+$callbacks = ['setCookieValidationKey', 'setWritable', 'setExecutable', 'createSymlink', 'setOwnerAndGroup'];
 foreach ($callbacks as $callback) {
     if (!empty($env[$callback])) {
         $callback($root, $env[$callback]);
@@ -196,6 +196,27 @@ function setExecutable($root, $paths)
             }
         } else {
             printError("$executable does not exist.");
+        }
+    }
+}
+
+/**
+ * Set owners and groups for files or directories.
+ *
+ * @param string $root
+ * @param array $ownersAndGroups
+ */
+function setOwnerAndGroup($root, $ownersAndGroups)
+{
+    foreach ($ownersAndGroups as $ownerAndGroup => $paths) {
+        list($owner, $group) = explode(':', $ownerAndGroup);
+
+        foreach ($paths as $path) {
+            echo "      chown $owner $path\n";
+            @chown("$root/$path", $owner);
+
+            echo "      chgrp $group $path\n";
+            @chgrp("$root/$path", $group);
         }
     }
 }
