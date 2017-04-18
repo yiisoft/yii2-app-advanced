@@ -13,7 +13,7 @@ class UserController extends Controller
     public $email;
     public $password;
 
-    public function options()
+    public function options($actionID)
     {
         return ['email', 'password'];
     }
@@ -61,7 +61,7 @@ class UserController extends Controller
         }
         else
         {
-            $this->stderr("\nYou have some errors\n", Console::FG_RED);
+            $this->stderr("\nYou have some errors\n" . print_r($user->errors, true), Console::FG_RED);
         }
 
 

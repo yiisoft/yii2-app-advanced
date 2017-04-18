@@ -1,8 +1,5 @@
 <?php
 error_reporting( E_ALL & ~E_NOTICE);
-define('FRONT_SIDE', true);
-define('IS_FRONT', true);
-define('IS_BACK', false);
 defined('YII_DEBUG') or define('YII_DEBUG', false);
 defined('YII_ENV') or define('YII_ENV', 'prod');
 

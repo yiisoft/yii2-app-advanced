@@ -1,14 +1,9 @@
 <?php
-    /**
-     * Created by PhpStorm.
-     * User: PAVLO
-     * Date: 08.08.2016
-     * Time: 11:40
-     */
 
     namespace frontend\controllers;
 
     use Yii;
+    use yii\i18n\MessageSource;
 
     class Controller extends \yii\web\Controller
     {
@@ -18,20 +13,23 @@
 
     //MessageSource::EVENT_MISSING_TRANSLATION
     // Создать языквую переменную, если она была найдена в тексте, но еще не была определена в массиве переменных
-    /*
-     \yii\base\Event::on(MessageSource::className(), MessageSource::EVENT_MISSING_TRANSLATION, function ($event) {
-
+    \yii\base\Event::on(MessageSource::className(), MessageSource::EVENT_MISSING_TRANSLATION, function ($event)
+    {
         $cur_lang = explode('-', $event->language)[0];
         $source_lang = $event->sender->sourceLanguage;
-        if($source_lang != $cur_lang)
-        {
+        
+        if($source_lang != $cur_lang) {
             return;
         }
 
         $file_name = Yii::getAlias($event->sender->basePath).'/'.$source_lang.'/'.$event->category.'.php';
-        if( !is_file($file_name) )
-        {
-            return;
+        
+        if(!is_file($file_name)) {
+            $fp = fopen($file_name, "w");
+            $t = "<?php \n    return [\n";
+            $t .= "\n    ];";
+            fwrite($fp, $t);
+            fclose($fp);
         }
         $file = require($file_name);
 
@@ -40,14 +38,14 @@
         $t = "<?php \n    return [\n";
         foreach ($file as $k => $v)
         {
-            $t.= "        '$k' => '$v', \n";
+            $t.= "        '$k' => '$v',\n";
         }
         $t .= "\n    ];";
 
         file_put_contents($file_name, $t);
 
     });
-    */
+    
 
     if( !Yii::$app->request->isAjax )
     {
@@ -66,8 +64,8 @@
         });
 
         \yii\base\Event::on(\yii\web\View::className(), \yii\web\View::EVENT_END_BODY , function ($event) {
-            echo \lo\modules\noty\widgets\Wrapper::widget([
-                'layerClass' => 'lo\modules\noty\widgets\layers\Noty',
+            echo \lo\modules\noty\Wrapper::widget([
+                'layerClass' => 'lo\modules\noty\layers\Noty',
                 'layerOptions'=>[
                     'registerAnimateCss' => true,
                     //'registerButtonsCss' => true

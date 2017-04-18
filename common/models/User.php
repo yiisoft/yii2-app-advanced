@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use developeruz\db_rbac\interfaces\UserRbacInterface;
 
 /**
  * User model
@@ -45,7 +46,7 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
             [
                 'class' => TimestampBehavior::className(),
                 'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['createDate'],
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
                     ActiveRecord::EVENT_BEFORE_UPDATE => [],
                 ],
             ]
@@ -102,7 +103,11 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
     {
         return static::findOne(['email' => $email]);
     }
-
+    
+    public static function findByUsername($email)
+    {
+        return self::findByEmail($email);
+    }
     /**
      * Finds user by password reset token
      *
