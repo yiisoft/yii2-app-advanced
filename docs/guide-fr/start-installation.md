@@ -12,7 +12,7 @@ Si vous n'avez pas [Composer](http://getcomposer.org/), suivez les instructions 
 
 Une fois composer installé, vous pouvez l'utiliser pour installer l'application en utilisant les commandes suivantes :
 
-    composer global require "fxp/composer-asset-plugin:^1.2.0"
+    composer global require "fxp/composer-asset-plugin:^1.3.1"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
 La première commande installe le [greffon composer asset](https://github.com/francoispluchino/composer-asset-plugin/) 
