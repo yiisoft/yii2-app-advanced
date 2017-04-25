@@ -14,21 +14,24 @@ if (!YII_ENV_TEST) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
+        'allowedIPs' => ['127.0.0.1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+        'allowedIPs' => ['127.0.0.1'],
         'generators' => [ //here
               'model' => [
-                  'class' => 'yii\gii\generators\model\Generator'
+                  'class' => 'backend\generators\model\Generator',
               ],
-            'crud' => [ // generator name
-                'class' => 'backend\generators\crud\Generator', // generator class
-                'templates' => [ //setting for out templates
-                   'admin-lte' => '@backend/generators/crud/admin-lte', // template name => path to template
-                ]
-            ]
+              'crud' => [ // generator name
+                  'class' => 'backend\generators\crud\Generator', // generator class
+                  'templates' => [ //setting for out templates
+                       'default' => '@vendor/yiisoft/yii2-gii/generators/crud/default',
+                       'admin-lte' => '@backend/generators/crud/admin-lte', // template name => path to template
+                  ]
+              ]
         ],
     ];
 }

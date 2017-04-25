@@ -26,7 +26,7 @@
         "kartik-v/yii2-editable": "*",
         "bower-asset/tooltipster": "^3.3",
         "bower-asset/noty": "^2.3",
-        "dmstr/yii2-adminlte-asset": "2.*@stable",
+        "dmstr/yii2-adminlte-asset": "~2.4@stable",
         "loveorigami/yii2-notification-wrapper": "6.3",
         "yurkinx/yii2-image": "^1.1"
     },
@@ -44,6 +44,8 @@
         }
     },
     "scripts": {
+        "pre-install-cmd": "composer global require \"fxp/composer-asset-plugin:^1.3.1\"",
+        "pre-create-project-cmd": "composer global require \"fxp/composer-asset-plugin:^1.3.1\"",
         "post-install-cmd": "php init --env=Development --overwrite=n",
         "post-create-project-cmd": "php init --env=Development --overwrite=n"
     }

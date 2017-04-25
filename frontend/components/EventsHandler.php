@@ -1,8 +1,8 @@
 <?php
 
-namespace backend\components;
+namespace frontend\components;
 
-use backend\controllers\Controller;
+use frontend\controllers\Controller;
 use Yii;
 
 class EventsHandler
