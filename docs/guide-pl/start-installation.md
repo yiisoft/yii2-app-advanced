@@ -233,7 +233,7 @@ wykonuj kolejne kroki!
 1. Zainstaluj [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 2. Zainstaluj [Vagrant](https://www.vagrantup.com/downloads.html)
 3. Utwórz [osobisty token API](https://github.com/blog/1509-personal-api-tokens) w serwisie GitHub
-3. Przygotuj projekt:
+4. Przygotuj projekt:
    
    ```bash
    git clone https://github.com/yiisoft/yii2-app-advanced.git
@@ -241,14 +241,14 @@ wykonuj kolejne kroki!
    cp vagrant-local.example.yml vagrant-local.yml
    ```
    
-4. Umieść swój osobisty token API GitHub w `vagrant-local.yml`
-5. Zmień folder na główny folder projektu:
+5. Umieść swój osobisty token API GitHub w `vagrant-local.yml`
+6. Zmień folder na główny folder projektu:
 
    ```bash
    cd yii2-app-advanced
    ```
 
-5. Uruchom komendy:
+7. Uruchom komendy:
 
    ```bash
    vagrant plugin install vagrant-hostmanager
