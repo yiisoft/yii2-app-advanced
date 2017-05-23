@@ -33,7 +33,9 @@ Then follow the instructions given in the next subsection.
 After you install the application, you have to conduct the following steps to initialize
 the installed application. You only need to do these once for all.
 
-1. Open a console terminal, execute the `init` command and select `dev` as environment.
+1. Create a new database and adjust the `components['db']` configuration in `environments/dev/common/config/main-local.php` accordingly (see [Configuration and environments](https://github.com/yiisoft/yii2-app-advanced/blob/master/docs/guide/structure-environments.md)).
+
+2. Open a console terminal, execute the `init` command and select `dev` as environment.
 
    ```
    /path/to/php-bin/php /path/to/yii-application/init
@@ -44,8 +46,6 @@ the installed application. You only need to do these once for all.
    ```
    /path/to/php-bin/php /path/to/yii-application/init --env=Production --overwrite=All
    ```
-
-2. Create a new database and adjust the `components['db']` configuration in `common/config/main-local.php` accordingly.
 
 3. Open a console terminal, apply migrations with command `/path/to/php-bin/php /path/to/yii-application/yii migrate`.
 
