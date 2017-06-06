@@ -12,12 +12,9 @@ do guia definitivo para Yii 2.0 para instala-lo.
 
 Com o Composer instalado, você pode então instalar o template de projetos usando os seguintes comandos:
 
-    composer global require "fxp/composer-asset-plugin:^1.3.1"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
     
-O primeiro comando instala o [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/) que permite
-o gerenciamento de dependências de pacotes bower e npm através do Composer. Este comando só precisa ser executado uma vez, no momento da instalação.
-O segundo comando instala o template avançado de projetos no diretório `yii-application`.
+O comando instala o template avançado de projetos no diretório `yii-application`.
 Você pode escolher um diretório diferente se desejar.
 
 ## Instalação a partir de um arquivo
