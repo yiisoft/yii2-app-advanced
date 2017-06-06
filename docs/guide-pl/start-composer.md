@@ -1,7 +1,8 @@
-配置 Composer
-=============
+Konfiguracja Composera
+======================
 
-安装项目模板后，最好调整默认的 `composer.json` ，它可以在根目录下找到：
+Po zainstalowaniu szablonu projektu dobrze jest zmodyfikować domyślny plik `composer.json`, znajdujący się w głównym 
+folderze:
 
 ```json
 {
@@ -45,9 +46,12 @@
 }
 ```
 
-首先，我们要更新基本信息。 更改 `name` ，`description` ，`keywords` ，`homepage` 和 `support` 来匹配您的项目。
+Zacznijmy od podstawowych informacji. Zmień `name` (nazwę), `description` (opis), `keywords` (słowa kluczowe), 
+`homepage` (stronę domową) i `support` (adresy serwisów wsparcia projektu) na odpowiednie dla Twojego projektu.
 
-接下来是见证奇迹的时刻. 您可以将您的应用程序需要的更多包添加到 `require` 部分。
-所有这些包都来自 [packagist.org](https://packagist.org/) 浏览这里你可以找到更多的实用的免费代码。
+Teraz czas na interesującą część - w sekcji `require` możesz dodać więcej pakietów zależności, których wymaga Twoja 
+aplikacja. Pakiety te są pobierane poprzez serwis [packagist.org](https://packagist.org/) - zerknij na jego zasoby 
+w poszukiwaniu przydatnego kodu.
 
-在你的 `composer.json` 改变之后，你可以运行 `composer update --prefer-dist` ，等待程序包下载完成，安装后，就可以使用它们了。 包里面所有的类都会自动加载。
+Po aktualizacji pliku `composer.json` możesz uruchomić komendę `composer update --prefer-dist` - nowe pakiety zostaną 
+pobrane i zainstalowane i będą od razu gotowe do użycia. Autoładowanie klas jest obsługiwane automatycznie.

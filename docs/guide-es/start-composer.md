@@ -41,9 +41,6 @@ Después de instalar el proyecto plantilla es una buena idea ajustar el archivo 
             "npm-asset-library": "vendor/npm",
             "bower-asset-library": "vendor/bower"
         }
-    },
-    "scripts": {
-        "post-install-cmd": "php init --env=Development --overwrite=n"
     }
 }
 ```

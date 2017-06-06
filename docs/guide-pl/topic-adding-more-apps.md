@@ -1,14 +1,14 @@
-Adding more applications
-========================
+Dodawanie kolejnych aplikacji
+=============================
 
-While having separate frontend and backend is common, sometimes it's not enough. For example, you may need additional
-application for, say, a blog. In order to get it:
+Powszechnie spotykane rozdzielenie części front-endowej od back-endowej czasem nie jest wystarczające. Dla przykładu, 
+być może wymagane jest wydzielenie jeszcze jednej aplikacji, dla, powiedzmy, bloga. Aby to uzyskać:
 
-1. Copy `frontend` to `blog`, `environments/dev/frontend` to `environments/dev/blog` and `environments/prod/frontend`
-to `environments/prod/blog`.
-2. Adjust namespaces and paths to start with `blog` instead of `frontend`.
-3. In `common\config\bootstrap.php` add `Yii::setAlias('blog', dirname(dirname(__DIR__)) . '/blog');`.
-4. Make adjustments to `environments/index.php` (marked with `+`):
+1. Skopiuj folder `frontend` do folderu `blog`, `environments/dev/frontend` do `environments/dev/blog` 
+   i `environments/prod/frontend` do `environments/prod/blog`.
+2. Popraw przestrzenie nazw i ścieżki tak, aby zaczynały się od `blog` zamiast `frontend`.
+3. W pliku `common\config\bootstrap.php` dodaj `Yii::setAlias('blog', dirname(dirname(__DIR__)) . '/blog');`.
+4. Zmodyfikuj zawartość pliku `environments/index.php` (dodane linie zostały oznaczone `+`):
 
 ```php
 return [

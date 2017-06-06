@@ -34,9 +34,6 @@
         "codeception/verify": "~0.3.1"
     },
     "config": {
-        "process-timeout": 1800
-    },
-    "scripts": {
-        "post-install-cmd": "php init --env=Development --overwrite=n"
+        "process-timeout": 1800,
     }
 }
