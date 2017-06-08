@@ -27,6 +27,15 @@ a directory named `advanced` that is directly under the Web root.
 
 Then follow the instructions given in the next subsection.
 
+## Installing using GIT repo
+
+Clone the git repo into your project folder, after this run:
+
+    composer install
+    
+Composer will run automatically "php init" for you, if not just run:
+
+    php init --env=Development --overwrite=n
 
 ## Preparing application
 
