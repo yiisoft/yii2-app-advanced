@@ -30,6 +30,7 @@
     "config": {
         "process-timeout": 1800,
         "fxp-asset":{
+            "pattern-skip-version": "(-build|-patch)",
             "installer-paths": {
                 "npm-asset-library": "vendor/npm",
                 "bower-asset-library": "vendor/bower"
