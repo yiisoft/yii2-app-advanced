@@ -12,13 +12,9 @@ Jeśli nie posiadasz zainstalowanego [Composera](http://getcomposer.org/), zapoz
 
 Po zainstalowaniu Composera możesz zainstalować aplikację korzystając z poniższych komend:
 
-    composer global require "fxp/composer-asset-plugin:^1.3.1"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-Pierwsza z nich instaluje [plugin assetowy Composera](https://github.com/francoispluchino/composer-asset-plugin/), 
-pozwalający na zarządzanie pakietami zależności Bowera i NPM z poziomu Composera. Tę komendę trzeba uruchomić tylko raz 
-przed pierwszą instalacją Yii w systemie.  
-Druga komenda instaluje zaawansowaną aplikację w folderze o nazwie `yii-application`. Możesz, rzecz jasna, wybrać 
+Komenda instaluje zaawansowaną aplikację w folderze o nazwie `yii-application`. Możesz, rzecz jasna, wybrać 
 dowolną inną nazwę.
 
 ## Instalacja z pliku archiwum

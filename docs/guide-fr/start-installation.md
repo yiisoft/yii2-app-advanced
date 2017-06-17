@@ -12,11 +12,10 @@ Si vous n'avez pas [Composer](http://getcomposer.org/), suivez les instructions 
 
 Une fois composer installé, vous pouvez l'utiliser pour installer l'application en utilisant les commandes suivantes :
 
-    composer global require "fxp/composer-asset-plugin:^1.3.1"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-La première commande installe le [greffon composer asset](https://github.com/francoispluchino/composer-asset-plugin/) 
-qui permet de gérer les dépendances de paquets bower et npm via Composer. Vous n'avez besoin d'exécuter cette commande qu'une fois pour toute. La deuxième commande installe l'application avancée dans un dossier nommé `yii-application`. Vous avez le droit de choisir un autre nom de dossier si vous le désirez.
+La commande installe l'application avancée dans un dossier nommé `yii-application`. 
+Vous avez le droit de choisir un autre nom de dossier si vous le désirez.
 
 ## Installation à partir d'un fichier archive
 
