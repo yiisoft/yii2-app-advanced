@@ -12,6 +12,10 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'aliases' => [
+            '@bower' => '@vendor/bower-asset',
+            '@npm'   => '@vendor/npm-asset',
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
