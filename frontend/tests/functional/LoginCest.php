@@ -7,14 +7,18 @@ use common\fixtures\UserFixture;
 
 class LoginCest
 {
-    public function _before(FunctionalTester $I)
+    public function _fixtures()
     {
-        $I->haveFixtures([
+        return [
             'user' => [
                 'class' => UserFixture::className(),
                 'dataFile' => codecept_data_dir() . 'login_data.php'
             ]
-        ]);
+        ];
+    }
+
+    public function _before(FunctionalTester $I)
+    {
         $I->amOnRoute('site/login');
     }
 
