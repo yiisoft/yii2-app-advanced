@@ -2,14 +2,15 @@
 
 namespace backend\tests\functional;
 
-use \backend\tests\FunctionalTester;
-use common\fixtures\UserFixture as UserFixture;
+use backend\tests\FunctionalTester;
+use common\fixtures\UserFixture;
 
 /**
  * Class LoginCest
  */
 class LoginCest
 {
+
     /**
      * Load fixtures before db transaction begin
      * Called in _before()
@@ -17,7 +18,8 @@ class LoginCest
      * @see \Codeception\Module\Yii2::loadFixtures()
      * @return array
      */
-    public function _fixtures(){
+    public function _fixtures()
+    {
         return [
             'user' => [
                 'class' => UserFixture::className(),

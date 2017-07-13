@@ -14,7 +14,8 @@ class LoginCest
      * @see \Codeception\Module\Yii2::loadFixtures()
      * @return array
      */
-    public function _fixtures(){
+    public function _fixtures()
+    {
         return [
             'user' => [
                 'class' => UserFixture::className(),

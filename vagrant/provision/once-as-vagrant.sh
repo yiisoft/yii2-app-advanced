@@ -20,9 +20,6 @@ info "Configure composer"
 composer config --global github-oauth.github.com ${github_token}
 echo "Done!"
 
-info "Install plugins for composer"
-composer global require "fxp/composer-asset-plugin:^1.2.0" --no-progress
-
 info "Install project dependencies"
 cd /app
 composer --no-progress --prefer-dist install
@@ -31,7 +28,8 @@ info "Init project"
 ./init --env=Development --overwrite=y
 
 info "Apply migrations"
-./yii migrate <<< "yes"
+./yii migrate --interactive=0
+./yii_test migrate --interactive=0
 
 info "Create bash-alias 'app' for vagrant user"
 echo 'alias app="cd /app"' | tee /home/vagrant/.bash_aliases
