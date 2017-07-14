@@ -1,5 +1,7 @@
-# yii console command
+# yii console commands
 /yii
+/yii_test
+/yii_test.bat
 
 # phpstorm project files
 .idea
@@ -31,8 +33,3 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
-
-# codeception generated files
-common/tests/_support/_generated/*
-frontend/tests/_support/_generated/*
-backend/tests/_support/_generated/*
