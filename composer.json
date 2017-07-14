@@ -18,7 +18,7 @@
         "yiisoft/yii2": ">=2.0.6@stable",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "bower-asset/jquery": "1.11.*@stable",
+        "bower-asset/jquery": "2.2.*@stable | 2.1.*@stable | 1.11.*@stable | 1.12.*@stable",
         "developeruz/yii2-db-rbac": "*",
         "newerton/yii2-fancybox": "dev-master",
         "drmabuse/yii2-slick-carousel": "dev-master",
