@@ -7,7 +7,7 @@
  *
  * In order to run this script from the web, you should copy it to the web root.
  * If you are using Linux you can create a hard link instead, using the following command:
- * ln requirements.php ../requirements.php
+ * ln ../requirements.php requirements.php
  */
 
 // you may need to adjust this path to the correct Yii framework path
@@ -20,7 +20,7 @@ if (!is_dir($frameworkPath)) {
     echo '<p>Please refer to the <abbr title="' . dirname(__FILE__) . '/README.md">README</abbr> on how to install Yii.</p>';
 }
 
-require_once($frameworkPath . '/requirements/YiiRequirementChecker.php');
+require_once $frameworkPath . '/requirements/YiiRequirementChecker.php';
 $requirementsChecker = new YiiRequirementChecker();
 
 $gdMemo = $imagickMemo = 'Either GD PHP extension with FreeType support or ImageMagick PHP extension with PNG support is required for image CAPTCHA.';
