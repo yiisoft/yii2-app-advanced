@@ -29,7 +29,7 @@ return [
         ],
     ],
 
-    'layoutPath' => '@app/lte-view/layouts',
+    'layoutPath' => '@app/views/layouts',
 
     'components' => [
         'request' => [
