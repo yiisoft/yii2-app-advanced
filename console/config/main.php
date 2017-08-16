@@ -25,8 +25,8 @@ return [
         'migrate' => [
             'class' => 'yii\console\controllers\MigrateController',
             'migrationPath' => [
-                '@yii/rbac/migrations/',
                 '@console/migrations',
+                '@yii/rbac/migrations/',
             ],
         ],
     ],
