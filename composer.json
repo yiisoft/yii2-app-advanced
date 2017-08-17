@@ -31,6 +31,7 @@
         "yurkinx/yii2-image": "^1.1"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.4",
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",
         "yiisoft/yii2-faker": "~2.0.0",
@@ -38,7 +39,9 @@
         "codeception/verify": "~0.3.1"
     },
     "config": {
-        "process-timeout": 1800
+        "process-timeout": 1800,
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "repositories": [
         {
