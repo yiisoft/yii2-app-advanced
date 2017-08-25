@@ -12,8 +12,8 @@ use developeruz\db_rbac\interfaces\UserRbacInterface;
  * User model
  *
  * @property integer $id
- * @property string $fam
- * @property string $im
+ * @property string $first_name
+ * @property string $last_name
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
@@ -22,6 +22,7 @@ use developeruz\db_rbac\interfaces\UserRbacInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property string $username read-only username
  */
 class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
 {
@@ -55,11 +56,11 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
 
     function getUsername()
     {
-        if(empty($this->im))
+        if(empty($this->first_name))
         {
             return $this->email;
         }
-        return trim(implode(' ',[$this->im, $this->fam]));
+        return trim(implode(' ',[$this->first_name, $this->last_name]));
     }
 
     /**
@@ -72,6 +73,7 @@ class User extends ActiveRecord implements IdentityInterface, UserRbacInterface
             ['email', 'email'],
             ['email', 'unique'],
             [['email'], 'required'],
+            [['first_name', 'last_name'], 'safe'],
             //['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }

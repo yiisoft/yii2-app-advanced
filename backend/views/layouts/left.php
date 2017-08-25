@@ -33,34 +33,17 @@
                       ['label' => 'Menu', 'options' => ['class' => 'header']],
 
 
-                    ['label' => 'Users', 'icon' => 'user', 'url' => ['/user']],
+                    ['label' => 'Users', 'icon' => 'user', 'url' => ['/user']/*, 'visible' => Yii::$app->user->can('users')*/],
                     ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [
-                        'label' => 'Same tools',
-                        'icon' => 'share',
+                        'label' => 'Access',
+                        'icon' => 'gear',
                         'url' => '#',
                         'items' => [
-                            ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii'],],
-                            ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug'],],
-                            [
-                                'label' => 'Level One',
-                                'icon' => 'circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-                                    [
-                                        'label' => 'Level Two',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],
+                            ['label' => 'Roles', 'icon' => 'file-code-o', 'url' => ['/permit/access/role']],
+                            ['label' => 'Permissions', 'icon' => 'dashboard', 'url' => ['/permit/access/permission']],
                         ],
                     ],
 
