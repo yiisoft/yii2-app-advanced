@@ -15,19 +15,20 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
+        "bower-asset/jquery": "2.2.*@stable | 2.1.*@stable | 1.11.*@stable | 1.12.*@stable",
+        "bower-asset/noty": "^2.3",
+        "bower-asset/tooltipster": "^3.3",
+        "brussens/yii2-maintenance-mode": "~0.2.6",
+        "developeruz/yii2-db-rbac": "*@stable",
+        "dmstr/yii2-adminlte-asset": "~2.4@stable",
+        "drmabuse/yii2-slick-carousel": "dev-master",
+        "kartik-v/yii2-editable": "*@stable",
+        "kartik-v/yii2-grid": "*@stable",
+        "loveorigami/yii2-notification-wrapper": "6.3",
+        "newerton/yii2-fancybox": "dev-master",
         "yiisoft/yii2": "~2.0.6@stable",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "bower-asset/jquery": "2.2.*@stable | 2.1.*@stable | 1.11.*@stable | 1.12.*@stable",
-        "developeruz/yii2-db-rbac": "*@stable",
-        "newerton/yii2-fancybox": "dev-master",
-        "drmabuse/yii2-slick-carousel": "dev-master",
-        "kartik-v/yii2-grid": "*@stable",
-        "kartik-v/yii2-editable": "*@stable",
-        "bower-asset/tooltipster": "^3.3",
-        "bower-asset/noty": "^2.3",
-        "dmstr/yii2-adminlte-asset": "~2.4@stable",
-        "loveorigami/yii2-notification-wrapper": "6.3",
         "yurkinx/yii2-image": "^1.1"
     },
     "require-dev": {
@@ -52,6 +53,8 @@
     "scripts": {
        
         "post-install-cmd": "php init --env=Development --overwrite=n",
-        "post-create-project-cmd": "php init --env=Development --overwrite=n"
+        "post-create-project-cmd": "php init --env=Development --overwrite=n",
+        "pre-update-cmd": "php yii maintenance/enable",
+        "post-update-cmd": "php yii maintenance/disable"
     }
 }

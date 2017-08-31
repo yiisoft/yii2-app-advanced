@@ -9,7 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', 'frontend\components\EventsHandler'],
+    'bootstrap' => ['log', 'frontend\components\EventsHandler', 'maintenanceMode'],
     'controllerNamespace' => 'frontend\controllers',
 
     'language' => 'ru-RU',
@@ -27,6 +27,53 @@ return [
     ],
     
     'components' => [
+        'maintenanceMode' => [
+            'class' => 'brussens\maintenance\MaintenanceMode',
+            // Page title
+            'title' => 'Sorry!',
+
+            // Mode status
+            //'enabled' => true,
+
+            // Show message
+            'message' => 'We are updating site now. Please wait for some time',
+
+            /*// Allowed user names
+            'users' => [
+                'BrusSENS',
+            ],*/
+
+            // Allowed roles
+            'roles' => [
+                'admin',
+            ],
+
+            // Allowed IP addresses
+            /*'ips' => [
+                '127.0.0.1',
+            ],*/
+
+            // Allowed URLs
+            'urls' => [
+                'site/login',
+                'login',
+            ],
+
+            // Layout path
+//            'layoutPath' => '@web/maintenance/layout',
+
+            // View path
+//            'viewPath' => '@web/maintenance/view',
+
+            // User name attribute name
+            'usernameAttribute' => 'email',
+
+            // HTTP Status Code
+            'statusCode' => 503,
+
+            //Retry-After header
+            'retryAfter' => 120 //or Wed, 21 Oct 2015 07:28:00 GMT for example
+        ],
         'i18n' => [
             'translations' => [
                 '*' => [

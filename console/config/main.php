@@ -9,7 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'maintenanceMode'],
     'controllerNamespace' => 'console\controllers',
     'components' => [
         'log' => [
@@ -19,6 +19,9 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'maintenanceMode' => [
+            'class' => 'brussens\maintenance\MaintenanceMode',
         ],
     ],
     'controllerMap' => [
