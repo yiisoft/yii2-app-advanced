@@ -46,6 +46,8 @@ if (empty($params['env']) || $params['env'] === '1') {
     $envName = $params['env'];
 }
 
+$params['askParams'] = empty($params['defaultParams']);
+
 if (!in_array($envName, $envNames)) {
     $envsList = implode(', ', $envNames);
     echo "\n  $envName is not a valid environment. Try one of the following: $envsList. \n";
@@ -113,7 +115,9 @@ function copyFile($root, $source, $target, &$all, $params)
         return true;
     }
     if (is_file($root . '/' . $target)) {
-        if (file_get_contents($root . '/' . $source) === file_get_contents($root . '/' . $target)) {
+        $content = file_get_contents($root . '/' . $source);
+
+        if ($content === file_get_contents($root . '/' . $target)) {
             echo "  unchanged $target\n";
             return true;
         }
@@ -141,13 +145,28 @@ function copyFile($root, $source, $target, &$all, $params)
                 }
             }
         }
-        file_put_contents($root . '/' . $target, file_get_contents($root . '/' . $source));
+        file_put_contents($root . '/' . $target, checkParametersAtContent($content, $params['askParams']));
         return true;
     }
     echo "   generate $target\n";
     @mkdir(dirname($root . '/' . $target), 0777, true);
-    file_put_contents($root . '/' . $target, file_get_contents($root . '/' . $source));
+
+    $content = file_get_contents($root . '/' . $source);
+    file_put_contents($root . '/' . $target, checkParametersAtContent($content, $params['askParams']));
     return true;
+}
+
+function checkParametersAtContent(&$content, $ask = true)
+{
+    if (preg_match('/\{.*\}/', $content) === 1) {
+        preg_match_all('/\{([\w ]*)\}/', $content, $matches);
+
+        for ($i = 0, $count = count($matches[1]); $i < $count; $i++) {
+            $value = $ask ? readline("\n      Enter {$matches[1][$i]}: ") :  preg_replace('/\W/', '_', $matches[1][$i]);
+            $content = str_replace("{$matches[0][$i]}", $value, $content);
+        }
+    }
+    return $content;
 }
 
 function getParams()
