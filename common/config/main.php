@@ -9,5 +9,13 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'cacheFrontend' => [
+            'class' => 'yii\caching\FileCache',
+            'cachePath' => \Yii::getAlias('@frontend') . '/runtime/cache'
+        ],
+        'cacheBackend' => [
+            'class' => 'yii\caching\FileCache',
+            'cachePath' => \Yii::getAlias('@backend') . '/runtime/cache'
+        ],
     ],
 ];
