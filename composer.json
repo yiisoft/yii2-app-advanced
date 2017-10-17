@@ -35,9 +35,7 @@
         "friendsofphp/php-cs-fixer": "^2.4",
         "yiisoft/yii2-debug": "~2.0.0",
         "yiisoft/yii2-gii": "~2.0.0",
-        "yiisoft/yii2-faker": "~2.0.0",
-        "codeception/base": "^2.2.3",
-        "codeception/verify": "~0.3.1"
+        "yiisoft/yii2-faker": "~2.0.0"
     },
     "config": {
         "process-timeout": 1800,
@@ -53,8 +51,6 @@
     "scripts": {
        
         "post-install-cmd": "php init --env=Development --overwrite=n",
-        "post-create-project-cmd": "php init --env=Development --overwrite=n",
-        "pre-update-cmd": "php yii maintenance/enable",
-        "post-update-cmd": "php yii maintenance/disable"
+        "post-create-project-cmd": "php init --env=Development --overwrite=n"
     }
 }
