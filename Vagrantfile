@@ -1,6 +1,11 @@
 require 'yaml'
 require 'fileutils'
 
+required_plugins = %w( vagrant-hostmanager vagrant-vbguest )
+required_plugins.each do |plugin|
+    exec "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+end
+
 domains = {
   frontend: 'y2aa-frontend.dev',
   backend:  'y2aa-backend.dev'
