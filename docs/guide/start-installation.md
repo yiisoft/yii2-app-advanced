@@ -244,10 +244,9 @@ This way is the easiest but long (~20 min).
    cd yii2-app-advanced
    ```
 
-5. Run commands:
+5. Run command:
 
    ```bash
-   vagrant plugin install vagrant-hostmanager
    vagrant up
    ```
    
@@ -268,17 +267,10 @@ That's all. You just need to wait for completion! After that you can access proj
    * copy `vagrant-local.example.yml` to `vagrant-local.yml`
 
 6. Place your GitHub personal API token to `vagrant-local.yml`
-7. Add the following lines to [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)):
-   
-   ```
-   192.168.83.137 y2aa-frontend.dev
-   192.168.83.137 y2aa-backend.dev
-   ```
 
-8. Open terminal (`cmd.exe`), **change directory to project root** and run commands:
+7. Open terminal (`cmd.exe`), **change directory to project root** and run command:
 
    ```bash
-   vagrant plugin install vagrant-hostmanager
    vagrant up
    ```
    
