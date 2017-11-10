@@ -3,3 +3,4 @@ modules:
     enabled:
         - Filesystem
         - Yii2
+        - frontend\tests\Helper\Functional
