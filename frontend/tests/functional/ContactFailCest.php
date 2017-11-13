@@ -9,7 +9,7 @@ class ContactFailCest
 {
     public function _before(FunctionalTester $I)
     {
-        \Yii::$app->set('mailer', 'frontend\fixtures\MockMailer');
+        \Yii::$app->set('mailer', 'frontend\stub\MockMailer');
         $I->configureMailer();
         $I->amOnPage(['site/contact']);
     }

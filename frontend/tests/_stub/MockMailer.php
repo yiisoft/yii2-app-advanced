@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\fixtures;
+namespace frontend\stub;
 
 
 class MockMailer extends \Codeception\Lib\Connector\Yii2\TestMailer
