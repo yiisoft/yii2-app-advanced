@@ -14,7 +14,7 @@ class Functional extends \Codeception\Module
      * For example
      * public function _before(FunctionalTester $I)
      * {
-     *     \Yii::$app->set('mailer', \frontend\fixtures\MockMailer::class);
+     *     \Yii::$app->set('mailer', \frontend\stub\MockMailer::class);
      *     $I->configureMailer();
      *     $I->amOnPage(['site/contact']);
      * }
