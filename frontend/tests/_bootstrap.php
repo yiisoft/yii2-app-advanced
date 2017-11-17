@@ -10,4 +10,4 @@ require_once __DIR__ . '/../config/bootstrap.php';
 
 //codeception namespace
 \Yii::setAlias('@frontend/tests/Helper', '@frontend/tests/_support/Helper');
-\Yii::setAlias('@frontend/stub', '@frontend/tests/_stub');
+\Yii::setAlias('@frontend/tests/stub', '@frontend/tests/_stub');
