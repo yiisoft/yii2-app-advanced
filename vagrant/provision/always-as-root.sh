@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
 
-#== Bash helpers ==
-
-function info {
-  echo " "
-  echo "--> $1"
-  echo " "
-}
+source /app/vagrant/provision/common.sh
 
 #== Provision script ==
 

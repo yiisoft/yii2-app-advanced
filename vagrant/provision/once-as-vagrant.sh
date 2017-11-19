@@ -1,16 +1,10 @@
 #!/usr/bin/env bash
 
+source /app/vagrant/provision/common.sh
+
 #== Import script args ==
 
 github_token=$(echo "$1")
-
-#== Bash helpers ==
-
-function info {
-  echo " "
-  echo "--> $1"
-  echo " "
-}
 
 #== Provision script ==
 
