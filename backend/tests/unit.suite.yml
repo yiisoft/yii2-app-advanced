@@ -1,1 +1,2 @@
+suite_namespace: backend\tests\unit
 class_name: UnitTester
