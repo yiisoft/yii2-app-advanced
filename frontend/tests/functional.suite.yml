@@ -1,5 +1,5 @@
 suite_namespace: frontend\tests\functional
-class_name: FunctionalTester
+actor: FunctionalTester
 modules:
     enabled:
         - Filesystem
