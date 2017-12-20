@@ -46,14 +46,14 @@ Après que vous avez installé l'application, vous devez accomplir les étapes s
 
 4. Définissez la racine du document de votre serveur Web :
 
-   - pour l'interface utilisateur (frontend)  `/path/to/yii-application/frontend/web/`, en utilisant l'URL `http://frontend.dev/`
-   - pour l'interface d'administration (backend) `/path/to/yii-application/backend/web/`, en utilisant URL `http://backend.dev/`
+   - pour l'interface utilisateur (frontend)  `/path/to/yii-application/frontend/web/`, en utilisant l'URL `http://frontend.test/`
+   - pour l'interface d'administration (backend) `/path/to/yii-application/backend/web/`, en utilisant URL `http://backend.test/`
 
     Avec le serveur Apache ça pourrait ressembler à ceci :
 
    ```apache
        <VirtualHost *:80>
-           ServerName frontend.dev
+           ServerName frontend.test
            DocumentRoot "/path/to/yii-application/frontend/web/"
            
            <Directory "/path/to/yii-application/frontend/web/">
@@ -79,7 +79,7 @@ Après que vous avez installé l'application, vous devez accomplir les étapes s
        </VirtualHost>
        
        <VirtualHost *:80>
-           ServerName backend.dev
+           ServerName backend.test
            DocumentRoot "/path/to/yii-application/backend/web/"
            
            <Directory "/path/to/yii-application/backend/web/">
@@ -115,7 +115,7 @@ Après que vous avez installé l'application, vous devez accomplir les étapes s
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
 
-           server_name frontend.dev;
+           server_name frontend.test;
            root        /path/to/yii-application/frontend/web/;
            index       index.php;
 
@@ -158,7 +158,7 @@ Après que vous avez installé l'application, vous devez accomplir les étapes s
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
        
-           server_name backend.dev;
+           server_name backend.test;
            root        /path/to/yii-application/backend/web/;
            index       index.php;
        
@@ -203,8 +203,8 @@ Après que vous avez installé l'application, vous devez accomplir les étapes s
    Ajoutez les lignes suivantes :
 
    ```
-   127.0.0.1   frontend.dev
-   127.0.0.1   backend.dev
+   127.0.0.1   frontend.test
+   127.0.0.1   backend.test
    ```
 
 Pour vous connecter à l'application, vous devez d'abord vous enregistrer avec votre adresse électronique, votre nom d'utilisateur et votre mot de passe.
@@ -249,8 +249,8 @@ C'est la manière la plus facile mais elle prend du temps (~20 min).
    ```
    
 C'est tout. Il ne vous reste plus qu'à attendre la fin de l'exécution ! Après cela, vous pouvez accéder au projet localement par les URL :
-* pour l'interface utilisateur : http://y2aa-frontend.dev
-* pour l'interface d'administration : http://y2aa-backend.dev
+* pour l'interface utilisateur : http://y2aa-frontend.test
+* pour l'interface d'administration : http://y2aa-backend.test
    
 #### Manuel pour les utilisateurs de Windows
 
@@ -268,8 +268,8 @@ C'est tout. Il ne vous reste plus qu'à attendre la fin de l'exécution ! Aprè
 7. Ajoutez les lignes suivantes dans le  [fichier hosts](https://en.wikipedia.org/wiki/Hosts_(file)):
    
    ```
-   192.168.83.137 y2aa-frontend.dev
-   192.168.83.137 y2aa-backend.dev
+   192.168.83.137 y2aa-frontend.test
+   192.168.83.137 y2aa-backend.test
    ```
 
 8. Ouvrez un terminal (`cmd.exe`), **placez-vous à la racine du projet** et exécutez les commandes :
@@ -282,6 +282,6 @@ C'est tout. Il ne vous reste plus qu'à attendre la fin de l'exécution ! Aprè
    (Vous pouvez apprendre comment changer de dossier dans l'interpréteur de commande en lisant [ceci](http://www.wikihow.com/Change-Directories-in-Command-Prompt))
 
 C'est tout. Il ne vous reste qu'à attendre la fin de l'exécution ! Après cela, vous pouvez accéder au projet localement par les URL :
-* pour l'interface utilisateur : http://y2aa-frontend.dev
-* pour l'interface d'administration : http://y2aa-backend.dev
+* pour l'interface utilisateur : http://y2aa-frontend.test
+* pour l'interface d'administration : http://y2aa-backend.test
 

@@ -45,14 +45,14 @@
 
 4. 设置Web服务器的文档根目录：
 
-   - 对于前端 `/path/to/yii-application/frontend/web/` 并且使用URL `http://frontend.dev/`
-   - 对于后端 `/path/to/yii-application/backend/web/` 并且使用URL `http://backend.dev/`
+   - 对于前端 `/path/to/yii-application/frontend/web/` 并且使用URL `http://frontend.test/`
+   - 对于后端 `/path/to/yii-application/backend/web/` 并且使用URL `http://backend.test/`
 
    对于Apache，使用如下配置：
 
    ```apache
        <VirtualHost *:80>
-           ServerName frontend.dev
+           ServerName frontend.test
            DocumentRoot "/path/to/yii-application/frontend/web/"
            
            <Directory "/path/to/yii-application/frontend/web/">
@@ -72,7 +72,7 @@
        </VirtualHost>
        
        <VirtualHost *:80>
-           ServerName backend.dev
+           ServerName backend.test
            DocumentRoot "/path/to/yii-application/backend/web/"
            
            <Directory "/path/to/yii-application/backend/web/">
@@ -102,7 +102,7 @@
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
 
-           server_name frontend.dev;
+           server_name frontend.test;
            root        /path/to/yii-application/frontend/web/;
            index       index.php;
 
@@ -145,7 +145,7 @@
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
        
-           server_name backend.dev;
+           server_name backend.test;
            root        /path/to/yii-application/backend/web/;
            index       index.php;
        
@@ -190,8 +190,8 @@
    添加以下行：
 
    ```
-   127.0.0.1   frontend.dev
-   127.0.0.1   backend.dev
+   127.0.0.1   frontend.test
+   127.0.0.1   backend.test
    ```
 
 要登录应用程序，您需要先注册您的电子邮件地址，用户名和密码。
@@ -235,8 +235,8 @@
    
 等待完成后，在浏览器中访问如下URL即可
 
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
+* frontend: http://y2aa-frontend.test
+* backend: http://y2aa-backend.test
    
 #### Windows 用户手册
 
@@ -254,8 +254,8 @@
 7. 添加如下代码到 [hosts 文件](https://en.wikipedia.org/wiki/Hosts_(file)):
    
    ```
-   192.168.83.137 y2aa-frontend.dev
-   192.168.83.137 y2aa-backend.dev
+   192.168.83.137 y2aa-frontend.test
+   192.168.83.137 y2aa-backend.test
    ```
 
 8. 打开终端 (`cmd.exe`), **切换路径至项目根目录** 并且执行如下命令:
@@ -269,6 +269,6 @@
 
 等待完成后，在浏览器中访问如下URL即可
 
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
+* frontend: http://y2aa-frontend.test
+* backend: http://y2aa-backend.test
 

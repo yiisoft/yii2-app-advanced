@@ -45,14 +45,14 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
 
 4. Establece los documentos raíces(document-root) de tu servidor web:
 
-   - para frontend `/path/to/yii-application/frontend/web/` y usando la URL `http://frontend.dev/`
-   - para backend `/path/to/yii-application/backend/web/` y usando la URL `http://backend.dev/`
+   - para frontend `/path/to/yii-application/frontend/web/` y usando la URL `http://frontend.test/`
+   - para backend `/path/to/yii-application/backend/web/` y usando la URL `http://backend.test/`
 
    Para Apache podría ser lo siguiente:
 
    ```apache
        <VirtualHost *:80>
-           ServerName frontend.dev
+           ServerName frontend.test
            DocumentRoot "/path/to/yii-application/frontend/web/"
 
            <Directory "/path/to/yii-application/frontend/web/">
@@ -72,7 +72,7 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
        </VirtualHost>
 
        <VirtualHost *:80>
-           ServerName backend.dev
+           ServerName backend.test
            DocumentRoot "/path/to/yii-application/backend/web/"
 
            <Directory "/path/to/yii-application/backend/web/">
@@ -102,7 +102,7 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
 
-           server_name frontend.dev;
+           server_name frontend.test;
            root        /path/to/yii-application/frontend/web/;
            index       index.php;
 
@@ -140,7 +140,7 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
 
-           server_name backend.dev;
+           server_name backend.test;
            root        /path/to/yii-application/backend/web/;
            index       index.php;
 
@@ -180,8 +180,8 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
    Añade las siguientes lineas:
 
    ```
-   127.0.0.1   frontend.dev
-   127.0.0.1   backend.dev
+   127.0.0.1   frontend.test
+   127.0.0.1   backend.test
    ```
 
 Para loguearte dentro de la aplicación, necesitas primero registrarte, con cualquiera de sus correos electrónicos, nombre de usuario y contraseña.

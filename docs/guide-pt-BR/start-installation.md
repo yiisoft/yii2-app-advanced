@@ -48,15 +48,15 @@ para inicializar a aplicação, sendo necessário realizá-los apenas uma vez no
 
 4. Configure a raiz dos documentos do seu servidor Web:
     
-    - para o frontend `/caminho/para/aplicacao-yii/frontend/web/` usando URL `http://frontend.dev/`
-    - para o backend `/caminho/para/aplicacao-yii/backend/web/` usando URL `http://backend.dev/`
+    - para o frontend `/caminho/para/aplicacao-yii/frontend/web/` usando URL `http://frontend.test/`
+    - para o backend `/caminho/para/aplicacao-yii/backend/web/` usando URL `http://backend.test/`
     
     
     Exemplo de configuração para servidores Apache
     
     ```apache
            <VirtualHost *:80>
-               ServerName frontend.dev
+               ServerName frontend.test
                DocumentRoot "/caminho/para/aplicacao-yii/frontend/web/"
                
                <Directory "/caminho/para/aplicacao-yii/frontend/web/">
@@ -76,7 +76,7 @@ para inicializar a aplicação, sendo necessário realizá-los apenas uma vez no
            </VirtualHost>
            
            <VirtualHost *:80>
-               ServerName backend.dev
+               ServerName backend.test
                DocumentRoot "/caminho/para/aplicacao-yii/backend/web/"
                
                <Directory "/caminho/para/aplicacao-yii/backend/web/">
@@ -106,7 +106,7 @@ para inicializar a aplicação, sendo necessário realizá-los apenas uma vez no
                listen 80; ## listen for ipv4
                #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
            
-               server_name frontend.dev;
+               server_name frontend.test;
                root        /caminho/para/aplicacao-yii/frontend/web/;
                index       index.php;
            
@@ -144,7 +144,7 @@ para inicializar a aplicação, sendo necessário realizá-los apenas uma vez no
                listen 80; ## listen for ipv4
                #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
            
-               server_name backend.dev;
+               server_name backend.test;
                root        /caminho/para/aplicacao-yii/backend/web/;
                index       index.php;
            
@@ -184,8 +184,8 @@ para inicializar a aplicação, sendo necessário realizá-los apenas uma vez no
    Adicione as seguintes linhas:
    
    ```
-   127.0.0.1   frontend.dev
-   127.0.0.1   backend.dev
+   127.0.0.1   frontend.test
+   127.0.0.1   backend.test
    ```
    
 Para se autenticar na aplicação é necessário que primeiro, você se registre com qualquer um dos seus endereços de e-mail, usuário e senha.
@@ -228,8 +228,8 @@ Esta é a forma mais simples porém, mais demorada (~20 min).
    ```
    
 Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o projeto localmente pelas URLs:
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
+* frontend: http://y2aa-frontend.test
+* backend: http://y2aa-backend.test
 
 #### Manual para usuários Windows
 
@@ -247,8 +247,8 @@ Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o proje
 7. Adicione as seguintes linhas no [arquivo de hosts](https://pt.wikipedia.org/wiki/Hosts_(arquivo)):
    
    ```
-   192.168.83.137 y2aa-frontend.dev
-   192.168.83.137 y2aa-backend.dev
+   192.168.83.137 y2aa-frontend.test
+   192.168.83.137 y2aa-backend.test
    ```
    
 8. Abra o terminal (`cmd.exe`), **entre no diretório raiz do projeto** e execute os comandos:
@@ -261,6 +261,6 @@ Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o proje
    (Você pode ler [aqui](http://pt.wikihow.com/Alterar-Diret%C3%B3rios-no-Prompt-de-Comandos) como alterar diretórios no prompt de comando) 
 
 Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o projeto localmente pelas URLs:
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
+* frontend: http://y2aa-frontend.test
+* backend: http://y2aa-backend.test
 
