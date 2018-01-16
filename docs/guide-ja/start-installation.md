@@ -54,7 +54,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
 
    ```apache
        <VirtualHost *:80>
-           ServerName frontend.dev
+           ServerName frontend.test
            DocumentRoot "/path/to/yii-application/frontend/web/"
            
            <Directory "/path/to/yii-application/frontend/web/">
@@ -80,7 +80,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
        </VirtualHost>
 
        <VirtualHost *:80>
-           ServerName backend.dev
+           ServerName backend.test
            DocumentRoot "/path/to/yii-application/backend/web/"
            
            <Directory "/path/to/yii-application/backend/web/">
@@ -116,7 +116,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
 
-           server_name frontend.dev;
+           server_name frontend.test;
            root        /path/to/yii-application/frontend/web/;
            index       index.php;
 
@@ -159,7 +159,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
 
-           server_name backend.dev;
+           server_name backend.test;
            root        /path/to/yii-application/backend/web/;
            index       index.php;
 
@@ -204,8 +204,8 @@ Composer がインストールされていれば、次のコマンドを使っ�
    次の行を追加します。
 
    ```
-   127.0.0.1   frontend.dev
-   127.0.0.1   backend.dev
+   127.0.0.1   frontend.test
+   127.0.0.1   backend.test
    ```
 
 
@@ -253,8 +253,8 @@ Composer がインストールされていれば、次のコマンドを使っ�
    
 これで全部です。後はただ完了するのを待つだけです。
 完了後には、次の URL でローカルのプロジェクトにアクセスすることが出来ます。
-* フロントエンド: http://y2aa-frontend.dev
-* バックエンド: http://y2aa-backend.dev
+* フロントエンド: http://y2aa-frontend.test
+* バックエンド: http://y2aa-backend.test
    
 #### Windows ユーザ用マニュアル
 
@@ -272,8 +272,8 @@ Composer がインストールされていれば、次のコマンドを使っ�
 7. 次の2行を [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) に追加する
    
    ```
-   192.168.83.137 y2aa-frontend.dev
-   192.168.83.137 y2aa-backend.dev
+   192.168.83.137 y2aa-frontend.test
+   192.168.83.137 y2aa-backend.test
    ```
 
 8. ターミナル (`cmd.exe`) を開き、 **プロジェクトのルートディレクトリに移動して** 次のコマンドを実行する
@@ -287,6 +287,6 @@ Composer がインストールされていれば、次のコマンドを使っ�
 
 これで全部です。後はただ完了するのを待つだけです。
 完了後には、次の URL でローカルのプロジェクトにアクセスすることが出来ます。
-* フロントエンド: http://y2aa-frontend.dev
-* バックエンド: http://y2aa-backend.dev
+* フロントエンド: http://y2aa-frontend.test
+* バックエンド: http://y2aa-backend.test
 

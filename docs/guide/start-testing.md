@@ -4,10 +4,12 @@ Testing
 Yii2 Advanced Application uses Codeception as its primary test framework. 
 There are already some sample tests prepared in `tests` directory of `frontend`, `backend`, and `common`.
 In order for the following procedure to work, it is assumed that the application has been initialized using
-the `dev` environment. In case tests need to be executed within a `Production` environment, `yii_test` and
+the `dev` environment. In the case where tests need to be executed in a `Production` environment, `yii_test` and
 `yii_test.bat` must be manually copied from the `environments/dev` folder into the project root directory.
+
 Tests require an **additional database**, which will be cleaned up between tests.
-Create database `yii2advanced_test` in mysql (according to config in `common/config/test.php`) and execute: 
+Create database `yii2advanced_test` in mysql (according to config in `common/config/test-local.php`) and execute: 
+
 
 ```
 ./yii_test migrate
@@ -68,6 +70,8 @@ By default acceptance tests are disabled, to run them use:
 
 #### Running Acceptance Tests
 
+The acceptance tests use [geckodriver](https://github.com/mozilla/geckodriver) for firefox by default, so make sure [geckodriver](https://github.com/mozilla/geckodriver) is in the `PATH`.
+
 To execute acceptance tests do the following:  
 
 1. Rename `frontend/tests/acceptance.suite.yml.example` to `frontend/tests/acceptance.suite.yml` to enable suite configuration
@@ -91,7 +95,10 @@ To execute acceptance tests do the following:
 
     ```
     java -jar ~/selenium-server-standalone-x.xx.x.jar
-    ``` 
+    ```
+    > There are currently [issues](https://github.com/facebook/php-webdriver/issues/492) with geckodriver's
+    > interactions with selenium that require you to enable the protocol translating in Selenium.
+    > `java -jar ~/selenium-server-standalone-x.xx.x.jar -enablePassThrough false`
 
 1. Start web server:
 

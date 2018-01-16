@@ -4,7 +4,7 @@ Korzystanie z zaawansowanego szablonu projektu w środowisku współdzielonym
 Wdrożenie zaawansowanego szablonu projektu w środowisku współdzielonym jest nieco bardziej skomplikowane niż w przypadku 
 podstawowego szablonu, ponieważ zawiera on dwa foldery web (foldery, na które wskazuje adres serwisu), co nie jest 
 wspierane przez serwery takich środowisk. Konieczna jest modyfikacja struktury folderów tak, aby adresem URL front-endu 
-stał się `http://site.local`, a back-endu `http://site.local/admin`.
+stał się `http://site.test`, a back-endu `http://site.test/admin`.
 
 ### Przenieś skrypty wejściowe do jednego folderu web
 

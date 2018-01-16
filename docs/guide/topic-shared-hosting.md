@@ -3,7 +3,7 @@ Using advanced project template at shared hosting
 
 Deploying an advanced project template to shared hosting is a bit trickier than a basic one because it has two webroots,
 which shared hosting webservers don't support. We will need to adjust the directory structure so frontend URL will be
-`http://site.local` and backend URL will be `http://site.local/admin`.
+`http://site.test` and backend URL will be `http://site.test/admin`.
 
 ### Move entry scripts into single webroot
 

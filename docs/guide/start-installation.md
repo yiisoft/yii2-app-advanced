@@ -50,14 +50,14 @@ the installed application. You only need to do these once for all.
 
 4. Set document roots of your web server:
 
-   - for frontend `/path/to/yii-application/frontend/web/` and using the URL `http://frontend.dev/`
-   - for backend `/path/to/yii-application/backend/web/` and using the URL `http://backend.dev/`
+   - for frontend `/path/to/yii-application/frontend/web/` and using the URL `http://frontend.test/`
+   - for backend `/path/to/yii-application/backend/web/` and using the URL `http://backend.test/`
 
    For Apache it could be the following:
 
    ```apache
        <VirtualHost *:80>
-           ServerName frontend.dev
+           ServerName frontend.test
            DocumentRoot "/path/to/yii-application/frontend/web/"
            
            <Directory "/path/to/yii-application/frontend/web/">
@@ -83,7 +83,7 @@ the installed application. You only need to do these once for all.
        </VirtualHost>
        
        <VirtualHost *:80>
-           ServerName backend.dev
+           ServerName backend.test
            DocumentRoot "/path/to/yii-application/backend/web/"
            
            <Directory "/path/to/yii-application/backend/web/">
@@ -119,7 +119,7 @@ the installed application. You only need to do these once for all.
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
 
-           server_name frontend.dev;
+           server_name frontend.test;
            root        /path/to/yii-application/frontend/web/;
            index       index.php;
 
@@ -162,7 +162,7 @@ the installed application. You only need to do these once for all.
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
        
-           server_name backend.dev;
+           server_name backend.test;
            root        /path/to/yii-application/backend/web/;
            index       index.php;
        
@@ -207,8 +207,8 @@ the installed application. You only need to do these once for all.
    Add the following lines:
 
    ```
-   127.0.0.1   frontend.dev
-   127.0.0.1   backend.dev
+   127.0.0.1   frontend.test
+   127.0.0.1   backend.test
    ```
 
 To login into the application, you need to first sign up, with any of your email address, username and password.
@@ -251,8 +251,8 @@ This way is the easiest but long (~20 min).
    ```
    
 That's all. You just need to wait for completion! After that you can access project locally by URLs:
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
+* frontend: http://y2aa-frontend.test
+* backend: http://y2aa-backend.test
    
 #### Manual for Windows users
 
@@ -277,6 +277,6 @@ That's all. You just need to wait for completion! After that you can access proj
    (You can read [here](http://www.wikihow.com/Change-Directories-in-Command-Prompt) how to change directories in command prompt) 
 
 That's all. You just need to wait for completion! After that you can access project locally by URLs:
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
+* frontend: http://y2aa-frontend.test
+* backend: http://y2aa-backend.test
 

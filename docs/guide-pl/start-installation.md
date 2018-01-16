@@ -48,14 +48,14 @@ zrobić raz na każdym nowym środowisku.
 
 4. Ustaw docelowe foldery serwera Web:
 
-   - dla front-endu `/path/to/yii-application/frontend/web/` z użyciem adresu URL `http://frontend.dev/`
-   - dla back-endu `/path/to/yii-application/backend/web/` z użyciem adresu URL `http://backend.dev/`
+   - dla front-endu `/path/to/yii-application/frontend/web/` z użyciem adresu URL `http://frontend.test/`
+   - dla back-endu `/path/to/yii-application/backend/web/` z użyciem adresu URL `http://backend.test/`
 
    W przypadku serwera Apache konfiguracja może wyglądać następująco:
 
    ```apache
        <VirtualHost *:80>
-           ServerName frontend.dev
+           ServerName frontend.test
            DocumentRoot "/path/to/yii-application/frontend/web/"
            
            <Directory "/path/to/yii-application/frontend/web/">
@@ -81,7 +81,7 @@ zrobić raz na każdym nowym środowisku.
        </VirtualHost>
        
        <VirtualHost *:80>
-           ServerName backend.dev
+           ServerName backend.test
            DocumentRoot "/path/to/yii-application/backend/web/"
            
            <Directory "/path/to/yii-application/backend/web/">
@@ -117,7 +117,7 @@ zrobić raz na każdym nowym środowisku.
            listen 80; ## nasluchuj dla ipv4
            #listen [::]:80 default_server ipv6only=on; ## nasluchuj dla ipv6
 
-           server_name frontend.dev;
+           server_name frontend.test;
            root        /path/to/yii-application/frontend/web/;
            index       index.php;
 
@@ -160,7 +160,7 @@ zrobić raz na każdym nowym środowisku.
            listen 80; ## nasluchuj dla ipv4
            #listen [::]:80 default_server ipv6only=on; ## nasluchuj dla ipv6
        
-           server_name backend.dev;
+           server_name backend.test;
            root        /path/to/yii-application/backend/web/;
            index       index.php;
        
@@ -205,8 +205,8 @@ zrobić raz na każdym nowym środowisku.
    Dodaj poniżesz linie:
 
    ```
-   127.0.0.1   frontend.dev
-   127.0.0.1   backend.dev
+   127.0.0.1   frontend.test
+   127.0.0.1   backend.test
    ```
 
 Aby zalogować się do aplikacji, najpierw musisz się zarejestrować używając dowolnego adresu email, nazwy użytkwnika 
@@ -253,8 +253,8 @@ wykonuj kolejne kroki!
    
 To wszystko. Teraz tylko musisz poczekać na zakończenie procesu! Po wszystkim możesz przejść do lokalnego projektu za 
 pomocą adresów URL:
-* front-end: http://y2aa-frontend.dev
-* back-end: http://y2aa-backend.dev
+* front-end: http://y2aa-frontend.test
+* back-end: http://y2aa-backend.test
    
 #### Instrukcje dla użytkowników Windows
 
@@ -272,8 +272,8 @@ pomocą adresów URL:
 7. Dodaj poniższe linie do [pliku hostów](https://en.wikipedia.org/wiki/Hosts_(file)):
    
    ```
-   192.168.83.137 y2aa-frontend.dev
-   192.168.83.137 y2aa-backend.dev
+   192.168.83.137 y2aa-frontend.test
+   192.168.83.137 y2aa-backend.test
    ```
 
 8. Otwórz terminal (`cmd.exe`), **zmień folder na folder główny projektu** i uruchom komendy:
@@ -287,5 +287,5 @@ pomocą adresów URL:
 
 To wszystko. Teraz tylko musisz poczekać na zakończenie procesu! Po wszystkim możesz przejść do lokalnego projektu za 
 pomocą adresów URL:
-* front-end: http://y2aa-frontend.dev
-* back-end: http://y2aa-backend.dev
+* front-end: http://y2aa-frontend.test
+* back-end: http://y2aa-backend.test
