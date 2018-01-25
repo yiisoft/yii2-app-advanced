@@ -9,14 +9,14 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', 'frontend\components\EventsHandler', 'maintenanceMode'],
     'controllerNamespace' => 'frontend\controllers',
+    'bootstrap' => ['log', 'maintenanceMode'],
 
     'language' => 'ru-RU',
     'sourceLanguage' => 'ru',
-    
+
     'modules' => [
-        'gridview' =>  [
+        'gridview' => [
             'class' => '\kartik\grid\Module'
             // enter optional module parameters below - only if you need to
             // use your own export download action or custom translation
@@ -25,7 +25,7 @@ return [
             // 'i18n' => []
         ],
     ],
-    
+
     'components' => [
         'maintenanceMode' => [
             'class' => 'brussens\maintenance\MaintenanceMode',
@@ -112,9 +112,9 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '<_c:(\w|-)+>' => '<_c>/index',
-                '<_c:(\w|-)+>/<id:\d+>'=>'<_c>/view',
-                '<_c:(\w|-)+>/<_a:(\w|-)+>/<id:\d+>'=>'<_c>/<_a>',
-                '<_c:(\w|-)+>/<_a:(\w|-)+>'=>'<_c>/<_a>',
+                '<_c:(\w|-)+>/<id:\d+>' => '<_c>/view',
+                '<_c:(\w|-)+>/<_a:(\w|-)+>/<id:\d+>' => '<_c>/<_a>',
+                '<_c:(\w|-)+>/<_a:(\w|-)+>' => '<_c>/<_a>',
             ],
         ],
 

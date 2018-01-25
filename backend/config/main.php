@@ -10,7 +10,11 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log', 'backend\components\EventsHandler'],
+    'bootstrap' => ['log'],
+
+    'language' => 'ru-RU',
+    'sourceLanguage' => 'ru',
+
     'modules' => [
         'permit' => [
             'class' => 'developeruz\db_rbac\Yii2DbRbac',
@@ -19,7 +23,7 @@ return [
                 'userClass' => 'common\models\User'
             ]
         ],
-        'gridview' =>  [
+        'gridview' => [
             'class' => '\kartik\grid\Module'
             // enter optional module parameters below - only if you need to
             // use your own export download action or custom translation
@@ -63,9 +67,9 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '<_c:(\w|-)+>' => '<_c>/index',
-                '<_c:(\w|-)+>/<id:\d+>'=>'<_c>/view',
-                '<_c:(\w|-)+>/<_a:(\w|-)+>/<id:\d+>'=>'<_c>/<_a>',
-                '<_c:(\w|-)+>/<_a:(\w|-)+>'=>'<_c>/<_a>',
+                '<_c:(\w|-)+>/<id:\d+>' => '<_c>/view',
+                '<_c:(\w|-)+>/<_a:(\w|-)+>/<id:\d+>' => '<_c>/<_a>',
+                '<_c:(\w|-)+>/<_a:(\w|-)+>' => '<_c>/<_a>',
 
                 '<module:\w+>/<controller:\w+>/<action:(\w|-)+>' => '<module>/<controller>/<action>',
                 '<module:\w+>/<controller:\w+>/<action:(\w|-)+>/<id:\d+>' => '<module>/<controller>/<action>',

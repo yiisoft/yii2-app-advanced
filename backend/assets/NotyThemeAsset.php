@@ -1,19 +1,18 @@
 <?php
 
-    namespace backend\assets;
+namespace backend\assets;
 
-    use yii\web\AssetBundle;
+use yii\web\AssetBundle;
 
-    class NotyThemeAsset extends AssetBundle{
+class NotyThemeAsset extends AssetBundle
+{
+    public $sourcePath = '@webroot/js/noty';
 
-        public $sourcePath = '@webroot/js/noty';
+    public $js = [
+        'example.js',
+    ];
 
-
-        public $js = [
-            'example.js',
-        ];
-
-        public $depends = [
-            'lo\modules\noty\assets\NotyAsset',
-        ];
-    }
+    public $depends = [
+        'lo\modules\noty\assets\NotyAsset',
+    ];
+}

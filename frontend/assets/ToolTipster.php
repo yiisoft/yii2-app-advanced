@@ -8,7 +8,6 @@ class ToolTipster extends AssetBundle{
     
     public $sourcePath = '@bower/tooltipster';
 
-
     public $css = [
         'css/tooltipster.css',
         'css/themes/tooltipster-shadow.css',
@@ -17,5 +16,4 @@ class ToolTipster extends AssetBundle{
     public $js = [
         'js/jquery.tooltipster.min.js',
     ];
-
 }

@@ -9,7 +9,6 @@ use yii\helpers\Console;
 
 class UserController extends Controller
 {
-
     public $email;
     public $password;
 
@@ -23,48 +22,40 @@ class UserController extends Controller
         return ['e' => 'email', 'p' => 'password'];
     }
 
-    function actionCreateAdmin()
+    public function actionCreateAdmin()
     {
         $userRole = Yii::$app->authManager->getRole('admin');
-        if(!$userRole)
-        {
+        if (!$userRole) {
             $role = Yii::$app->authManager->createRole('admin');
-            $role->description = 'Админ';
+            $role->description = 'Администратор';
             Yii::$app->authManager->add($role);
-
             $userRole = Yii::$app->authManager->getRole('admin');
         }
 
-        while(empty($this->email))
-        {
+        while (empty($this->email)) {
             echo "\n  Enter admin email: ";
             $this->email = trim(Console::input());
         }
 
-        while(empty($this->password))
-        {
+        while (empty($this->password)) {
             echo "\n  Enter admin password: ";
             $this->password = trim(Console::input());
         }
-
 
         $user = new User();
         $user->email = $this->email;
         $user->setPassword($this->password);
 
-        if($user->save())
-        {
-            Yii::$app->authManager->assign($userRole, $user->id);
-
-            $email = $this->ansiFormat($this->email, Console::FG_YELLOW);
-            echo "\n  ..... Admin user with email: $email was created " . $this->ansiFormat('successful', Console::FG_GREEN) . ".....\n";
+        try {
+            if ($user->save()) {
+                Yii::$app->authManager->assign($userRole, $user->id);
+                $email = $this->ansiFormat($this->email, Console::FG_YELLOW);
+                echo "\n  Admin user with email: $email was created " . $this->ansiFormat('successful', Console::FG_GREEN) . "\n";
+            } else {
+                $this->stderr("\n  You have some errors\n" . print_r($user->errors, true), Console::FG_RED);
+            }
+        } catch (\Exception $exception) {
+            $this->stderr("\n  Exception occurred while user was creating : " . $exception->getMessage() . "\n", Console::FG_RED);
         }
-        else
-        {
-            $this->stderr("\nYou have some errors\n" . print_r($user->errors, true), Console::FG_RED);
-        }
-
-
-
     }
 }
