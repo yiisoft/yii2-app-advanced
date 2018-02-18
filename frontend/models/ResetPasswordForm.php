@@ -38,7 +38,7 @@ class ResetPasswordForm extends Model
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {

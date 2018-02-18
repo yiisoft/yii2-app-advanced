@@ -14,7 +14,7 @@ class PasswordResetRequestForm extends Model
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {

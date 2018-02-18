@@ -28,7 +28,7 @@ class User extends ActiveRecord implements IdentityInterface
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -36,7 +36,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function behaviors()
     {
@@ -46,7 +46,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -57,7 +57,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
@@ -65,7 +65,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
@@ -119,7 +119,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -127,7 +127,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAuthKey()
     {
@@ -135,7 +135,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function validateAuthKey($authKey)
     {

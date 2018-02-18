@@ -15,7 +15,7 @@ class SignupForm extends Model
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
