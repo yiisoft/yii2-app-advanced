@@ -10,7 +10,6 @@ use common\fixtures\UserFixture;
  */
 class LoginCest
 {
-
     /**
      * Load fixtures before db transaction begin
      * Called in _before()

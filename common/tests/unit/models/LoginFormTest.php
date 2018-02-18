@@ -16,6 +16,7 @@ class LoginFormTest extends \Codeception\Test\Unit
      */
     protected $tester;
 
+
     /**
      * @return array
      */
