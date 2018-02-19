@@ -280,3 +280,74 @@ That's all. You just need to wait for completion! After that you can access proj
 * frontend: http://y2aa-frontend.test
 * backend: http://y2aa-backend.test
 
+## Installing using Docker
+
+**This installation way doesn't require pre-installed software (such as web-server, PHP, MySQL etc.)** - just do next steps!
+
+#### Manual for Linux/Unix/Windows users
+
+1. Install [Docker for Mac](https://docs.docker.com/docker-for-mac/), [Docker for Windows](https://docs.docker.com/docker-for-windows/) or [Docker for Linux](https://docs.docker.com/engine/installation/linux/ubuntu/) 
+
+2. step ONLY for linux - Install [Docker-compose](https://docs.docker.com/compose/)
+
+3. step ONLY for Windows - Remember to share your drive
+
+4. Prepare project:
+   
+   ```bash
+   change the database hostname in environments/dev/common/config/main-local.php
+   mysql:host=localhost;dbname=yii2advanced -> mysql:host=database;dbname=yii2advanced
+   
+   change the database hostname in environments/dev/common/config/test-local.php
+   mysql:host=localhost;dbname=yii2advanced_test -> mysql:host=database;dbname=yii2advanced_test
+   ```
+
+5. Change directory to project root:
+
+   ```bash
+   cd yii2-app-advanced
+   ```
+
+6. Run init
+
+    ```bash
+   docker-compose run --rm init --env=Development
+   ```
+   
+7. Add the following lines to [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)):
+   
+   ```
+   127.0.0.1 frontend.dev
+   127.0.0.1 backend.dev
+   ```
+
+8. Run commands:
+
+   ```bash
+   docker-compose up -d database nginx-proxy frontend backend
+   ```
+   
+That's all. You just need to wait for completion! After that you can access project locally by URLs:
+* frontend: http://frontend.dev
+* backend: http://backend.dev
+
+#### Docker helper containers
+
+Switch between environments
+
+   ```bash
+   docker-compose run --rm init
+   ```
+
+Run Yii console and Yii-test console
+
+   ```bash
+   docker-compose run --rm yii
+   docker-compose run --rm yii-test
+   ```
+   
+Run test with codeception
+
+   ```bash
+   docker-compose run --rm codecept
+   ```
