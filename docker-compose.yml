@@ -1,0 +1,17 @@
+version: '3.2'
+
+services:
+
+  frontend:
+    build: frontend
+    ports:
+      - 20080:80
+    volumes:
+      - ./:/app
+
+  backend:
+    build: backend
+    ports:
+      - 21080:80
+    volumes:
+      - ./:/app

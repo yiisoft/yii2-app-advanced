@@ -280,3 +280,26 @@ That's all. You just need to wait for completion! After that you can access proj
 * frontend: http://y2aa-frontend.test
 * backend: http://y2aa-backend.test
 
+
+### Installing using Docker
+
+Initialize the application by running the `init` command within a container
+
+    docker-compose run --rm backend /app/init
+
+Add a database service like and adjust the components['db'] configuration in `common/config/main-local.php` accordingly.
+    
+    db:
+        image: mysql
+
+> Docker networking creates a DNS entry for `db` available from your `backend` and `frontend` containers.       
+           
+Start the application
+
+    docker-compose up -d
+    
+Access it in your brower by opening
+
+- frontend: http://127.0.0.1:20080
+- backend: http://127.0.0.1:21080
+
