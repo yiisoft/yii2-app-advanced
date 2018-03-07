@@ -283,6 +283,10 @@ That's all. You just need to wait for completion! After that you can access proj
 
 ### Installing using Docker
 
+Install the application dependencies
+
+    docker-compose run --rm backend composer install
+
 Initialize the application by running the `init` command within a container
 
     docker-compose run --rm backend /app/init
