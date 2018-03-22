@@ -293,10 +293,17 @@ Initialize the application by running the `init` command within a container
 
 Add a database service like and adjust the components['db'] configuration in `common/config/main-local.php` accordingly.
     
-    db:
-        image: mysql
+        'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
+        'username' => 'yii2advanced',
+        'password' => 'secret',
 
-> Docker networking creates a DNS entry for `db` available from your `backend` and `frontend` containers.       
+> Docker networking creates a DNS entry for the host `mysql` available from your `backend` and `frontend` containers.
+
+If you want to use another database, such a Postgres, please visit the [guide](http://www.yiiframework.com/doc-2.0/guide-index.html).
+
+Run the migrations
+
+    docker-compose run --rm backend yii migrate
            
 Start the application
 
