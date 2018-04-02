@@ -1,7 +1,7 @@
-Yii 2 アドバンストプロジェクトテンプレート
-==========================================
+Yii 2 アドバンスト・プロジェクト・テンプレート
+==============================================
 
-Yii 2 アドバンストプロジェクトテンプレートは、複数の層を持つ複雑なアプリケーションを開発するのに適した [Yii 2](http://www.yiiframework.com/) アプリケーションのスケルトンです。
+Yii 2 アドバンスト・プロジェクト・テンプレートは、複数の層を持つ複雑なウェブ・アプリケーションを開発するのに適した [Yii 2](http://www.yiiframework.com/) アプリケーションのスケルトンです。
 
 このテンプレートは三つの層、すなわち、フロントエンド、バックエンド、そして、コンソールから構成され、それぞれが独立した Yii アプリケーションとなっています。
 
@@ -13,7 +13,7 @@ Yii 2 アドバンストプロジェクトテンプレートは、複数の層�
 --------
 
 * [インストール](start-installation.md)
-* [ベーシックプロジェクトテンプレートとの違い](start-comparison.md)
+* [ベーシック・プロジェクト・テンプレートとの違い](start-comparison.md)
 * [Composer を構成する](start-composer.md)
 * [テストを実行する](start-testing.md)
 
@@ -21,7 +21,7 @@ Yii 2 アドバンストプロジェクトテンプレートは、複数の層�
 ----
 
 * [ディレクトリ](structure-directories.md)
-* [事前定義されたパスエイリアス](structure-path-aliases.md)
+* [事前定義されたパス・エイリアス](structure-path-aliases.md)
 * [アプリケーション](structure-applications.md)
 * [構成と環境](structure-environments.md)
 
@@ -30,5 +30,5 @@ Yii 2 アドバンストプロジェクトテンプレートは、複数の層�
 
 * [バックエンドからフロントエンドへのリンクを作成する](topic-link-backend-frontend.md)
 * [アプリケーションをさらに追加する](topic-adding-more-apps.md)
-* [共有ホスティング環境でアドバンストプロジェクトテンプレートを使う](topic-shared-hosting.md)
+* [共有ホスティング環境でアドバンスト・プロジェクト・テンプレートを使う](topic-shared-hosting.md)
 

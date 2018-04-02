@@ -3,23 +3,23 @@
 
 ## 必要条件
 
-このプロジェクトテンプレートが要求する最低限の必要条件は、あなたのウェブサーバが PHP 5.4.0 をサポートしていることです。
+このプロジェクト・テンプレートが要求する最低限の必要条件は、あなたのウェブ・サーバが PHP 5.4.0 をサポートしていることです。
 
 ## Composer を使ってインストールする
 
-[Composer](http:/[Composer](http://getcomposer.org/) を持っていない場合は、決定版ガイドの [Yii をインストールする](https://github.com/yiisoft/yii2/blob/master/docs/guide-ja/start-installation.md#installing-via-composer) の節の指示に従ってインストールしてください。
+[Composer](http://getcomposer.org/) を持っていない場合は、決定版ガイドの [Yii をインストールする](https://github.com/yiisoft/yii2/blob/master/docs/guide-ja/start-installation.md#installing-via-composer) のセクションの指示に従ってインストールしてください。
 
 Composer がインストールされていれば、次のコマンドを使ってアプリケーションをインストールすることが出来ます。
 
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-のコマンドは `yii-application` という名前のディレクトリにアドバンストアプリケーションをインストールします。
+のコマンドは `yii-application` という名前のディレクトリにアドバンスト・アプリケーションをインストールします。
 望むなら別のディレクトリ名を選ぶことも出来ます。
 
 
-## アーカイブファイルからインストールする
+## アーカイブ・ファイルからインストールする
 
-[yiiframework.com](http://www.yiiframework.com/download/) からダウンロードしたアーカイブファイルをウェブルートの直下、`advanced` と名付けられたディレクトリに解凍します。
+[yiiframework.com](http://www.yiiframework.com/download/) からダウンロードしたアーカイブ・ファイルをウェブ・ルートの直下、`advanced` と名付けられたディレクトリに解凍します。
 
 その後は、次の項に記載されている指示に従ってください。
 
@@ -29,7 +29,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
 アプリケーションをインストールした後に、インストールされたアプリケーションの初期設定をするために、次の各ステップを実行しなければなりません。
 これらは全体で一度だけやれば十分です。
 
-1. コンソールターミナルを開き、`init` コマンドを実行して環境として `dev` を選択します。
+1. コンソール・ターミナルを開き、`init` コマンドを実行して環境として `dev` を選択します。
 
    ```
    /path/to/php-bin/php /path/to/yii-application/init
@@ -43,9 +43,9 @@ Composer がインストールされていれば、次のコマンドを使っ�
 
 2. 新しいデータベースを作成し、それに従って `common/config/main-local.php` の `components['db']` の構成情報を修正します。
 
-3. コンソールターミナルを開き、`/path/to/php-bin/php /path/to/yii-application/yii migrate` というコマンドでマイグレーションを適用します。
+3. コンソール・ターミナルを開き、`/path/to/php-bin/php /path/to/yii-application/yii migrate` というコマンドでマイグレーションを適用します。
 
-4. ウェブサーバのドキュメントルートを設定します。
+4. ウェブ・サーバのドキュメント・ルートを設定します。
 
    - フロントエンドのパスは `/path/to/yii-application/frontend/web/`、URL は `http://frontend/` を使用
    - バックエンドのパスは `/path/to/yii-application/backend/web/`、URL は `http://backend/` を使用
@@ -66,7 +66,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
                # そうでなければ、index.php にリクエストを引き渡す
                RewriteRule . index.php
 
-               # index.php をインデックスファイルとして使用
+               # index.php をインデックス・ファイルとして使用
                DirectoryIndex index.php
 
                # ... その他の設定 ...
@@ -92,7 +92,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
                # そうでなければ、index.php にリクエストを引き渡す
                RewriteRule . index.php
 
-               # index.php をインデックスファイルとして使用
+               # index.php をインデックス・ファイルとして使用
                DirectoryIndex index.php
 
                # ... その他の設定 ...
@@ -210,19 +210,19 @@ Composer がインストールされていれば、次のコマンドを使っ�
 
 
 アプリケーションにログインするためには、最初にユーザ登録をする必要があります。
-あなたの任意のメールアドレス、ユーザ名、パスワードを指定してください。
-そうすれば、同じメールアドレスとパスワードを使って何時でもアプリケーションにログインすることが出来ます。
+あなたの任意のメール・アドレス、ユーザ名、パスワードを指定してください。
+そうすれば、同じメール・アドレスとパスワードを使って何時でもアプリケーションにログインすることが出来ます。
 
 
-> Note: `/` をフロントエンド、`/admin` をバックエンドにして、アドバンストテンプレートを単一のドメインで走らせたい場合は、
-> [共有ホスティング環境でアドバンストプロジェクトテンプレートを使う](topic-shared-hosting.md) を参照して下さい。
+> Note: `/` をフロントエンド、`/admin` をバックエンドにして、アドバンスト・テンプレートを単一のドメインで走らせたい場合は、
+> [共有ホスティング環境でアドバンスト・プロジェクト・テンプレートを使う](topic-shared-hosting.md) を参照して下さい。
 
 
 ## Vagrant を使ってインストールする
 
 この方法が最も簡単ですが、時間はかかります (～20分)。
 
-**このインストール方法では、(ウェブサーバ、PHP、MySQL 等々の) ソフトウェアを事前にインストールする必要はありません。** - 単に以下のステップを実行するだけです。 steps!
+**このインストール方法では、(ウェブ・サーバ、PHP、MySQL 等々の) ソフトウェアを事前にインストールする必要はありません。** - 単に以下のステップを実行するだけです。
 
 #### Linux/Unix ユーザ用マニュアル
 
@@ -238,7 +238,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
    ```
    
 4. 作成した GitHub personal API token を `vagrant-local.yml` に置く
-5. プロジェクトのルートディレクトリに移動する
+5. プロジェクトのルート・ディレクトリに移動する
 
    ```bash
    cd yii2-app-advanced
@@ -269,21 +269,13 @@ Composer がインストールされていれば、次のコマンドを使っ�
    * vagrant-local.example.yml` を `vagrant-local.yml` にコピーする
 
 6. 作成した GitHub personal API token を `vagrant-local.yml` に置く
-7. 次の2行を [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)) に追加する
-   
-   ```
-   192.168.83.137 y2aa-frontend.test
-   192.168.83.137 y2aa-backend.test
-   ```
-
-8. ターミナル (`cmd.exe`) を開き、 **プロジェクトのルートディレクトリに移動して** 次のコマンドを実行する
+7. ターミナル (`cmd.exe`) を開き、 **プロジェクトのルート・ディレクトリに移動して** 次のコマンドを実行する
 
    ```bash
-   vagrant plugin install vagrant-hostmanager
    vagrant up
    ```
    
-   (コマンドプロンプトでディレクトリを移動する方法については、[ここ](http://www.wikihow.com/Change-Directories-in-Command-Prompt) を読んでください) 
+   (コマンド・プロンプトでディレクトリを移動する方法については、[ここ](http://www.wikihow.com/Change-Directories-in-Command-Prompt) を読んでください) 
 
 これで全部です。後はただ完了するのを待つだけです。
 完了後には、次の URL でローカルのプロジェクトにアクセスすることが出来ます。
