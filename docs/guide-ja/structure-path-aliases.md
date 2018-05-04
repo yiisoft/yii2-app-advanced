@@ -14,4 +14,5 @@
 - `@web` - 現在走っているウェブ・アプリケーションのベース URL。
 - `@webroot` - 現在走っているウェブ・アプリケーションのウェブ・ルート・ディレクトリ。
 
-アドバンスト・アプリケーションのディレクトリ構造特有のエイリアス (`@common`、`@frontend`、`@backend`、`@console`) は `common/config/bootstrap.php` で定義されています。
+アドバンスト・アプリケーションのディレクトリ構造特有のエイリアス (`@common`、`@frontend`、`@backend`、`@console`) は
+`common/config/bootstrap.php` で定義されています。
