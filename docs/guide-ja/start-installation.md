@@ -44,7 +44,7 @@ Bower と NPM の依存パッケージを Composer によって管理するた�
    /path/to/php-bin/php /path/to/yii-application/init --env=Production --overwrite=All
    ```
 
-2. 新しいデータベースを作成し、それに従って `common/config/main-local.php` の `components['db']` の構成情報を修正します。
+2. 新しいデータベースを作成し、それに従って `/path/to/yii-application/common/config/main-local.php` の `components['db']` の構成情報を修正します。
 
 3. コンソール・ターミナルを開き、`/path/to/php-bin/php /path/to/yii-application/yii migrate` というコマンドでマイグレーションを適用します。
 
