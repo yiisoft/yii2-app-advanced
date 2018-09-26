@@ -14,7 +14,7 @@ Composer がインストールされていれば、次のコマンドを使っ�
 
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-のコマンドは `yii-application` という名前のディレクトリにアドバンスト・アプリケーションをインストールします。
+このコマンドは `yii-application` という名前のディレクトリにアドバンスト・アプリケーションをインストールします。
 望むなら別のディレクトリ名を選ぶことも出来ます。
 
 Bower と NPM の依存パッケージを Composer によって管理するために [asset-packagist](https://asset-packagist.org/) を使っています。以前のバージョンのように [asset-plugin](https://packagist.org/packages/fxp/composer-asset-plugin) を使うことも出来ますが、動作は低速です。
@@ -38,7 +38,7 @@ Bower と NPM の依存パッケージを Composer によって管理するた�
    /path/to/php-bin/php /path/to/yii-application/init
    ```
 
-   あるいは、本番サーバでは、非対話モードで `init` を実行します。
+   スクリプトで自動化する場合は、非対話モードで `init` を実行します。
 
    ```
    /path/to/php-bin/php /path/to/yii-application/init --env=Development --overwrite=All
