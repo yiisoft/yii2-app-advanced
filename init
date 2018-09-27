@@ -161,7 +161,7 @@ function getParams()
 
     $params = [];
     foreach ($rawParams as $param) {
-        if (preg_match('/^--(\w+)(=(.*))?$/', $param, $matches)) {
+        if (preg_match('/^--([\w-]*\w)(=(.*))?$/', $param, $matches)) {
             $name = $matches[1];
             $params[$name] = isset($matches[3]) ? $matches[3] : true;
         } else {
