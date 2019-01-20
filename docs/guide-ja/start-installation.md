@@ -280,3 +280,41 @@ Bower と NPM の依存パッケージを Composer によって管理するた�
 * フロントエンド: http://y2aa-frontend.test
 * バックエンド: http://y2aa-backend.test
 
+
+### Docker を使ってインストールする
+
+アプリケーションの依存をインストールします。
+
+    docker-compose run --rm backend composer install
+
+コンテナの中で `init` コマンドを実行することによってアプリケーションを初期化します。
+
+    docker-compose run --rm backend /app/init
+
+好みのデータベース・サービスを追加して、それに合せて `common/config/main-local.php` の 'db' コンポーネントの構成を修正します。
+    
+        'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
+        'username' => 'yii2advanced',
+        'password' => 'secret',
+
+> Docker ネットワーキングが `backend` および `frontend` のコンテナから利用できる `mysql` というホストの DNS エントリを作成します。
+
+> 別のデータベース、例えば Postgres を使いたい場合は、`docker-compose.yml` の対応するセクションのコメントを外して、データベース接続を更新して下さい。
+
+>         'dsn' => 'pgsql:host=pgsql;dbname=yii2advanced',
+
+Docker のセットアップに関する更なる詳細は [ガイド](http://www.yiiframework.com/doc-2.0/guide-index.html) を参照して下さい。
+
+マイグレーションを実行します。
+
+    docker-compose run --rm backend yii migrate
+           
+アプリケーションを開始します。
+
+    docker-compose up -d
+    
+ブラウザで下記を開いてアプリケーションにアクセスします。
+
+- フロントエンド: http://127.0.0.1:20080
+- バックエンド: http://127.0.0.1:21080
+
