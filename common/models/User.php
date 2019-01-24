@@ -104,6 +104,19 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
+     * Finds user by verify email token
+     *
+     * @param string $token verify email token
+     * @return static|null
+     */
+    public static function findByVerificationToken($token) {
+        return static::findOne([
+            'verification_token' => $token,
+            'status' => self::STATUS_INACTIVE
+        ]);
+    }
+
+    /**
      * Finds out if password reset token is valid
      *
      * @param string $token password reset token
