@@ -50,6 +50,12 @@ class LoginCest
         $I->seeValidationError('Incorrect username or password.');
     }
 
+    public function checkInactiveAccount(FunctionalTester $I)
+    {
+        $I->submitForm('#login-form', $this->formParams('test.test', 'Test1234'));
+        $I->seeValidationError('Incorrect username or password');
+    }
+
     public function checkValidLogin(FunctionalTester $I)
     {
         $I->submitForm('#login-form', $this->formParams('erau', 'password_0'));
