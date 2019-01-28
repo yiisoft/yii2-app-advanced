@@ -104,7 +104,7 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Finds user by verify email token
+     * Finds user by verification email token
      *
      * @param string $token verify email token
      * @return static|null

@@ -65,6 +65,5 @@ class VerifyEmailCest
            'email' => 'test@mail.com',
            'status' => \common\models\User::STATUS_ACTIVE
         ]);
-
     }
 }

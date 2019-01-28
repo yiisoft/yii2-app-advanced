@@ -8,7 +8,6 @@ use yii\base\Model;
 
 class VerifyEmailForm extends Model
 {
-
     /**
      * @var string
      */
@@ -20,7 +19,7 @@ class VerifyEmailForm extends Model
     private $_user;
 
     /**
-     * Creates a form model given a token.
+     * Creates a form model with given token.
      *
      * @param string $token
      * @param array $config name-value pairs that will be used to initialize the object properties

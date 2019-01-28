@@ -9,12 +9,10 @@ use yii\base\Model;
 
 class ResendVerificationEmailForm extends Model
 {
-
     /**
      * @var string
      */
     public $email;
-
 
     /**
      * {@inheritdoc}
