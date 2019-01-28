@@ -44,7 +44,7 @@ class SignupFormTest extends \Codeception\Test\Unit
 
         $mail = $this->tester->grabLastSentEmail();
 
-        expect('valid email is sent', $mail)->isInstanceOf('yii\mail\MessageInterface');
+        expect($mail)->isInstanceOf('yii\mail\MessageInterface');
         expect($mail->getTo())->hasKey('some_email@example.com');
         expect($mail->getFrom())->hasKey(\Yii::$app->params['supportEmail']);
         expect($mail->getSubject())->equals('Account registration at ' . \Yii::$app->name);
