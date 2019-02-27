@@ -6,4 +6,4 @@
 1. 复制 `frontend` 至 `blog`, `environments/dev/frontend` 至 `environments/dev/blog` 以及 `environments/prod/frontend`
 至 `environments/prod/blog`.
 2. 调整命名空间和路径以 `blog` 开头（替换 `frontend`）.
-3. 在 `common\config\bootstrap.php` 中添加 `Yii::setAlias('blog', dirname(dirname(__DIR__)) . '/blog');`.
+3. 在 `common\config\bootstrap.php` 中添加 `Yii::setAlias('@blog', dirname(dirname(__DIR__)) . '/blog');`.
