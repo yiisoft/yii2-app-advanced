@@ -148,4 +148,8 @@ $requirements = array(
         'memo' => 'PHP mail SMTP server required',
     ),
 );
-$requirementsChecker->checkYii()->check($requirements)->render();
+
+$result = $requirementsChecker->checkYii()->check($requirements)->getResult();
+$requirementsChecker->render();
+
+exit($result['summary']['errors'] === 0 ? 0 : 1);
