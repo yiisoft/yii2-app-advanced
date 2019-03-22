@@ -14,6 +14,7 @@ class ResendVerificationEmailForm extends Model
      */
     public $email;
 
+
     /**
      * {@inheritdoc}
      */

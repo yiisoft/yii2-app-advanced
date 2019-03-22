@@ -7,11 +7,11 @@ use frontend\models\VerifyEmailForm;
 
 class VerifyEmailFormTest extends \Codeception\Test\Unit
 {
-
     /**
      * @var \frontend\tests\UnitTester
      */
     protected $tester;
+
 
     public function _before()
     {

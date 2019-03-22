@@ -18,6 +18,7 @@ class VerifyEmailForm extends Model
      */
     private $_user;
 
+
     /**
      * Creates a form model with given token.
      *

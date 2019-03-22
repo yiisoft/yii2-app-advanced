@@ -9,6 +9,7 @@ class ResendVerificationEmailCest
 {
     protected $formId = '#resend-verification-email-form';
 
+
     /**
      * Load fixtures before db transaction begin
      * Called in _before()
