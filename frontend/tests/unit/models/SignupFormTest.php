@@ -31,12 +31,24 @@ class SignupFormTest extends \Codeception\Test\Unit
         ]);
 
         $user = $model->signup();
+        expect($user)->true();
 
-        expect($user)->isInstanceOf('common\models\User');
+        /** @var \common\models\User $user */
+        $user = $this->tester->grabRecord('common\models\User', [
+            'username' => 'some_username',
+            'email' => 'some_email@example.com',
+            'status' => \common\models\User::STATUS_INACTIVE
+        ]);
 
-        expect($user->username)->equals('some_username');
-        expect($user->email)->equals('some_email@example.com');
-        expect($user->validatePassword('some_password'))->true();
+        $this->tester->seeEmailIsSent();
+
+        $mail = $this->tester->grabLastSentEmail();
+
+        expect($mail)->isInstanceOf('yii\mail\MessageInterface');
+        expect($mail->getTo())->hasKey('some_email@example.com');
+        expect($mail->getFrom())->hasKey(\Yii::$app->params['supportEmail']);
+        expect($mail->getSubject())->equals('Account registration at ' . \Yii::$app->name);
+        expect($mail->toString())->contains($user->verification_token);
     }
 
     public function testNotCorrectSignup()
