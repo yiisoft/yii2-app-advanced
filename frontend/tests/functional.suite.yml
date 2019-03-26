@@ -4,3 +4,5 @@ modules:
     enabled:
         - Filesystem
         - Yii2
+steps:
+    - Codeception\Step\ConditionalAssertion
