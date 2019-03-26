@@ -313,7 +313,7 @@ Start the application
 
     docker-compose up -d
     
-Access it in your brower by opening
+Access it in your browser by opening
 
 - frontend: http://127.0.0.1:20080
 - backend: http://127.0.0.1:21080
