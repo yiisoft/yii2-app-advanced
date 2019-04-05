@@ -37,6 +37,7 @@ install:
 before_script:
   - mysql -e 'CREATE DATABASE yii2advanced_test;'
   - php yii_test migrate --interactive=0
+  - cp .env-sample .env-dev
 
 script:
   - composer validate --strict
