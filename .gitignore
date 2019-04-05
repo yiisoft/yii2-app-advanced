@@ -41,3 +41,8 @@ phpunit.phar
 /backend/web/index.php
 /backend/web/index-test.php
 /backend/web/robots.txt
+
+# environment
+.env
+.env-dev
+.env-prod
