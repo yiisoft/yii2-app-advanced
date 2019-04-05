@@ -43,6 +43,5 @@ phpunit.phar
 /backend/web/robots.txt
 
 # environment
-.env
 .env-dev
 .env-prod
