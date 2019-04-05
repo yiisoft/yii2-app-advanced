@@ -13,7 +13,9 @@ sudo: false
 cache:
   directories:
     - $HOME/.composer/cache
-
+before_install:
+  - cp .env-sample .env-dev
+  
 install:
   - travis_retry composer self-update && composer --version
   - travis_retry composer update --dev --prefer-dist --no-interaction
@@ -35,7 +37,6 @@ install:
     sed -i "s/'cookieValidationKey' => ''/'cookieValidationKey' => 'testkey'/" backend/config/main.php
 
 before_script:
-  - cp .env-sample .env-dev
   - mysql -e 'CREATE DATABASE yii2advanced_test;'
   - php yii_test migrate --interactive=0
 
