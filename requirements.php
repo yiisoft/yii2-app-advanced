@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * Application requirement checker script.
