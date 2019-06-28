@@ -72,7 +72,8 @@ a.desc:after {
     content: "\e156";
 }
 
-.grid-view td {
+.grid-view th,
+.grid-view td:last-child {
     white-space: nowrap;
 }
 
