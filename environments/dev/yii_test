@@ -4,6 +4,8 @@
  * Yii console bootstrap file.
  */
 
+use yii\console\ExitCode;
+
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_ENV') or define('YII_ENV', 'test');
 
@@ -24,5 +26,10 @@ $config = yii\helpers\ArrayHelper::merge(
 );
 
 $application = new yii\console\Application($config);
-$exitCode = $application->run();
+try {
+    $exitCode = $application->run();
+} catch (\Exception $exception) {
+    echo $exception;
+    $exitCode = ExitCode::UNSPECIFIED_ERROR;
+}
 exit($exitCode);
