@@ -80,6 +80,6 @@ class ResendVerificationEmailFormTest extends Unit
         expect($mail->getTo())->hasKey('test@mail.com');
         expect($mail->getFrom())->hasKey(\Yii::$app->params['supportEmail']);
         expect($mail->getSubject())->equals('Account registration at ' . \Yii::$app->name);
-        expect($mail->toString())->contains('4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330');
+        expect($mail->toString())->stringContainsString('4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330');
     }
 }
