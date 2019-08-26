@@ -10,6 +10,9 @@ php:
 # faster builds on new travis setup not using sudo
 sudo: false
 
+services:
+  - mysql
+
 # cache vendor dirs
 cache:
   directories:
