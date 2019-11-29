@@ -57,10 +57,9 @@ class VerifyEmailCest
         $I->amOnRoute('site/verify-email', ['token' => '4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330']);
         $I->canSee('Your email has been confirmed!');
         $I->canSee('Congratulations!', 'h1');
-        $I->see('Logout (test.test)', 'form button[type=submit]');
+        $I->see('Logout (test@mail.com)', 'form button[type=submit]');
 
         $I->seeRecord('common\models\User', [
-           'username' => 'test.test',
            'email' => 'test@mail.com',
            'status' => \common\models\User::STATUS_ACTIVE
         ]);

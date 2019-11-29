@@ -75,7 +75,6 @@ class ResendVerificationEmailCest
         $I->canSeeEmailIsSent();
         $I->seeRecord('common\models\User', [
             'email' => 'test@mail.com',
-            'username' => 'test.test',
             'status' => \common\models\User::STATUS_INACTIVE
         ]);
         $I->see('Check your email for further instructions.');

@@ -47,7 +47,6 @@ class VerifyEmailFormTest extends \Codeception\Test\Unit
         $user = $model->verifyEmail();
         expect($user)->isInstanceOf('common\models\User');
 
-        expect($user->username)->equals('test.test');
         expect($user->email)->equals('test@mail.com');
         expect($user->status)->equals(\common\models\User::STATUS_ACTIVE);
         expect($user->validatePassword('Test1234'))->true();
