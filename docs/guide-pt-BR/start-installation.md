@@ -3,7 +3,7 @@ Instalação
 
 ## Pré-Requisitos
 
-O requisito mínimo deste template de projetos é que seu servidor Web suporte PHP 5.4.0.
+O requisito mínimo deste template de projetos é que seu servidor Web suporte PHP 5.6.0.
 
 ## Instalação utilizando Composer
 

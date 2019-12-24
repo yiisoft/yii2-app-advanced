@@ -3,7 +3,7 @@ Instalacja
 
 ## Wymagania
 
-Minimalne wymagania tego szablonu projektu dla serwera to obsługa PHP 5.4.0.
+Minimalne wymagania tego szablonu projektu dla serwera to obsługa PHP 5.6.0.
 
 ## Instalacja za pomocą Composera
 

@@ -3,7 +3,7 @@ Installation
 
 ## Exigences
 
-L'exigence minimum de ce modèle de projet est que votre serveur Web prenne en charge PHP 5.4.0.
+L'exigence minimum de ce modèle de projet est que votre serveur Web prenne en charge PHP 5.6.0.
 
 ## Installation via Composer
 
