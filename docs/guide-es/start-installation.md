@@ -3,7 +3,7 @@ Instalación
 
 ## Requerimientos
 
-El requerimiento mínimo para esta plantilla es que su servidor web soporte PHP 5.4.0.
+El requerimiento mínimo para esta plantilla es que su servidor web soporte PHP 5.6.0.
 
 ## Instalación usando Composer
 
