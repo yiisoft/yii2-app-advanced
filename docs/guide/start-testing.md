@@ -8,22 +8,19 @@ the `dev` environment. In the case where tests need to be executed in a `Product
 `yii_test.bat` must be manually copied from the `environments/dev` folder into the project root directory.
 
 Tests require an **additional database**, which will be cleaned up between tests.
-It is important to realise that this database will be used to hold data that matches the data in your live
-database - it's purpose is to run those tests that store data without affecting your own data.
-Create database in your database server, using a a similar setup to the your live database, so that the tests
+This database will be used to hold data that matches the data in your live
+database. Its purpose is to run those tests that store data without affecting your own data.
+Create database in your database server, using a similar setup to the live database, so that the tests
 are run in an environment that is as close to your live environment as possible.
 
-   1 - Your live database connection string is probably in common/config/main-local.php. It is 
+   1. Your live database connection string is probably in `common/config/main-local.php`. It is 
       something like `'dsn' => 'mysql:host=localhost;dbname=yii2advanced'`. Copy it to 
-      common/config/test-local.php and change the dbname so it is obvious that it is the 
-      test database: `'dsn' => 'mysql:host=localhost;dbname=yii2advanced_test'`
-      
-   2 - Create an empty database. In this example it would be `yii2advanced_test in mysql` (according to 
-      config in `common/config/test-local.php`) 
-      
-   3 - Execute: ``` ./yii_test migrate ```
-   
-   4 - Build the test suite: ``` vendor/bin/codecept build ```
+      `common/config/test-local.php` and change the `dbname` so it is obvious that it is the 
+      test database: `'dsn' => 'mysql:host=localhost;dbname=yii2advanced_test'`.      
+   2. Create an empty database. In this example it would be `yii2advanced_test` in MySql (according to 
+      config in `common/config/test-local.php`).
+   3. Execute: `./yii_test migrate`.
+   4. Build the test suite: `./vendor/bin/codecept build`
 
 Then all sample tests can be started by running:
 
