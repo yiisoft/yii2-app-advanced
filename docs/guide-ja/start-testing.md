@@ -8,20 +8,21 @@ Yii2 アドバンスト・アプリケーションは Codeception を主たる�
 `environments/dev` からプロジェクトのルート・ディレクトリへ手作業でコピーされなければなりません。
 
 テストには、テストを実行するたびに事前にクリーンアップされる **追加のデータベース** が必要になります。
-(`common/config/test.php` の構成に従って) mysql に `yii2advanced_test` というデータベースを作成し、下記を実行して下さい。
+このデータベースが、本番データベースにあるデータに対応するデータを保持することになります。
+目的は、本番のデータに影響を与えることなく、データを保存するテストを実行することです。
+本番データベースと同様の設定を使ってデータベース・サーバにデータベースを作成して、
+可能な限り本番に近い環境でテストが走らせられるようにします。
 
+   1. 本番データベースの接続文字列はおそらく `common/config/main-local.php` に書かれているでしょう。
+      例えば `'dsn' => 'mysql:host=localhost;dbname=yii2advanced'` です。
+      これを `common/config/test-local.php` にコピーして、テスト用データベースであることを明示するために `dbname` を変更します。
+     `'dsn' => 'mysql:host=localhost;dbname=yii2advanced_test'`
+   2. 空のデータベースを作成します。今の例では、(`common/config/test-local.php` の構成に従って)、
+      MySql で `yii2advanced_test` を作ります。
+   3. `./yii_test migrate` を実行します。
+   4. テスト・スイートをビルドします : `./vendor/bin/codecept build`
 
-```
-./yii_test migrate
-```
-
-次に、テスト・スイートをビルドします。
-
-```
-vendor/bin/codecept build
-```
-
-これで、次のコマンドを実行すれば、全てのサンプル・テストを開始することが出来ます。
+これで、以下のコマンドを実行すれば、全てのサンプル・テストが開始されます。
 
 ```
 vendor/bin/codecept run
