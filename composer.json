@@ -27,7 +27,6 @@
         "codeception/module-asserts": "^1.0",
         "codeception/module-yii2": "^1.0",
         "codeception/module-filesystem": "^1.0",
-        "phpunit/phpunit": "~5.7.27 || ~6.5.5",
         "codeception/verify": "~0.5.0 || ~1.1.0",
         "symfony/browser-kit": ">=2.7 <=4.2.4"
     },
