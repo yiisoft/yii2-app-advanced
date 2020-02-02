@@ -289,9 +289,9 @@ Install the application dependencies
 
 Initialize the application by running the `init` command within a container
 
-    docker-compose run --rm backend /app/init
+    docker-compose run --rm backend php /app/init
 
-Add a database service like and adjust the components['db'] configuration in `common/config/main-local.php` accordingly.
+Adjust the components['db'] configuration in `common/config/main-local.php` accordingly.
     
         'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
         'username' => 'yii2advanced',
@@ -305,14 +305,14 @@ Add a database service like and adjust the components['db'] configuration in `co
 
 For more information about Docker setup please visit the [guide](http://www.yiiframework.com/doc-2.0/guide-index.html).
 
-Run the migrations
-
-    docker-compose run --rm backend yii migrate
-           
 Start the application
 
     docker-compose up -d
-    
+
+Run the migrations
+
+    docker-compose run --rm backend yii migrate          
+
 Access it in your browser by opening
 
 - frontend: http://127.0.0.1:20080
