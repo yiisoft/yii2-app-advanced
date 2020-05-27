@@ -18,6 +18,9 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+before_install:
+  - export COMPOSER_MEMORY_LIMIT=-1
+
 install:
   - travis_retry composer self-update && composer --version
   - travis_retry composer update --dev --prefer-dist --no-interaction
