@@ -11,6 +11,7 @@ return [
             // here is your normal backend url manager config
         ],
         'urlManagerFrontend' => [
+            'class' => 'yii\web\UrlManager',        // class is required on custom named url managers!
             // here is your frontend URL manager config
         ],
 
