@@ -37,7 +37,7 @@ return [
             // here is your frontend URL manager config
         ],
         'urlManagerBlog' => [
-            'class' => 'yii\web\UrlManager',            // class is required on custom named url managers!
+            'class' => 'yii\web\UrlManager',            // class is required on custom named URL managers!
             'hostInfo' => 'https://blog.example.com',   // the full base domain name to use for the links
             // here is your blog URL manager config
         ],
