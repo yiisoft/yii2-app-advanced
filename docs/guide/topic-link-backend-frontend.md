@@ -23,7 +23,7 @@ return [
 The URL Manager doesn't magically know the root URL of another app on another sub-domain. This is where the `hostInfo` param
 comes in. It defines the full domain for the URL manager to generate absolute links with.
 
-You may need to generate links to the frontend or any another app (ie: [topic-adding-more-apps.md](https://github.com/yiisoft/yii2-app-advanced/blob/master/docs/guide/topic-adding-more-apps.md)). You can have multiple URL managers for multiple apps on multiple sub-domains.
+You may need to generate links to the frontend or any another app (ie: [topic-adding-more-apps.md](topic-adding-more-apps.md)). You can have multiple URL managers for multiple apps on multiple sub-domains.
 
 ```php
 return [
