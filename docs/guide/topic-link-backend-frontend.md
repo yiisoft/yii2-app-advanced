@@ -205,7 +205,7 @@ return [
     // ...
     'components' => [
         'urlManager' => [
-            // backend url manager
+            // backend URL manager
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => require Yii::getAlias('@common/config/rules/backend-rules.php'),
