@@ -32,7 +32,7 @@ return [
             // here is your normal backend URL manager config
         ],
         'urlManagerFrontend' => [
-            'class' => 'yii\web\UrlManager',        // class is required on custom named url managers!
+            'class' => 'yii\web\UrlManager',        // class is required on custom named URL managers!
             'hostInfo' => 'https://example.com',    // the full base domain name to use for the links
             // here is your frontend URL manager config
         ],
