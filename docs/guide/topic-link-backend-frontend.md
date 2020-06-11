@@ -211,7 +211,7 @@ return [
             'rules' => require Yii::getAlias('@common/config/rules/backend-rules.php'),
         ],
         'urlManagerFrontend' => [
-            'class' => 'yii\web\UrlManager',        // class is required on custom named url managers!
+            'class' => 'yii\web\UrlManager',        // class is required on custom named URL managers!
             'hostInfo' => Yii::getAlias('@frontendDomain'),    // the full base domain name to use for the links
             'enablePrettyUrl' => true,
             'showScriptName' => false,
