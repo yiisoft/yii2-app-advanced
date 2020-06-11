@@ -289,9 +289,9 @@ Bower と NPM の依存パッケージを Composer によって管理するた�
 
 コンテナの中で `init` コマンドを実行することによってアプリケーションを初期化します。
 
-    docker-compose run --rm backend /app/init
+    docker-compose run --rm backend php /app/init
 
-好みのデータベース・サービスを追加して、それに合せて `common/config/main-local.php` の 'db' コンポーネントの構成を修正します。
+それに合せて `common/config/main-local.php` の 'db' コンポーネントの構成を修正します。
     
         'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
         'username' => 'yii2advanced',
@@ -305,14 +305,14 @@ Bower と NPM の依存パッケージを Composer によって管理するた�
 
 Docker のセットアップに関する更なる詳細は [ガイド](http://www.yiiframework.com/doc-2.0/guide-index.html) を参照して下さい。
 
-マイグレーションを実行します。
-
-    docker-compose run --rm backend yii migrate
-           
 アプリケーションを開始します。
 
     docker-compose up -d
-    
+
+マイグレーションを実行します。
+
+    docker-compose run --rm backend yii migrate
+
 ブラウザで下記を開いてアプリケーションにアクセスします。
 
 - フロントエンド: http://127.0.0.1:20080

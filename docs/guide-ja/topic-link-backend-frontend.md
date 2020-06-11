@@ -11,6 +11,7 @@ return [
             // ここに通常のバックエンドの URL マネージャの構成
         ],
         'urlManagerFrontend' => [
+            'class' => 'yii\web\UrlManager',        // 名前を変えた URL マネージャはクラスの指定が必要 !
             // ここにフロントエンドの URL マネージャの構成
         ],
 
