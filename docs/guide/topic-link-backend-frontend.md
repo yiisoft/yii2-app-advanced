@@ -29,7 +29,7 @@ You may need to generate links to the frontend or any another app (ie: [topic-ad
 return [
     'components' => [
         'urlManager' => [
-            // here is your normal backend url manager config
+            // here is your normal backend URL manager config
         ],
         'urlManagerFrontend' => [
             'class' => 'yii\web\UrlManager',        // class is required on custom named url managers!
