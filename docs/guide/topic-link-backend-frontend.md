@@ -153,7 +153,7 @@ environments/prod/backend/web/index.php
 environments/prod/frontend/web/index.php
 ```
 
-In the `dev` copies, we will use our local development domain name (ie: mylocalsite.test) and in the `prod` copies we will use the real domain (ie: realsite.com).
+In the `dev` copies, we will use our local development domain name (ie: mylocalsite.test) and in the `prod` copies we will use the real domain (ie: example.com).
 
 Add to the top of the index files:
 
@@ -175,14 +175,14 @@ define('DOMAIN_NAME', 'mylocalsite.test');
 
 ```php
 define('USE_HTTPS', true);
-define('DOMAIN_NAME', 'realsite.com');
+define('DOMAIN_NAME', 'example.com');
 ```
 
 **environments/prod/frontend/web/index.php**
 
 ```php
 define('USE_HTTPS', true);
-define('DOMAIN_NAME', 'realsite.com');
+define('DOMAIN_NAME', 'example.com');
 ```
 
 Run `./init` and initialize the proper environment to overwrite the changes.
