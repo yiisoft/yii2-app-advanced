@@ -3,6 +3,7 @@ namespace frontend\models;
 
 use yii\base\InvalidArgumentException;
 use yii\base\Model;
+use Yii;
 use common\models\User;
 
 /**
@@ -44,7 +45,7 @@ class ResetPasswordForm extends Model
     {
         return [
             ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
         ];
     }
 
