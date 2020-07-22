@@ -34,15 +34,17 @@ return [
         'setWritable' => [
             'backend/runtime',
             'backend/web/assets',
+            'console/runtime',
             'frontend/runtime',
             'frontend/web/assets',
         ],
         'setExecutable' => [
             'yii',
-            'tests/codeception/bin/yii',
+            'yii_test',
         ],
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
+            'common/config/codeception-local.php',
             'frontend/config/main-local.php',
         ],
     ],
@@ -51,6 +53,7 @@ return [
         'setWritable' => [
             'backend/runtime',
             'backend/web/assets',
+            'console/runtime',
             'frontend/runtime',
             'frontend/web/assets',
         ],

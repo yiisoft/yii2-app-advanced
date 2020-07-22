@@ -96,10 +96,25 @@ a.desc:after {
 }
 
 /* align the logout "link" (button in form) of the navbar */
-.nav > li > form {
-    padding: 8px;
+.nav li > form > button.logout {
+    padding: 15px;
+    border: none;
 }
 
-.nav > li > form > button:hover {
+@media(max-width:767px) {
+    .nav li > form > button.logout {
+        display:block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 15px;
+    }
+}
+
+.nav > li > form > button.logout:focus,
+.nav > li > form > button.logout:hover {
     text-decoration: none;
+}
+
+.nav > li > form > button.logout:focus {
+    outline: none;
 }
