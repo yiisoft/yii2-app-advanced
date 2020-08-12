@@ -41,7 +41,7 @@ if (empty($params['env']) || $params['env'] === true) {
 }
 
 if (!in_array($envName, $envNames, true)) {
-    $envsList = implode(', ', $envNames);
+    $envsList = implode($envNames, ', ');
     echo "\n  $envName is not a valid environment. Try one of the following: $envsList. \n";
     exit(2);
 }
@@ -296,5 +296,5 @@ function formatMessage($message, $styles)
         return $message;
     }
 
-    return sprintf("\x1b[%sm", implode(';', array_map('getStyleCode', $styles))) . $message . "\x1b[0m";
+    return sprintf("\x1b[%sm", implode(array_map('getStyleCode', $styles), ';')) . $message . "\x1b[0m";
 }
