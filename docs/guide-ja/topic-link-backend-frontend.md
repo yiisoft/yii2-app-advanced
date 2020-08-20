@@ -102,17 +102,17 @@ return [
 ];
 ```
 
-## Hardcoded hostInfo URL
+## ハードコードされた hostInfo URL
 
-The examples above are to illustrate what is expected in the field. `hostInfo` expects a full domain name like `https://example.com` or
-`https://backend.example.com`. Having a hard-coded domain in your config isn't very practical. Especially for handling multiple environments
-(local, staging, production, etc).
+上記の例はフィールドに何を入れるべきかを示すためのものです。`hostInfo` には `https://example.com` または `https://backend.example.com` のようなフル・ドメイン名を入れなければなりません。
+構成ファイルにハードコードされたドメインを記載するのはあまり実用的ではありません。
+特に複数の環境 (ローカルの開発環境、ステージング、実運用環境) を持つ場合は不便です。
 
-There are a few ways you can do this. The following way allows you to make use of Yii's environments and the `init` process.
+いくつかの方法がありますが、以下に示すのは Yii の環境変数と `init` プロセスを利用する方法です。
 
-We first need to load functions early on during Composer's autoload.
+最初に Composer のオートロードの段階で関数をロードする必要があります。
 
-In your `composer.json` file, add the following:
+`composer.json` ファイルに以下を追加します。
 
 ```json
 "autoload": {
@@ -122,12 +122,12 @@ In your `composer.json` file, add the following:
 }
 ```
 
-Now create `common/functions.php`:
+そして `common/functions.php` を作成します。
 
 ```php
 <?php
 /**
- * Requires `define('USE_HTTPS', true)` to be in your `index.php` file!
+ * `index.php` ファイルに `define('USE_HTTPS', true)` という行が必要
  */
 function getUrlScheme()
 {
@@ -135,7 +135,7 @@ function getUrlScheme()
 }
 
 /**
- * Requires `define('DOMAIN_NAME', 'example.tld')` to be in your `index.php` file!
+ * `index.php` ファイルに `define('DOMAIN_NAME', 'example.tld')` という行が必要
  */
 function getDomain($subDomain = null)
 {
@@ -144,7 +144,7 @@ function getDomain($subDomain = null)
 }
 ```
 
-Now we need to define our constants in the corresponding `web/index.php` files. Here are the paths for the default environments.
+そして、対応する `web/index.php` ファイルで定数を定義する必要があります。下記はデフォルトの諸環境のための `web/index.php` ファイルのパスです。
 
 ```
 environments/dev/backend/web/index.php
@@ -153,9 +153,9 @@ environments/prod/backend/web/index.php
 environments/prod/frontend/web/index.php
 ```
 
-In the `dev` copies, we will use our local development domain name (ie: mylocalsite.test) and in the `prod` copies we will use the real domain (ie: example.com).
+`dev` 版では、ロカール開発環境のドメイン名 (例: mylocalsite.test) を使い、`prod` 版では実際のドメイン名 (例: example.com) を使うことになります。
 
-Add to the top of the index files:
+index ファイルの先頭に追加します。
 
 **environments/dev/backend/web/index.php**
 
@@ -185,20 +185,20 @@ define('USE_HTTPS', true);
 define('DOMAIN_NAME', 'example.com');
 ```
 
-Run `./init` and initialize the proper environment to overwrite the changes.
+`./init` を実行して、適切な環境で変更点を上書きします。
 
-We can use the functions directly, or create aliases. Let's create aliases.
+関数を直接に使用することも、エイリアスを作成することも出来ます。ここではエイリアスを作りましょう。
 
-Add the following in `common/config/bootstrap.php`:
+下記を `common/config/bootstrap.php` に追加します。
 
 ```php
 Yii::setAlias('@frontendDomain', getDomain());              // ex: https://somedomain.tld
 Yii::setAlias('@backendDomain', getDomain('backend'));      // ex: https://backend.somedomain.tld
 ```
 
-Remember `www` is a sub-domain, so pass it like one if you use it like so: `getDomain('www')`
+`www` がサブ・ドメインであることを思い出して下さい。ですから `www` を使う場合はそれを渡します。すなわち: `getDomain('www')`
 
-Lastly, with all of that set up, you can simply use the aliases in your main config files:
+以上の設定が全て終れば、最後にメインの構成ファイルでエイリアスを使用するだけです。
 
 ```php
 return [
@@ -211,8 +211,8 @@ return [
             'rules' => require Yii::getAlias('@common/config/rules/backend-rules.php'),
         ],
         'urlManagerFrontend' => [
-            'class' => 'yii\web\UrlManager',        // class is required on custom named URL managers!
-            'hostInfo' => Yii::getAlias('@frontendDomain'),    // the full base domain name to use for the links
+            'class' => 'yii\web\UrlManager',        // 名前を変えた URL マネージャはクラスの指定が必要 !
+            'hostInfo' => Yii::getAlias('@frontendDomain'),    // リンクに使用するフル・ベース・ドメイン名
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => require Yii::getAlias('@common/config/rules/frontend-rules.php'),
