@@ -79,7 +79,7 @@ foreach ($files as $file) {
 }
 
 $filesToRemove = [];
-$skipFiles = isset($env['skipFiles']) && $env['skipFiles'] ? $env['skipFiles'] : [];
+$skipFiles = !empty($env['skipFiles']) ? $env['skipFiles'] : [];
 foreach(array_column($envs, 'path') as $envPath) {
     if ($env['path'] == $envPath) continue;
 
