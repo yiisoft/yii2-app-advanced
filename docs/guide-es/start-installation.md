@@ -36,7 +36,7 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
    Por otra parte, en producción ejecuta `init` con el modo no interactivo.
 
    ```
-   php /path/to/yii-application/init --env=Production --overwrite=All
+   php /path/to/yii-application/init --env=Production --overwrite=All --delete=All
    ```
 
 2. Crea una nueva base de datos y ajusta la configuración de `components['db']` en `common/config/main-local.php` como corresponde.

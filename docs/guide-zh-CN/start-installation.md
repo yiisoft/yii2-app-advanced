@@ -36,7 +36,7 @@
    如果使用脚本自动化，可以在非交互模式下执行 `init` 。
 
    ```
-   /path/to/php-bin/php /path/to/yii-application/init --env=Production --overwrite=All
+   /path/to/php-bin/php /path/to/yii-application/init --env=Production --overwrite=All --delete=All
    ```
 
 2. 创建一个新的数据库，并相应地调整 `common/config/main-local.php` 中的 `components['db']` 配置。
