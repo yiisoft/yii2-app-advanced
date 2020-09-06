@@ -79,13 +79,14 @@ foreach ($files as $file) {
 }
 
 $filesToRemove = [];
+$skipFiles = isset($env['skipFiles']) && $env['skipFiles'] ? $env['skipFiles'] : [];
 foreach(array_column($envs, 'path') as $envPath) {
     if ($env['path'] == $envPath) continue;
 
 	$filesToRemove =
         array_merge(
             $filesToRemove,
-            array_diff(getFileList("$root/environments/{$envPath}"), $files, $filesToRemove, $env['skipFiles'] ?? [])
+            array_diff(getFileList("$root/environments/{$envPath}"), $files, $filesToRemove, $skipFiles)
         );
 }
 $filesToRemove = array_filter($filesToRemove, 'file_exists');
