@@ -1,9 +1,20 @@
 require 'yaml'
 require 'fileutils'
 
+required_plugins_installed = nil
 required_plugins = %w( vagrant-hostmanager vagrant-vbguest )
 required_plugins.each do |plugin|
-    exec "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+  unless Vagrant.has_plugin? plugin
+    system "vagrant plugin install #{plugin}"
+    required_plugins_installed = true
+  end
+end
+
+# IF plugin[s] was just installed - restart required
+if required_plugins_installed
+  # Get CLI command[s] and call again
+  system 'vagrant' + ARGV.to_s.gsub(/\[\"|\", \"|\"\]/, ' ')
+  exit
 end
 
 domains = {
