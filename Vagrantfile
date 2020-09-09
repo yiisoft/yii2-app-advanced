@@ -68,7 +68,7 @@ Vagrant.configure(2) do |config|
   config.hostmanager.aliases            = domains.values
 
   # provisioners
-  config.vm.provision 'shell', path: './vagrant/provision/once-as-root.sh', args: [options['timezone']]
+  config.vm.provision 'shell', path: './vagrant/provision/once-as-root.sh', args: [options['timezone'], options['ip']]
   config.vm.provision 'shell', path: './vagrant/provision/once-as-vagrant.sh', args: [options['github_token']], privileged: false
   config.vm.provision 'shell', path: './vagrant/provision/always-as-root.sh', run: 'always'
 
