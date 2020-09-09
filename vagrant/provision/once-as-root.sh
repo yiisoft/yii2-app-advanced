@@ -5,6 +5,7 @@ source /app/vagrant/provision/common.sh
 #== Import script args ==
 
 timezone=$(echo "$1")
+readonly IP=$2
 
 #== Provision script ==
 
@@ -14,6 +15,9 @@ export DEBIAN_FRONTEND=noninteractive
 
 info "Configure timezone"
 timedatectl set-timezone ${timezone} --no-ask-password
+
+info "AWK initial replacement work"
+awk -v ip=$IP -f /app/vagrant/provision/provision.awk /app/environments/dev/*end/config/main-local.php
 
 info "Prepare root password for MySQL"
 debconf-set-selections <<< "mysql-community-server mysql-community-server/root-pass password \"''\""
