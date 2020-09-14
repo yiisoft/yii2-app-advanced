@@ -41,7 +41,7 @@ Bower と NPM の依存パッケージを Composer によって管理するた�
    スクリプトで自動化する場合は、非対話モードで `init` を実行します。
 
    ```
-   /path/to/php-bin/php /path/to/yii-application/init --env=Development --overwrite=All
+   /path/to/php-bin/php /path/to/yii-application/init --env=Development --overwrite=All --delete=All
    ```
 
 2. 新しいデータベースを作成し、それに従って `/path/to/yii-application/common/config/main-local.php` の `components['db']` の構成情報を修正します。

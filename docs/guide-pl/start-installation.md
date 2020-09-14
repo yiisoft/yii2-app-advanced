@@ -39,7 +39,7 @@ zrobić raz na każdym nowym środowisku.
    W przypadku zautomatyzowanego procesu z użyciem skryptu, możesz uruchomić `init` w trybie nieinteraktywnym.
 
    ```
-   /path/to/php-bin/php /path/to/yii-application/init --env=Production --overwrite=All
+   /path/to/php-bin/php /path/to/yii-application/init --env=Production --overwrite=All --delete=All
    ```
 
 2. Stwórz nową bazę danych i zmodyfikuj odpowiednio jej dane w kluczu `components['db']` w pliku `common/config/main-local.php`.

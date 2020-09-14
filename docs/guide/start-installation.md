@@ -41,7 +41,7 @@ the installed application. You only need to do these once for all.
    If you automate it with a script you can execute `init` in non-interactive mode.
 
    ```
-   /path/to/php-bin/php /path/to/yii-application/init --env=Development --overwrite=All
+   /path/to/php-bin/php /path/to/yii-application/init --env=Development --overwrite=All --delete=All
    ```
 
 2. Create a new database and adjust the `components['db']` configuration in `/path/to/yii-application/common/config/main-local.php` accordingly.
