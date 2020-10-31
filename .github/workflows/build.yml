@@ -94,16 +94,5 @@ jobs:
       - name: Apply migration
         run: php yii_test migrate --interactive=0
 
-      - name: Run tests with codeception and coverage on Linux php 7.4 and mysql latest
-        if: matrix.php == '7.4'
-        run: vendor/bin/codecept run --coverage --coverage-xml
-
-      - name: Run tests with codeception on Linux
-        if: matrix.php != '7.4'
+      - name: Run tests with codeception 
         run: vendor/bin/codecept run
-
-      - name: Code coverage
-        if: matrix.php == '7.4'
-        run: |
-          wget https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.xml
