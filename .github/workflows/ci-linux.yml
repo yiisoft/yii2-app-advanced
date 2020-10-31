@@ -94,11 +94,11 @@ jobs:
       - name: Apply migration
         run: php yii_test migrate --interactive=0
 
-      - name: Run tests with phpunit and coverage on Linux php 7.4 and mysql latest
+      - name: Run tests with codeception and coverage on Linux php 7.4 and mysql latest
         if: matrix.php == '7.4'
         run: vendor/bin/codecept run --coverage --coverage-xml
 
-      - name: Run tests with phpunit on Linux
+      - name: Run tests with codeception on Linux
         if: matrix.php != '7.4'
         run: vendor/bin/codecept run
 
