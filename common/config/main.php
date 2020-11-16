@@ -1,5 +1,6 @@
 <?php
 return [
+    'layout' => '@common/views/layouts/content',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
