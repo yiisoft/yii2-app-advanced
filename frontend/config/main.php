@@ -8,10 +8,12 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
+    'layout' => '@common/views/layouts/content',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'aliases' => [
+        '@assetsRoot' => $params['assetsPath'],
         '@assets'   => $params['assetsHostInfo'],
     ],
     'components' => [
@@ -19,9 +21,14 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'core\entities\user\Identity',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'identityCookie' => [
+                'name' => '_identity',
+                'httpOnly' => true,
+                'domain' => $params['cookieDomain']
+            ],
+            'loginUrl' => ['auth/auth/login'],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -39,14 +46,12 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+        'backendUrlManager' => require __DIR__ . '/../../backend/config/url_manager.php',
+        'frontendUrlManager' => require __DIR__ . '/url_manager.php',
+        'urlManager' => function () {
+            return Yii::$app->get('frontendUrlManager');
+        },
     ],
+    'modules' => [],
     'params' => $params,
 ];

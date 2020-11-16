@@ -5,4 +5,6 @@ return [
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
     'user.passwordResetTokenExpire' => 3600,
+
+    'assetsPath' => dirname(__DIR__) . '/web',
 ];
