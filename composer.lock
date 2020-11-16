@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a3e0e295d14ec0f939dde1e403d03677",
+    "content-hash": "889ac882674f5ae8243a921e34e347d7",
     "packages": [
+        {
+            "name": "almasaeed2010/adminlte",
+            "version": "v3.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ColorlibHQ/AdminLTE.git",
+                "reference": "6b8b69261f1aacbb4be037c934f3c3652e6dff27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ColorlibHQ/AdminLTE/zipball/6b8b69261f1aacbb4be037c934f3c3652e6dff27",
+                "reference": "6b8b69261f1aacbb4be037c934f3c3652e6dff27",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Colorlib"
+                }
+            ],
+            "description": "AdminLTE - admin control panel and dashboard that's based on Bootstrap 4",
+            "homepage": "http://adminlte.io/",
+            "keywords": [
+                "JS",
+                "admin",
+                "back-end",
+                "css",
+                "less",
+                "responsive",
+                "template",
+                "theme",
+                "web"
+            ],
+            "support": {
+                "issues": "https://github.com/ColorlibHQ/AdminLTE/issues",
+                "source": "https://github.com/ColorlibHQ/AdminLTE/tree/v3.0.5"
+            },
+            "time": "2020-05-19T20:41:11+00:00"
+        },
         {
             "name": "bower-asset/inputmask",
             "version": "3.3.11",
@@ -350,6 +393,55 @@
             "time": "2020-06-29T00:56:53+00:00"
         },
         {
+            "name": "hail812/yii2-adminlte3",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hail812/yii2-adminlte3.git",
+                "reference": "e32e3a2c8116a6cff0d11ec03bc3577902777f99"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hail812/yii2-adminlte3/zipball/e32e3a2c8116a6cff0d11ec03bc3577902777f99",
+                "reference": "e32e3a2c8116a6cff0d11ec03bc3577902777f99",
+                "shasum": ""
+            },
+            "require": {
+                "almasaeed2010/adminlte": "~3.0",
+                "php": ">=7.0",
+                "yiisoft/yii2": "~2.0.0",
+                "yiisoft/yii2-bootstrap4": "~2.0.8"
+            },
+            "default-branch": true,
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "hail812\\adminlte3\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "hail",
+                    "email": "hail812@163.com"
+                }
+            ],
+            "description": "adminlte3 for yii2",
+            "keywords": [
+                "AdminLTE",
+                "extension",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/hail812/yii2-adminlte3/issues",
+                "source": "https://github.com/hail812/yii2-adminlte3/tree/master"
+            },
+            "time": "2020-10-30T12:27:22+00:00"
+        },
+        {
             "name": "npm-asset/bootstrap",
             "version": "4.5.3",
             "dist": {
@@ -360,6 +452,66 @@
             "license": [
                 "MIT"
             ]
+        },
+        {
+            "name": "rmrevin/yii2-fontawesome",
+            "version": "3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rmrevin/yii2-fontawesome.git",
+                "reference": "a1b448cef7e03a0b5a6286276bef004efa83f323"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rmrevin/yii2-fontawesome/zipball/a1b448cef7e03a0b5a6286276bef004efa83f323",
+                "reference": "a1b448cef7e03a0b5a6286276bef004efa83f323",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "^2.0.0"
+            },
+            "require-dev": {
+                "doctrine/instantiator": "1.0.*",
+                "phpdocumentor/reflection-docblock": "~3.1.0",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "rmrevin\\yii\\fontawesome\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Revin Roman",
+                    "email": "roman@rmrevin.com",
+                    "homepage": "https://rmrevin.com/"
+                }
+            ],
+            "description": "Asset Bundle for Yii2 with Font Awesome",
+            "keywords": [
+                "asset",
+                "awesome",
+                "bundle",
+                "font",
+                "yii"
+            ],
+            "support": {
+                "issues": "https://github.com/rmrevin/yii2-fontawesome/issues",
+                "source": "https://github.com/rmrevin/yii2-fontawesome"
+            },
+            "time": "2018-04-01T12:51:52+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -855,12 +1007,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "ba0263d80b902d48c854c420e1f7d6a84d7a444b"
+                "reference": "453db1f6585fddc7156dacc29a10a3c8d623b3a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/ba0263d80b902d48c854c420e1f7d6a84d7a444b",
-                "reference": "ba0263d80b902d48c854c420e1f7d6a84d7a444b",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/453db1f6585fddc7156dacc29a10a3c8d623b3a7",
+                "reference": "453db1f6585fddc7156dacc29a10a3c8d623b3a7",
                 "shasum": ""
             },
             "require": {
@@ -969,7 +1121,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-11-13T10:15:59+00:00"
+            "time": "2020-11-15T19:16:20+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap4",
@@ -1850,16 +2002,16 @@
         },
         {
             "name": "fakerphp/faker",
-            "version": "v1.10.1",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "f2713a5016faaf6ffc60e9d456dedb5ebf0efcae"
+                "reference": "f228dc5112bafc14c77d40a2acc0c48058e184b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/f2713a5016faaf6ffc60e9d456dedb5ebf0efcae",
-                "reference": "f2713a5016faaf6ffc60e9d456dedb5ebf0efcae",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/f228dc5112bafc14c77d40a2acc0c48058e184b0",
+                "reference": "f228dc5112bafc14c77d40a2acc0c48058e184b0",
                 "shasum": ""
             },
             "require": {
@@ -1869,6 +2021,7 @@
                 "fzaninotto/faker": "*"
             },
             "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.4.1",
                 "ext-intl": "*",
                 "phpunit/phpunit": "^7.5.20 || ^8.5.8 || ^9.4.2"
             },
@@ -1895,9 +2048,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FakerPHP/Faker/issues",
-                "source": "https://github.com/FakerPHP/Faker/tree/v1.10.1"
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.11.0"
             },
-            "time": "2020-10-28T09:32:46+00:00"
+            "time": "2020-11-15T20:27:00+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -4798,12 +4951,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "f284e032c3cefefb9943792132251b79a6127ca6"
+                "reference": "34b513f1bfb3677fc40aac34f8e4397eba4066ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/f284e032c3cefefb9943792132251b79a6127ca6",
-                "reference": "f284e032c3cefefb9943792132251b79a6127ca6",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/34b513f1bfb3677fc40aac34f8e4397eba4066ed",
+                "reference": "34b513f1bfb3677fc40aac34f8e4397eba4066ed",
                 "shasum": ""
             },
             "require": {
@@ -4850,7 +5003,7 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v5.2.0-RC1"
+                "source": "https://github.com/symfony/yaml/tree/5.x"
             },
             "funding": [
                 {
@@ -4866,7 +5019,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-24T12:03:25+00:00"
+            "time": "2020-11-15T22:55:04+00:00"
         },
         {
             "name": "theseer/tokenizer",

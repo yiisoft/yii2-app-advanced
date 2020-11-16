@@ -18,7 +18,8 @@
         "yiisoft/yii2": "~2.0.39",
         "yiisoft/yii2-bootstrap4": "2.0.8",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
-        "hail812/yii2-adminlte3": "*"
+        "hail812/yii2-adminlte3": "*",
+        "rmrevin/yii2-fontawesome": "~3.5"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
