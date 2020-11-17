@@ -10,7 +10,11 @@ return [
     'id' => 'app-backend',
     'layout' => '@common/views/layouts/content',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        'common\bootstrap\SetUp',
+        'backend\bootstrap\SetUp',
+        ],
     'controllerNamespace' => 'backend\controllers',
     'aliases' => [
         '@assetsRoot' => $params['assetsPath'],
