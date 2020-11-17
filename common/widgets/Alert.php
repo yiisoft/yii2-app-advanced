@@ -2,6 +2,7 @@
 namespace common\widgets;
 
 use Yii;
+use yii\bootstrap4\Widget;
 
 /**
  * Alert widget renders a message from session flash. All flash messages are displayed
@@ -22,7 +23,7 @@ use Yii;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @author Alexander Makarov <sam@rmcreative.ru>
  */
-class Alert extends \yii\bootstrap4\Widget
+class Alert extends Widget
 {
     /**
      * @var array the alert types configuration for the flash messages.
@@ -31,11 +32,37 @@ class Alert extends \yii\bootstrap4\Widget
      * - value: the bootstrap alert type (i.e. danger, success, info, warning)
      */
     public $alertTypes = [
-        'error'   => 'alert-danger',
-        'danger'  => 'alert-danger',
-        'success' => 'alert-success',
-        'info'    => 'alert-info',
-        'warning' => 'alert-warning'
+        'success' => [
+            'class' => 'alert-success',
+            'icon' => 'fa-check'
+        ],
+        'info' => [
+            'class' => 'alert-info',
+            'icon' => 'fa-info'
+        ],
+        'warning' => [
+            'class' => 'alert-warning',
+            'icon' => 'fa-exclamation-triangle'
+        ],
+        'error' => [
+            'class' => 'alert-danger',
+            'icon' => 'fa-ban'
+        ],
+        'danger' => [
+            'class' => 'alert-danger',
+            'icon' => 'fa-ban'
+        ],
+        'light' => [
+            'class' => 'alert-light',
+        ],
+        'dark' => [
+            'class' => 'alert-dark'
+        ],
+        'custom' => [
+            'class' => 'alert-dark',
+            'icon' => 'fa-brain',
+            'title' => 'Hi! I\'m a custom Alert'
+        ]
     ];
     /**
      * @var array the options for rendering the close button tag.
@@ -51,21 +78,23 @@ class Alert extends \yii\bootstrap4\Widget
     {
         $session = Yii::$app->session;
         $flashes = $session->getAllFlashes();
-        $appendClass = isset($this->options['class']) ? ' ' . $this->options['class'] : '';
 
         foreach ($flashes as $type => $flash) {
+            $params = $this->alertTypes[$type];
+
             if (!isset($this->alertTypes[$type])) {
                 continue;
             }
 
             foreach ((array) $flash as $i => $message) {
-                echo \yii\bootstrap\Alert::widget([
+                echo \hail812\adminlte3\widgets\Alert::widget([
                     'body' => $message,
-                    'closeButton' => $this->closeButton,
-                    'options' => array_merge($this->options, [
-                        'id' => $this->getId() . '-' . $type . '-' . $i,
-                        'class' => $this->alertTypes[$type] . $appendClass,
-                    ]),
+                    'type' => $type,
+                    'title' => $params['title'] ?? 'Alert',
+                    'simple' => $params['no_head'] ?? false,
+                    'icon' => $params['icon'],
+                    'alertTypes' => $this->alertTypes,
+                    'closeButton' => $this->closeButton
                 ]);
             }
 
