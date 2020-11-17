@@ -1,6 +1,7 @@
 <?php
 
 use yii\web\View;
+use common\widgets\Alert;
 use yii\bootstrap4\Breadcrumbs;
 
 /* @var $this View */
@@ -29,6 +30,10 @@ use yii\bootstrap4\Breadcrumbs;
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+
+    <div class="content">
+        <?= Alert::widget() ?>
+    </div>
 
     <div class="d-flex justify-content-center">
         <div class="login-box align-self-center">

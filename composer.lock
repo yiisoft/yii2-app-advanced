@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "889ac882674f5ae8243a921e34e347d7",
+    "content-hash": "33b83a98bac0bb79f1419a7de6f9971e",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -123,6 +123,68 @@
             "license": [
                 "MIT"
             ]
+        },
+        {
+            "name": "bshaffer/oauth2-server-php",
+            "version": "v1.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bshaffer/oauth2-server-php.git",
+                "reference": "5a0c8000d4763b276919e2106f54eddda6bc50fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bshaffer/oauth2-server-php/zipball/5a0c8000d4763b276919e2106f54eddda6bc50fa",
+                "reference": "5a0c8000d4763b276919e2106f54eddda6bc50fa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php": "~2.8",
+                "firebase/php-jwt": "~2.2",
+                "mongodb/mongodb": "^1.1",
+                "phpunit/phpunit": "^4.0",
+                "predis/predis": "dev-master",
+                "thobbs/phpcassa": "dev-master"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "~2.8 is required to use DynamoDB storage",
+                "firebase/php-jwt": "~2.2 is required to use JWT features",
+                "mongodb/mongodb": "^1.1 is required to use MongoDB storage",
+                "predis/predis": "Required to use Redis storage",
+                "thobbs/phpcassa": "Required to use Cassandra storage"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "OAuth2": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Shaffer",
+                    "email": "bshafs@gmail.com",
+                    "homepage": "http://brentertainment.com"
+                }
+            ],
+            "description": "OAuth2 Server for PHP",
+            "homepage": "http://github.com/bshaffer/oauth2-server-php",
+            "keywords": [
+                "auth",
+                "oauth",
+                "oauth2"
+            ],
+            "support": {
+                "issues": "https://github.com/bshaffer/oauth2-server-php/issues",
+                "source": "https://github.com/bshaffer/oauth2-server-php/tree/master"
+            },
+            "time": "2018-12-04T00:29:32+00:00"
         },
         {
             "name": "cebe/markdown",
@@ -393,6 +455,67 @@
             "time": "2020-06-29T00:56:53+00:00"
         },
         {
+            "name": "filsh/yii2-oauth2-server",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filsh/yii2-oauth2-server.git",
+                "reference": "9d3ebee96db084b8c1cd5ae596591518db461d3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filsh/yii2-oauth2-server/zipball/9d3ebee96db084b8c1cd5ae596591518db461d3b",
+                "reference": "9d3ebee96db084b8c1cd5ae596591518db461d3b",
+                "shasum": ""
+            },
+            "require": {
+                "bshaffer/oauth2-server-php": "^1.7",
+                "yiisoft/yii2": "*"
+            },
+            "default-branch": true,
+            "type": "yii2-extension",
+            "extra": {
+                "bootstrap": "filsh\\yii2\\oauth2server\\Bootstrap",
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "filsh\\yii2\\oauth2server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Maliy",
+                    "email": "imaliy.filsh@gmail.com"
+                },
+                {
+                    "name": "Vardan Pogosian",
+                    "email": "vardan.pogosyan@gmail.com"
+                }
+            ],
+            "description": "OAuth2 Server for PHP",
+            "homepage": "https://github.com/filsh/yii2-oauth2-server",
+            "keywords": [
+                "extension",
+                "module",
+                "oauth",
+                "oauth2",
+                "yii"
+            ],
+            "support": {
+                "email": "imaliy.filsh@gmail.com",
+                "issues": "https://github.com/filsh/yii2-oauth2-server/issues",
+                "source": "https://github.com/filsh/yii2-oauth2-server"
+            },
+            "time": "2020-10-19T12:31:09+00:00"
+        },
+        {
             "name": "hail812/yii2-adminlte3",
             "version": "dev-master",
             "source": {
@@ -440,6 +563,61 @@
                 "source": "https://github.com/hail812/yii2-adminlte3/tree/master"
             },
             "time": "2020-10-30T12:27:22+00:00"
+        },
+        {
+            "name": "la-haute-societe/yii2-save-relations-behavior",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/la-haute-societe/yii2-save-relations-behavior.git",
+                "reference": "cc6b35d472d87c991f27164e675f83b184d236a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/la-haute-societe/yii2-save-relations-behavior/zipball/cc6b35d472d87c991f27164e675f83b184d236a3",
+                "reference": "cc6b35d472d87c991f27164e675f83b184d236a3",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": ">=2.0.14"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.8.36"
+            },
+            "default-branch": true,
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "lhs\\Yii2SaveRelationsBehavior\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alban Jubert",
+                    "email": "alban@lahautesociete.com"
+                }
+            ],
+            "description": "Validate and save automatically related Active Record models.",
+            "keywords": [
+                "Behavior",
+                "active-query",
+                "active-record",
+                "database",
+                "extension",
+                "has-many",
+                "has-one",
+                "relations",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/la-haute-societe/yii2-save-relations-behavior/issues",
+                "source": "https://github.com/la-haute-societe/yii2-save-relations-behavior/tree/master"
+            },
+            "time": "2020-06-01T07:25:59+00:00"
         },
         {
             "name": "npm-asset/bootstrap",
@@ -1124,6 +1302,98 @@
             "time": "2020-11-15T19:16:20+00:00"
         },
         {
+            "name": "yiisoft/yii2-authclient",
+            "version": "2.2.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-authclient.git",
+                "reference": "f38a0c931c1ae6459a8e221fc693ee31a4c1bab6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-authclient/zipball/f38a0c931c1ae6459a8e221fc693ee31a4c1bab6",
+                "reference": "f38a0c931c1ae6459a8e221fc693ee31a4c1bab6",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.13",
+                "yiisoft/yii2-httpclient": "~2.0.5"
+            },
+            "require-dev": {
+                "cweagans/composer-patches": "^1.7",
+                "phpunit/phpunit": "4.8.34"
+            },
+            "suggest": {
+                "web-token/jwt-checker": "required for JWS, JWT or JWK related flows like OpenIDConnect",
+                "web-token/jwt-key-mgmt": "required for JWS, JWT or JWK related flows like OpenIDConnect",
+                "web-token/jwt-signature": "required for JWS, JWT or JWK related flows like OpenIDConnect",
+                "web-token/jwt-signature-algorithm-ecdsa": "required for JWS, JWT or JWK related flows like OpenIDConnect",
+                "web-token/jwt-signature-algorithm-hmac": "required for JWS, JWT or JWK related flows like OpenIDConnect",
+                "web-token/jwt-signature-algorithm-rsa": "required for JWS, JWT or JWK related flows like OpenIDConnect"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                },
+                "patches": {
+                    "phpunit/phpunit-mock-objects": {
+                        "Fix PHP 7 and 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_mock_objects.patch"
+                    },
+                    "phpunit/phpunit": {
+                        "Fix PHP 7 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php7.patch",
+                        "Fix PHP 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php8.patch"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\authclient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "External authentication via OAuth and OpenID for the Yii framework",
+            "keywords": [
+                "OpenID Connect",
+                "OpenId",
+                "api",
+                "auth",
+                "oauth",
+                "yii2"
+            ],
+            "support": {
+                "forum": "http://www.yiiframework.com/forum/",
+                "irc": "irc://irc.freenode.net/yii",
+                "issues": "https://github.com/yiisoft/yii2-authclient/issues",
+                "source": "https://github.com/yiisoft/yii2-authclient",
+                "wiki": "http://www.yiiframework.com/wiki/"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/yiisoft",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/yiisoft",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/yiisoft/yii2-authclient",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-11-13T10:11:46+00:00"
+        },
+        {
             "name": "yiisoft/yii2-bootstrap4",
             "version": "2.0.8",
             "source": {
@@ -1275,6 +1545,89 @@
                 }
             ],
             "time": "2020-11-09T18:12:06+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-httpclient",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-httpclient.git",
+                "reference": "f290c317782439ea41998354af85fe96dafd0318"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-httpclient/zipball/f290c317782439ea41998354af85fe96dafd0318",
+                "reference": "f290c317782439ea41998354af85fe96dafd0318",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.13"
+            },
+            "require-dev": {
+                "cweagans/composer-patches": "^1.7",
+                "phpunit/phpunit": "4.8.34"
+            },
+            "default-branch": true,
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                },
+                "composer-exit-on-patch-failure": true,
+                "patches": {
+                    "phpunit/phpunit-mock-objects": {
+                        "Fix PHP 7 and 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_mock_objects.patch"
+                    },
+                    "phpunit/phpunit": {
+                        "Fix PHP 7 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php7.patch",
+                        "Fix PHP 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php8.patch"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\httpclient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "HTTP client extension for the Yii framework",
+            "keywords": [
+                "curl",
+                "http",
+                "httpclient",
+                "yii2"
+            ],
+            "support": {
+                "forum": "http://www.yiiframework.com/forum/",
+                "irc": "irc://irc.freenode.net/yii",
+                "issues": "https://github.com/yiisoft/yii2-httpclient/issues",
+                "source": "https://github.com/yiisoft/yii2-httpclient",
+                "wiki": "http://www.yiiframework.com/wiki/"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/yiisoft",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/yiisoft",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/yiisoft/yii2-httpclient",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-30T21:41:24+00:00"
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -1433,12 +1786,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "65ec1bd107a97595e84d6b9103bcb97af3e33f06"
+                "reference": "fc550bf6e90d69fbfc8ab7e9e0a330ac98ffafdd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/65ec1bd107a97595e84d6b9103bcb97af3e33f06",
-                "reference": "65ec1bd107a97595e84d6b9103bcb97af3e33f06",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/fc550bf6e90d69fbfc8ab7e9e0a330ac98ffafdd",
+                "reference": "fc550bf6e90d69fbfc8ab7e9e0a330ac98ffafdd",
                 "shasum": ""
             },
             "require": {
@@ -1513,7 +1866,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Codeception/Codeception/issues",
-                "source": "https://github.com/Codeception/Codeception/tree/4.1"
+                "source": "https://github.com/Codeception/Codeception/tree/4.1.12"
             },
             "funding": [
                 {
@@ -1521,7 +1874,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2020-11-14T20:34:40+00:00"
+            "time": "2020-11-16T06:36:57+00:00"
         },
         {
             "name": "codeception/lib-asserts",
@@ -5364,7 +5717,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.6.0"
+        "php": ">=7.1"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"

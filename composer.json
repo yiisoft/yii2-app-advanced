@@ -1,10 +1,9 @@
 {
-    "name": "mrZema/yii2-advanced-template",
+    "name": "mrzema/yii2-advanced-template",
     "description": "Mr. Zema's Yii 2 Advanced Project Template",
     "keywords": ["yii2", "framework", "advanced", "project template"],
     "type": "project",
     "license": "BSD-3-Clause",
-
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.1",
@@ -12,7 +11,9 @@
         "yiisoft/yii2-bootstrap4": "2.0.8",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "hail812/yii2-adminlte3": "*",
-        "rmrevin/yii2-fontawesome": "~3.5"
+        "rmrevin/yii2-fontawesome": "~3.5",
+        "la-haute-societe/yii2-save-relations-behavior": "*",
+        "filsh/yii2-oauth2-server": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
