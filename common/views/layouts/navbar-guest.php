@@ -28,7 +28,7 @@ use yii\helpers\Url;
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                 <li><a href="#" class="dropdown-item">Some action </a></li>
                 <li><a href="#" class="dropdown-item">Some other action</a></li>
-                <li><?= Html::a('Sign out', ['/logout'], ['data-method' => 'post', 'class' => 'dropdown-item']) ?></li>
+                <li><?= Html::a('Sign out', ['auth/auth/logout'], ['data-method' => 'post', 'class' => 'dropdown-item']) ?></li>
 
                 <li class="dropdown-divider"></li>
 

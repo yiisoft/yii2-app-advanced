@@ -7,7 +7,7 @@ use hail812\adminlte3\widgets\Menu;
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="<?= Url::home()?>" class="brand-link">
-        <img src="<?= Yii::getAlias('@assets')?>/img/logo/160x160.png" alt="Logo" class="brand-image"
+        <img src="<?= Yii::getAlias('@assets')?>/img/logo/light-160x160.png" alt="Logo" class="brand-image"
              style="opacity: .8">
         <span class="brand-text font-weight-light">TradeMinerBot</span>
     </a>
