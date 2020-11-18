@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33b83a98bac0bb79f1419a7de6f9971e",
+    "content-hash": "9f636a45c48137859cbac4e6f2ea83f9",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -563,6 +563,54 @@
                 "source": "https://github.com/hail812/yii2-adminlte3/tree/master"
             },
             "time": "2020-10-30T12:27:22+00:00"
+        },
+        {
+            "name": "kotchuprik/yii2-instagram-authclient",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kotchuprik/yii2-instagram-authclient.git",
+                "reference": "fe28942f6574644040251ee0cd4faecaff8ea7fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kotchuprik/yii2-instagram-authclient/zipball/fe28942f6574644040251ee0cd4faecaff8ea7fc",
+                "reference": "fe28942f6574644040251ee0cd4faecaff8ea7fc",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2-authclient": "~2.0@dev"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kotchuprik\\authclient\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Constantin Chuprik",
+                    "email": "constantinchuprik@gmail.com"
+                }
+            ],
+            "description": "Instagram extenion for using via yii2-authclient",
+            "homepage": "http://github.com/kotchuprik/yii2-instagram-authclient",
+            "keywords": [
+                "authclient",
+                "instagram",
+                "oauth",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/kotchuprik/yii2-instagram-authclient/issues",
+                "source": "https://github.com/kotchuprik/yii2-instagram-authclient/tree/master"
+            },
+            "time": "2018-03-08T06:04:33+00:00"
         },
         {
             "name": "la-haute-societe/yii2-save-relations-behavior",

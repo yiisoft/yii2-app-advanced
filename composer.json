@@ -13,7 +13,9 @@
         "hail812/yii2-adminlte3": "*",
         "rmrevin/yii2-fontawesome": "~3.5",
         "la-haute-societe/yii2-save-relations-behavior": "*",
-        "filsh/yii2-oauth2-server": "*"
+        "filsh/yii2-oauth2-server": "*",
+        "yiisoft/yii2-authclient": "^2.2",
+        "kotchuprik/yii2-instagram-authclient": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
