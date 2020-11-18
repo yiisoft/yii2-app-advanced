@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use \yii\bootstrap4\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 
 /* @var $loginForm frontend\forms\auth\LoginForm */
 
@@ -46,9 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="social-auth-links text-center mb-3">
             <p>- OR -</p>
-            <?/*= yii\authclient\widgets\AuthChoice::widget([
-                'baseAuthUrl' => ['network/auth']
-            ]); */?>
+            <?= $this->render('authchoice')?>
         </div>
         <!-- /.social-auth-links -->
 

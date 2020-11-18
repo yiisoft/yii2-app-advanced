@@ -32,9 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="social-auth-links text-center mb-3">
             <p>- OR -</p>
-            <?/*= yii\authclient\widgets\AuthChoice::widget([
-                'baseAuthUrl' => ['network/auth']
-            ]); */?>
+            <?= $this->render('../authchoice')?>
         </div>
         <!-- /.social-auth-links -->
 
