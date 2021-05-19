@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\tests\unit\models;
 
 use common\fixtures\UserFixture;

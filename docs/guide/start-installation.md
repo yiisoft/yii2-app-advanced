@@ -8,7 +8,8 @@ The minimum requirement by this project template is that your Web server support
 ## Installing using Composer
 
 If you do not have [Composer](http://getcomposer.org/), follow the instructions in the
-[Installing Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide/start-installation.md#installing-via-composer) section of the definitive guide to install it.
+[Installing Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide/start-installation.md#installing-via-composer) 
+section of the definitive guide to install it.
 
 With Composer installed, you can then install the application using the following commands:
 
@@ -17,7 +18,9 @@ With Composer installed, you can then install the application using the followin
 The command installs the advanced application in a directory named `yii-application`. You can choose a different
 directory name if you want.
 
-It uses [asset-packagist](https://asset-packagist.org/) for managing bower and npm package dependencies through Composer. Also you can use [asset-plugin](https://packagist.org/packages/fxp/composer-asset-plugin), as in earlier versions, but it works slowly.
+It uses [asset-packagist](https://asset-packagist.org/) for managing bower and npm package dependencies through Composer. 
+Also you can use [asset-plugin](https://packagist.org/packages/fxp/composer-asset-plugin), as in earlier versions, but 
+it works slowly.
 
 ## Install from an Archive File
 

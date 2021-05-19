@@ -34,9 +34,9 @@ class SignupCest
             'SignupForm[password]'  => 'tester_password',
         ]
         );
-        $I->dontSee('Username cannot be blank.', '.help-block');
-        $I->dontSee('Password cannot be blank.', '.help-block');
-        $I->see('Email is not a valid email address.', '.help-block');
+        $I->dontSee('Username cannot be blank.', '.invalid-feedback');
+        $I->dontSee('Password cannot be blank.', '.invalid-feedback');
+        $I->see('Email is not a valid email address.', '.invalid-feedback');
     }
 
     public function signupSuccessfully(FunctionalTester $I)
