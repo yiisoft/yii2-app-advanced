@@ -7,7 +7,8 @@
 
 ## Composer を使ってインストールする
 
-[Composer](http://getcomposer.org/) を持っていない場合は、決定版ガイドの [Yii をインストールする](https://github.com/yiisoft/yii2/blob/master/docs/guide-ja/start-installation.md#installing-via-composer)
+[Composer](http://getcomposer.org/) を持っていない場合は、
+決定版ガイドの [Yii をインストールする](https://github.com/yiisoft/yii2/blob/master/docs/guide-ja/start-installation.md#installing-via-composer)
 のセクションの指示に従ってインストールしてください。
 
 Composer がインストールされていれば、次のコマンドを使ってアプリケーションをインストールすることが出来ます。
@@ -17,7 +18,9 @@ Composer がインストールされていれば、次のコマンドを使っ�
 このコマンドは `yii-application` という名前のディレクトリにアドバンスト・アプリケーションをインストールします。
 望むなら別のディレクトリ名を選ぶことも出来ます。
 
-Bower と NPM の依存パッケージを Composer によって管理するために [asset-packagist](https://asset-packagist.org/) を使っています。以前のバージョンのように [asset-plugin](https://packagist.org/packages/fxp/composer-asset-plugin) を使うことも出来ますが、動作は低速です。
+Bower と NPM の依存パッケージを Composer によって管理するために [asset-packagist](https://asset-packagist.org/) を使っています。
+以前のバージョンのように [asset-plugin](https://packagist.org/packages/fxp/composer-asset-plugin) を使うことも出来ますが、
+動作は低速です。
 
 ## アーカイブ・ファイルからインストールする
 
