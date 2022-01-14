@@ -1,7 +1,7 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
+/** @var \yii\web\View $this */
+/** @var string $content */
 
 use backend\assets\AppAsset;
 use common\widgets\Alert;
