@@ -1,9 +1,9 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $name string */
-/* @var $message string */
-/* @var $exception Exception */
+/** @var yii\web\View $this */
+/** @var string $name */
+/** @var string $message */
+/** @var Exception $exception */
 
 use yii\helpers\Html;
 
