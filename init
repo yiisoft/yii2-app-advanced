@@ -6,12 +6,6 @@
  * In order to run in non-interactive mode:
  *
  * init --env=Development --overwrite=n
- *
- * @author Alexander Makarov <sam@rmcreative.ru>
- *
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
  */
 
 if (!extension_loaded('openssl')) {
@@ -20,13 +14,13 @@ if (!extension_loaded('openssl')) {
 
 $params = getParams();
 $root = str_replace('\\', '/', __DIR__);
-$envs = require("$root/environments/index.php");
+$envs = require "$root/environments/index.php";
 $envNames = array_keys($envs);
 
 echo "Yii Application Initialization Tool v1.0\n\n";
 
 $envName = null;
-if (empty($params['env']) || $params['env'] === '1') {
+if (empty($params['env']) || $params['env'] === true) {
     echo "Which environment do you want the application to be initialized in?\n\n";
     foreach ($envNames as $i => $name) {
         echo "  [$i] $name\n";
@@ -46,7 +40,7 @@ if (empty($params['env']) || $params['env'] === '1') {
     $envName = $params['env'];
 }
 
-if (!in_array($envName, $envNames)) {
+if (!in_array($envName, $envNames, true)) {
     $envsList = implode(', ', $envNames);
     echo "\n  $envName is not a valid environment. Try one of the following: $envsList. \n";
     exit(2);
@@ -63,8 +57,15 @@ if (empty($params['env'])) {
     }
 }
 
+$rootPath = "$root/environments/{$env['path']}";
+if (!is_dir($rootPath)) {
+    printError("$rootPath directory does not exist. Check path in $envName environment.");
+    exit(3);
+}
+
 echo "\n  Start initialization ...\n\n";
-$files = getFileList("$root/environments/{$env['path']}");
+
+$files = getFileList($rootPath);
 if (isset($env['skipFiles'])) {
     $skipFiles = $env['skipFiles'];
     array_walk($skipFiles, function(&$value) use($env, $root) { $value = "$root/$value"; });
@@ -75,6 +76,30 @@ foreach ($files as $file) {
     if (!copyFile($root, "environments/{$env['path']}/$file", $file, $all, $params)) {
         break;
     }
+}
+
+$filesToRemove = [];
+$skipFiles = !empty($env['skipFiles']) ? $env['skipFiles'] : [];
+foreach(array_column($envs, 'path') as $envPath) {
+    if ($env['path'] === $envPath) continue;
+
+	$filesToRemove =
+        array_merge(
+            $filesToRemove,
+            array_diff(getFileList("$root/environments/{$envPath}"), $files, $filesToRemove, $skipFiles)
+        );
+}
+$filesToRemove = array_filter($filesToRemove, 'file_exists');
+if ($filesToRemove) {
+	echo "\n  Remove files from other environments ...\n\n";
+
+	$all = false;
+	foreach ($filesToRemove as $file) {
+		if (!removeFile($root, $file, $all, $params)) {
+			break;
+		}
+	}
+	echo "\n";
 }
 
 $callbacks = ['setCookieValidationKey', 'setWritable', 'setExecutable', 'createSymlink'];
@@ -150,6 +175,38 @@ function copyFile($root, $source, $target, &$all, $params)
     return true;
 }
 
+function removeFile($root, $target, &$all, $params)
+{
+	if (is_file($root . '/' . $target)) {
+		if ($all) {
+			echo "  delete $target\n";
+		} else {
+			echo "      delete $target\n";
+			echo "            ...confirm? [Yes|No|All|Quit] ";
+
+			$answer = !empty($params['delete']) ? $params['delete'] : trim(fgets(STDIN));
+			if (!strncasecmp($answer, 'q', 1)) {
+				return false;
+			} else {
+				if (!strncasecmp($answer, 'y', 1)) {
+					echo "  delete $target\n";
+				} else {
+					if (!strncasecmp($answer, 'a', 1)) {
+						echo "  delete $target\n";
+						$all = true;
+					} else {
+						echo "       skip $target\n";
+						return true;
+					}
+				}
+			}
+		}
+		return unlink($root . '/' . $target);
+	}
+
+	return true;
+}
+
 function getParams()
 {
     $rawParams = [];
@@ -160,7 +217,7 @@ function getParams()
 
     $params = [];
     foreach ($rawParams as $param) {
-        if (preg_match('/^--(\w+)(=(.*))?$/', $param, $matches)) {
+        if (preg_match('/^--([\w-]*\w)(=(.*))?$/', $param, $matches)) {
             $name = $matches[1];
             $params[$name] = isset($matches[3]) ? $matches[3] : true;
         } else {

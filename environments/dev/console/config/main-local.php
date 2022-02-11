@@ -1,4 +1,5 @@
 <?php
+
 return [
     'bootstrap' => ['gii'],
     'modules' => [

@@ -1,7 +1,8 @@
 Composer を構成する
 ===================
 
-プロジェクトテンプレートがインストールされた後に、ルートディレクトリにあるデフォルトの `composer.json` を修正するのは良い考えです。
+プロジェクト・テンプレートがインストールされた後に、ルート・ディレクトリにあるデフォルトの `composer.json`
+を修正するのは良い考えです。
 
 ```json
 {
@@ -20,40 +21,43 @@ Composer を構成する
     },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4.0",
-        "yiisoft/yii2": "~2.0.6",
-        "yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0"
+        "php": ">=5.6.0",
+        "yiisoft/yii2": "~2.0.14",
+        "yiisoft/yii2-bootstrap4": "~2.0.0",
+        "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0"
     },
     "require-dev": {
-        "yiisoft/yii2-debug": "~2.0.0",
-        "yiisoft/yii2-gii": "~2.0.0",
+        "yiisoft/yii2-debug": "~2.1.0",
+        "yiisoft/yii2-gii": "~2.2.0",
         "yiisoft/yii2-faker": "~2.0.0",
-
-        "codeception/base": "^2.2.3",
-        "codeception/verify": "~0.3.1"
+        "codeception/codeception": "^4.0",
+        "codeception/module-asserts": "^1.0",
+        "codeception/module-yii2": "^1.0",
+        "codeception/module-filesystem": "^1.0",
+        "phpunit/phpunit": "~5.7.27 || ~6.5.5",
+        "codeception/verify": "~0.5.0 || ~1.1.0",
+        "symfony/browser-kit": ">=2.7 <=4.2.4"
     },
     "config": {
-        "process-timeout": 1800
-    },
-    "extra": {
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
+        "process-timeout": 1800,
+        "fxp-asset": {
+            "enabled": false
         }
     },
-    "scripts": {
-        "post-install-cmd": "php init --env=Development --overwrite=n"
-    }
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }
 ```
 
 最初に、基本的な情報を更新しましょう。
 `name`、`description`、`keywords`、`homepage` および `support` をあなたのプロジェクトに合うように変更します。
 
-次に興味深い部分です。
-あなたは、あなたのアプリケーションが必要とするパッケージを `require` セクションに追加することが出来ます。
-追加のパッケージは全て [packagist.org](https://packagist.org/) から取ってくることが出来ます。ウェブサイトを閲覧して、役に立つコードを探してください。
+次に興味深い部分です。あなたは、あなたのアプリケーションが必要とするパッケージを `require` セクションに追加することが出来ます。
+追加のパッケージは全て [packagist.org](https://packagist.org/) から取ってくることが出来ます。ウェブ・サイトを閲覧して、役に立つコードを探してください。
 
 `composer.json` を修正した後、`composer update --prefer-dist` を実行し、パッケージがダウンロードされインストールされるのを待ちます。
 後はただ使用するだけです。クラスのオートロードは自動的に処理されます。

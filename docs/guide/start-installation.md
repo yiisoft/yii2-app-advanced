@@ -3,22 +3,24 @@ Installation
 
 ## Requirements
 
-The minimum requirement by this project template is that your Web server supports PHP 5.4.0.
+The minimum requirement by this project template is that your Web server supports PHP 5.6.0.
 
 ## Installing using Composer
 
 If you do not have [Composer](http://getcomposer.org/), follow the instructions in the
-[Installing Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide/start-installation.md#installing-via-composer) section of the definitive guide to install it.
+[Installing Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide/start-installation.md#installing-via-composer) 
+section of the definitive guide to install it.
 
 With Composer installed, you can then install the application using the following commands:
 
-    composer global require "fxp/composer-asset-plugin:^1.2.0"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-The first command installs the [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/)
-which allows managing bower and npm package dependencies through Composer. You only need to run this command
-once for all. The second command installs the advanced application in a directory named `yii-application`.
-You can choose a different directory name if you want.
+The command installs the advanced application in a directory named `yii-application`. You can choose a different
+directory name if you want.
+
+It uses [asset-packagist](https://asset-packagist.org/) for managing bower and npm package dependencies through Composer. 
+Also you can use [asset-plugin](https://packagist.org/packages/fxp/composer-asset-plugin), as in earlier versions, but 
+it works slowly.
 
 ## Install from an Archive File
 
@@ -42,23 +44,23 @@ the installed application. You only need to do these once for all.
    If you automate it with a script you can execute `init` in non-interactive mode.
 
    ```
-   /path/to/php-bin/php /path/to/yii-application/init --env=Production --overwrite=All
+   /path/to/php-bin/php /path/to/yii-application/init --env=Development --overwrite=All --delete=All
    ```
 
-2. Create a new database and adjust the `components['db']` configuration in `common/config/main-local.php` accordingly.
+2. Create a new database and adjust the `components['db']` configuration in `/path/to/yii-application/common/config/main-local.php` accordingly.
 
 3. Open a console terminal, apply migrations with command `/path/to/php-bin/php /path/to/yii-application/yii migrate`.
 
 4. Set document roots of your web server:
 
-   - for frontend `/path/to/yii-application/frontend/web/` and using the URL `http://frontend.dev/`
-   - for backend `/path/to/yii-application/backend/web/` and using the URL `http://backend.dev/`
+   - for frontend `/path/to/yii-application/frontend/web/` and using the URL `http://frontend.test/`
+   - for backend `/path/to/yii-application/backend/web/` and using the URL `http://backend.test/`
 
    For Apache it could be the following:
 
    ```apache
        <VirtualHost *:80>
-           ServerName frontend.dev
+           ServerName frontend.test
            DocumentRoot "/path/to/yii-application/frontend/web/"
            
            <Directory "/path/to/yii-application/frontend/web/">
@@ -84,7 +86,7 @@ the installed application. You only need to do these once for all.
        </VirtualHost>
        
        <VirtualHost *:80>
-           ServerName backend.dev
+           ServerName backend.test
            DocumentRoot "/path/to/yii-application/backend/web/"
            
            <Directory "/path/to/yii-application/backend/web/">
@@ -120,7 +122,7 @@ the installed application. You only need to do these once for all.
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
 
-           server_name frontend.dev;
+           server_name frontend.test;
            root        /path/to/yii-application/frontend/web/;
            index       index.php;
 
@@ -163,7 +165,7 @@ the installed application. You only need to do these once for all.
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
        
-           server_name backend.dev;
+           server_name backend.test;
            root        /path/to/yii-application/backend/web/;
            index       index.php;
        
@@ -208,8 +210,8 @@ the installed application. You only need to do these once for all.
    Add the following lines:
 
    ```
-   127.0.0.1   frontend.dev
-   127.0.0.1   backend.dev
+   127.0.0.1   frontend.test
+   127.0.0.1   backend.test
    ```
 
 To login into the application, you need to first sign up, with any of your email address, username and password.
@@ -245,16 +247,15 @@ This way is the easiest but long (~20 min).
    cd yii2-app-advanced
    ```
 
-5. Run commands:
+5. Run command:
 
    ```bash
-   vagrant plugin install vagrant-hostmanager
    vagrant up
    ```
    
 That's all. You just need to wait for completion! After that you can access project locally by URLs:
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
+* frontend: http://y2aa-frontend.test
+* backend: http://y2aa-backend.test
    
 #### Manual for Windows users
 
@@ -269,23 +270,54 @@ That's all. You just need to wait for completion! After that you can access proj
    * copy `vagrant-local.example.yml` to `vagrant-local.yml`
 
 6. Place your GitHub personal API token to `vagrant-local.yml`
-7. Add the following lines to [hosts file](https://en.wikipedia.org/wiki/Hosts_(file)):
-   
-   ```
-   192.168.83.137 y2aa-frontend.dev
-   192.168.83.137 y2aa-backend.dev
-   ```
 
-8. Open terminal (`cmd.exe`), **change directory to project root** and run commands:
+7. Open terminal (`cmd.exe`), **change directory to project root** and run command:
 
    ```bash
-   vagrant plugin install vagrant-hostmanager
    vagrant up
    ```
    
    (You can read [here](http://www.wikihow.com/Change-Directories-in-Command-Prompt) how to change directories in command prompt) 
 
 That's all. You just need to wait for completion! After that you can access project locally by URLs:
-* frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
+* frontend: http://y2aa-frontend.test
+* backend: http://y2aa-backend.test
+
+
+### Installing using Docker
+
+Install the application dependencies
+
+    docker-compose run --rm backend composer install
+
+Initialize the application by running the `init` command within a container
+
+    docker-compose run --rm backend php /app/init
+
+Adjust the components['db'] configuration in `common/config/main-local.php` accordingly.
+    
+        'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
+        'username' => 'yii2advanced',
+        'password' => 'secret',
+
+> Docker networking creates a DNS entry for the host `mysql` available from your `backend` and `frontend` containers.
+
+> If you want to use another database, such a Postgres, uncomment the corresponding section in `docker-compose.yml` and update your database connection.
+
+>         'dsn' => 'pgsql:host=pgsql;dbname=yii2advanced',
+
+For more information about Docker setup please visit the [guide](http://www.yiiframework.com/doc-2.0/guide-index.html).
+
+Start the application
+
+    docker-compose up -d
+
+Run the migrations
+
+    docker-compose run --rm backend yii migrate          
+
+Access it in your browser by opening
+
+- frontend: http://127.0.0.1:20080
+- backend: http://127.0.0.1:21080
 

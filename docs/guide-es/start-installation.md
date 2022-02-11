@@ -3,7 +3,7 @@ Instalación
 
 ## Requerimientos
 
-El requerimiento mínimo para esta plantilla es que su servidor web soporte PHP 5.4.0.
+El requerimiento mínimo para esta plantilla es que su servidor web soporte PHP 5.6.0.
 
 ## Instalación usando Composer
 
@@ -11,10 +11,9 @@ Si no tienes [Composer](http://getcomposer.org/), sigue las instrucciones en la 
 
 Con Composer instalado, puedes entonces instalar la aplicación usando los siguientes comandos:
 
-    composer global require "fxp/composer-asset-plugin:^1.2.0"
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-El primer comando instala el [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/) el cual permite el manejo de los paquetes de dependencias bower y npm a través de Composer. Sólo necesitas ejecutar este comando la primera vez. El segundo comando instala la aplicación avanzada en un directorio nombrado `yii-application`.
+El comando instala la aplicación avanzada en un directorio nombrado `yii-application`.
 Puedes elegir un nombre de directorio diferente si tu quieres.
 
 ## Instalación desde un Archivo
@@ -37,7 +36,7 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
    Por otra parte, en producción ejecuta `init` con el modo no interactivo.
 
    ```
-   php /path/to/yii-application/init --env=Production --overwrite=All
+   php /path/to/yii-application/init --env=Production --overwrite=All --delete=All
    ```
 
 2. Crea una nueva base de datos y ajusta la configuración de `components['db']` en `common/config/main-local.php` como corresponde.
@@ -46,14 +45,14 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
 
 4. Establece los documentos raíces(document-root) de tu servidor web:
 
-   - para frontend `/path/to/yii-application/frontend/web/` y usando la URL `http://frontend.dev/`
-   - para backend `/path/to/yii-application/backend/web/` y usando la URL `http://backend.dev/`
+   - para frontend `/path/to/yii-application/frontend/web/` y usando la URL `http://frontend.test/`
+   - para backend `/path/to/yii-application/backend/web/` y usando la URL `http://backend.test/`
 
    Para Apache podría ser lo siguiente:
 
    ```apache
        <VirtualHost *:80>
-           ServerName frontend.dev
+           ServerName frontend.test
            DocumentRoot "/path/to/yii-application/frontend/web/"
 
            <Directory "/path/to/yii-application/frontend/web/">
@@ -73,7 +72,7 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
        </VirtualHost>
 
        <VirtualHost *:80>
-           ServerName backend.dev
+           ServerName backend.test
            DocumentRoot "/path/to/yii-application/backend/web/"
 
            <Directory "/path/to/yii-application/backend/web/">
@@ -103,7 +102,7 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
 
-           server_name frontend.dev;
+           server_name frontend.test;
            root        /path/to/yii-application/frontend/web/;
            index       index.php;
 
@@ -141,7 +140,7 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
            listen 80; ## listen for ipv4
            #listen [::]:80 default_server ipv6only=on; ## listen for ipv6
 
-           server_name backend.dev;
+           server_name backend.test;
            root        /path/to/yii-application/backend/web/;
            index       index.php;
 
@@ -181,8 +180,8 @@ Después de instalar la aplicación, tienes que realizar los siguientes pasos pa
    Añade las siguientes lineas:
 
    ```
-   127.0.0.1   frontend.dev
-   127.0.0.1   backend.dev
+   127.0.0.1   frontend.test
+   127.0.0.1   backend.test
    ```
 
 Para loguearte dentro de la aplicación, necesitas primero registrarte, con cualquiera de sus correos electrónicos, nombre de usuario y contraseña.

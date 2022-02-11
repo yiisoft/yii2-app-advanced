@@ -1,4 +1,5 @@
 <?php
+
 return [
     'components' => [
         'request' => [

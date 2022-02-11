@@ -7,14 +7,25 @@ use common\fixtures\UserFixture;
 
 class LoginCest
 {
-    public function _before(FunctionalTester $I)
+    /**
+     * Load fixtures before db transaction begin
+     * Called in _before()
+     * @see \Codeception\Module\Yii2::_before()
+     * @see \Codeception\Module\Yii2::loadFixtures()
+     * @return array
+     */
+    public function _fixtures()
     {
-        $I->haveFixtures([
+        return [
             'user' => [
                 'class' => UserFixture::className(),
-                'dataFile' => codecept_data_dir() . 'login_data.php'
-            ]
-        ]);
+                'dataFile' => codecept_data_dir() . 'login_data.php',
+            ],
+        ];
+    }
+
+    public function _before(FunctionalTester $I)
+    {
         $I->amOnRoute('site/login');
     }
 
@@ -38,7 +49,13 @@ class LoginCest
         $I->submitForm('#login-form', $this->formParams('admin', 'wrong'));
         $I->seeValidationError('Incorrect username or password.');
     }
-    
+
+    public function checkInactiveAccount(FunctionalTester $I)
+    {
+        $I->submitForm('#login-form', $this->formParams('test.test', 'Test1234'));
+        $I->seeValidationError('Incorrect username or password');
+    }
+
     public function checkValidLogin(FunctionalTester $I)
     {
         $I->submitForm('#login-form', $this->formParams('erau', 'password_0'));
