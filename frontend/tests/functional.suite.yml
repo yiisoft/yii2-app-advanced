@@ -4,3 +4,4 @@ modules:
     enabled:
         - Filesystem
         - Yii2
+        - Asserts
