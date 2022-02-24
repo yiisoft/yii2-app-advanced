@@ -37,8 +37,8 @@ class LoginFormTest extends \Codeception\Test\Unit
             'password' => 'not_existing_password',
         ]);
 
-        verify('model should not login user', $model->login())->false();
-        verify('user should not be logged in', Yii::$app->user->isGuest)->true();
+        verify($model->login())->false();
+        verify(Yii::$app->user->isGuest)->true();
     }
 
     public function testLoginWrongPassword()
