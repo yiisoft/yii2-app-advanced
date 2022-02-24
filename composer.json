@@ -17,7 +17,7 @@
         "php": ">=7.4.0",
         "yiisoft/yii2": "~2.0.14",
         "yiisoft/yii2-bootstrap4": "~2.0.0",
-        "yiisoft/yii2-symfonymailer": "dev-master"
+        "yiisoft/yii2-symfonymailer": "~2.0.3"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
