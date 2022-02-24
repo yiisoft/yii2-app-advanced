@@ -14,10 +14,10 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.6.0",
+        "php": ">=7.4.0",
         "yiisoft/yii2": "~2.0.14",
         "yiisoft/yii2-bootstrap4": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0"
+        "yiisoft/yii2-symfonymailer": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
@@ -31,6 +31,9 @@
         "symfony/browser-kit": ">=2.7 <=4.2.4"
     },
     "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer" : true
+        },
         "process-timeout": 1800,
         "fxp-asset": {
             "enabled": false
