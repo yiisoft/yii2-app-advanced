@@ -48,9 +48,9 @@ class LoginFormTest extends \Codeception\Test\Unit
             'password' => 'wrong_password',
         ]);
 
-        verify('model should not login user', $model->login())->false();
-        verify('error message should be set', $model->errors)->arrayHasKey('password');
-        verify('user should not be logged in', Yii::$app->user->isGuest)->true();
+        verify($model->login())->false();
+        verify( $model->errors)->arrayHasKey('password');
+        verify(Yii::$app->user->isGuest)->true();
     }
 
     public function testLoginCorrect()
@@ -60,8 +60,8 @@ class LoginFormTest extends \Codeception\Test\Unit
             'password' => 'password_0',
         ]);
 
-        verify('model should login user', $model->login())->true();
-        verify('error message should not be set', $model->errors)->arrayHasNotKey('password');
-        verify('user should be logged in', Yii::$app->user->isGuest)->false();
+        verify($model->login())->true();
+        verify($model->errors)->arrayHasNotKey('password');
+        verify(Yii::$app->user->isGuest)->false();
     }
 }
