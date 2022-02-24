@@ -10,8 +10,8 @@ return [
             'charset' => 'utf8',
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            'viewPath' => '@common/mail',
+            'class' => 'yii\symfonymailer\Mailer',
+            'useFileTransport' => true,
         ],
     ],
 ];
