@@ -38,6 +38,10 @@ class ResetPasswordFormTest extends \Codeception\Test\Unit
     {
         $user = $this->tester->grabFixture('user', 0);
         $form = new ResetPasswordForm($user['password_reset_token']);
+        if (PHP_VERSION_ID >= 70400) {
+            expect($form->resetPassword())->toBeTrue();
+            return;
+        }
         expect_that($form->resetPassword());
     }
 

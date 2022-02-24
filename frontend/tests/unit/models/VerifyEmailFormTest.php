@@ -45,6 +45,15 @@ class VerifyEmailFormTest extends \Codeception\Test\Unit
     {
         $model = new VerifyEmailForm('4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330');
         $user = $model->verifyEmail();
+        if (PHP_VERSION_ID >= 70400) {
+            expect($user)->toBeInstanceOf('common\models\User');
+
+            expect($user->username)->toBe('test.test');
+            expect($user->email)->toBe('test@mail.com');
+            expect($user->status)->toBe(\common\models\User::STATUS_ACTIVE);
+            expect($user->validatePassword('Test1234'))->toBeTrue();
+            return;
+        }
         expect($user)->isInstanceOf('common\models\User');
 
         expect($user->username)->equals('test.test');

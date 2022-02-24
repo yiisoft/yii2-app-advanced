@@ -32,7 +32,11 @@ class SignupFormTest extends \Codeception\Test\Unit
         ]);
 
         $user = $model->signup();
-        expect($user)->true();
+        if (PHP_VERSION_ID >= 70400) {
+            expect($user)->toBeTrue();
+        } else {
+            expect($user)->true();
+        }
 
         /** @var \common\models\User $user */
         $user = $this->tester->grabRecord('common\models\User', [
@@ -45,6 +49,14 @@ class SignupFormTest extends \Codeception\Test\Unit
 
         $mail = $this->tester->grabLastSentEmail();
 
+        if (PHP_VERSION_ID >= 70400) {
+            expect($mail)->toBeInstanceOf('yii\mail\MessageInterface');
+            expect($mail->getTo())->arrayToHaveKey('some_email@example.com');
+            expect($mail->getFrom())->arrayToHaveKey(\Yii::$app->params['supportEmail']);
+            expect($mail->getSubject())->toBe('Account registration at ' . \Yii::$app->name);
+            expect($mail->toString())->stringToContainString($user->verification_token);
+            return;
+        }
         expect($mail)->isInstanceOf('yii\mail\MessageInterface');
         expect($mail->getTo())->hasKey('some_email@example.com');
         expect($mail->getFrom())->hasKey(\Yii::$app->params['supportEmail']);
@@ -60,6 +72,17 @@ class SignupFormTest extends \Codeception\Test\Unit
             'password' => 'some_password',
         ]);
 
+        if (PHP_VERSION_ID >= 70400) {
+            expect($model->signup())->toBeNull();
+            expect($model->getErrors('username'))->notToBeEmpty();
+            expect($model->getErrors('email'))->notToBeEmpty();
+
+            expect($model->getFirstError('username'))
+                ->toBe('This username has already been taken.');
+            expect($model->getFirstError('email'))
+                ->toBe('This email address has already been taken.');
+            return;
+        }
         expect_not($model->signup());
         expect_that($model->getErrors('username'));
         expect_that($model->getErrors('email'));
