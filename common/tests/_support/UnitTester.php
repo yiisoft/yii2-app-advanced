@@ -8,7 +8,7 @@ namespace common\tests;
  * @method void wantTo($text)
  * @method void execute($callable)
  * @method void expectTo($prediction)
- * @method void expect($prediction)
+ * @method void verify($prediction)
  * @method void amGoingTo($argumentation)
  * @method void am($role)
  * @method void lookForwardTo($achieveValue)

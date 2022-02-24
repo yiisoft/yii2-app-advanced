@@ -38,7 +38,7 @@ class ResetPasswordFormTest extends \Codeception\Test\Unit
     {
         $user = $this->tester->grabFixture('user', 0);
         $form = new ResetPasswordForm($user['password_reset_token']);
-        expect_that($form->resetPassword());
+        verify($form->resetPassword())->notEmpty();
     }
 
 }
