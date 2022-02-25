@@ -1,4 +1,5 @@
-main > .container {
+main > .container, main > .container-fluid
+{
     padding: 70px 15px 20px;
 }
 
@@ -8,7 +9,7 @@ main > .container {
     height: 60px;
 }
 
-.footer > .container {
+.footer > .container, .footer > .container-fluid {
     padding-right: 15px;
     padding-left: 15px;
 }
@@ -65,13 +66,13 @@ a.desc:after {
 }
 
 /* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
+.navbar form > button.logout {
     padding-top: 7px;
     color: rgba(255, 255, 255, 0.5);
 }
 
 @media(max-width:767px) {
-    .nav li > form > button.logout {
+    .navbar form > button.logout {
         display:block;
         text-align: left;
         width: 100%;
@@ -79,12 +80,24 @@ a.desc:after {
     }
 }
 
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
+.navbar form > button.logout:focus,
+.navbar form > button.logout:hover {
     text-decoration: none;
     color: rgba(255, 255, 255, 0.75);
 }
 
-.nav > li > form > button.logout:focus {
+.navbar form > button.logout:focus {
     outline: none;
+}
+
+/* style breadcrumb widget as in previous bootstrap versions */
+.breadcrumb {
+    background-color: var(--bs-gray-200);
+    border-radius: .25rem;
+    padding: .75rem 1rem;
+}
+
+.breadcrumb-item > a
+{
+    text-decoration: none;
 }
