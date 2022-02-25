@@ -223,9 +223,9 @@ the installed application. You only need to do these once for all.
    Thank you for registration. Please check your inbox for verification email.
    ``` 
 9. Despite stating that a confirmation email has been sent, the default settings for the mailer prevents the sending of a real email. 
-   Instead, an eml format file is created in the directory `````@frontend/runtime/mail`````. 
+   Instead, an eml format file is created in the directory `@frontend/runtime/mail`. 
    Either open this file with a mail client such as Outlook or Thunderbird, or use a text editor to retrieve the URL which is used to confirm the User creation. 
-   The URL will need to be modified to remove the quoted printable encoding (https://en.wikipedia.org/wiki/Quoted-printable) before pasting it in your browser.
+   The URL will need to be modified to remove the [quoted printable encoding](https://en.wikipedia.org/wiki/Quoted-printable) before pasting it in your browser.
 
     This can be accomplished manually as follows:
     - delete soft line breaks ‘=’ and newlines to create a single line with the line below
