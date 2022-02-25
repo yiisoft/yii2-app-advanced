@@ -18,18 +18,18 @@ class ContactFormTest extends \Codeception\Test\Unit
             'body' => 'body of current message',
         ];
 
-        expect_that($model->sendEmail('admin@example.com'));
+        verify($model->sendEmail('admin@example.com'))->notEmpty();
 
         // using Yii2 module actions to check email was sent
         $this->tester->seeEmailIsSent();
 
         /** @var MessageInterface  $emailMessage */
         $emailMessage = $this->tester->grabLastSentEmail();
-        expect('valid email is sent', $emailMessage)->isInstanceOf('yii\mail\MessageInterface');
-        expect($emailMessage->getTo())->hasKey('admin@example.com');
-        expect($emailMessage->getFrom())->hasKey('noreply@example.com');
-        expect($emailMessage->getReplyTo())->hasKey('tester@example.com');
-        expect($emailMessage->getSubject())->equals('very important letter subject');
-        expect($emailMessage->toString())->stringContainsString('body of current message');
+        verify($emailMessage)->instanceOf('yii\mail\MessageInterface');
+        verify($emailMessage->getTo())->arrayHasKey('admin@example.com');
+        verify($emailMessage->getFrom())->arrayHasKey('noreply@example.com');
+        verify($emailMessage->getReplyTo())->arrayHasKey('tester@example.com');
+        verify($emailMessage->getSubject())->equals('very important letter subject');
+        verify($emailMessage->toString())->stringContainsString('body of current message');
     }
 }
