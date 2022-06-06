@@ -275,6 +275,8 @@ This way is the easiest but long (~20 min).
    vagrant up
    ```
    
+6. SSH into vagrant box via `vagrant ssh` and execute `php init`.
+   
 That's all. You just need to wait for completion! After that you can access project locally by URLs:
 * frontend: http://y2aa-frontend.test
 * backend: http://y2aa-backend.test
