@@ -25,7 +25,7 @@
         "yiisoft/yii2-faker": "~2.0.0",
         "phpunit/phpunit": "9.5.x-dev",
         "codeception/codeception": "^5.0.0-alpha2 || ^4.0",
-        "codeception/lib-innerbrowser": "^3.0",
+        "codeception/lib-innerbrowser": "^3.0 || ^1.0",
         "codeception/module-asserts": "^3.0 || ^1.0",
         "codeception/module-yii2": "dev-codecept5 || ^1.0",
         "codeception/module-filesystem": "^3.0 || ^1.0",
