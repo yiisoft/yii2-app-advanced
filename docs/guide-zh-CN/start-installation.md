@@ -14,7 +14,7 @@
 
     composer create-project --prefer-dist yiisoft/yii2-app-advanced yii-application
 
-个命令将高级应用程序安装在名为 `yii-application` 的目录中。 如果需要，您可以选择不同的目录名称。 
+这个命令将高级应用程序安装在名为 `yii-application` 的目录中。 如果需要，您可以选择不同的目录名称。 
 
 ## 从归档文件安装
 
