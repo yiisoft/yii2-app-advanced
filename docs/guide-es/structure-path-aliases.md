@@ -9,7 +9,7 @@ Alias Predefinidos
 - `@console` - directorio de consola.
 - `@runtime` - directorio runtime donde se está ejecutando la aplicación actual.
 - `@vendor` - directorio vendor Composer.
-- `@bower` - directorio vendor que contiene los [paquetes de bower](http://bower.io/).
+- `@bower` - directorio vendor que contiene los [paquetes de bower](https://bower.io/).
 - `@npm` - directorio vendor que contiene los [paquetes de npm](https://www.npmjs.org/).
 - `@web` - URL base de la actual aplicación web que se está ejecutando.
 - `@webroot` - directorio raíz de la aplicación web que se está ejecutando actualmente.

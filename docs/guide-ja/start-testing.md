@@ -35,7 +35,7 @@ vendor/bin/codecept run
 あなたのテストを最新の状態に保つことが推奨されます。クラスまたは機能が削除されたときには、対応するテストも削除されるべきです。
 テストは定期的に実行すべきです。あるいは、もっと良い方法として、継続インテグレーション・サーバをテストのためにセットアップしましょう。
 
-Codeception をあなたのアプリケーションのために構成する方法を学ぶために [Yii2 Framework Case Study](http://codeception.com/for/yii) を参照して下さい。
+Codeception をあなたのアプリケーションのために構成する方法を学ぶために [Yii2 Framework Case Study](https://codeception.com/for/yii) を参照して下さい。
 
 ### Common
 
@@ -92,7 +92,7 @@ vendor/bin/codecept run -- -c frontend
     vendor/bin/codecept build -- -c frontend
     ```
 
-1. [Selenium Server](http://www.seleniumhq.org/download/) をダウンロードして起動する
+1. [Selenium Server](https://www.seleniumhq.org/download/) をダウンロードして起動する
 
     ```
     java -jar ~/selenium-server-standalone-x.xx.x.jar

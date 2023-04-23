@@ -9,7 +9,7 @@ Predefined path aliases
 - `@console` - console directory.
 - `@runtime` - runtime directory of currently running web application.
 - `@vendor` - Composer vendor directory.
-- `@bower` - vendor directory that contains the [bower packages](http://bower.io/).
+- `@bower` - vendor directory that contains the [bower packages](https://bower.io/).
 - `@npm` - vendor directory that contains [npm packages](https://www.npmjs.org/).
 - `@web` - base URL of currently running web application.
 - `@webroot` - web root directory of currently running web application.

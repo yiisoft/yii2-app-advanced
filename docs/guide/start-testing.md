@@ -35,7 +35,7 @@ You will see output similar to this:
 It is recommended to keep your tests up to date. If a class, or functionality is deleted, corresponding tests should be deleted as well.
 You should run tests regularly, or better to set up Continuous Integration server for them.  
 
-Please refer to [Yii2 Framework Case Study](http://codeception.com/for/yii) to learn how to configure Codeception for your application.
+Please refer to [Yii2 Framework Case Study](https://codeception.com/for/yii) to learn how to configure Codeception for your application.
 
 ### Common
 
@@ -92,7 +92,7 @@ To execute acceptance tests do the following:
     vendor/bin/codecept build -- -c frontend
     ```
 
-1. Download [Selenium Server](http://www.seleniumhq.org/download/) and launch it:
+1. Download [Selenium Server](https://www.seleniumhq.org/download/) and launch it:
 
     ```
     java -jar ~/selenium-server-standalone-x.xx.x.jar

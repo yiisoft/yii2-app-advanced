@@ -27,7 +27,7 @@ La sortie devrait ressembler à ceci :
 Il est recommandé de maintenir les tests à jour. Si une classe, ou une fonctionnalité, est effacée, les tests correspondant doivent l'être également.
 Vous devriez exécuter les tests régulièrement, ou mieux, configurer l'intégration continue au serveur pour eux. 
 
-Reportez-vous à  [Étude de cas Yii2 Framework](http://codeception.com/for/yii) pour savoir comment configurer Codeception pour votre application. 
+Reportez-vous à  [Étude de cas Yii2 Framework](https://codeception.com/for/yii) pour savoir comment configurer Codeception pour votre application. 
 
 ### Common (communs)
 
@@ -79,7 +79,7 @@ Pour exécuter les tests d'acceptation suivez les étapes ci-dessous :
     vendor/bin/codecept build -- -c frontend
     ```
 
-1. Téléchargez [Selenium Server](http://www.seleniumhq.org/download/) et lancez-le :
+1. Téléchargez [Selenium Server](https://www.seleniumhq.org/download/) et lancez-le :
 
     ```
     java -jar ~/selenium-server-standalone-x.xx.x.jar

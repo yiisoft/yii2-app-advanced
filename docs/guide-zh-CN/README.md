@@ -1,7 +1,7 @@
 Yii 2高级项目模板
 ===============
 
-Yii 2高级项目模板是一个最基本的 [Yii 2](http://www.yiiframework.com/) 应用程序，用于开发具有多层的复杂Web应用程序。
+Yii 2高级项目模板是一个最基本的 [Yii 2](https://www.yiiframework.com/) 应用程序，用于开发具有多层的复杂Web应用程序。
 
 模板包括三个层：前端，后端和控制台，每个都是单独的Yii应用程序。
 

@@ -7,7 +7,7 @@ The minimum requirement by this project template is that your Web server support
 
 ## Installing using Composer
 
-If you do not have [Composer](http://getcomposer.org/), follow the instructions in the
+If you do not have [Composer](https://getcomposer.org/), follow the instructions in the
 [Installing Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide/start-installation.md#installing-via-composer) 
 section of the definitive guide to install it.
 
@@ -24,7 +24,7 @@ it works slowly.
 
 ## Install from an Archive File
 
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
+Extract the archive file downloaded from [yiiframework.com](https://www.yiiframework.com/download/) to
 a directory named `advanced` that is directly under the Web root.
 
 Then follow the instructions given in the next subsection.
@@ -301,7 +301,7 @@ That's all. You just need to wait for completion! After that you can access proj
    vagrant up
    ```
    
-   (You can read [here](http://www.wikihow.com/Change-Directories-in-Command-Prompt) how to change directories in command prompt) 
+   (You can read [here](https://www.wikihow.com/Change-Directories-in-Command-Prompt) how to change directories in command prompt) 
 
 That's all. You just need to wait for completion! After that you can access project locally by URLs:
 * frontend: http://y2aa-frontend.test
@@ -330,7 +330,7 @@ Adjust the components['db'] configuration in `common/config/main-local.php` acco
 
 >         'dsn' => 'pgsql:host=pgsql;dbname=yii2advanced',
 
-For more information about Docker setup please visit the [guide](http://www.yiiframework.com/doc-2.0/guide-index.html).
+For more information about Docker setup please visit the [guide](https://www.yiiframework.com/doc-2.0/guide-index.html).
 
 Start the application
 
