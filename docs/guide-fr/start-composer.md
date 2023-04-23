@@ -8,13 +8,13 @@ Après avoir installé le modèle de projet, il est conseillé d'ajuster le cont
     "name": "yiisoft/yii2-app-advanced",
     "description": "Yii 2 Advanced Project Template",
     "keywords": ["yii2", "framework", "advanced", "project template"],
-    "homepage": "http://www.yiiframework.com/",
+    "homepage": "https://www.yiiframework.com/",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
         "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
+        "forum": "https://www.yiiframework.com/forum/",
+        "wiki": "https://www.yiiframework.com/wiki/",
         "irc": "ircs://irc.libera.chat:6697/yii",
         "source": "https://github.com/yiisoft/yii2"
     },

@@ -7,7 +7,7 @@ El requerimiento mínimo para esta plantilla es que su servidor web soporte PHP 
 
 ## Instalación usando Composer
 
-Si no tienes [Composer](http://getcomposer.org/), sigue las instrucciones en la sección [Instalando Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide-es/start-installation.md#installing-via-composer) de la guía definitiva para instalarlo.
+Si no tienes [Composer](https://getcomposer.org/), sigue las instrucciones en la sección [Instalando Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide-es/start-installation.md#installing-via-composer) de la guía definitiva para instalarlo.
 
 Con Composer instalado, puedes entonces instalar la aplicación usando los siguientes comandos:
 
@@ -18,7 +18,7 @@ Puedes elegir un nombre de directorio diferente si tu quieres.
 
 ## Instalación desde un Archivo
 
-Extrae el archivo descargado desde [yiiframework.com](http://www.yiiframework.com/download/) a directorio nombrado `advanced` que está directamente bajo el Web root.
+Extrae el archivo descargado desde [yiiframework.com](https://www.yiiframework.com/download/) a directorio nombrado `advanced` que está directamente bajo el Web root.
 
 A continuación sigue las siguientes instrucciones dadas en la siguiente sub-sección.
 

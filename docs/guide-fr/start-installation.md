@@ -7,7 +7,7 @@ L'exigence minimum de ce modèle de projet est que votre serveur Web prenne en c
 
 ## Installation via Composer
 
-Si vous n'avez pas [Composer](http://getcomposer.org/), suivez les instructions de la section
+Si vous n'avez pas [Composer](https://getcomposer.org/), suivez les instructions de la section
 [Installation de Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide/start-installation.md#installing-via-composer) du guide complet de Yii pour l'installer.
 
 Une fois composer installé, vous pouvez l'utiliser pour installer l'application en utilisant les commandes suivantes :
@@ -19,7 +19,7 @@ Vous avez le droit de choisir un autre nom de dossier si vous le désirez.
 
 ## Installation à partir d'un fichier archive
 
-Extrayez l'archive que vous avez téléchargée depuis [yiiframework.com](http://www.yiiframework.com/download/) dans un dossier nommé `advanced` placé directement sous la racine Web.
+Extrayez l'archive que vous avez téléchargée depuis [yiiframework.com](https://www.yiiframework.com/download/) dans un dossier nommé `advanced` placé directement sous la racine Web.
 
 Ensuite suivez les instructions données dans la sous-section suivante.
 
@@ -279,7 +279,7 @@ C'est tout. Il ne vous reste plus qu'à attendre la fin de l'exécution ! Aprè
    vagrant up
    ```
    
-   (Vous pouvez apprendre comment changer de dossier dans l'interpréteur de commande en lisant [ceci](http://www.wikihow.com/Change-Directories-in-Command-Prompt))
+   (Vous pouvez apprendre comment changer de dossier dans l'interpréteur de commande en lisant [ceci](https://www.wikihow.com/Change-Directories-in-Command-Prompt))
 
 C'est tout. Il ne vous reste qu'à attendre la fin de l'exécution ! Après cela, vous pouvez accéder au projet localement par les URL :
 * pour l'interface utilisateur : http://y2aa-frontend.test

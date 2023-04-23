@@ -7,7 +7,7 @@ Minimalne wymagania tego szablonu projektu dla serwera to obsługa PHP 5.6.0.
 
 ## Instalacja za pomocą Composera
 
-Jeśli nie posiadasz zainstalowanego [Composera](http://getcomposer.org/), zapoznaj się najpierw z rozdziałem Przewodnika 
+Jeśli nie posiadasz zainstalowanego [Composera](https://getcomposer.org/), zapoznaj się najpierw z rozdziałem Przewodnika 
 [Instalacja Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide-pl/start-installation.md#installing-via-composer).
 
 Po zainstalowaniu Composera możesz zainstalować aplikację korzystając z poniższych komend:
@@ -19,7 +19,7 @@ dowolną inną nazwę.
 
 ## Instalacja z pliku archiwum
 
-Wypakuj plik archiwum pobrany ze strony [yiiframework.com](http://www.yiiframework.com/download/) do folderu `advanced`, 
+Wypakuj plik archiwum pobrany ze strony [yiiframework.com](https://www.yiiframework.com/download/) do folderu `advanced`, 
 znajdującego się bezpośrednio w głównym folderze serwera Web.
 
 Następnie przejdź do instrukcji w sekcji poniżej.
@@ -283,7 +283,7 @@ pomocą adresów URL:
    vagrant up
    ```
    
-   (Przeczytaj [tutaj](http://www.wikihow.com/Change-Directories-in-Command-Prompt), w jaki sposób zmienić foldery w terminalu konsoli) 
+   (Przeczytaj [tutaj](https://www.wikihow.com/Change-Directories-in-Command-Prompt), w jaki sposób zmienić foldery w terminalu konsoli) 
 
 To wszystko. Teraz tylko musisz poczekać na zakończenie procesu! Po wszystkim możesz przejść do lokalnego projektu za 
 pomocą adresów URL:
