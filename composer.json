@@ -9,10 +9,10 @@
         "issues": "https://github.com/yiisoft/yii2/issues?state=open",
         "forum": "https://www.yiiframework.com/forum/",
         "wiki": "https://www.yiiframework.com/wiki/",
-        "irc": "ircs://irc.libera.chat:6697/yii",
+        "irc": "irc://irc.freenode.net/yii",
         "source": "https://github.com/yiisoft/yii2"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=7.4.0",
         "yiisoft/yii2": "~2.0.45",
@@ -25,12 +25,12 @@
         "yiisoft/yii2-faker": "~2.0.0",
         "phpunit/phpunit": "~9.5.0",
         "codeception/codeception": "^5.0.0 || ^4.0",
-        "codeception/lib-innerbrowser": "^3.0 || ^1.1",
+        "codeception/lib-innerbrowser": "^4.0 || ^3.0 || ^1.1",
         "codeception/module-asserts": "^3.0 || ^1.1",
         "codeception/module-yii2": "^1.1",
-        "codeception/module-filesystem": "^3.0 || ^1.1",
-        "codeception/verify": "^2.2",
-        "symfony/browser-kit": "^6.2 || >=2.7 <=4.2.4"
+        "codeception/module-filesystem": "^3.0 || ^2.0 || ^1.1",
+        "codeception/verify": "^3.0 || ^2.2",
+        "symfony/browser-kit": "^6.0 || >=2.7 <=4.2.4"
     },
     "autoload-dev": {
         "psr-4": {
