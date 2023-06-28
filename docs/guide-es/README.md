@@ -1,7 +1,7 @@
 Plantilla de Proyecto Avanzado de Yii 2
 =======================================
 
-La Plantilla de Proyecto Avanzado de [Yii 2](http://www.yiiframework.com/) es el mejor esqueleto para el desarrollo de aplicaciones web complejas con múltiples capas
+La Plantilla de Proyecto Avanzado de [Yii 2](https://www.yiiframework.com/) es el mejor esqueleto para el desarrollo de aplicaciones web complejas con múltiples capas
 
 La plantilla incluye tres capas: front end, back end, y consola, cada una de ellas, es una aplicación separada de Yii.
 

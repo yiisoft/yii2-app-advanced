@@ -9,22 +9,22 @@ directory:
     "name": "yiisoft/yii2-app-advanced",
     "description": "Yii 2 Advanced Project Template",
     "keywords": ["yii2", "framework", "advanced", "project template"],
-    "homepage": "http://www.yiiframework.com/",
+    "homepage": "https://www.yiiframework.com/",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
         "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
+        "forum": "https://www.yiiframework.com/forum/",
+        "wiki": "https://www.yiiframework.com/wiki/",
+        "irc": "ircs://irc.libera.chat:6697/yii",
         "source": "https://github.com/yiisoft/yii2"
     },
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.6.0",
         "yiisoft/yii2": "~2.0.14",
-        "yiisoft/yii2-bootstrap4": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0"
+        "yiisoft/yii2-bootstrap5": "~2.0.0",
+        "yiisoft/yii2-symfonymailer": "~2.0.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -9,7 +9,7 @@ Aliases de caminho predefinidos
 - `@console` - diretório "console".
 - `@runtime` - diretório "runtime" da aplicação sendo executada.
 - `@vendor` - diretório vendor do Composer.
-- `@bower` - diretório vendor contendo [pacotes bower](http://bower.io/).
+- `@bower` - diretório vendor contendo [pacotes bower](https://bower.io/).
 - `@npm` - diretório vendor contendo [pacotes npm](https://www.npmjs.org/).
 - `@web` - URL base da aplicação sendo executada.
 - `@webroot` - raíz do diretório web da aplicação sendo executada.

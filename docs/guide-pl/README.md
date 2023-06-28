@@ -1,7 +1,7 @@
 Zaawansowany Szablon Projektu Yii 2
 ===================================
 
-Zaawansowany Szablon Projektu Yii 2 jest szkieletem aplikacji [Yii 2](http://www.yiiframework.com/), idealnym do 
+Zaawansowany Szablon Projektu Yii 2 jest szkieletem aplikacji [Yii 2](https://www.yiiframework.com/), idealnym do 
 stworzenia złożonych wielopoziomowych serwisów Web.
 
 Szablon zawiera trzy warstwy: front-end (zwaną też stroną interfejsową, kliencką), back-end (zwaną również stroną 

@@ -19,7 +19,7 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
     {
         $this->tester->haveFixtures([
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ]);
@@ -29,7 +29,7 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
     {
         $model = new PasswordResetRequestForm();
         $model->email = 'not-existing-email@example.com';
-        expect_not($model->sendEmail());
+        verify($model->sendEmail())->false();
     }
 
     public function testNotSendEmailsToInactiveUser()
@@ -37,7 +37,7 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
         $user = $this->tester->grabFixture('user', 1);
         $model = new PasswordResetRequestForm();
         $model->email = $user['email'];
-        expect_not($model->sendEmail());
+        verify($model->sendEmail())->false();
     }
 
     public function testSendEmailSuccessfully()
@@ -48,12 +48,12 @@ class PasswordResetRequestFormTest extends \Codeception\Test\Unit
         $model->email = $userFixture['email'];
         $user = User::findOne(['password_reset_token' => $userFixture['password_reset_token']]);
 
-        expect_that($model->sendEmail());
-        expect_that($user->password_reset_token);
+        verify($model->sendEmail())->notEmpty();
+        verify($user->password_reset_token)->notEmpty();
 
         $emailMessage = $this->tester->grabLastSentEmail();
-        expect('valid email is sent', $emailMessage)->isInstanceOf('yii\mail\MessageInterface');
-        expect($emailMessage->getTo())->hasKey($model->email);
-        expect($emailMessage->getFrom())->hasKey(Yii::$app->params['supportEmail']);
+        verify($emailMessage)->instanceOf('yii\mail\MessageInterface');
+        verify($emailMessage->getTo())->arrayHasKey($model->email);
+        verify($emailMessage->getFrom())->arrayHasKey(Yii::$app->params['supportEmail']);
     }
 }

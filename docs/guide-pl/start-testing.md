@@ -33,7 +33,7 @@ Zalecane jest ciągłe aktualizowanie swoich testów. W przypadku, gdy klasa lub
 jej testy również powinny być skasowane.  
 Testy powinno się przeprowadzać regularnie, a najlepiej jest przygotować do tego celu serwer Ciągłej Integracji.  
 
-Przeczytaj artykuł [Yii 2 Framework Case Study](http://codeception.com/for/yii), aby zapoznać się z konfiguracją 
+Przeczytaj artykuł [Yii 2 Framework Case Study](https://codeception.com/for/yii), aby zapoznać się z konfiguracją 
 Codeception dla swojej aplikacji.
 
 ### Część Common
@@ -90,7 +90,7 @@ Aby przeprowadzić testy akceptacyjne, wykonaj następujące kroki:
     vendor/bin/codecept build -- -c frontend
     ```
 
-5. Pobierz [Serwer Selenium](http://www.seleniumhq.org/download/) i uruchom go:
+5. Pobierz [Serwer Selenium](https://www.seleniumhq.org/download/) i uruchom go:
 
     ```
     java -jar ~/selenium-server-standalone-x.xx.x.jar

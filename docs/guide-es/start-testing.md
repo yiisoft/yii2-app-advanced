@@ -37,7 +37,7 @@ borradas tambien.
 Deberá correr las pruebas regularmente, o mejor configurar el servidor para Integración Continua.
 
 
-Por favor referirse a [Yii2 Framework Case Study](http://codeception.com/for/yii) para aprender sobre como configurar Codeception para su aplicación.
+Por favor referirse a [Yii2 Framework Case Study](https://codeception.com/for/yii) para aprender sobre como configurar Codeception para su aplicación.
 
 ### Common
 
@@ -95,7 +95,7 @@ Para ejecutar las pruebas de aceptación, haga lo siguiente:
     vendor/bin/codecept build -- -c frontend
     ```
 
-1. Descargar [Selenium Server](http://www.seleniumhq.org/download/) y lanzarlo:
+1. Descargar [Selenium Server](https://www.seleniumhq.org/download/) y lanzarlo:
 
     ```
     java -jar ~/selenium-server-standalone-x.xx.x.jar

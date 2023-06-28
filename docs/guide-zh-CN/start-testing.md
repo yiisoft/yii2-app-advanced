@@ -30,7 +30,7 @@ vendor/bin/codecept run
 建议保持测试最新。 如果一个类或功能被删除，相应的测试也应该被删除。
 您应定期运行测试，或更好地为它们设置持续集成服务器。
 
-请参考 [Yii2 Framework Case Study](http://codeception.com/for/yii) ，了解如何为应用程序配置代码。
+请参考 [Yii2 Framework Case Study](https://codeception.com/for/yii) ，了解如何为应用程序配置代码。
 ### Common
 
 common部分的测试位于 `common/tests`. 在这个模板中只有 `unit` （单元）测试。
@@ -83,7 +83,7 @@ vendor/bin/codecept run -- -c frontend
     vendor/bin/codecept build -- -c frontend
     ```
 
-1. 下载 [Selenium Server](http://www.seleniumhq.org/download/) 并启动:
+1. 下载 [Selenium Server](https://www.seleniumhq.org/download/) 并启动:
 
     ```
     java -jar ~/selenium-server-standalone-x.xx.x.jar

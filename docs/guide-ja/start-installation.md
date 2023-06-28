@@ -7,7 +7,7 @@
 
 ## Composer を使ってインストールする
 
-[Composer](http://getcomposer.org/) を持っていない場合は、
+[Composer](https://getcomposer.org/) を持っていない場合は、
 決定版ガイドの [Yii をインストールする](https://github.com/yiisoft/yii2/blob/master/docs/guide-ja/start-installation.md#installing-via-composer)
 のセクションの指示に従ってインストールしてください。
 
@@ -24,7 +24,7 @@ Bower と NPM の依存パッケージを Composer によって管理するた�
 
 ## アーカイブ・ファイルからインストールする
 
-[yiiframework.com](http://www.yiiframework.com/download/) からダウンロードしたアーカイブ・ファイルをウェブ・ルートの直下、
+[yiiframework.com](https://www.yiiframework.com/download/) からダウンロードしたアーカイブ・ファイルをウェブ・ルートの直下、
 `advanced` と名付けられたディレクトリに解凍します。
 
 その後は、次の項に記載されている指示に従ってください。
@@ -277,7 +277,7 @@ Bower と NPM の依存パッケージを Composer によって管理するた�
    vagrant up
    ```
    
-   (コマンド・プロンプトでディレクトリを移動する方法については、[ここ](http://www.wikihow.com/Change-Directories-in-Command-Prompt) を読んでください) 
+   (コマンド・プロンプトでディレクトリを移動する方法については、[ここ](https://www.wikihow.com/Change-Directories-in-Command-Prompt) を読んでください) 
 
 これで全部です。後はただ完了するのを待つだけです。完了後には、次の URL でローカルのプロジェクトにアクセスすることが出来ます。
 * フロントエンド: http://y2aa-frontend.test
@@ -306,7 +306,7 @@ Bower と NPM の依存パッケージを Composer によって管理するた�
 
 >         'dsn' => 'pgsql:host=pgsql;dbname=yii2advanced',
 
-Docker のセットアップに関する更なる詳細は [ガイド](http://www.yiiframework.com/doc-2.0/guide-index.html) を参照して下さい。
+Docker のセットアップに関する更なる詳細は [ガイド](https://www.yiiframework.com/doc-2.0/guide-index.html) を参照して下さい。
 
 アプリケーションを開始します。
 

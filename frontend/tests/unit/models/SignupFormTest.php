@@ -17,7 +17,7 @@ class SignupFormTest extends \Codeception\Test\Unit
     {
         $this->tester->haveFixtures([
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ]);
@@ -32,7 +32,7 @@ class SignupFormTest extends \Codeception\Test\Unit
         ]);
 
         $user = $model->signup();
-        expect($user)->true();
+        verify($user)->notEmpty();
 
         /** @var \common\models\User $user */
         $user = $this->tester->grabRecord('common\models\User', [
@@ -45,11 +45,11 @@ class SignupFormTest extends \Codeception\Test\Unit
 
         $mail = $this->tester->grabLastSentEmail();
 
-        expect($mail)->isInstanceOf('yii\mail\MessageInterface');
-        expect($mail->getTo())->hasKey('some_email@example.com');
-        expect($mail->getFrom())->hasKey(\Yii::$app->params['supportEmail']);
-        expect($mail->getSubject())->equals('Account registration at ' . \Yii::$app->name);
-        expect($mail->toString())->stringContainsString($user->verification_token);
+        verify($mail)->instanceOf('yii\mail\MessageInterface');
+        verify($mail->getTo())->arrayHasKey('some_email@example.com');
+        verify($mail->getFrom())->arrayHasKey(\Yii::$app->params['supportEmail']);
+        verify($mail->getSubject())->equals('Account registration at ' . \Yii::$app->name);
+        verify($mail->toString())->stringContainsString($user->verification_token);
     }
 
     public function testNotCorrectSignup()
@@ -60,13 +60,13 @@ class SignupFormTest extends \Codeception\Test\Unit
             'password' => 'some_password',
         ]);
 
-        expect_not($model->signup());
-        expect_that($model->getErrors('username'));
-        expect_that($model->getErrors('email'));
+        verify($model->signup())->empty();
+        verify($model->getErrors('username'))->notEmpty();
+        verify($model->getErrors('email'))->notEmpty();
 
-        expect($model->getFirstError('username'))
+        verify($model->getFirstError('username'))
             ->equals('This username has already been taken.');
-        expect($model->getFirstError('email'))
+        verify($model->getFirstError('email'))
             ->equals('This email address has already been taken.');
     }
 }

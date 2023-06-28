@@ -7,7 +7,7 @@ O requisito mínimo deste template de projetos é que seu servidor Web suporte P
 
 ## Instalação utilizando Composer
 
-Caso você não tenha o [Composer](http://getcomposer.org/) instalado, siga as instruções na seção [Instalando o Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide-pt-BR/start-installation.md#instalando-via-composer-)
+Caso você não tenha o [Composer](https://getcomposer.org/) instalado, siga as instruções na seção [Instalando o Yii](https://github.com/yiisoft/yii2/blob/master/docs/guide-pt-BR/start-installation.md#instalando-via-composer-)
 do guia definitivo para Yii 2.0 para instala-lo.
 
 Com o Composer instalado, você pode então instalar o template de projetos usando os seguintes comandos:
@@ -19,7 +19,7 @@ Você pode escolher um diretório diferente se desejar.
 
 ## Instalação a partir de um arquivo
 
-Descompacte o arquivo baixado de [yiiframework.com](http://www.yiiframework.com/download/) para 
+Descompacte o arquivo baixado de [yiiframework.com](https://www.yiiframework.com/download/) para 
 um diretório com nome de `advanced` no diretório raiz do servidor Web.
 
 Então siga as instruções presentes na próxima subseção.
@@ -258,7 +258,7 @@ Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o proje
    vagrant up
    ```
    
-   (Você pode ler [aqui](http://pt.wikihow.com/Alterar-Diret%C3%B3rios-no-Prompt-de-Comandos) como alterar diretórios no prompt de comando) 
+   (Você pode ler [aqui](https://pt.wikihow.com/Alterar-Diret%C3%B3rios-no-Prompt-de-Comandos) como alterar diretórios no prompt de comando) 
 
 Isso é tudo. Basta aguardar a conclusão! Após isso você pode acessar o projeto localmente pelas URLs:
 * frontend: http://y2aa-frontend.test
