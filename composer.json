@@ -29,8 +29,7 @@
         "codeception/module-asserts": "^3.0 || ^1.1",
         "codeception/module-yii2": "^1.1",
         "codeception/module-filesystem": "^3.0 || ^2.0 || ^1.1",
-        "codeception/verify": "^3.0 || ^2.2",
-        "symfony/browser-kit": "^6.0 || >=2.7 <=4.2.4"
+        "codeception/verify": "^3.0 || ^2.2"
     },
     "autoload-dev": {
         "psr-4": {
