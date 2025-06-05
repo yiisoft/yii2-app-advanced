@@ -58,11 +58,5 @@ class VerifyEmailCest
         $I->canSee('Your email has been confirmed!');
         $I->canSee('Congratulations!', 'h1');
         $I->dontSee('Logout (test.test)', 'form button[type=submit]');
-
-        // $I->dontSeeRecord('common\models\User', [
-        //     'username' => 'test.test',
-        //     'email' => 'test@mail.com',
-        //     'status' => \common\models\User::STATUS_ACTIVE
-        // ]);
     }
 }
