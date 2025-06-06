@@ -3,6 +3,7 @@
 namespace frontend\tests\functional;
 
 use common\fixtures\UserFixture;
+use common\models\User;
 use frontend\tests\FunctionalTester;
 
 class VerifyEmailCest
@@ -58,5 +59,10 @@ class VerifyEmailCest
         $I->canSee('Your email has been confirmed!');
         $I->canSee('Congratulations!', 'h1');
         $I->dontSee('Logout (test.test)', 'form button[type=submit]');
+        $I->seeRecord('common\models\User', [
+            'username' => 'test.test',
+            'email' => 'test@mail.com',
+            'status' => User::STATUS_ACTIVE
+        ]);
     }
 }
