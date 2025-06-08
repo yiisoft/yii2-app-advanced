@@ -91,5 +91,5 @@ jobs:
       - name: Apply migration
         run: php yii_test migrate --interactive=0
 
-      - name: Run tests with codeception 
+      - name: Run tests with codeception
         run: vendor/bin/codecept run
