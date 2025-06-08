@@ -29,6 +29,7 @@ jobs:
 
         mysql:
           - "5.7"
+          - "latest"
 
     services:
       mysql:
