@@ -227,7 +227,7 @@ class SiteController extends Controller
         } catch (InvalidArgumentException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
-        if (($user = $model->verifyEmail()) && Yii::$app->user->login($user)) {
+        if ($model->verifyEmail()) {
             Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
             return $this->goHome();
         }
