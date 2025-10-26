@@ -49,7 +49,7 @@ class LoginFormTest extends \Codeception\Test\Unit
         ]);
 
         verify($model->login())->false();
-        verify( $model->errors)->arrayHasKey('password');
+        verify($model->errors)->arrayHasKey('password');
         verify(Yii::$app->user->isGuest)->true();
     }
 
