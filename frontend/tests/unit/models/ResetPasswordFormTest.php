@@ -25,11 +25,11 @@ class ResetPasswordFormTest extends \Codeception\Test\Unit
 
     public function testResetWrongToken()
     {
-        $this->tester->expectThrowable('\yii\base\InvalidArgumentException', function() {
+        $this->tester->expectThrowable('\yii\base\InvalidArgumentException', function () {
             new ResetPasswordForm('');
         });
 
-        $this->tester->expectThrowable('\yii\base\InvalidArgumentException', function() {
+        $this->tester->expectThrowable('\yii\base\InvalidArgumentException', function () {
             new ResetPasswordForm('notexistingtoken_1391882543');
         });
     }
@@ -40,5 +40,4 @@ class ResetPasswordFormTest extends \Codeception\Test\Unit
         $form = new ResetPasswordForm($user['password_reset_token']);
         verify($form->resetPassword())->notEmpty();
     }
-
 }
