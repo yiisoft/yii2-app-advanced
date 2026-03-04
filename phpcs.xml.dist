@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Yii2">
+    <rule ref="vendor/yiisoft/yii2-coding-standards/Yii2"></rule>
+
+    <!-- generate relative paths -->
+    <arg name="basepath" value="."/>
+
+    <!-- directories to check -->
+    <file>backend/assets</file>
+    <file>backend/controllers</file>
+    <file>backend/models</file>
+    <file>backend/views</file>
+    <file>common/fixtures</file>
+    <file>common/mail</file>
+    <file>common/models</file>
+    <file>common/widgets</file>
+    <file>frontend/assets</file>
+    <file>frontend/controllers</file>
+    <file>frontend/models</file>    
+    <file>frontend/views</file>
+</ruleset>

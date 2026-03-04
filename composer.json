@@ -20,6 +20,7 @@
         "yiisoft/yii2-symfonymailer": "~2.0.3"
     },
     "require-dev": {
+        "yiisoft/yii2-coding-standards": "^3.0",
         "yiisoft/yii2-debug": "~2.1.0",
         "yiisoft/yii2-gii": "~2.2.0",
         "yiisoft/yii2-faker": "~2.0.0",
@@ -52,5 +53,9 @@
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ]
+    ],
+    "scripts": {
+        "cs": "./vendor/bin/phpcs -q",
+        "cs-fix": "./vendor/bin/phpcbf -q"
+    }
 }
