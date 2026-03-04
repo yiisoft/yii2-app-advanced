@@ -55,7 +55,7 @@
         }
     ],
     "scripts": {
-        "cs": "./vendor/bin/phpcs -q",
-        "cs-fix": "./vendor/bin/phpcbf -q"
+        "cs": "./vendor/bin/phpcs",
+        "cs-fix": "./vendor/bin/phpcbf"
     }
 }
