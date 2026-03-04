@@ -27,3 +27,5 @@ on:
 jobs:
   phpcs:
     uses: yiisoft/yii2-actions/.github/workflows/linter.yml@master
+    with:
+      directories: ''
