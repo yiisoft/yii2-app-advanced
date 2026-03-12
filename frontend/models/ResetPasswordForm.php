@@ -29,7 +29,7 @@ class ResetPasswordForm extends Model
      */
     public function __construct(string $token, $config = [])
     {
-        if (empty($token)) {
+        if ($token === '') {
             throw new InvalidArgumentException('Password reset token cannot be blank.');
         }
         $this->_user = User::findByPasswordResetToken($token);

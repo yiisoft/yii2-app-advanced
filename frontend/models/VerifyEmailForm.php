@@ -8,10 +8,7 @@ use yii\base\Model;
 
 class VerifyEmailForm extends Model
 {
-    public string $token;
-
     private User|null $_user = null;
-
 
     /**
      * Creates a form model with given token.
