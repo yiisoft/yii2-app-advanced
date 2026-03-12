@@ -10,7 +10,7 @@ use yii\bootstrap5\Html;
 $this->title = 'Request password reset';
 $this->params['breadcrumbs'][] = $this->title;
 $htmlIcon = <<<HTML
-<div class="input-group"><span class="input-group-text">%s</span>{input}</div>{error}{hint}
+<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;
 ?>
 <div class="site-request-password-reset d-flex align-items-center justify-content-center py-5">
