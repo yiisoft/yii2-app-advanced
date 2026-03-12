@@ -22,8 +22,10 @@ parameters:
         - frontend/tests/Functional
         - frontend/tests/Unit
 
-    excludePaths:
-        - '*/tests/Support/*'
+    scanDirectories:
+        - backend/tests/Support
+        - common/tests/Support
+        - frontend/tests/Support
 
     bootstrapFiles:
         - phpstan-bootstrap.php
