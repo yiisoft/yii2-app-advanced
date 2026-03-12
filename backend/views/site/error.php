@@ -15,7 +15,7 @@ $statusCode = $exception instanceof HttpException ? $exception->statusCode : 500
 ?>
 <div class="site-error d-flex align-items-center justify-content-center text-center">
     <div class="site-error-content mx-auto">
-        <h1 class="display-1 fw-bold text-body-secondary mb-0"><?= Html::encode($statusCode) ?></h1>
+        <h1 class="display-1 fw-bold text-body-secondary mb-0"><?= Html::encode((string) $statusCode) ?></h1>
 
         <h2 class="display-6 fw-semibold mb-3"><?= Html::encode($message) ?></h2>
 
