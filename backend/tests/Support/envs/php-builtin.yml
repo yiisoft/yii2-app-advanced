@@ -1,0 +1,6 @@
+---
+extensions:
+  enabled:
+    - Codeception\Extension\RunProcess:
+        0: php -d variables_order=EGPCS -S localhost:8081 -t backend/web
+        sleep: 1
