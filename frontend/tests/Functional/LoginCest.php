@@ -54,7 +54,7 @@ final class LoginCest
     public function checkValidLogin(FunctionalTester $I): void
     {
         $I->submitForm('#login-form', $this->formParams('erau', 'password_0'));
-        $I->see('Logout (erau)', 'form button[type=submit]');
+        $I->seeLink('Logout (erau)');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
     }

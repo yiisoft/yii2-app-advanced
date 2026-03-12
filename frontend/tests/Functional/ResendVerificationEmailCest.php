@@ -37,7 +37,7 @@ final class ResendVerificationEmailCest
     public function checkPage(FunctionalTester $I): void
     {
         $I->see('Resend verification email', 'h1');
-        $I->see('Please fill out your email. A verification email will be sent there.');
+        $I->see('Enter your email to receive a new verification link');
     }
 
     public function checkEmptyField(FunctionalTester $I): void

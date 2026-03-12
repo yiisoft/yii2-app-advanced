@@ -4,38 +4,114 @@
 /** @var yii\bootstrap5\ActiveForm $form */
 /** @var \common\models\LoginForm $model */
 
-use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
+$htmlIcon = <<<HTML
+<div class="input-group"><span class="input-group-text">%s</span>{input}</div>{error}{hint}
+HTML;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="site-login d-flex align-items-center justify-content-center py-5">
+    <div class="card border-0 overflow-hidden login-split-card">
+        <div class="row g-0">
 
-    <p>Please fill out the following fields to login:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div class="my-1 mx-0" style="color:#999;">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                    <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
+            <!-- Brand panel -->
+            <div class="col-md-5 d-none d-md-flex login-brand-panel text-white">
+                <div class="d-flex flex-column justify-content-between p-4 p-lg-5 w-100">
+                    <div>
+                        <?= Html::img(
+                            Yii::getAlias('@web/images/yii_logo_dark.svg'), 
+                            [
+                                'alt' => 'Yii Framework', 
+                                'class' => 'mb-4',
+                                'height' => 40, 
+                            ],
+                        ) ?>
+                    </div>
+                    <div>
+                        <h2 class="fw-bold mb-3 login-brand-title">
+                            Welcome<br>Back
+                        </h2>
+                        <p class="opacity-75 mb-0 login-brand-text">
+                            Log in to access your Yii2 application and manage your account.
+                        </p>
+                    </div>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            <!-- Form panel -->
+            <div class="col-md-7">
+                <div class="p-4 p-lg-5">
+                    <div class="text-center mb-4">
+                        <!-- Mobile-only logo -->
+                        <div class="d-md-none mb-3">
+                            <?= Html::img(
+                                Yii::getAlias('@web/images/yii_logo_dark.svg'), 
+                                [
+                                    'alt' => 'Yii Framework', 
+                                    'class' => 'login-mobile-logo',
+                                    'height' => 36, 
+                                ],
+                            ) ?>
+                        </div>
+                        <h1 class="h3 fw-bold mb-1">Login to your account</h1>
+                        <p class="text-body-secondary small">Enter your credentials to continue</p>
+                    </div>
+
+                    <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small" for="loginform-username">Your Username</label>
+                        <?= $form->field($model, 'username', [
+                            'options' => ['class' => 'mb-0'],
+                            'template' => sprintf($htmlIcon, '&#128100;'),
+                            'inputOptions' => [
+                                'class' => 'form-control',
+                                'placeholder' => 'username',
+                                'autofocus' => true,
+                            ],
+                        ])->textInput() ?>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small" for="loginform-password">Your Password</label>
+                        <?= $form->field($model, 'password', [
+                            'options' => ['class' => 'mb-0'],
+                            'template' => sprintf($htmlIcon, '&#128274;'),
+                            'inputOptions' => [
+                                'class' => 'form-control',
+                                'placeholder' => 'Password',
+                            ],
+                        ])->passwordInput() ?>
+                    </div>
+
+                    <div class="mb-4">
+                        <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                    </div>
+
+                    <div class="d-grid">
+                        <?= Html::submitButton(
+                            'Login', 
+                            [
+                                'class' => 'btn login-btn btn-lg rounded-3 text-white',
+                                'name' => 'login-button',
+                            ],
+                        ) ?>
+                    </div>
+
+                    <?php ActiveForm::end(); ?>
+
+                    <div class="text-body-secondary text-center mt-3 small">
+                        <?= Html::a('Forgot your password?', ['site/request-password-reset']) ?>
+                        <span class="mx-1">&middot;</span>
+                        <?= Html::a('Resend verification email', ['site/resend-verification-email']) ?>
+                    </div>
+
                 </div>
+            </div>
 
-            <?php ActiveForm::end(); ?>
         </div>
     </div>
 </div>
