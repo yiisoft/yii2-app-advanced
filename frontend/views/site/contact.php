@@ -117,6 +117,7 @@ HTML;
                         <?= $form->field($model, 'verifyCode', [
                             'enableLabel' => false,
                             'options' => ['class' => ''],
+                            'inputOptions' => ['aria-label' => 'Verification code'],
                         ])->widget(Captcha::class, [
                             'template' => '<div class="d-flex align-items-center gap-2">{image}{input}</div>',
                         ]) ?>
