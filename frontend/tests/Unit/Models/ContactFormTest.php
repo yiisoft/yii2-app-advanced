@@ -6,10 +6,13 @@ namespace frontend\tests\Unit\Models;
 
 use Codeception\Test\Unit;
 use frontend\models\ContactForm;
+use frontend\tests\Support\UnitTester;
 use yii\mail\MessageInterface;
 
 final class ContactFormTest extends Unit
 {
+    protected UnitTester $tester;
+
     public function testSendEmail(): void
     {
         $model = new ContactForm();

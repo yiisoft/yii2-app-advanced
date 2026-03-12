@@ -218,7 +218,7 @@ class SiteController extends Controller
      *
      * @param string $token
      * @throws BadRequestHttpException
-     * @return yii\web\Response
+     * @return \yii\web\Response
      */
     public function actionVerifyEmail($token)
     {
