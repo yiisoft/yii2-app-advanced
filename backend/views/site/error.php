@@ -8,9 +8,10 @@ declare(strict_types=1);
 /** @var Exception $exception */
 
 use yii\helpers\Html;
+use yii\web\HttpException;
 
 $this->title = $name;
-$statusCode = $exception->statusCode ?? 500;
+$statusCode = $exception instanceof HttpException ? $exception->statusCode : 500;
 ?>
 <div class="site-error d-flex align-items-center justify-content-center text-center">
     <div class="site-error-content mx-auto">
