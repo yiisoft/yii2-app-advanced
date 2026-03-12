@@ -62,6 +62,6 @@
         "cs": "./vendor/bin/phpcs",
         "cs-fix": "./vendor/bin/phpcbf",
         "static": "./vendor/bin/phpstan --memory-limit=-1",
-        "tests": "./vendor/bin/codecept run"
+        "tests": "./vendor/bin/codecept run --env php-builtin"
     }
 }
