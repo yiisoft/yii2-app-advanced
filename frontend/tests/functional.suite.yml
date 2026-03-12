@@ -1,7 +1,0 @@
-suite_namespace: frontend\tests\functional
-actor: FunctionalTester
-modules:
-    enabled:
-        - Filesystem
-        - Yii2
-        - Asserts

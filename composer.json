@@ -14,34 +14,38 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.4.0",
-        "yiisoft/yii2": "~2.0.45",
+        "php": ">=8.2",
+        "yiisoft/yii2": "~2.0.54",
         "yiisoft/yii2-bootstrap5": "~2.0.2",
         "yiisoft/yii2-symfonymailer": "~2.0.3"
     },
     "require-dev": {
+        "codeception/c3": "^2.8",
+        "codeception/codeception": "^5.0.0",
+        "codeception/lib-innerbrowser": "^4.0",
+        "codeception/module-asserts": "^3.0",
+        "codeception/module-filesystem": "^3.0",
+        "codeception/module-phpbrowser": "^3.0",
+        "codeception/module-yii2": "^1.1",
+        "codeception/verify": "^3.0",
+        "phpstan/phpstan": "^2.1",
+        "symfony/process": "^6.3",
         "yiisoft/yii2-coding-standards": "^3.0",
         "yiisoft/yii2-debug": "~2.1.0",
-        "yiisoft/yii2-gii": "~2.2.0",
         "yiisoft/yii2-faker": "~2.0.0",
-        "phpunit/phpunit": "^9.5",
-        "codeception/codeception": "^5.0.0 || ^4.0",
-        "codeception/lib-innerbrowser": "^4.0 || ^3.0 || ^1.1",
-        "codeception/module-asserts": "^3.0 || ^1.1",
-        "codeception/module-yii2": "^1.1",
-        "codeception/module-filesystem": "^3.0 || ^2.0 || ^1.1",
-        "codeception/verify": "^3.0 || ^2.2"
+        "yiisoft/yii2-gii": "~2.2.0"
     },
     "autoload-dev": {
         "psr-4": {
-            "common\\tests\\": ["common/tests/", "common/tests/_support"],
-            "backend\\tests\\": ["backend/tests/", "backend/tests/_support"],
-            "frontend\\tests\\": ["frontend/tests/", "frontend/tests/_support"]
+            "common\\tests\\": ["common/tests/", "common/tests/Support"],
+            "backend\\tests\\": ["backend/tests/", "backend/tests/Support"],
+            "frontend\\tests\\": ["frontend/tests/", "frontend/tests/Support"]
         }
     },
     "config": {
         "allow-plugins": {
-            "yiisoft/yii2-composer" : true
+            "yiisoft/yii2-composer": true,
+            "codeception/c3": true
         },
         "process-timeout": 1800,
         "fxp-asset": {
@@ -56,6 +60,8 @@
     ],
     "scripts": {
         "cs": "./vendor/bin/phpcs",
-        "cs-fix": "./vendor/bin/phpcbf"
+        "cs-fix": "./vendor/bin/phpcbf",
+        "static": "./vendor/bin/phpstan --memory-limit=-1",
+        "tests": "./vendor/bin/codecept run"
     }
 }
