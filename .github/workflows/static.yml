@@ -27,5 +27,3 @@ on:
 jobs:
   phpstan:
     uses: yiisoft/yii2-actions/.github/workflows/phpstan.yml@master
-    with:
-      hook: vendor/bin/codecept build

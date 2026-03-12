@@ -28,7 +28,7 @@ parameters:
         - frontend/tests/Support
 
     bootstrapFiles:
-        - common/tests/bootstrap.php
+        - phpstan-bootstrap.php
 
     dynamicConstantNames:
         - YII_DEBUG
