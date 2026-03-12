@@ -12,7 +12,7 @@ use common\models\User;
  */
 class ResetPasswordForm extends Model
 {
-    public $password;
+    public string $password = '';
 
     /**
      * @var \common\models\User
