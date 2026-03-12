@@ -27,7 +27,7 @@ class ResetPasswordForm extends Model
      * @param array $config name-value pairs that will be used to initialize the object properties
      * @throws InvalidArgumentException if token is empty or not valid
      */
-    public function __construct(string $token, $config = [])
+    public function __construct(string $token, array $config = [])
     {
         if ($token === '') {
             throw new InvalidArgumentException('Password reset token cannot be blank.');
