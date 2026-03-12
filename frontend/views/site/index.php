@@ -11,7 +11,7 @@ $this->title = 'My Yii Application';
     <!-- Hero banner with Yii gradient -->
     <div class="hero-banner text-white rounded-4 p-5 mb-4 position-relative overflow-hidden">
         <?= Html::img(Yii::getAlias('@web/images/yii_logo_dark.svg'), [
-            'alt' => '', 
+            'alt' => '',
             'class' => 'd-none d-lg-block position-absolute hero-logo',
         ]) ?>
         <div class="position-relative">
@@ -25,8 +25,8 @@ $this->title = 'My Yii Application';
                     'Get Started',
                     'https://www.yiiframework.com/doc/guide/2.0/en/start-installation',
                     [
-                        'class' => 'btn btn-light btn-lg fw-semibold px-4', 
-                        'rel' => 'noopener', 
+                        'class' => 'btn btn-light btn-lg fw-semibold px-4',
+                        'rel' => 'noopener',
                         'target' => '_blank',
                     ],
                 ) ?>
@@ -34,8 +34,8 @@ $this->title = 'My Yii Application';
                     'API Reference',
                     'https://www.yiiframework.com/doc/api/2.0',
                     [
-                        'class' => 'btn btn-outline-light btn-lg px-4', 
-                        'rel' => 'noopener', 
+                        'class' => 'btn btn-outline-light btn-lg px-4',
+                        'rel' => 'noopener',
                         'target' => '_blank',
                     ],
                 ) ?>
@@ -59,8 +59,8 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class="card-footer bg-transparent border-0 pt-0">
                     <?= Html::a(
-                        'Learn more &raquo;', 
-                        'https://www.yiiframework.com/extension/yiisoft/yii2-debug', 
+                        'Learn more &raquo;',
+                        'https://www.yiiframework.com/extension/yiisoft/yii2-debug',
                         [
                             'class' => 'btn btn-sm btn-outline-secondary',
                             'rel' => 'noopener',
@@ -85,8 +85,8 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class="card-footer bg-transparent border-0 pt-0">
                     <?= Html::a(
-                        'Learn more &raquo;', 
-                        'https://www.yiiframework.com/extension/yiisoft/yii2-gii', 
+                        'Learn more &raquo;',
+                        'https://www.yiiframework.com/extension/yiisoft/yii2-gii',
                         [
                             'class' => 'btn btn-sm btn-outline-secondary',
                             'rel' => 'noopener',
@@ -111,8 +111,8 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class="card-footer bg-transparent border-0 pt-0">
                     <?= Html::a(
-                        'Learn more &raquo;', 
-                        'https://www.yiiframework.com/extension/yiisoft/yii2-queue', 
+                        'Learn more &raquo;',
+                        'https://www.yiiframework.com/extension/yiisoft/yii2-queue',
                         [
                             'class' => 'btn btn-sm btn-outline-secondary',
                             'rel' => 'noopener',
@@ -137,8 +137,8 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class="card-footer bg-transparent border-0 pt-0">
                     <?= Html::a(
-                        'Learn more &raquo;', 
-                        'https://www.yiiframework.com/extension/yiisoft/yii2-redis', 
+                        'Learn more &raquo;',
+                        'https://www.yiiframework.com/extension/yiisoft/yii2-redis',
                         [
                             'class' => 'btn btn-sm btn-outline-secondary',
                             'rel' => 'noopener',
@@ -163,8 +163,8 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class="card-footer bg-transparent border-0 pt-0">
                     <?= Html::a(
-                        'Learn more &raquo;', 
-                        'https://www.yiiframework.com/extension/yiisoft/yii2-elasticsearch', 
+                        'Learn more &raquo;',
+                        'https://www.yiiframework.com/extension/yiisoft/yii2-elasticsearch',
                         [
                             'class' => 'btn btn-sm btn-outline-secondary',
                             'rel' => 'noopener',
@@ -189,8 +189,8 @@ $this->title = 'My Yii Application';
                 </div>
                 <div class="card-footer bg-transparent border-0 pt-0">
                     <?= Html::a(
-                        'Learn more &raquo;', 
-                        'https://github.com/yiisoft/yii2-symfonymailer', 
+                        'Learn more &raquo;',
+                        'https://github.com/yiisoft/yii2-symfonymailer',
                         [
                             'class' => 'btn btn-sm btn-outline-secondary',
                             'rel' => 'noopener',

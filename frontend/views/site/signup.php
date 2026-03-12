@@ -22,11 +22,11 @@ HTML;
                 <div class="d-flex flex-column justify-content-between p-4 p-lg-5 w-100">
                     <div>
                         <?= Html::img(
-                            Yii::getAlias('@web/images/yii_logo_dark.svg'), 
+                            Yii::getAlias('@web/images/yii_logo_dark.svg'),
                             [
-                                'alt' => 'Yii Framework', 
+                                'alt' => 'Yii Framework',
                                 'class' => 'mb-4',
-                                'height' => 40, 
+                                'height' => 40,
                             ],
                         ) ?>
                     </div>
@@ -47,11 +47,11 @@ HTML;
                     <div class="text-center mb-4">
                         <div class="d-md-none mb-3">
                             <?= Html::img(
-                                Yii::getAlias('@web/images/yii_logo_dark.svg'), 
+                                Yii::getAlias('@web/images/yii_logo_dark.svg'),
                                 [
-                                    'alt' => 'Yii Framework', 
+                                    'alt' => 'Yii Framework',
                                     'class' => 'login-mobile-logo',
-                                    'height' => 36, 
+                                    'height' => 36,
                                 ],
                             ) ?>
                         </div>
@@ -68,8 +68,8 @@ HTML;
                             'template' => sprintf($htmlIcon, '&#128100;'),
                             'inputOptions' => [
                                 'autofocus' => true,
-                                'class' => 'form-control', 
-                                'placeholder' => 'username', 
+                                'class' => 'form-control',
+                                'placeholder' => 'username',
                             ],
                         ])->textInput() ?>
                     </div>
@@ -80,7 +80,7 @@ HTML;
                             'options' => ['class' => 'mb-0'],
                             'template' => sprintf($htmlIcon, '&#9993;'),
                             'inputOptions' => [
-                                'class' => 'form-control', 
+                                'class' => 'form-control',
                                 'placeholder' => 'email@example.com',
                             ],
                         ])->textInput() ?>
@@ -92,7 +92,7 @@ HTML;
                             'options' => ['class' => 'mb-0'],
                             'template' => sprintf($htmlIcon, '&#128274;'),
                             'inputOptions' => [
-                                'class' => 'form-control', 
+                                'class' => 'form-control',
                                 'placeholder' => 'Password',
                             ],
                         ])->passwordInput() ?>
@@ -100,7 +100,7 @@ HTML;
 
                     <div class="d-grid">
                         <?= Html::submitButton(
-                            'Signup', 
+                            'Signup',
                             [
                                 'class' => 'btn login-btn btn-lg rounded-3 text-white',
                                 'name' => 'signup-button',

@@ -2,7 +2,7 @@
 
 /** @var yii\web\View $this */
 /** @var yii\bootstrap5\ActiveForm $form */
-/** @var \frontend\models\ResetPasswordForm $model */
+/** @var \frontend\models\ResendVerificationEmailForm $model */
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -22,10 +22,10 @@ HTML;
                 <div class="d-flex flex-column justify-content-between p-4 p-lg-5 w-100">
                     <div>
                         <?= Html::img(
-                            Yii::getAlias('@web/images/yii_logo_dark.svg'), 
+                            Yii::getAlias('@web/images/yii_logo_dark.svg'),
                             [
-                                'alt' => 'Yii Framework', 
-                                'height' => 40, 
+                                'alt' => 'Yii Framework',
+                                'height' => 40,
                                 'class' => 'mb-4',
                             ],
                         ) ?>
@@ -47,11 +47,11 @@ HTML;
                     <div class="text-center mb-4">
                         <div class="d-md-none mb-3">
                             <?= Html::img(
-                                Yii::getAlias('@web/images/yii_logo_dark.svg'), 
+                                Yii::getAlias('@web/images/yii_logo_dark.svg'),
                                 [
-                                    'alt' => 'Yii Framework', 
+                                    'alt' => 'Yii Framework',
                                     'class' => 'login-mobile-logo',
-                                    'height' => 36, 
+                                    'height' => 36,
                                 ],
                             ) ?>
                         </div>
@@ -62,21 +62,21 @@ HTML;
                     <?php $form = ActiveForm::begin(['id' => 'resend-verification-email-form']); ?>
 
                     <div class="mb-4">
-                        <label class="form-label fw-semibold small" for="resendemailform-email">Your Email</label>
+                        <label class="form-label fw-semibold small" for="resendverificationemailform-email">Your Email</label>
                         <?= $form->field($model, 'email', [
                             'options' => ['class' => 'mb-0'],
                             'template' => sprintf($htmlIcon, '&#9993;'),
                             'inputOptions' => [
                                 'autofocus' => true,
-                                'class' => 'form-control', 
-                                'placeholder' => 'email@example.com', 
+                                'class' => 'form-control',
+                                'placeholder' => 'email@example.com',
                             ],
                         ])->textInput() ?>
                     </div>
 
                     <div class="d-grid">
                         <?= Html::submitButton(
-                            'Send', 
+                            'Send',
                             [
                                 'class' => 'btn login-btn btn-lg rounded-3 text-white',
                             ],

@@ -61,6 +61,10 @@ class Alert extends \yii\bootstrap5\Widget
         $appendClass = isset($this->options['class']) ? ' ' . $this->options['class'] : '';
 
         foreach (array_keys($this->alertTypes) as $type) {
+            if (!$session->hasFlash($type)) {
+                continue;
+            }
+
             $flash = $session->getFlash($type);
 
             foreach ((array) $flash as $i => $message) {
@@ -71,13 +75,11 @@ class Alert extends \yii\bootstrap5\Widget
                         'options' => [
                             ...$this->options,
                             'id' => $this->getId() . '-' . $type . '-' . $i,
-                            'class' => $this->alertTypes[$type] . $appendClass
+                            'class' => $this->alertTypes[$type] . $appendClass,
                         ],
                     ],
                 );
             }
-
-            $session->removeFlash($type);
         }
     }
 }
