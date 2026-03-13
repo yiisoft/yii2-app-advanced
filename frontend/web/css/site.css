@@ -129,20 +129,40 @@ a.desc:after {
     box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
 }
 
-/* show validation errors below the input-group */
-.form-card .input-group:has(.is-invalid) ~ .invalid-feedback {
-    display: block;
-    margin-top: .35rem;
-    margin-bottom: .5rem;
+/* validation styles for browsers that support :has() */
+@supports selector(.input-group:has(.is-invalid)) {
+    .form-card .input-group:has(.is-invalid) ~ .invalid-feedback {
+        display: block;
+        margin-top: .35rem;
+        margin-bottom: .5rem;
+    }
+
+    .form-card .input-group:has(.is-invalid) {
+        border-color: var(--bs-danger);
+    }
+
+    .form-card .input-group:has(.is-invalid):focus-within {
+        box-shadow: 0 0 0 .25rem rgba(var(--bs-danger-rgb), .25);
+    }
 }
 
-/* red border on input-group when invalid */
-.form-card .input-group:has(.is-invalid) {
-    border-color: var(--bs-danger);
-}
+/* fallback validation styles for browsers without :has() support */
+@supports not selector(.input-group:has(.is-invalid)) {
+    .form-card .invalid-feedback {
+        display: block;
+        margin-top: .35rem;
+        margin-bottom: .5rem;
+    }
 
-.form-card .input-group:has(.is-invalid):focus-within {
-    box-shadow: 0 0 0 .25rem rgba(var(--bs-danger-rgb), .25);
+    .form-card .input-group.is-invalid,
+    .form-card .input-group .form-control.is-invalid {
+        border-color: var(--bs-danger);
+    }
+
+    .form-card .input-group.is-invalid:focus-within,
+    .form-card .input-group .form-control.is-invalid:focus-visible {
+        box-shadow: 0 0 0 .25rem rgba(var(--bs-danger-rgb), .25);
+    }
 }
 
 /* login inputs: seamless icon inside input (Volt style) */
@@ -177,20 +197,40 @@ a.desc:after {
     box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
 }
 
-/* show validation errors below the login input-group */
-.login-split-card .input-group:has(.is-invalid) ~ .invalid-feedback {
-    display: block;
-    margin-top: .35rem;
-    margin-bottom: .5rem;
+/* validation styles for login split card (browsers with :has()) */
+@supports selector(.input-group:has(.is-invalid)) {
+    .login-split-card .input-group:has(.is-invalid) ~ .invalid-feedback {
+        display: block;
+        margin-top: .35rem;
+        margin-bottom: .5rem;
+    }
+
+    .login-split-card .input-group:has(.is-invalid) {
+        border-color: var(--bs-danger);
+    }
+
+    .login-split-card .input-group:has(.is-invalid):focus-within {
+        box-shadow: 0 0 0 .25rem rgba(var(--bs-danger-rgb), .25);
+    }
 }
 
-/* red border on login input-group when invalid */
-.login-split-card .input-group:has(.is-invalid) {
-    border-color: var(--bs-danger);
-}
+/* fallback validation styles for login split card (browsers without :has()) */
+@supports not selector(.input-group:has(.is-invalid)) {
+    .login-split-card .invalid-feedback {
+        display: block;
+        margin-top: .35rem;
+        margin-bottom: .5rem;
+    }
 
-.login-split-card .input-group:has(.is-invalid):focus-within {
-    box-shadow: 0 0 0 .25rem rgba(var(--bs-danger-rgb), .25);
+    .login-split-card .input-group.is-invalid,
+    .login-split-card .input-group .form-control.is-invalid {
+        border-color: var(--bs-danger);
+    }
+
+    .login-split-card .input-group.is-invalid:focus-within,
+    .login-split-card .input-group .form-control.is-invalid:focus-visible {
+        box-shadow: 0 0 0 .25rem rgba(var(--bs-danger-rgb), .25);
+    }
 }
 
 /* login split card */
