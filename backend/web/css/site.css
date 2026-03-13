@@ -50,14 +50,14 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
-/* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
+/* align the logout link of the navbar */
+.navbar-nav .nav-link.logout {
     padding-top: 7px;
     color: var(--bs-navbar-color);
 }
 
 @media (max-width: 767.98px) {
-    .nav li > form > button.logout {
+    .navbar-nav .nav-link.logout {
         display: block;
         text-align: left;
         width: 100%;
@@ -65,12 +65,12 @@ a.desc:after {
     }
 }
 
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
+.navbar-nav .nav-link.logout:focus,
+.navbar-nav .nav-link.logout:hover {
     color: var(--bs-navbar-hover-color);
 }
 
-.nav > li > form > button.logout:focus {
+.navbar-nav .nav-link.logout:focus {
     outline: none;
 }
 
