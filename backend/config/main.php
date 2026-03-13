@@ -47,5 +47,19 @@ return [
         ],
         */
     ],
+    'container' => [
+        'definitions' => [
+            \yii\widgets\ListView::class => [
+                'pager' => [
+                    'class' => \yii\bootstrap5\LinkPager::class,
+                ],
+            ],
+            \yii\grid\GridView::class => [
+                'pager' => [
+                    'class' => \yii\bootstrap5\LinkPager::class,
+                ],
+            ],
+        ],
+    ],
     'params' => $params,
 ];

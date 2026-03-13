@@ -65,13 +65,14 @@ a.desc:after {
 }
 
 /* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
+.nav li > form > button.logout,
+.navbar form > button.logout {
     padding-top: 7px;
     color: rgba(255, 255, 255, 0.5);
 }
-
 @media(max-width:767px) {
-    .nav li > form > button.logout {
+    .nav li > form > button.logout,
+    .navbar form > button.logout {
         display:block;
         text-align: left;
         width: 100%;
@@ -87,4 +88,81 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+/* Enhanced validation error styling for Bootstrap 5 */
+.is-invalid ~ .invalid-feedback,
+.was-validated .form-control:invalid ~ .invalid-feedback {
+    display: block !important;
+    color: #dc3545 !important;
+    font-size: 0.925rem !important;
+    font-weight: 500 !important;
+    margin-top: 0.375rem !important;
+    padding: 0.375rem 0.5rem !important;
+    background-color: #f8d7da !important;
+    border-left: 3px solid #dc3545 !important;
+    border-radius: 0.25rem !important;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+    background-color: #fff5f5 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15) !important;
+}
+
+.is-invalid:focus {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Legacy has-error support for older code */
+.has-error .form-control {
+    border-color: #dc3545 !important;
+    background-color: #fff5f5 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15) !important;
+}
+
+.has-error .form-control:focus {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.has-error .help-block,
+.has-error .error-message {
+    display: block !important;
+    color: #dc3545 !important;
+    font-size: 0.925rem !important;
+    font-weight: 500 !important;
+    margin-top: 0.375rem !important;
+    padding: 0.375rem 0.5rem !important;
+    background-color: #f8d7da !important;
+    border-left: 3px solid #dc3545 !important;
+    border-radius: 0.25rem !important;
+}
+
+/* Field wrapper error state */
+.field-error,
+.has-error {
+    margin-bottom: 1.25rem !important;
+}
+
+/* Fix anchor links offset for fixed navbar */
+:target {
+    scroll-margin-top: 80px;
+}
+
+[id] {
+    scroll-margin-top: 80px;
+}
+
+/* style breadcrumb widget as in previous bootstrap versions */
+.breadcrumb {
+    background-color: var(--bs-gray-200);
+    border-radius: .25rem;
+    padding: .75rem 1rem;
+}
+
+.breadcrumb-item > a
+{
+    text-decoration: none;
 }
