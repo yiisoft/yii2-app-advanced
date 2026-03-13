@@ -5,6 +5,8 @@
 use yii\helpers\Html;
 
 $this->title = 'Dashboard';
+$this->params['meta_description'] = 'Administration dashboard for managing your Yii2 application.';
+$this->params['meta_keywords'] = 'yii, yii2, dashboard, admin, backend';
 $username = Yii::$app->user->identity?->username;
 ?>
 <div class="site-index">

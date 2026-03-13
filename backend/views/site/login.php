@@ -8,6 +8,8 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
 $this->title = 'Login';
+$this->params['meta_description'] = 'Sign in to the administration panel.';
+$this->params['meta_keywords'] = 'yii, yii2, admin, login, backend, sign in';
 $htmlIcon = <<<HTML
 <div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;

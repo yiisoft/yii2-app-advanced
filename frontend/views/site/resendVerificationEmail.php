@@ -9,6 +9,8 @@ use yii\bootstrap5\Html;
 
 $this->title = 'Resend verification email';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['meta_description'] = 'Resend the verification email to confirm your account.';
+$this->params['meta_keywords'] = 'yii, yii2, verification, email, resend, confirm account';
 $htmlIcon = <<<HTML
 <div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;

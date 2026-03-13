@@ -9,6 +9,8 @@ use yii\bootstrap5\Html;
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['meta_description'] = 'Create a new account to start building with Yii2.';
+$this->params['meta_keywords'] = 'yii, yii2, signup, register, create account';
 $htmlIcon = <<<HTML
 <div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;

@@ -6,6 +6,8 @@ use yii\helpers\Html;
 
 $this->title = 'About';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['meta_description'] = 'Learn more about our Yii2 application and the team behind it.';
+$this->params['meta_keywords'] = 'yii, yii2, about, php, framework';
 ?>
 <div class="site-about d-flex align-items-center justify-content-center text-center">
     <div class="site-about-content mx-auto">

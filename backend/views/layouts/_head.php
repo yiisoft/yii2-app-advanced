@@ -19,18 +19,22 @@ $this->registerMetaTag(
         'content' => 'width=device-width, initial-scale=1',
     ],
 );
-$this->registerMetaTag(
-    [
-        'name' => 'description',
-        'content' => $this->params['meta_description'] ?? ''
-    ],
-);
-$this->registerMetaTag(
-    [
-        'name' => 'keywords',
-        'content' => $this->params['meta_keywords'] ?? ''
-    ],
-);
+if (!empty($this->params['meta_description'])) {
+    $this->registerMetaTag(
+        [
+            'name' => 'description',
+            'content' => $this->params['meta_description'],
+        ],
+    );
+}
+if (!empty($this->params['meta_keywords'])) {
+    $this->registerMetaTag(
+        [
+            'name' => 'keywords',
+            'content' => $this->params['meta_keywords'],
+        ],
+    );
+}
 $this->registerLinkTag(
     [
         'rel' => 'icon',

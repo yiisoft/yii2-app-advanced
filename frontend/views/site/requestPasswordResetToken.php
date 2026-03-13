@@ -9,6 +9,8 @@ use yii\bootstrap5\Html;
 
 $this->title = 'Request password reset';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['meta_description'] = 'Request a password reset link to recover access to your account.';
+$this->params['meta_keywords'] = 'yii, yii2, password reset, forgot password, recovery';
 $htmlIcon = <<<HTML
 <div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;
