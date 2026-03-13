@@ -60,12 +60,12 @@ class Alert extends \yii\bootstrap5\Widget
 
         $appendClass = isset($this->options['class']) ? ' ' . $this->options['class'] : '';
 
-        foreach (array_keys($this->alertTypes) as $type) {
-            if (!$session->hasFlash($type)) {
+        $flashes = $session->getAllFlashes();
+
+        foreach ($flashes as $type => $flash) {
+            if (!isset($this->alertTypes[$type])) {
                 continue;
             }
-
-            $flash = $session->getFlash($type);
 
             foreach ((array) $flash as $i => $message) {
                 echo BootstrapAlert::widget(
