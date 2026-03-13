@@ -18,7 +18,7 @@ $this->params['meta_keywords'] = 'yii, yii2, php, framework, web application, hi
         ]) ?>
         <div class="position-relative">
             <h1 class="display-5 fw-bold mb-3">Build with Yii Framework</h1>
-            <p class="lead opacity-85 mb-4 hero-lead">
+            <p class="lead opacity-75 mb-4 hero-lead">
                 A high-performance PHP framework best for developing web applications.
                 Fast, secure, and professional.
             </p>
