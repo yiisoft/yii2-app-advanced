@@ -148,19 +148,17 @@ a.desc:after {
 
 /* fallback validation styles for browsers without :has() support */
 @supports not selector(.input-group:has(.is-invalid)) {
-    .form-card .invalid-feedback {
+    .form-card .invalid-feedback:not(:empty) {
         display: block;
         margin-top: .35rem;
         margin-bottom: .5rem;
     }
 
-    .form-card .input-group.is-invalid,
     .form-card .input-group .form-control.is-invalid {
-        border-color: var(--bs-danger);
+        border: var(--bs-border-width) solid var(--bs-danger);
     }
 
-    .form-card .input-group.is-invalid:focus-within,
-    .form-card .input-group .form-control.is-invalid:focus-visible {
+    .form-card .input-group .form-control.is-invalid:focus {
         box-shadow: 0 0 0 .25rem rgba(var(--bs-danger-rgb), .25);
     }
 }
@@ -216,19 +214,17 @@ a.desc:after {
 
 /* fallback validation styles for login split card (browsers without :has()) */
 @supports not selector(.input-group:has(.is-invalid)) {
-    .login-split-card .invalid-feedback {
+    .login-split-card .invalid-feedback:not(:empty) {
         display: block;
         margin-top: .35rem;
         margin-bottom: .5rem;
     }
 
-    .login-split-card .input-group.is-invalid,
     .login-split-card .input-group .form-control.is-invalid {
-        border-color: var(--bs-danger);
+        border: var(--bs-border-width) solid var(--bs-danger);
     }
 
-    .login-split-card .input-group.is-invalid:focus-within,
-    .login-split-card .input-group .form-control.is-invalid:focus-visible {
+    .login-split-card .input-group .form-control.is-invalid:focus {
         box-shadow: 0 0 0 .25rem rgba(var(--bs-danger-rgb), .25);
     }
 }
