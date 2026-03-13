@@ -19,7 +19,7 @@ $username = Yii::$app->user->identity?->username;
             </div>
             <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
                 <?= Html::img(
-                    Yii::getAlias('@web/images/yii_logo_dark.svg'),
+                    Yii::getAlias('@web/images/yii3_full_white_for_dark.svg'),
                     [
                         'alt' => 'Yii Framework', 'height' => 48,
                     ],

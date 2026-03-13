@@ -22,7 +22,7 @@ HTML;
                 <div class="d-flex flex-column justify-content-between p-4 p-lg-5 w-100">
                     <div>
                         <?= Html::img(
-                            Yii::getAlias('@web/images/yii_logo_dark.svg'),
+                            Yii::getAlias('@web/images/yii3_full_white_for_dark.svg'),
                             [
                                 'alt' => 'Yii Framework',
                                 'class' => 'mb-4',
@@ -48,7 +48,7 @@ HTML;
                         <!-- Mobile-only logo -->
                         <div class="d-md-none mb-3">
                             <?= Html::img(
-                                Yii::getAlias('@web/images/yii_logo_dark.svg'),
+                                Yii::getAlias('@web/images/yii3_full_black_for_light.svg'),
                                 [
                                     'alt' => 'Yii Framework',
                                     'class' => 'login-mobile-logo',

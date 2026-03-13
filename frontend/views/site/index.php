@@ -10,7 +10,7 @@ $this->title = 'My Yii Application';
 
     <!-- Hero banner with Yii gradient -->
     <div class="hero-banner text-white rounded-4 p-5 mb-4 position-relative overflow-hidden">
-        <?= Html::img(Yii::getAlias('@web/images/yii_logo_dark.svg'), [
+        <?= Html::img(Yii::getAlias('@web/images/yii3_full_white_for_dark.svg'), [
             'alt' => '',
             'class' => 'd-none d-lg-block position-absolute hero-logo',
         ]) ?>
