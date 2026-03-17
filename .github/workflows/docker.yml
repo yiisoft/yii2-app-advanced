@@ -37,8 +37,30 @@ jobs:
       - name: Initialize application.
         run: docker compose exec -T frontend php /app/init --env=Development --overwrite=All
 
-      - name: Wait for dependencies update.
-        run: sleep 15
+      - name: Configure database for Docker.
+        run: |
+          docker compose exec -T frontend bash -c '
+            for f in /app/common/config/main-local.php /app/common/config/test-local.php; do
+              if [ -f "$f" ]; then
+                sed -i \
+                  -e "s|host=localhost|host=mysql|g" \
+                  -e "s|'\''username'\'' => '\''root'\''|'\''username'\'' => '\''yii2advanced'\''|g" \
+                  -e "s|'\''password'\'' => '\'''\''|'\''password'\'' => '\''secret'\''|g" \
+                  -e "s|dbname=yii2advanced_test|dbname=yii2advanced|g" \
+                  "$f"
+              fi
+            done
+          '
+
+      - name: Wait for MySQL to be ready.
+        run: |
+          for i in $(seq 1 30); do
+            docker compose exec -T mysql mysqladmin ping -h localhost -u root -pverysecret --silent 2>/dev/null && break
+            sleep 2
+          done
+
+      - name: Run database migrations.
+        run: docker compose exec -T frontend php /app/yii migrate --interactive=0
 
       - name: Frontend health check.
         run: curl -sSf http://127.0.0.1:20080 > /dev/null
