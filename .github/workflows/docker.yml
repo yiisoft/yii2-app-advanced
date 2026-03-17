@@ -1,0 +1,87 @@
+name: docker
+
+permissions:
+  contents: read
+
+on:
+  pull_request: &ignore-paths
+    paths-ignore:
+      - ".bowerrc"
+      - ".editorconfig"
+      - ".git-blame-ignore-revs"
+      - ".gitattributes"
+      - ".github/CONTRIBUTING.md"
+      - ".github/FUNDING.yml"
+      - ".github/ISSUE_TEMPLATE.md"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
+      - ".github/SECURITY.md"
+      - ".gitignore"
+      - "LICENSE.md"
+      - "README.md"
+      - "requirements.php"
+      - "Vagrantfile"
+
+  push: *ignore-paths
+
+jobs:
+  apache:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout.
+        uses: actions/checkout@v6
+
+      - name: Build and start containers.
+        run: docker compose up -d --build --wait
+
+      - name: Composer update.
+        run: docker compose exec -T frontend composer update --prefer-dist --no-interaction
+
+      - name: Initialize application.
+        run: docker compose exec -T frontend php /app/init --env=Development --overwrite=All
+
+      - name: Configure database for Docker.
+        run: |
+          docker compose exec -T frontend bash -c '
+            for f in /app/common/config/main-local.php /app/common/config/test-local.php; do
+              if [ -f "$f" ]; then
+                sed -i \
+                  -e "s|host=localhost|host=mysql|g" \
+                  -e "s|'\''username'\'' => '\''root'\''|'\''username'\'' => '\''yii2advanced'\''|g" \
+                  -e "s|'\''password'\'' => '\'''\''|'\''password'\'' => '\''secret'\''|g" \
+                  "$f"
+              fi
+            done
+          '
+
+      - name: Wait for MySQL to be ready.
+        run: |
+          ready=0
+          for i in $(seq 1 60); do
+            docker compose exec -T frontend php -r "new PDO('mysql:host=mysql;dbname=yii2advanced', 'yii2advanced', 'secret');" 2>/dev/null && { ready=1; break; }
+            sleep 3
+          done
+          if [ "$ready" -ne 1 ]; then
+            echo "MySQL did not become ready after 60 attempts."
+            exit 1
+          fi
+
+      - name: Create test database.
+        run: |
+          docker compose exec -T mysql mysql -uroot -pverysecret -e "
+            CREATE DATABASE IF NOT EXISTS yii2advanced_test;
+            GRANT ALL PRIVILEGES ON yii2advanced_test.* TO 'yii2advanced'@'%';
+            FLUSH PRIVILEGES;
+          "
+
+      - name: Run database migrations.
+        run: docker compose exec -T frontend php /app/yii migrate --interactive=0
+
+      - name: Run test database migrations.
+        run: docker compose exec -T frontend php /app/yii_test migrate --interactive=0
+
+      - name: Codeception build.
+        run: docker compose exec -T frontend vendor/bin/codecept build
+
+      - name: Codeception run.
+        run: docker compose exec -T frontend vendor/bin/codecept run
