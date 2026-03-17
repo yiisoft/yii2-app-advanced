@@ -49,7 +49,6 @@ jobs:
                   -e "s|host=localhost|host=mysql|g" \
                   -e "s|'\''username'\'' => '\''root'\''|'\''username'\'' => '\''yii2advanced'\''|g" \
                   -e "s|'\''password'\'' => '\'''\''|'\''password'\'' => '\''secret'\''|g" \
-                  -e "s|dbname=yii2advanced_test|dbname=yii2advanced|g" \
                   "$f"
               fi
             done
@@ -66,6 +65,14 @@ jobs:
             echo "MySQL did not become ready after 60 attempts."
             exit 1
           fi
+
+      - name: Create test database.
+        run: |
+          docker compose exec -T mysql mysql -uroot -pverysecret -e "
+            CREATE DATABASE IF NOT EXISTS yii2advanced_test;
+            GRANT ALL PRIVILEGES ON yii2advanced_test.* TO 'yii2advanced'@'%';
+            FLUSH PRIVILEGES;
+          "
 
       - name: Run database migrations.
         run: docker compose exec -T frontend php /app/yii migrate --interactive=0

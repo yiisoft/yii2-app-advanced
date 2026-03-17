@@ -155,9 +155,18 @@ http://127.0.0.1:20080  (frontend)
 http://127.0.0.1:21080  (backend)
 ```
 
-Run tests inside the container:
+To run the test suite, also update `common/config/test-local.php` to use the `mysql` hostname and create the
+test database:
+
+```php
+'db' => [
+    'dsn' => 'mysql:host=mysql;dbname=yii2advanced_test',
+],
+```
 
 ```bash
+docker compose exec -T mysql mysql -uroot -pverysecret -e "CREATE DATABASE IF NOT EXISTS yii2advanced_test; GRANT ALL PRIVILEGES ON yii2advanced_test.* TO 'yii2advanced'@'%'; FLUSH PRIVILEGES;"
+docker compose exec -T frontend php /app/yii_test migrate --interactive=0
 docker compose exec -T frontend vendor/bin/codecept build
 docker compose exec -T frontend vendor/bin/codecept run
 ```
