@@ -57,10 +57,15 @@ jobs:
 
       - name: Wait for MySQL to be ready.
         run: |
+          ready=0
           for i in $(seq 1 60); do
-            docker compose exec -T frontend php -r "new PDO('mysql:host=mysql;dbname=yii2advanced', 'yii2advanced', 'secret');" 2>/dev/null && break
+            docker compose exec -T frontend php -r "new PDO('mysql:host=mysql;dbname=yii2advanced', 'yii2advanced', 'secret');" 2>/dev/null && { ready=1; break; }
             sleep 3
           done
+          if [ "$ready" -ne 1 ]; then
+            echo "MySQL did not become ready after 60 attempts."
+            exit 1
+          fi
 
       - name: Run database migrations.
         run: docker compose exec -T frontend php /app/yii migrate --interactive=0
