@@ -209,13 +209,13 @@ They are developed with [Codeception PHP Testing Framework](https://codeception.
 
 Tests can be executed by running:
 
-```
+```bash
 vendor/bin/codecept run --env php-builtin
 ```
 
 Or using the Composer script:
 
-```
+```bash
 composer tests
 ```
 

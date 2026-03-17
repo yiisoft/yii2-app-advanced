@@ -45,3 +45,9 @@ jobs:
 
       - name: Backend health check.
         run: curl -sSf -o /dev/null -w "%{http_code}" http://127.0.0.1:21080 | grep -q "302\|200"
+
+      - name: Codeception build.
+        run: docker compose exec -T frontend vendor/bin/codecept build
+
+      - name: Codeception run.
+        run: docker compose exec -T frontend vendor/bin/codecept run
