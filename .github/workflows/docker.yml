@@ -57,9 +57,9 @@ jobs:
 
       - name: Wait for MySQL to be ready.
         run: |
-          for i in $(seq 1 30); do
-            docker compose exec -T mysql mysqladmin ping -h localhost -u root -pverysecret --silent 2>/dev/null && break
-            sleep 2
+          for i in $(seq 1 60); do
+            docker compose exec -T frontend php -r "new PDO('mysql:host=mysql;dbname=yii2advanced', 'yii2advanced', 'secret');" 2>/dev/null && break
+            sleep 3
           done
 
       - name: Run database migrations.
