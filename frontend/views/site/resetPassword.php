@@ -9,13 +9,14 @@ declare(strict_types=1);
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-$this->title = 'Reset password';
+$this->title = 'Set your new password';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['meta_description'] = 'Set a new password for your account.';
 $this->params['meta_keywords'] = 'yii, yii2, reset password, new password, security';
 $htmlIcon = <<<HTML
-<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
+{label}<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;
+$labelOptions = ['class' => 'form-label fw-semibold small'];
 ?>
 <div class="site-reset-password d-flex align-items-center justify-content-center py-5">
     <div class="card border-0 overflow-hidden login-split-card">
@@ -59,14 +60,13 @@ HTML;
                                 ],
                             ) ?>
                         </div>
-                        <h1 class="h3 fw-bold mb-1">Set your new password</h1>
+                        <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
                         <p class="text-body-secondary small">Please choose a new password for your account</p>
                     </div>
 
                     <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
 
                     <div class="mb-4">
-                        <label class="form-label fw-semibold small" for="resetpasswordform-password">New Password</label>
                         <?= $form->field($model, 'password', [
                             'options' => ['class' => 'mb-0'],
                             'template' => sprintf($htmlIcon, '&#128274;'),
@@ -75,7 +75,7 @@ HTML;
                                 'class' => 'form-control',
                                 'placeholder' => 'Password',
                             ],
-                        ])->passwordInput() ?>
+                        ])->passwordInput()->label('New Password', $labelOptions) ?>
                     </div>
 
                     <div class="d-grid">

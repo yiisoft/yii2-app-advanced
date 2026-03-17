@@ -70,9 +70,7 @@ a.desc:after {
     color: var(--bs-navbar-hover-color);
 }
 
-.navbar-nav .nav-link.logout:focus {
-    outline: none;
-}
+
 
 /* footer logo: light logo by default (light bg-body-tertiary), dark logo for dark theme */
 .footer-logo-dark { display: none; }
@@ -108,8 +106,8 @@ a.desc:after {
 }
 
 .login-split-card .input-group:focus-within {
-    border-color: #86b7fe;
-    box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb), .25);
 }
 
 /* validation styles for browsers that support :has() */

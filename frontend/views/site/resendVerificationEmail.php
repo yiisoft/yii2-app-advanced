@@ -14,8 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->params['meta_description'] = 'Resend the verification email to confirm your account.';
 $this->params['meta_keywords'] = 'yii, yii2, verification, email, resend, confirm account';
 $htmlIcon = <<<HTML
-<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
+{label}<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;
+$labelOptions = ['class' => 'form-label fw-semibold small'];
 ?>
 <div class="site-resend-verification-email d-flex align-items-center justify-content-center py-5">
     <div class="card border-0 overflow-hidden login-split-card">
@@ -59,14 +60,13 @@ HTML;
                                 ],
                             ) ?>
                         </div>
-                        <h1 class="h3 fw-bold mb-1">Resend verification email</h1>
+                        <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
                         <p class="text-body-secondary small">Enter your email to receive a new verification link</p>
                     </div>
 
                     <?php $form = ActiveForm::begin(['id' => 'resend-verification-email-form']); ?>
 
                     <div class="mb-4">
-                        <label class="form-label fw-semibold small" for="resendverificationemailform-email">Your Email</label>
                         <?= $form->field($model, 'email', [
                             'options' => ['class' => 'mb-0'],
                             'template' => sprintf($htmlIcon, '&#9993;'),
@@ -75,7 +75,7 @@ HTML;
                                 'class' => 'form-control',
                                 'placeholder' => 'email@example.com',
                             ],
-                        ])->textInput() ?>
+                        ])->textInput()->label('Your Email', $labelOptions) ?>
                     </div>
 
                     <div class="d-grid">

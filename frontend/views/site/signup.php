@@ -9,13 +9,14 @@ declare(strict_types=1);
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-$this->title = 'Signup';
+$this->title = 'Create a new account';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['meta_description'] = 'Create a new account to start building with Yii2.';
 $this->params['meta_keywords'] = 'yii, yii2, signup, register, create account';
 $htmlIcon = <<<HTML
-<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
+{label}<div class="input-group"><span class="input-group-text" aria-hidden="true">%s</span>{input}</div>{error}{hint}
 HTML;
+$labelOptions = ['class' => 'form-label fw-semibold small'];
 ?>
 <div class="site-signup d-flex align-items-center justify-content-center py-5">
     <div class="card border-0 overflow-hidden login-split-card">
@@ -59,14 +60,13 @@ HTML;
                                 ],
                             ) ?>
                         </div>
-                        <h1 class="h3 fw-bold mb-1">Create a new account</h1>
+                        <h1 class="h3 fw-bold mb-1"><?= Html::encode($this->title) ?></h1>
                         <p class="text-body-secondary small">Fill out the fields below to get started</p>
                     </div>
 
                     <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold small" for="signupform-username">Your Username</label>
                         <?= $form->field($model, 'username', [
                             'options' => ['class' => 'mb-0'],
                             'template' => sprintf($htmlIcon, '&#128100;'),
@@ -75,11 +75,10 @@ HTML;
                                 'class' => 'form-control',
                                 'placeholder' => 'username',
                             ],
-                        ])->textInput() ?>
+                        ])->textInput()->label('Your Username', $labelOptions) ?>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold small" for="signupform-email">Your Email</label>
                         <?= $form->field($model, 'email', [
                             'options' => ['class' => 'mb-0'],
                             'template' => sprintf($htmlIcon, '&#9993;'),
@@ -87,11 +86,10 @@ HTML;
                                 'class' => 'form-control',
                                 'placeholder' => 'email@example.com',
                             ],
-                        ])->textInput() ?>
+                        ])->textInput()->label('Your Email', $labelOptions) ?>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label fw-semibold small" for="signupform-password">Your Password</label>
                         <?= $form->field($model, 'password', [
                             'options' => ['class' => 'mb-0'],
                             'template' => sprintf($htmlIcon, '&#128274;'),
@@ -99,7 +97,7 @@ HTML;
                                 'class' => 'form-control',
                                 'placeholder' => 'Password',
                             ],
-                        ])->passwordInput() ?>
+                        ])->passwordInput()->label('Your Password', $labelOptions) ?>
                     </div>
 
                     <div class="d-grid">
