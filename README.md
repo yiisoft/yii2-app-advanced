@@ -44,7 +44,6 @@ You can then install this project template using the following commands:
 ```bash
 composer create-project --prefer-dist yiisoft/yii2-app-advanced advanced
 cd advanced
-composer update
 ```
 
 ### Frontend
