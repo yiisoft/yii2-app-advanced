@@ -24,6 +24,25 @@ Documentation is at [docs/guide/README.md](docs/guide/README.md).
 [![build](https://img.shields.io/github/actions/workflow/status/yiisoft/yii2-app-advanced/build.yml?style=for-the-badge&logo=github&label=Build)](https://github.com/yiisoft/yii2-app-advanced/actions?query=workflow%3Abuild)
 [![Static Analysis](https://img.shields.io/github/actions/workflow/status/yiisoft/yii2-app-advanced/static.yml?style=for-the-badge&label=Static)](https://github.com/yiisoft/yii2-app-advanced/actions/workflows/static.yml)
 
+REQUIREMENTS
+------------
+
+> [!IMPORTANT]
+> - The minimum required [PHP](https://www.php.net/) version of Yii is PHP `8.2`.
+
+## Install via Composer
+
+If you do not have [Composer](https://getcomposer.org/), you may install it by following the instructions
+at [getcomposer.org](https://getcomposer.org/doc/00-intro.md#installation-nix).
+
+You can then install this project template using the following commands:
+
+```bash
+composer create-project --prefer-dist yiisoft/yii2-app-advanced advanced
+cd advanced
+composer update
+```
+
 ### Frontend
 
 <picture>
@@ -80,25 +99,6 @@ frontend
     widgets/             contains frontend widgets
 vendor/                  contains dependent 3rd-party packages
 environments/            contains environment-based overrides
-```
-
-REQUIREMENTS
-------------
-
-> [!IMPORTANT]
-> - The minimum required [PHP](https://www.php.net/) version of Yii is PHP `8.2`.
-
-## Install via Composer
-
-If you do not have [Composer](https://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](https://getcomposer.org/doc/00-intro.md#installation-nix).
-
-You can then install this project template using the following commands:
-
-```bash
-composer create-project --prefer-dist yiisoft/yii2-app-advanced advanced
-cd advanced
-composer update
 ```
 
 Initialize the application for the `Development` environment:
