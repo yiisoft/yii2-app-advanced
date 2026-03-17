@@ -125,7 +125,7 @@ docker compose up -d --build
 Install dependencies inside the container:
 
 ```bash
-docker compose exec frontend composer install --prefer-dist --no-interaction
+docker compose exec frontend composer update --prefer-dist --no-interaction
 ```
 
 Initialize the application for the `Development` environment:

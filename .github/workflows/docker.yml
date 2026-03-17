@@ -34,8 +34,8 @@ jobs:
       - name: Build and start containers.
         run: docker compose up -d --build --wait
 
-      - name: Composer install.
-        run: docker compose exec -T frontend composer install --prefer-dist --no-interaction
+      - name: Composer update.
+        run: docker compose exec -T frontend composer update --prefer-dist --no-interaction
 
       - name: Initialize application.
         run: docker compose exec -T frontend php /app/init --env=Development --overwrite=All
