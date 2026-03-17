@@ -65,7 +65,7 @@
             "version": "2.0.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/yiisoft/jquery-pjax.git",
+                "url": "git@github.com:yiisoft/jquery-pjax.git",
                 "reference": "452b56b7124326487fd0d3be6b205fcaa66598a0"
             },
             "dist": {
@@ -1181,12 +1181,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "639fa48ea277babeb67e1432ce60a029d795bd63"
+                "reference": "d714f7788dd07a4a93cd0d6cc63fbf487ba67014"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/639fa48ea277babeb67e1432ce60a029d795bd63",
-                "reference": "639fa48ea277babeb67e1432ce60a029d795bd63",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/d714f7788dd07a4a93cd0d6cc63fbf487ba67014",
+                "reference": "d714f7788dd07a4a93cd0d6cc63fbf487ba67014",
                 "shasum": ""
             },
             "require": {
@@ -1261,7 +1261,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-13T20:42:21+00:00"
+            "time": "2026-03-15T18:28:19+00:00"
         },
         {
             "name": "twbs/bootstrap",
@@ -1319,12 +1319,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "4d8bf205e8845db7ab410ae0eb0cb906fe45ad72"
+                "reference": "0cde600de052497bf8b2ec964d773564e8df54d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/4d8bf205e8845db7ab410ae0eb0cb906fe45ad72",
-                "reference": "4d8bf205e8845db7ab410ae0eb0cb906fe45ad72",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/0cde600de052497bf8b2ec964d773564e8df54d0",
+                "reference": "0cde600de052497bf8b2ec964d773564e8df54d0",
                 "shasum": ""
             },
             "require": {
@@ -1433,7 +1433,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-08T16:07:51+00:00"
+            "time": "2026-03-16T09:44:19+00:00"
         },
         {
             "name": "yiisoft/yii2-bootstrap5",
@@ -3116,8 +3116,8 @@
             "version": "2.2.x-dev",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b2371e9a1768f4387700a69b9cb5b1d18544492b",
-                "reference": "b2371e9a1768f4387700a69b9cb5b1d18544492b",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8c594b235e322e0001a5e646166d043d941c7868",
+                "reference": "8c594b235e322e0001a5e646166d043d941c7868",
                 "shasum": ""
             },
             "require": {
@@ -3163,7 +3163,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-12T07:39:35+00:00"
+            "time": "2026-03-17T09:19:29+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -3557,12 +3557,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1f813169975bbc243a5fe4a703bd558d17991630"
+                "reference": "7a391d276bbe8ad3c5d00fb1ebe46dc1026a55bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1f813169975bbc243a5fe4a703bd558d17991630",
-                "reference": "1f813169975bbc243a5fe4a703bd558d17991630",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7a391d276bbe8ad3c5d00fb1ebe46dc1026a55bb",
+                "reference": "7a391d276bbe8ad3c5d00fb1ebe46dc1026a55bb",
                 "shasum": ""
             },
             "require": {
@@ -3584,7 +3584,7 @@
                 "sebastian/cli-parser": "^5.0.0",
                 "sebastian/comparator": "^8.0.0",
                 "sebastian/diff": "^8.0.0",
-                "sebastian/environment": "^9.0.0",
+                "sebastian/environment": "^9.0.1",
                 "sebastian/exporter": "^8.0.0",
                 "sebastian/global-state": "^9.0.0",
                 "sebastian/object-enumerator": "^8.0.0",
@@ -3639,7 +3639,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-03-09T06:28:05+00:00"
+            "time": "2026-03-17T07:00:43+00:00"
         },
         {
             "name": "psr/http-client",
@@ -3809,12 +3809,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "0eb4f0b64d6afc5558430aee38e63d2f0eeb4d4d"
+                "reference": "ada0d42163f49d46a3495cce1eb91556ffc34657"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/0eb4f0b64d6afc5558430aee38e63d2f0eeb4d4d",
-                "reference": "0eb4f0b64d6afc5558430aee38e63d2f0eeb4d4d",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/ada0d42163f49d46a3495cce1eb91556ffc34657",
+                "reference": "ada0d42163f49d46a3495cce1eb91556ffc34657",
                 "shasum": ""
             },
             "require": {
@@ -3881,7 +3881,7 @@
                 "issues": "https://github.com/bobthecow/psysh/issues",
                 "source": "https://github.com/bobthecow/psysh/tree/main"
             },
-            "time": "2026-03-11T14:27:06+00:00"
+            "time": "2026-03-17T03:56:49+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -4247,12 +4247,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "884365e36787be289d26025db41c9f28f526c6b6"
+                "reference": "c2ec04870aae4be635f01bc5f2a9b1307ccdd684"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/884365e36787be289d26025db41c9f28f526c6b6",
-                "reference": "884365e36787be289d26025db41c9f28f526c6b6",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/c2ec04870aae4be635f01bc5f2a9b1307ccdd684",
+                "reference": "c2ec04870aae4be635f01bc5f2a9b1307ccdd684",
                 "shasum": ""
             },
             "require": {
@@ -4316,7 +4316,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-05T11:19:01+00:00"
+            "time": "2026-03-15T07:15:11+00:00"
         },
         {
             "name": "sebastian/exporter",

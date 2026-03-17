@@ -1,9 +1,9 @@
-version: '3.2'
-
 services:
 
   frontend:
-    build: frontend
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
     ports:
       - 20080:80
     volumes:
@@ -13,7 +13,9 @@ services:
       - ./:/app
 
   backend:
-    build: backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     ports:
       - 21080:80
     volumes:
@@ -23,7 +25,7 @@ services:
       - ./:/app
 
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     environment:
       - MYSQL_ROOT_PASSWORD=verysecret
       - MYSQL_DATABASE=yii2advanced
@@ -31,7 +33,7 @@ services:
       - MYSQL_PASSWORD=secret
 
   #pgsql:
-  #  image: postgres:9.5
+  #  image: postgres:16
   #  environment:
   #    - POSTGRES_DB=yii2advanced
   #    - POSTGRES_USER=yii2advanced
