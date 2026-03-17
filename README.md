@@ -123,13 +123,29 @@ Build and start the containers:
 docker compose up -d --build
 ```
 
-The entrypoint automatically runs `composer update` to ensure dependencies are compatible with the container's
-PHP version.
+Install dependencies and update them to match the container's PHP version:
+
+```bash
+docker compose exec frontend composer install --prefer-dist --no-interaction
+```
 
 Initialize the application for the `Development` environment:
 
 ```bash
 docker compose exec frontend php /app/init --env=Development --overwrite=All
+```
+
+After running `init`, update the database connection in `common/config/main-local.php` to use the `mysql`
+service hostname:
+
+```php
+'db' => [
+    'class' => \yii\db\Connection::class,
+    'dsn' => 'mysql:host=mysql;dbname=yii2advanced',
+    'username' => 'yii2advanced',
+    'password' => 'secret',
+    'charset' => 'utf8',
+],
 ```
 
 You can then access the application through the following URLs:

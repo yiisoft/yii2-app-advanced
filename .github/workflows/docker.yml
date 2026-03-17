@@ -65,6 +65,9 @@ jobs:
       - name: Run database migrations.
         run: docker compose exec -T frontend php /app/yii migrate --interactive=0
 
+      - name: Run test database migrations.
+        run: docker compose exec -T frontend php /app/yii_test migrate --interactive=0
+
       - name: Codeception build.
         run: docker compose exec -T frontend vendor/bin/codecept build
 
