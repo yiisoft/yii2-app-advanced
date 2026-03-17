@@ -123,7 +123,7 @@ Build and start the containers:
 docker compose up -d --build
 ```
 
-Install dependencies and update them to match the container's PHP version:
+Install dependencies inside the container:
 
 ```bash
 docker compose exec frontend composer install --prefer-dist --no-interaction
