@@ -38,7 +38,7 @@ final class SignupFormTest extends Unit
             ],
         );
 
-        $user = $model->signup();
+        $user = $model->signup(Yii::$app->mailer, Yii::$app->params['supportEmail'], Yii::$app->name);
 
         verify($user)->notEmpty();
 
@@ -77,7 +77,7 @@ final class SignupFormTest extends Unit
             ],
         );
 
-        verify($model->signup())
+        verify($model->signup(Yii::$app->mailer, Yii::$app->params['supportEmail'], Yii::$app->name))
             ->empty();
         verify($model->getErrors('username'))
             ->notEmpty();

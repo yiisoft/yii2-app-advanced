@@ -34,7 +34,7 @@ final class PasswordResetRequestFormTest extends Unit
 
         $model->email = 'not-existing-email@example.com';
 
-        verify($model->sendEmail())
+        verify($model->sendEmail(Yii::$app->mailer, Yii::$app->params['supportEmail'], Yii::$app->name))
             ->false();
     }
 
@@ -46,7 +46,7 @@ final class PasswordResetRequestFormTest extends Unit
 
         $model->email = $user['email'];
 
-        verify($model->sendEmail())
+        verify($model->sendEmail(Yii::$app->mailer, Yii::$app->params['supportEmail'], Yii::$app->name))
             ->false();
     }
 
@@ -60,7 +60,7 @@ final class PasswordResetRequestFormTest extends Unit
 
         $user = User::findOne(['password_reset_token' => $userFixture['password_reset_token']]);
 
-        verify($model->sendEmail())
+        verify($model->sendEmail(Yii::$app->mailer, Yii::$app->params['supportEmail'], Yii::$app->name))
             ->notEmpty();
         verify($user->password_reset_token)
             ->notEmpty();

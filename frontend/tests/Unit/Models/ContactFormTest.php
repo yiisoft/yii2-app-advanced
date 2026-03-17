@@ -7,6 +7,7 @@ namespace frontend\tests\Unit\Models;
 use Codeception\Test\Unit;
 use frontend\models\ContactForm;
 use frontend\tests\Support\UnitTester;
+use Yii;
 use yii\mail\MessageInterface;
 
 final class ContactFormTest extends Unit
@@ -24,7 +25,7 @@ final class ContactFormTest extends Unit
             'body' => 'body of current message',
         ];
 
-        verify($model->sendEmail('admin@example.com'))
+        verify($model->sendEmail(Yii::$app->mailer, 'admin@example.com', 'noreply@example.com', 'Test Sender'))
             ->notEmpty();
 
         $this->tester->seeEmailIsSent();

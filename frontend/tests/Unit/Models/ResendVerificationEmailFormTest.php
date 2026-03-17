@@ -79,7 +79,7 @@ final class ResendVerificationEmailFormTest extends Unit
             ->true();
         verify($model->hasErrors())
             ->false();
-        verify($model->sendEmail())
+        verify($model->sendEmail(Yii::$app->mailer, Yii::$app->params['supportEmail'], Yii::$app->name))
             ->true();
 
         $this->tester->seeEmailIsSent();

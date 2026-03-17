@@ -1,25 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace frontend\models;
 
+use common\models\User;
 use Yii;
 use yii\base\Model;
-use common\models\User;
+use yii\mail\MailerInterface;
 
 /**
  * Signup form
  */
 class SignupForm extends Model
 {
-    public $username;
-    public $email;
-    public $password;
-
+    public string $username = '';
+    public string $email = '';
+    public string $password = '';
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             ['username', 'trim'],
@@ -41,9 +43,13 @@ class SignupForm extends Model
     /**
      * Signs user up.
      *
-     * @return bool|null whether the creating new account was successful and email was sent
+     * @param MailerInterface $mailer the mailer component.
+     * @param string $supportEmail the support email address.
+     * @param string $appName the application name.
+     *
+     * @return bool|null whether the creating new account was successful and email was sent.
      */
-    public function signup(): bool|null
+    public function signup(MailerInterface $mailer, string $supportEmail, string $appName): bool|null
     {
         if (!$this->validate()) {
             return null;
@@ -58,25 +64,29 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($user);
+        return $user->save() && $this->sendEmail($mailer, $user, $supportEmail, $appName);
     }
 
     /**
-     * Sends confirmation email to user
-     * @param User $user user model to with email should be send
-     * @return bool whether the email was sent
+     * Sends confirmation email to user.
+     *
+     * @param MailerInterface $mailer the mailer component.
+     * @param User $user user model to with email should be send.
+     * @param string $supportEmail the support email address.
+     * @param string $appName the application name.
+     *
+     * @return bool whether the email was sent.
      */
-    protected function sendEmail($user): bool
+    protected function sendEmail(MailerInterface $mailer, User $user, string $supportEmail, string $appName): bool
     {
-        return Yii::$app
-            ->mailer
+        return $mailer
             ->compose(
                 ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
                 ['user' => $user],
             )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+            ->setFrom([$supportEmail => $appName . ' robot'])
             ->setTo($this->email)
-            ->setSubject('Account registration at ' . Yii::$app->name)
+            ->setSubject('Account registration at ' . $appName)
             ->send();
     }
 }

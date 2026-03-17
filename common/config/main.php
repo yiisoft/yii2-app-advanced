@@ -1,6 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 return [
+    'bootstrap' => [
+        \common\bootstrap\MailerBootstrap::class,
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
