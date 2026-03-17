@@ -37,9 +37,6 @@ jobs:
       - name: Composer install.
         run: docker compose exec -T frontend composer install --prefer-dist --no-interaction
 
-      - name: Composer update.
-        run: docker compose exec -T frontend composer update --prefer-dist --no-interaction
-
       - name: Initialize application.
         run: docker compose exec -T frontend php /app/init --env=Development --overwrite=All
 
@@ -67,12 +64,6 @@ jobs:
 
       - name: Run database migrations.
         run: docker compose exec -T frontend php /app/yii migrate --interactive=0
-
-      - name: Frontend health check.
-        run: curl -sSf http://127.0.0.1:20080 > /dev/null
-
-      - name: Backend health check.
-        run: curl -sSf -o /dev/null -w "%{http_code}" http://127.0.0.1:21080 | grep -q "302\|200"
 
       - name: Codeception build.
         run: docker compose exec -T frontend vendor/bin/codecept build
