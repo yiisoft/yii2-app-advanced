@@ -71,7 +71,7 @@ class SignupForm extends Model
      * Sends confirmation email to user.
      *
      * @param MailerInterface $mailer the mailer component.
-     * @param User $user user model to with email should be send.
+     * @param User $user user model to which the email should be sent.
      * @param string $supportEmail the support email address.
      * @param string $appName the application name.
      *
