@@ -56,7 +56,7 @@ a.desc:after {
     align-items: baseline;
 }
 
-/* align the logout link of the navbar */
+/* style navbar logout link color, hover state, and mobile layout */
 .navbar-nav .nav-link.logout {
     color: var(--bs-navbar-color);
 }
