@@ -58,7 +58,6 @@ a.desc:after {
 
 /* align the logout link of the navbar */
 .navbar-nav .nav-link.logout {
-    padding-top: 7px;
     color: var(--bs-navbar-color);
 }
 
