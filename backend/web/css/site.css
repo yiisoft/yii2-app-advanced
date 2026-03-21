@@ -50,6 +50,12 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
+/* align navbar brand baseline with nav links */
+.navbar > .container,
+.navbar > .container-fluid {
+    align-items: baseline;
+}
+
 /* align the logout link of the navbar */
 .navbar-nav .nav-link.logout {
     padding-top: 7px;
