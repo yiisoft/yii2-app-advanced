@@ -17,7 +17,6 @@ class ContactForm extends Model
     public string $subject = '';
     public string $body = '';
     public string $verifyCode = '';
-
     /**
      * {@inheritdoc}
      */

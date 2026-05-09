@@ -13,7 +13,6 @@ use Yii;
 final class LoginFormTest extends Unit
 {
     protected UnitTester $tester;
-
     public function _fixtures(): array
     {
         return [

@@ -13,7 +13,6 @@ use yii\base\InvalidArgumentException;
 final class ResetPasswordFormTest extends Unit
 {
     protected UnitTester $tester;
-
     public function _before(): void
     {
         $this->tester->haveFixtures(

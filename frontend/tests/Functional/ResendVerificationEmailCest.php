@@ -11,7 +11,6 @@ use frontend\tests\Support\FunctionalTester;
 final class ResendVerificationEmailCest
 {
     protected string $formId = '#resend-verification-email-form';
-
     public function _fixtures(): array
     {
         return [

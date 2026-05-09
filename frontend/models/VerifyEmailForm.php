@@ -11,7 +11,6 @@ use yii\base\Model;
 class VerifyEmailForm extends Model
 {
     private User|null $_user = null;
-
     /**
      * Creates a form model with given token.
      *

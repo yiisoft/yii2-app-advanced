@@ -17,7 +17,6 @@ class SignupForm extends Model
     public string $username = '';
     public string $email = '';
     public string $password = '';
-
     /**
      * {@inheritdoc}
      */

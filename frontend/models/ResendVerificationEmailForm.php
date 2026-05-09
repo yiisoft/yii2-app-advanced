@@ -11,7 +11,6 @@ use yii\mail\MailerInterface;
 class ResendVerificationEmailForm extends Model
 {
     public string $email = '';
-
     /**
      * {@inheritdoc}
      */

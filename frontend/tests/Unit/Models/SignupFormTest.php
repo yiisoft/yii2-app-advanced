@@ -15,7 +15,6 @@ use yii\mail\MessageInterface;
 final class SignupFormTest extends Unit
 {
     protected UnitTester $tester;
-
     public function _before(): void
     {
         $this->tester->haveFixtures(

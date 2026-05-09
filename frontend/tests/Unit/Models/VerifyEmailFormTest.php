@@ -14,7 +14,6 @@ use yii\base\InvalidArgumentException;
 final class VerifyEmailFormTest extends Unit
 {
     protected UnitTester $tester;
-
     public function _before(): void
     {
         $this->tester->haveFixtures(

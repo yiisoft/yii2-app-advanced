@@ -10,7 +10,6 @@ use frontend\tests\Support\FunctionalTester;
 final class SignupCest
 {
     protected string $formId = '#form-signup';
-
     public function _before(FunctionalTester $I): void
     {
         $I->amOnRoute('site/signup');

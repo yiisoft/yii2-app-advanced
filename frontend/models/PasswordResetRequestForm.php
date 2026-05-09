@@ -14,7 +14,6 @@ use yii\mail\MailerInterface;
 class PasswordResetRequestForm extends Model
 {
     public string $email = '';
-
     /**
      * {@inheritdoc}
      */

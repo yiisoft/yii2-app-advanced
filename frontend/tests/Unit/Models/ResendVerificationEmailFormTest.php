@@ -14,7 +14,6 @@ use yii\mail\MessageInterface;
 final class ResendVerificationEmailFormTest extends Unit
 {
     protected UnitTester $tester;
-
     public function _before(): void
     {
         $this->tester->haveFixtures(

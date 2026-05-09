@@ -15,9 +15,7 @@ use yii\base\Model;
 class ResetPasswordForm extends Model
 {
     public string $password = '';
-
     private User|null $_user = null;
-
     /**
      * Creates a form model given a token.
      *
