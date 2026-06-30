@@ -1,3 +1,6 @@
+permissions:
+  contents: read
+
 on:
   - pull_request
   - push
@@ -41,25 +44,27 @@ jobs:
 
     steps:
       - name: Checkout.
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        with:
+          persist-credentials: false
 
       - name: Setup cache environment.
         id: cache-env
-        uses: shivammathur/cache-extensions@v1
+        uses: shivammathur/cache-extensions@9b476298b44f2e4d4268dd103ff4c3e216314e27
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
           key: ${{ env.key }}
 
       - name: Cache extensions.
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ steps.cache-env.outputs.dir }}
           key: ${{ steps.cache-env.outputs.key }}
           restore-keys: ${{ steps.cache-env.outputs.key }}
 
       - name: Install PHP with extensions.
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@b604ade2a87db23f8871b7182e69ec5e75effb45
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
@@ -71,7 +76,7 @@ jobs:
         run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
 
       - name: Cache dependencies installed with composer.
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.COMPOSER_CACHE_DIR }}
           key: php${{ matrix.php }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.json') }}
