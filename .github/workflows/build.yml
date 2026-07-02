@@ -56,7 +56,7 @@ jobs:
 
       - name: Setup cache environment.
         id: cache-env
-        uses: shivammathur/cache-extensions@986db18df233130870a6c425572a78c23154302b # v1
+        uses: shivammathur/cache-extensions@9b476298b44f2e4d4268dd103ff4c3e216314e27 # v1
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
@@ -70,7 +70,7 @@ jobs:
           restore-keys: ${{ steps.cache-env.outputs.key }}
 
       - name: Install PHP with extensions.
-        uses: shivammathur/setup-php@b604ade2a87db23f8871b7182e69ec5e75effb45 # v2
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
