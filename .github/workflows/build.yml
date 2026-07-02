@@ -7,9 +7,13 @@ on:
 
 name: build
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   tests:
-    name: PHP ${{ matrix.php }}-mysql-${{ matrix.mysql }}
+    name: PHP ${{ matrix.php }}-mysql-${{ matrix.mysql.version }}
 
     env:
       extensions: dom, json, gd, imagick, pdo, pdo_mysql
@@ -29,12 +33,14 @@ jobs:
           - "8.5"
 
         mysql:
-          - "5.7"
-          - "latest"
+          - version: "5.7"
+            image: mysql:5.7@sha256:4bc6bc963e6d8443453676cae56536f4b8156d78bae03c0145cbe47c2aad73bb
+          - version: "latest"
+            image: mysql:latest@sha256:ad88e1c86cbf12ef52d0a0360cd4b774d22956c5ee9c565645fb019d7aacb6c3
 
     services:
       mysql:
-        image: mysql:${{ matrix.mysql }}
+        image: ${{ matrix.mysql.image }}
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: yii2advanced_test
@@ -44,27 +50,27 @@ jobs:
 
     steps:
       - name: Checkout.
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
           persist-credentials: false
 
       - name: Setup cache environment.
         id: cache-env
-        uses: shivammathur/cache-extensions@9b476298b44f2e4d4268dd103ff4c3e216314e27
+        uses: shivammathur/cache-extensions@986db18df233130870a6c425572a78c23154302b # v1
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
           key: ${{ env.key }}
 
       - name: Cache extensions.
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ steps.cache-env.outputs.dir }}
           key: ${{ steps.cache-env.outputs.key }}
           restore-keys: ${{ steps.cache-env.outputs.key }}
 
       - name: Install PHP with extensions.
-        uses: shivammathur/setup-php@b604ade2a87db23f8871b7182e69ec5e75effb45
+        uses: shivammathur/setup-php@b604ade2a87db23f8871b7182e69ec5e75effb45 # v2
         with:
           php-version: ${{ matrix.php }}
           extensions: ${{ env.extensions }}
@@ -76,7 +82,7 @@ jobs:
         run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
 
       - name: Cache dependencies installed with composer.
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ env.COMPOSER_CACHE_DIR }}
           key: php${{ matrix.php }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.json') }}

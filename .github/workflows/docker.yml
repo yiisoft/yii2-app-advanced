@@ -4,7 +4,7 @@ permissions:
   contents: read
 
 on:
-  pull_request: &ignore-paths
+  pull_request:
     paths-ignore:
       - ".bowerrc"
       - ".editorconfig"
@@ -21,15 +21,35 @@ on:
       - "requirements.php"
       - "Vagrantfile"
 
-  push: *ignore-paths
+  push:
+    paths-ignore:
+      - ".bowerrc"
+      - ".editorconfig"
+      - ".git-blame-ignore-revs"
+      - ".gitattributes"
+      - ".github/CONTRIBUTING.md"
+      - ".github/FUNDING.yml"
+      - ".github/ISSUE_TEMPLATE.md"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
+      - ".github/SECURITY.md"
+      - ".gitignore"
+      - "LICENSE.md"
+      - "README.md"
+      - "requirements.php"
+      - "Vagrantfile"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   apache:
+    name: apache
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout.
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
         with:
           persist-credentials: false
 
