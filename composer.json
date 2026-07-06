@@ -17,7 +17,7 @@
         "php": ">=8.2",
         "yiisoft/yii2": "~2.0.54",
         "yiisoft/yii2-bootstrap5": "~2.0.2",
-        "yiisoft/yii2-symfonymailer": "~2.0.3"
+        "yiisoft/yii2-symfonymailer": "~4.0.0"
     },
     "require-dev": {
         "codeception/c3": "^2.8",
@@ -25,7 +25,7 @@
         "codeception/lib-innerbrowser": "^4.0",
         "codeception/module-asserts": "^3.0",
         "codeception/module-filesystem": "^3.0",
-        "codeception/module-phpbrowser": "^3.0",
+        "codeception/module-phpbrowser": "^4.0",
         "codeception/module-yii2": "^1.1",
         "codeception/verify": "^3.0",
         "phpstan/phpstan": "^2.1",
