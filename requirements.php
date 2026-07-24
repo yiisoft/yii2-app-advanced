@@ -108,7 +108,7 @@ $requirements = array(
     array(
         'name' => 'APC extension',
         'mandatory' => false,
-        'condition' => extension_loaded('apc'),
+        'condition' => extension_loaded('apc') || extension_loaded('apcu'),
         'by' => '<a href="https://www.yiiframework.com/doc-2.0/yii-caching-apccache.html">ApcCache</a>',
     ),
     // CAPTCHA:
