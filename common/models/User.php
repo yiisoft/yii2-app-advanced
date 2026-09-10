@@ -23,7 +23,8 @@ use yii\web\IdentityInterface;
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
- * @property string $password write-only password
+ * @property-write string $password
+ * @property-read string $authKey A key that is used to check the validity of a given identity ID.
  */
 class User extends ActiveRecord implements IdentityInterface
 {

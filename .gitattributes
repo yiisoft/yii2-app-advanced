@@ -5,3 +5,4 @@
 /.scrutinizer.yml           export-ignore
 /.travis.yml                export-ignore
 /docs                       export-ignore
+/rector.php                 export-ignore
