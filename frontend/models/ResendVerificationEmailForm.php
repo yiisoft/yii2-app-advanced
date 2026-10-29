@@ -20,16 +20,14 @@ class ResendVerificationEmailForm extends Model
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'exist',
-                'targetClass' => User::class,
-                'filter' => ['status' => User::STATUS_INACTIVE],
-                'message' => 'There is no user with this email address.',
-            ],
         ];
     }
 
     /**
      * Sends confirmation email to user.
+     *
+     * Nothing is sent when there is no unverified user with this email address. The result must not be shown to the
+     * visitor, so that the form does not reveal which email addresses are registered.
      *
      * @param MailerInterface $mailer the mailer component.
      * @param string $supportEmail the support email address.

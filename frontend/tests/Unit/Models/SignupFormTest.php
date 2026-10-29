@@ -10,7 +10,9 @@ use common\models\User;
 use frontend\models\SignupForm;
 use frontend\tests\Support\UnitTester;
 use Yii;
+use yii\base\Security;
 use yii\mail\MessageInterface;
+use yii\symfonymailer\Message;
 
 final class SignupFormTest extends Unit
 {
@@ -81,10 +83,55 @@ final class SignupFormTest extends Unit
         verify($model->getErrors('username'))
             ->notEmpty();
         verify($model->getErrors('email'))
-            ->notEmpty();
+            ->empty();
         verify($model->getFirstError('username'))
             ->equals('This username has already been taken.');
-        verify($model->getFirstError('email'))
-            ->equals('This email address has already been taken.');
+
+        $this->tester->dontSeeEmailIsSent();
+    }
+
+    public function testSignupWithExistingEmail(): void
+    {
+        $model = new SignupForm(
+            [
+                'username' => 'some_username',
+                'email' => 'nicolas.dianna@hotmail.com',
+                'password' => 'some_password',
+            ],
+        );
+
+        $security = new class extends Security {
+            public int $passwordHashCount = 0;
+
+            public function generatePasswordHash($password, $cost = null)
+            {
+                $this->passwordHashCount++;
+
+                return parent::generatePasswordHash($password, $cost);
+            }
+        };
+
+        Yii::$app->set('security', $security);
+
+        verify($model->signup(Yii::$app->mailer, Yii::$app->params['supportEmail'], Yii::$app->name))
+            ->true();
+        verify($model->hasErrors())
+            ->false();
+        verify($security->passwordHashCount)
+            ->equals(1);
+
+        $this->tester->dontSeeRecord(User::class, ['username' => 'some_username']);
+        $this->tester->seeEmailIsSent();
+
+        $mail = $this->tester->grabLastSentEmail();
+
+        verify($mail)
+            ->instanceOf(Message::class);
+        verify($mail->getTo())
+            ->arrayHasKey('nicolas.dianna@hotmail.com');
+        verify($mail->getSubject())
+            ->equals('Account registration at ' . Yii::$app->name);
+        verify($mail->getSymfonyEmail()->getTextBody())
+            ->stringContainsString('already belongs to your account');
     }
 }
