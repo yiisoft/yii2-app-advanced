@@ -7,6 +7,7 @@ namespace frontend\tests\Functional;
 use common\fixtures\UserFixture;
 use common\models\User;
 use frontend\tests\Support\FunctionalTester;
+use yii\symfonymailer\Message;
 
 final class SignupCest
 {
@@ -94,7 +95,8 @@ final class SignupCest
         $mail = $I->grabLastSentEmail();
 
         $I->assertArrayHasKey('test2@mail.com', $mail->getTo());
-        $I->assertStringContainsString('already belongs to your account', $mail->toString());
+        $I->assertInstanceOf(Message::class, $mail);
+        $I->assertStringContainsString('already belongs to your account', $mail->getSymfonyEmail()->getTextBody());
         $I->see('Thank you for registration. Please check your inbox for verification email.');
     }
 }

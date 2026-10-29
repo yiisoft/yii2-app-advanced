@@ -10,7 +10,9 @@ use common\models\User;
 use frontend\models\SignupForm;
 use frontend\tests\Support\UnitTester;
 use Yii;
+use yii\base\Security;
 use yii\mail\MessageInterface;
+use yii\symfonymailer\Message;
 
 final class SignupFormTest extends Unit
 {
@@ -98,10 +100,25 @@ final class SignupFormTest extends Unit
             ],
         );
 
+        $security = new class extends Security {
+            public int $passwordHashCount = 0;
+
+            public function generatePasswordHash($password, $cost = null)
+            {
+                $this->passwordHashCount++;
+
+                return parent::generatePasswordHash($password, $cost);
+            }
+        };
+
+        Yii::$app->set('security', $security);
+
         verify($model->signup(Yii::$app->mailer, Yii::$app->params['supportEmail'], Yii::$app->name))
             ->true();
         verify($model->hasErrors())
             ->false();
+        verify($security->passwordHashCount)
+            ->equals(1);
 
         $this->tester->dontSeeRecord(User::class, ['username' => 'some_username']);
         $this->tester->seeEmailIsSent();
@@ -109,12 +126,12 @@ final class SignupFormTest extends Unit
         $mail = $this->tester->grabLastSentEmail();
 
         verify($mail)
-            ->instanceOf(MessageInterface::class);
+            ->instanceOf(Message::class);
         verify($mail->getTo())
             ->arrayHasKey('nicolas.dianna@hotmail.com');
         verify($mail->getSubject())
             ->equals('Account registration at ' . Yii::$app->name);
-        verify($mail->toString())
+        verify($mail->getSymfonyEmail()->getTextBody())
             ->stringContainsString('already belongs to your account');
     }
 }

@@ -57,18 +57,21 @@ class SignupForm extends Model
             return null;
         }
 
+        $user = new User();
+
+        // hash the password before the lookup, so that the response time does not depend on whether the email is
+        // registered
+        $user->setPassword($this->password);
+
         $existingUser = User::findOne(['email' => $this->email]);
 
         if ($existingUser !== null) {
             return $this->sendExistingAccountEmail($mailer, $existingUser, $supportEmail, $appName);
         }
 
-        $user = new User();
-
         $user->username = $this->username;
         $user->email = $this->email;
 
-        $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
