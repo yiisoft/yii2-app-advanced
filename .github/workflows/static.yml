@@ -28,4 +28,4 @@ jobs:
   phpstan:
     uses: yiisoft/yii2-actions/.github/workflows/phpstan.yml@master
     with:
-      hook: bash .github/scripts/prepare-static.sh
+      hook: composer run-script prepare-static
