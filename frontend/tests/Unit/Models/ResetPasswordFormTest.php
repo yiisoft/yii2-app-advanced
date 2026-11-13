@@ -44,7 +44,7 @@ final class ResetPasswordFormTest extends Unit
 
     public function testResetCorrectToken(): void
     {
-        $user = $this->tester->grabFixture('user', 0);
+        $user = $this->tester->grabFixture('user', '0');
 
         $form = new ResetPasswordForm($user['password_reset_token']);
 

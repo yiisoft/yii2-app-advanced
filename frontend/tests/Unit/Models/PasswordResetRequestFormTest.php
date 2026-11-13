@@ -39,7 +39,7 @@ final class PasswordResetRequestFormTest extends Unit
 
     public function testNotSendEmailsToInactiveUser(): void
     {
-        $user = $this->tester->grabFixture('user', 1);
+        $user = $this->tester->grabFixture('user', '1');
 
         $model = new PasswordResetRequestForm();
 
@@ -51,7 +51,7 @@ final class PasswordResetRequestFormTest extends Unit
 
     public function testSendEmailSuccessfully(): void
     {
-        $userFixture = $this->tester->grabFixture('user', 0);
+        $userFixture = $this->tester->grabFixture('user', '0');
 
         $model = new PasswordResetRequestForm();
 
