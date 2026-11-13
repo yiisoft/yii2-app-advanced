@@ -205,19 +205,19 @@ class SiteController extends Controller
         $model = new PasswordResetRequestForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $sent = $model->sendEmail(
+            // the response must not depend on whether the email is registered
+            $model->sendEmail(
                 $this->mailer,
                 Yii::$app->params['supportEmail'],
                 Yii::$app->name,
             );
 
-            if ($sent) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+            Yii::$app->session->setFlash(
+                'success',
+                'If an account with this email address exists, you will receive an email with further instructions.',
+            );
 
-                return $this->goHome();
-            }
-
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
+            return $this->goHome();
         }
 
         return $this->render('requestPasswordResetToken', [
@@ -285,18 +285,19 @@ class SiteController extends Controller
         $model = new ResendVerificationEmailForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $sent = $model->sendEmail(
+            // the response must not depend on whether the email is registered
+            $model->sendEmail(
                 $this->mailer,
                 Yii::$app->params['supportEmail'],
                 Yii::$app->name,
             );
 
-            if ($sent) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-                return $this->goHome();
-            }
+            Yii::$app->session->setFlash(
+                'success',
+                'If an unverified account with this email address exists, you will receive a new verification email.',
+            );
 
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
+            return $this->goHome();
         }
 
         return $this->render('resendVerificationEmail', [

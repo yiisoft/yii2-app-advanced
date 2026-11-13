@@ -4,12 +4,25 @@ declare(strict_types=1);
 
 namespace frontend\tests\Functional;
 
+use common\fixtures\UserFixture;
 use common\models\User;
 use frontend\tests\Support\FunctionalTester;
+use yii\symfonymailer\Message;
 
 final class SignupCest
 {
     protected string $formId = '#form-signup';
+
+    public function _fixtures(): array
+    {
+        return [
+            'user' => [
+                'class' => UserFixture::class,
+                'dataFile' => codecept_data_dir() . 'user.php',
+            ],
+        ];
+    }
+
     public function _before(FunctionalTester $I): void
     {
         $I->amOnRoute('site/signup');
@@ -61,6 +74,29 @@ final class SignupCest
         );
 
         $I->seeEmailIsSent();
+        $I->see('Thank you for registration. Please check your inbox for verification email.');
+    }
+
+    public function signupWithExistingEmail(FunctionalTester $I): void
+    {
+        $I->submitForm(
+            $this->formId,
+            [
+                'SignupForm[username]' => 'tester',
+                'SignupForm[email]' => 'test2@mail.com',
+                'SignupForm[password]' => 'tester_password',
+            ],
+        );
+
+        $I->dontSeeRecord(User::class, ['username' => 'tester']);
+        $I->dontSee('This email address has already been taken.');
+        $I->seeEmailIsSent();
+
+        $mail = $I->grabLastSentEmail();
+
+        $I->assertArrayHasKey('test2@mail.com', $mail->getTo());
+        $I->assertInstanceOf(Message::class, $mail);
+        $I->assertStringContainsString('already belongs to your account', $mail->getSymfonyEmail()->getTextBody());
         $I->see('Thank you for registration. Please check your inbox for verification email.');
     }
 }

@@ -27,6 +27,16 @@ final class PasswordResetRequestFormTest extends Unit
         );
     }
 
+    public function testValidateDoesNotRevealUnknownEmail(): void
+    {
+        $model = new PasswordResetRequestForm();
+
+        $model->email = 'not-existing-email@example.com';
+
+        verify($model->validate())
+            ->true();
+    }
+
     public function testSendMessageWithWrongEmailAddress(): void
     {
         $model = new PasswordResetRequestForm();

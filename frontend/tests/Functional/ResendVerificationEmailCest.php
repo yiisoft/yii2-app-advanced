@@ -11,6 +11,8 @@ use frontend\tests\Support\FunctionalTester;
 final class ResendVerificationEmailCest
 {
     protected string $formId = '#resend-verification-email-form';
+    protected string $successMessage = 'If an unverified account with this email address exists, you will receive a new verification email.';
+
     public function _fixtures(): array
     {
         return [
@@ -54,13 +56,17 @@ final class ResendVerificationEmailCest
     public function checkWrongEmail(FunctionalTester $I): void
     {
         $I->submitForm($this->formId, $this->formParams('wrong@email.com'));
-        $I->seeValidationError('There is no user with this email address.');
+        $I->dontSeeEmailIsSent();
+        $I->dontSee('There is no user with this email address.');
+        $I->see($this->successMessage);
     }
 
     public function checkAlreadyVerifiedEmail(FunctionalTester $I): void
     {
         $I->submitForm($this->formId, $this->formParams('test2@mail.com'));
-        $I->seeValidationError('There is no user with this email address.');
+        $I->dontSeeEmailIsSent();
+        $I->dontSee('There is no user with this email address.');
+        $I->see($this->successMessage);
     }
 
     public function checkSendSuccessfully(FunctionalTester $I): void
@@ -75,6 +81,6 @@ final class ResendVerificationEmailCest
                 'status' => User::STATUS_INACTIVE,
             ],
         );
-        $I->see('Check your email for further instructions.');
+        $I->see($this->successMessage);
     }
 }
